@@ -151,7 +151,8 @@ namespace WallChanger
             }
             else
             {
-                File.Create(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg");
+                FileStream file = File.Create(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg");
+                file.Close();
 
                 CreateConfig("default");
             }
