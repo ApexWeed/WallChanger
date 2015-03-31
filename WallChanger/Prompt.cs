@@ -90,5 +90,19 @@ namespace WallChanger
             prompt.ShowDialog();
             return new StringBool(textBox.Text, checkBox.Checked);
         }
+
+        public static string ShowStringComboBoxDialog(string Prompt, string Title, string[] ComboBoxValues)
+        {
+            StringComboBoxPrompt prompt = new StringComboBoxPrompt(Prompt, Title, ComboBoxValues);
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                return prompt.ChosenString;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

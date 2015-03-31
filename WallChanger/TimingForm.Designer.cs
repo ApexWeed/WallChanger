@@ -262,6 +262,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.grpInterval);
             this.Controls.Add(this.grpOffset);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TimingForm";
             this.Text = "TimingForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TimingForm_FormClosed);

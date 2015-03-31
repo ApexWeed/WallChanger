@@ -41,7 +41,40 @@ namespace WallChanger
             TimerWorker.WorkerReportsProgress = true;
 
             AutoStarted = Hide;
+
+            GlobalVars.ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
+            LoadLibrary();
         }
+
+        private void LoadLibrary()
+        {
+            GlobalVars.LibraryItems = new List<LibraryItem>();
+
+            if (File.Exists(GlobalVars.ApplicationPath + "\\library.cfg"))
+            {
+                using (StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\library.cfg"))
+                {
+                    GlobalVars.LibraryItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LibraryItem>>(read.ReadLine());
+                }
+            }
+
+            if (GlobalVars.LibraryForm != null)
+            {
+                GlobalVars.LibraryForm.UpdateList();
+            }
+        }
+
+        private void SaveLibrary()
+        {
+            using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\library.cfg", FileMode.Create))
+            {
+                using (StreamWriter write = new StreamWriter(stream))
+                {
+                    write.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
+                }
+            }
+        }
+
         public enum ImageFormat
         {
             bmp,
@@ -110,8 +143,8 @@ namespace WallChanger
 
         private void btnDeleteImage_Click(object sender, EventArgs e)
         {
-            int[] indexArray = new int[lstFiles.SelectedIndices.Count];
-            lstFiles.SelectedIndices.CopyTo(indexArray, 0);
+            int[] indexArray = new int[lstImages.SelectedIndices.Count];
+            lstImages.SelectedIndices.CopyTo(indexArray, 0);
             Array.Sort(indexArray, (a, b) => b.CompareTo(a));
             foreach (int index in indexArray)
             {
@@ -139,9 +172,9 @@ namespace WallChanger
 
         private void LoadSettings()
         {
-            if (File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg"))
+            if (File.Exists(GlobalVars.ApplicationPath + "\\config.cfg"))
             {
-                StreamReader read = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg");
+                StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\config.cfg");
 
                 CurrentConfig = read.ReadLine();
                 read.Close();
@@ -151,7 +184,7 @@ namespace WallChanger
             }
             else
             {
-                FileStream file = File.Create(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg");
+                FileStream file = File.Create(GlobalVars.ApplicationPath + "\\config.cfg");
                 file.Close();
 
                 CreateConfig("default");
@@ -160,7 +193,7 @@ namespace WallChanger
 
         private void CreateConfig(string name)
         {
-            FileStream file = File.Create(Path.GetDirectoryName(Application.ExecutablePath) + "\\" + name + ".cfg");
+            FileStream file = File.Create(GlobalVars.ApplicationPath + "\\" + name + ".cfg");
             file.Close();
 
             Offset = ParseTime("0 h");
@@ -176,10 +209,10 @@ namespace WallChanger
         private void LoadConfigs()
         {
             ConfigList.Clear();
-            string[] files = Directory.GetFiles(Path.GetDirectoryName(Application.ExecutablePath));
+            string[] files = Directory.GetFiles(GlobalVars.ApplicationPath);
             foreach (string file in files)
             {
-                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "config")
+                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "config" && Path.GetFileNameWithoutExtension(file) != "library")
                     ConfigList.Add(Path.GetFileNameWithoutExtension(file));
             }
             FillConfigList();
@@ -194,7 +227,7 @@ namespace WallChanger
         private void LoadConfig()
         {
             grpImages.Text = string.Format("Images ({0})", CurrentConfig);
-            StreamReader read = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + "\\" + CurrentConfig + ".cfg");
+            StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\" + CurrentConfig + ".cfg");
 
             Offset = ParseTime(read.ReadLine());
             Interval = ParseTime(read.ReadLine());
@@ -212,14 +245,14 @@ namespace WallChanger
 
         private void SaveSettings(bool OnlyConfig)
         {
-            StreamWriter write = new StreamWriter(Path.GetDirectoryName(Application.ExecutablePath) + "\\config.cfg");
+            StreamWriter write = new StreamWriter(GlobalVars.ApplicationPath + "\\config.cfg");
             write.Write(CurrentConfig);
             write.Close();
 
             if (OnlyConfig)
                 return;
 
-            write = new StreamWriter(Path.GetDirectoryName(Application.ExecutablePath) + "\\" + CurrentConfig + ".cfg");
+            write = new StreamWriter(GlobalVars.ApplicationPath + "\\" + CurrentConfig + ".cfg");
             write.WriteLine(new DateTime().AddYears(10).AddSeconds(Offset / 1000).ToString(@"H \h m \m s \s"));
             write.WriteLine(new DateTime().AddYears(10).AddSeconds(Interval / 1000).ToString(@"H \h m \m s \s"));
             foreach (string image in FileList)
@@ -236,13 +269,13 @@ namespace WallChanger
 
         private void FillImageList()
         {
-            lstFiles.Items.Clear();
+            lstImages.Items.Clear();
 
             DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000);
             for (int i = 0; i < FileList.Count; i++)
             {
                 showTime = showTime.AddSeconds(Interval / 1000);
-                lstFiles.Items.Add(string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]));
+                lstImages.Items.Add(string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]));
             }
         }
 
@@ -434,7 +467,7 @@ namespace WallChanger
         {
             if (Prompt.ShowStringDialog(string.Format("Are you sure you want to delete \"{0}\"? Write the config name to confirm.", lstConfigs.SelectedItem as string), "Confirm Delete") == lstConfigs.SelectedItem as string)
             {
-                File.Delete(Path.GetDirectoryName(Application.ExecutablePath) + "\\" + lstConfigs.SelectedItem as string + ".cfg");
+                File.Delete(GlobalVars.ApplicationPath + "\\" + lstConfigs.SelectedItem as string + ".cfg");
                 LoadConfigs();
                 LoadConfig(ConfigList[0]);
                 SaveSettings(true);
@@ -443,8 +476,8 @@ namespace WallChanger
 
         private void MoveSelection(string Direction)
         {
-            int[] indexArray = new int[lstFiles.SelectedIndices.Count];
-            lstFiles.SelectedIndices.CopyTo(indexArray, 0);
+            int[] indexArray = new int[lstImages.SelectedIndices.Count];
+            lstImages.SelectedIndices.CopyTo(indexArray, 0);
             List<int> newSelection = new List<int>();
             if (Direction == "Up")
             {
@@ -501,7 +534,7 @@ namespace WallChanger
                 }
             }
             FillImageList();
-            SetSelection(lstFiles, newSelection.ToArray());
+            SetSelection(lstImages, newSelection.ToArray());
         }
 
         private void SetSelection(ListBox ListBoxControl, int[] Selection)
@@ -526,6 +559,45 @@ namespace WallChanger
         {
             FileList.Clear();
             FillImageList();
+        }
+
+        private void btnLibrary_Click(object sender, EventArgs e)
+        {
+            if (GlobalVars.LibraryForm == null)
+            {
+                GlobalVars.LibraryForm = new LibraryForm(this);
+                GlobalVars.LibraryForm.Show();
+            }
+        }
+
+        public void ChildClosed(Form Child)
+        {
+            if (Child is LibraryForm)
+                GlobalVars.LibraryForm = null;
+        }
+
+        public void AddImages(List<string> Images)
+        {
+            FileList.AddRange(Images.ToArray());
+            FillImageList();
+        }
+
+        private void btnAddToLibrary_Click(object sender, EventArgs e)
+        {
+            foreach (string image in FileList)
+            {
+                GlobalVars.LibraryItems.AddDistinct(new LibraryItem(image));
+            }
+
+            SaveLibrary();
+            
+            if (GlobalVars.LibraryForm != null)
+                GlobalVars.LibraryForm.UpdateList();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveLibrary();
         }
     }
 }
