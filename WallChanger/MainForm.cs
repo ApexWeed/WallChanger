@@ -289,18 +289,21 @@ namespace WallChanger
         {
             if (FileList.Count > 0)
             {
-                Wallpaper.Set(new Uri(FileList[(Index) % FileList.Count]), Wallpaper.Style.Stretched);
+                Wallpaper.Set(new Uri(FileList[(Index) % FileList.Count]), Wallpaper.Style.Fill);
             }
         }
 
         private void TimerWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            string loadedConfig;
             string outputTime;
             int parsedTime;
             int index;
             int sleepTime;
+            int delayTime;
             while (true)
             {
+                loadedConfig = CurrentConfig;
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 parsedTime = ParseTime(outputTime) - Offset;
                 index = (int)(parsedTime / Interval) - 1;
@@ -308,11 +311,15 @@ namespace WallChanger
 
                 SetWallpaper(index);
 
-                outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                parsedTime = ParseTime(outputTime) - Offset;
-                sleepTime = parsedTime % Interval == 0 ? Interval : (Interval - parsedTime % Interval);
-                System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} sleepTime: {4} minutes: {5}", outputTime, parsedTime, index, Interval, sleepTime, sleepTime / 1000 / 60));
-                System.Threading.Thread.Sleep(sleepTime);
+                do
+                {
+                    outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    parsedTime = ParseTime(outputTime) - Offset;
+                    sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
+                    delayTime = sleepTime > 1000 ? 1000 : sleepTime;
+                    System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
+                    System.Threading.Thread.Sleep(delayTime);
+                } while (sleepTime == 1000 && loadedConfig == CurrentConfig);
             }
         }
 

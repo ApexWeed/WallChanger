@@ -54,7 +54,9 @@ namespace WallChanger
         {
             Tiled,
             Centered,
-            Stretched
+            Stretched,
+            Fit,
+            Fill
         }
 
         public static void Set(Uri uri, Style style)
@@ -74,14 +76,26 @@ namespace WallChanger
 
             if (style == Style.Centered)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
+                key.SetValue(@"WallpaperStyle", 0.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
             if (style == Style.Tiled)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
+                key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 1.ToString());
+            }
+
+            if (style == Style.Fit)
+            {
+                key.SetValue(@"WallpaperStyle", 6.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            if (style == Style.Fill)
+            {
+                key.SetValue(@"WallpaperStyle", 10.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
             SystemParametersInfo(SPI_SETDESKWALLPAPER,
