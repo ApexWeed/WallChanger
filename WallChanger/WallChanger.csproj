@@ -55,6 +55,7 @@
     <Compile Include="ActiveDesktop.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalVars.cs" />
+    <Compile Include="Imaging.cs" />
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
     </Compile>

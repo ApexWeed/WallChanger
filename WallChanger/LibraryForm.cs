@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WallChanger
 {
@@ -151,6 +152,8 @@ namespace WallChanger
             btnAddNewTag.Left = pnlTagButtons.Width - 84;
             btnRemoveTag.Left = pnlTagButtons.Width - 54;
             btnClearTags.Left = pnlTagButtons.Width - 24;
+
+            btnAddToConfig.Left = pnlFilters.Width - 27;
         }
 
         private int CalculateImageHeight(Image Image, PictureBox PictureBox)
@@ -485,6 +488,29 @@ namespace WallChanger
                 (Owner as MainForm).AddImages(new List<string>(Images));
             }
 
+        }
+
+        private void LibraryForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+            {
+                using (Stream read = File.Open(file, FileMode.Open))
+                {
+                    if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
+                        continue;
+                    GlobalVars.LibraryItems.Add(new LibraryItem(file));
+                }
+            }
+            UpdateList();
+        }
+
+        private void LibraryForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
         }
     }
 }

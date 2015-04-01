@@ -39,21 +39,15 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnTiming = new System.Windows.Forms.Button();
             this.grbConfig = new System.Windows.Forms.GroupBox();
-            this.btnRemoveConfig = new System.Windows.Forms.Button();
-            this.btnNewConfig = new System.Windows.Forms.Button();
-            this.lstConfigs = new System.Windows.Forms.ListBox();
-            this.grpImages = new System.Windows.Forms.GroupBox();
-            this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
-            this.pnlRight = new System.Windows.Forms.Panel();
-            this.pnlBottomRight = new System.Windows.Forms.Panel();
-            this.pnlTopRight = new System.Windows.Forms.Panel();
-            this.pnlConfigButtons = new System.Windows.Forms.Panel();
             this.pnlConfigInner = new System.Windows.Forms.Panel();
-            this.pnlLeft = new System.Windows.Forms.Panel();
-            this.pnlSpacer = new System.Windows.Forms.Panel();
-            this.pnlImageButtons = new System.Windows.Forms.Panel();
+            this.lstConfigs = new System.Windows.Forms.ListBox();
+            this.pnlConfigButtons = new System.Windows.Forms.Panel();
+            this.btnNewConfig = new System.Windows.Forms.Button();
+            this.btnRemoveConfig = new System.Windows.Forms.Button();
+            this.grpImages = new System.Windows.Forms.GroupBox();
             this.pnlImagesInner = new System.Windows.Forms.Panel();
             this.pnlFileList = new System.Windows.Forms.Panel();
+            this.pnlImageButtons = new System.Windows.Forms.Panel();
             this.btnAddToLibrary = new System.Windows.Forms.Button();
             this.btnLibrary = new System.Windows.Forms.Button();
             this.btnAddImage = new System.Windows.Forms.Button();
@@ -61,17 +55,24 @@
             this.btnDeleteImage = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
+            this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
+            this.pnlRight = new System.Windows.Forms.Panel();
+            this.pnlTopRight = new System.Windows.Forms.Panel();
+            this.pnlBottomRight = new System.Windows.Forms.Panel();
+            this.pnlLeft = new System.Windows.Forms.Panel();
+            this.pnlSpacer = new System.Windows.Forms.Panel();
+            this.lblNextChange = new System.Windows.Forms.Label();
             this.grbConfig.SuspendLayout();
-            this.grpImages.SuspendLayout();
-            this.pnlRight.SuspendLayout();
-            this.pnlBottomRight.SuspendLayout();
-            this.pnlTopRight.SuspendLayout();
-            this.pnlConfigButtons.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
-            this.pnlLeft.SuspendLayout();
-            this.pnlImageButtons.SuspendLayout();
+            this.pnlConfigButtons.SuspendLayout();
+            this.grpImages.SuspendLayout();
             this.pnlImagesInner.SuspendLayout();
             this.pnlFileList.SuspendLayout();
+            this.pnlImageButtons.SuspendLayout();
+            this.pnlRight.SuspendLayout();
+            this.pnlTopRight.SuspendLayout();
+            this.pnlBottomRight.SuspendLayout();
+            this.pnlLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstImages
@@ -153,20 +154,40 @@
             this.grbConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbConfig.Location = new System.Drawing.Point(0, 0);
             this.grbConfig.Name = "grbConfig";
-            this.grbConfig.Size = new System.Drawing.Size(179, 414);
+            this.grbConfig.Size = new System.Drawing.Size(179, 394);
             this.grbConfig.TabIndex = 9;
             this.grbConfig.TabStop = false;
             this.grbConfig.Text = "Configs";
             // 
-            // btnRemoveConfig
+            // pnlConfigInner
             // 
-            this.btnRemoveConfig.Location = new System.Drawing.Point(95, 3);
-            this.btnRemoveConfig.Name = "btnRemoveConfig";
-            this.btnRemoveConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveConfig.TabIndex = 2;
-            this.btnRemoveConfig.Text = "Remove";
-            this.btnRemoveConfig.UseVisualStyleBackColor = true;
-            this.btnRemoveConfig.Click += new System.EventHandler(this.btnRemoveConfig_Click);
+            this.pnlConfigInner.Controls.Add(this.lstConfigs);
+            this.pnlConfigInner.Controls.Add(this.pnlConfigButtons);
+            this.pnlConfigInner.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlConfigInner.Location = new System.Drawing.Point(3, 16);
+            this.pnlConfigInner.Name = "pnlConfigInner";
+            this.pnlConfigInner.Size = new System.Drawing.Size(173, 375);
+            this.pnlConfigInner.TabIndex = 4;
+            // 
+            // lstConfigs
+            // 
+            this.lstConfigs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstConfigs.FormattingEnabled = true;
+            this.lstConfigs.Location = new System.Drawing.Point(0, 0);
+            this.lstConfigs.Name = "lstConfigs";
+            this.lstConfigs.Size = new System.Drawing.Size(173, 346);
+            this.lstConfigs.TabIndex = 0;
+            this.lstConfigs.SelectedIndexChanged += new System.EventHandler(this.lstConfigs_SelectedIndexChanged);
+            // 
+            // pnlConfigButtons
+            // 
+            this.pnlConfigButtons.Controls.Add(this.btnNewConfig);
+            this.pnlConfigButtons.Controls.Add(this.btnRemoveConfig);
+            this.pnlConfigButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 346);
+            this.pnlConfigButtons.Name = "pnlConfigButtons";
+            this.pnlConfigButtons.Size = new System.Drawing.Size(173, 29);
+            this.pnlConfigButtons.TabIndex = 3;
             // 
             // btnNewConfig
             // 
@@ -178,15 +199,15 @@
             this.btnNewConfig.UseVisualStyleBackColor = true;
             this.btnNewConfig.Click += new System.EventHandler(this.btnNewConfig_Click);
             // 
-            // lstConfigs
+            // btnRemoveConfig
             // 
-            this.lstConfigs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstConfigs.FormattingEnabled = true;
-            this.lstConfigs.Location = new System.Drawing.Point(0, 0);
-            this.lstConfigs.Name = "lstConfigs";
-            this.lstConfigs.Size = new System.Drawing.Size(173, 366);
-            this.lstConfigs.TabIndex = 0;
-            this.lstConfigs.SelectedIndexChanged += new System.EventHandler(this.lstConfigs_SelectedIndexChanged);
+            this.btnRemoveConfig.Location = new System.Drawing.Point(95, 3);
+            this.btnRemoveConfig.Name = "btnRemoveConfig";
+            this.btnRemoveConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveConfig.TabIndex = 2;
+            this.btnRemoveConfig.Text = "Remove";
+            this.btnRemoveConfig.UseVisualStyleBackColor = true;
+            this.btnRemoveConfig.Click += new System.EventHandler(this.btnRemoveConfig_Click);
             // 
             // grpImages
             // 
@@ -198,91 +219,6 @@
             this.grpImages.TabIndex = 10;
             this.grpImages.TabStop = false;
             this.grpImages.Text = "Images";
-            // 
-            // pnlRight
-            // 
-            this.pnlRight.Controls.Add(this.pnlTopRight);
-            this.pnlRight.Controls.Add(this.pnlBottomRight);
-            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(605, 0);
-            this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(179, 495);
-            this.pnlRight.TabIndex = 11;
-            // 
-            // pnlBottomRight
-            // 
-            this.pnlBottomRight.Controls.Add(this.btnTiming);
-            this.pnlBottomRight.Controls.Add(this.btnTray);
-            this.pnlBottomRight.Controls.Add(this.btnReload);
-            this.pnlBottomRight.Controls.Add(this.btnSave);
-            this.pnlBottomRight.Controls.Add(this.chkStartup);
-            this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottomRight.Location = new System.Drawing.Point(0, 414);
-            this.pnlBottomRight.Name = "pnlBottomRight";
-            this.pnlBottomRight.Size = new System.Drawing.Size(179, 81);
-            this.pnlBottomRight.TabIndex = 12;
-            // 
-            // pnlTopRight
-            // 
-            this.pnlTopRight.Controls.Add(this.grbConfig);
-            this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTopRight.Location = new System.Drawing.Point(0, 0);
-            this.pnlTopRight.Name = "pnlTopRight";
-            this.pnlTopRight.Size = new System.Drawing.Size(179, 414);
-            this.pnlTopRight.TabIndex = 13;
-            // 
-            // pnlConfigButtons
-            // 
-            this.pnlConfigButtons.Controls.Add(this.btnNewConfig);
-            this.pnlConfigButtons.Controls.Add(this.btnRemoveConfig);
-            this.pnlConfigButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 366);
-            this.pnlConfigButtons.Name = "pnlConfigButtons";
-            this.pnlConfigButtons.Size = new System.Drawing.Size(173, 29);
-            this.pnlConfigButtons.TabIndex = 3;
-            // 
-            // pnlConfigInner
-            // 
-            this.pnlConfigInner.Controls.Add(this.lstConfigs);
-            this.pnlConfigInner.Controls.Add(this.pnlConfigButtons);
-            this.pnlConfigInner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlConfigInner.Location = new System.Drawing.Point(3, 16);
-            this.pnlConfigInner.Name = "pnlConfigInner";
-            this.pnlConfigInner.Size = new System.Drawing.Size(173, 395);
-            this.pnlConfigInner.TabIndex = 4;
-            // 
-            // pnlLeft
-            // 
-            this.pnlLeft.Controls.Add(this.grpImages);
-            this.pnlLeft.Controls.Add(this.pnlSpacer);
-            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(605, 495);
-            this.pnlLeft.TabIndex = 12;
-            // 
-            // pnlSpacer
-            // 
-            this.pnlSpacer.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlSpacer.Location = new System.Drawing.Point(597, 0);
-            this.pnlSpacer.Name = "pnlSpacer";
-            this.pnlSpacer.Size = new System.Drawing.Size(8, 495);
-            this.pnlSpacer.TabIndex = 11;
-            // 
-            // pnlImageButtons
-            // 
-            this.pnlImageButtons.Controls.Add(this.btnAddToLibrary);
-            this.pnlImageButtons.Controls.Add(this.btnLibrary);
-            this.pnlImageButtons.Controls.Add(this.btnAddImage);
-            this.pnlImageButtons.Controls.Add(this.btnClear);
-            this.pnlImageButtons.Controls.Add(this.btnDeleteImage);
-            this.pnlImageButtons.Controls.Add(this.btnMoveDown);
-            this.pnlImageButtons.Controls.Add(this.btnMoveUp);
-            this.pnlImageButtons.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlImageButtons.Location = new System.Drawing.Point(561, 0);
-            this.pnlImageButtons.Name = "pnlImageButtons";
-            this.pnlImageButtons.Size = new System.Drawing.Size(30, 476);
-            this.pnlImageButtons.TabIndex = 7;
             // 
             // pnlImagesInner
             // 
@@ -302,6 +238,21 @@
             this.pnlFileList.Name = "pnlFileList";
             this.pnlFileList.Size = new System.Drawing.Size(561, 476);
             this.pnlFileList.TabIndex = 8;
+            // 
+            // pnlImageButtons
+            // 
+            this.pnlImageButtons.Controls.Add(this.btnAddToLibrary);
+            this.pnlImageButtons.Controls.Add(this.btnLibrary);
+            this.pnlImageButtons.Controls.Add(this.btnAddImage);
+            this.pnlImageButtons.Controls.Add(this.btnClear);
+            this.pnlImageButtons.Controls.Add(this.btnDeleteImage);
+            this.pnlImageButtons.Controls.Add(this.btnMoveDown);
+            this.pnlImageButtons.Controls.Add(this.btnMoveUp);
+            this.pnlImageButtons.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlImageButtons.Location = new System.Drawing.Point(561, 0);
+            this.pnlImageButtons.Name = "pnlImageButtons";
+            this.pnlImageButtons.Size = new System.Drawing.Size(30, 476);
+            this.pnlImageButtons.TabIndex = 7;
             // 
             // btnAddToLibrary
             // 
@@ -380,6 +331,66 @@
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
+            // pnlRight
+            // 
+            this.pnlRight.Controls.Add(this.pnlTopRight);
+            this.pnlRight.Controls.Add(this.pnlBottomRight);
+            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlRight.Location = new System.Drawing.Point(605, 0);
+            this.pnlRight.Name = "pnlRight";
+            this.pnlRight.Size = new System.Drawing.Size(179, 495);
+            this.pnlRight.TabIndex = 11;
+            // 
+            // pnlTopRight
+            // 
+            this.pnlTopRight.Controls.Add(this.grbConfig);
+            this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTopRight.Location = new System.Drawing.Point(0, 0);
+            this.pnlTopRight.Name = "pnlTopRight";
+            this.pnlTopRight.Size = new System.Drawing.Size(179, 394);
+            this.pnlTopRight.TabIndex = 13;
+            // 
+            // pnlBottomRight
+            // 
+            this.pnlBottomRight.Controls.Add(this.lblNextChange);
+            this.pnlBottomRight.Controls.Add(this.btnTiming);
+            this.pnlBottomRight.Controls.Add(this.btnTray);
+            this.pnlBottomRight.Controls.Add(this.btnReload);
+            this.pnlBottomRight.Controls.Add(this.btnSave);
+            this.pnlBottomRight.Controls.Add(this.chkStartup);
+            this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottomRight.Location = new System.Drawing.Point(0, 394);
+            this.pnlBottomRight.Name = "pnlBottomRight";
+            this.pnlBottomRight.Size = new System.Drawing.Size(179, 101);
+            this.pnlBottomRight.TabIndex = 12;
+            // 
+            // pnlLeft
+            // 
+            this.pnlLeft.Controls.Add(this.grpImages);
+            this.pnlLeft.Controls.Add(this.pnlSpacer);
+            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
+            this.pnlLeft.Name = "pnlLeft";
+            this.pnlLeft.Size = new System.Drawing.Size(605, 495);
+            this.pnlLeft.TabIndex = 12;
+            // 
+            // pnlSpacer
+            // 
+            this.pnlSpacer.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlSpacer.Location = new System.Drawing.Point(597, 0);
+            this.pnlSpacer.Name = "pnlSpacer";
+            this.pnlSpacer.Size = new System.Drawing.Size(8, 495);
+            this.pnlSpacer.TabIndex = 11;
+            // 
+            // lblNextChange
+            // 
+            this.lblNextChange.AutoSize = true;
+            this.lblNextChange.Location = new System.Drawing.Point(-2, 81);
+            this.lblNextChange.Name = "lblNextChange";
+            this.lblNextChange.Size = new System.Drawing.Size(74, 13);
+            this.lblNextChange.TabIndex = 9;
+            this.lblNextChange.Text = "Next change: ";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -395,17 +406,17 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.grbConfig.ResumeLayout(false);
-            this.grpImages.ResumeLayout(false);
-            this.pnlRight.ResumeLayout(false);
-            this.pnlBottomRight.ResumeLayout(false);
-            this.pnlBottomRight.PerformLayout();
-            this.pnlTopRight.ResumeLayout(false);
-            this.pnlConfigButtons.ResumeLayout(false);
             this.pnlConfigInner.ResumeLayout(false);
-            this.pnlLeft.ResumeLayout(false);
-            this.pnlImageButtons.ResumeLayout(false);
+            this.pnlConfigButtons.ResumeLayout(false);
+            this.grpImages.ResumeLayout(false);
             this.pnlImagesInner.ResumeLayout(false);
             this.pnlFileList.ResumeLayout(false);
+            this.pnlImageButtons.ResumeLayout(false);
+            this.pnlRight.ResumeLayout(false);
+            this.pnlTopRight.ResumeLayout(false);
+            this.pnlBottomRight.ResumeLayout(false);
+            this.pnlBottomRight.PerformLayout();
+            this.pnlLeft.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -443,6 +454,7 @@
         private System.Windows.Forms.Panel pnlFileList;
         private System.Windows.Forms.Button btnLibrary;
         private System.Windows.Forms.Button btnAddToLibrary;
+        private System.Windows.Forms.Label lblNextChange;
     }
 }
 

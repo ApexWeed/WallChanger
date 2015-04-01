@@ -75,55 +75,6 @@ namespace WallChanger
             }
         }
 
-        public enum ImageFormat
-        {
-            bmp,
-            jpeg,
-            gif,
-            tiff,
-            png,
-            unknown
-        }
-
-        public static ImageFormat GetImageFormat(Stream stream)
-        {
-            // see http://www.mikekunz.com/image_file_header.html
-            var bmp = Encoding.ASCII.GetBytes("BM");     // BMP
-            var gif = Encoding.ASCII.GetBytes("GIF");    // GIF
-            var png = new byte[] { 137, 80, 78, 71 };    // PNG
-            var tiff = new byte[] { 73, 73, 42 };         // TIFF
-            var tiff2 = new byte[] { 77, 77, 42 };         // TIFF
-            var jpeg = new byte[] { 255, 216, 255, 224 }; // jpeg
-            var jpeg2 = new byte[] { 255, 216, 255, 225 }; // jpeg canon
-
-            var buffer = new byte[4];
-            stream.Read(buffer, 0, buffer.Length);
-
-            if (bmp.SequenceEqual(buffer.Take(bmp.Length)))
-                return ImageFormat.bmp;
-
-            if (gif.SequenceEqual(buffer.Take(gif.Length)))
-                return ImageFormat.gif;
-
-            if (png.SequenceEqual(buffer.Take(png.Length)))
-                return ImageFormat.png;
-
-            if (tiff.SequenceEqual(buffer.Take(tiff.Length)))
-                return ImageFormat.tiff;
-
-            if (tiff2.SequenceEqual(buffer.Take(tiff2.Length)))
-                return ImageFormat.tiff;
-
-            if (jpeg.SequenceEqual(buffer.Take(jpeg.Length)))
-                return ImageFormat.jpeg;
-
-            if (jpeg2.SequenceEqual(buffer.Take(jpeg2.Length)))
-                return ImageFormat.jpeg;
-
-            return ImageFormat.unknown;
-        }
-
-
         private void btnAddImage_Click(object sender, EventArgs e)
         {
             if (ofdAdd.ShowDialog() == DialogResult.OK)
@@ -132,7 +83,7 @@ namespace WallChanger
                 {
                     using (Stream read = File.Open(file, FileMode.Open))
                     {
-                        if (GetImageFormat(read) == ImageFormat.unknown)
+                        if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
                             continue;
                         FileList.Add(file);
                     }
@@ -340,7 +291,6 @@ namespace WallChanger
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 parsedTime = ParseTime(outputTime) - Offset;
                 index = (int)(parsedTime / Interval) - 1;
-                //TimerWorker.ReportProgress(index);
 
                 SetWallpaper(index);
 
@@ -351,6 +301,7 @@ namespace WallChanger
                     sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
                     delayTime = sleepTime > 1000 ? 1000 : sleepTime;
                     System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
+                    TimerWorker.ReportProgress(sleepTime);
                     System.Threading.Thread.Sleep(delayTime);
                 } while (sleepTime == 1000 && loadedConfig == CurrentConfig);
             }
@@ -359,9 +310,12 @@ namespace WallChanger
         private void TimerWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             //SetWallpaper(e.ProgressPercentage);
-            noiTray.BalloonTipText = string.Format("Next wallpaper change at: {0}", new DateTime().AddSeconds((Interval * (e.ProgressPercentage + 2)) / 1000).AddSeconds(Offset).ToString("hh:mm:ss tt"));
-            noiTray.BalloonTipTitle = "Next Wallpaper Change";
-            noiTray.ShowBalloonTip(1000);
+            //noiTray.BalloonTipText = string.Format("Next wallpaper change at: {0}", new DateTime().AddSeconds((Interval * (e.ProgressPercentage + 2)) / 1000).AddSeconds(Offset).ToString("hh:mm:ss tt"));
+            //noiTray.BalloonTipTitle = "Next Wallpaper Change";
+            //noiTray.ShowBalloonTip(1000);
+            DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
+            TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
+            lblNextChange.Text = string.Format("Next change: {0}", nextChangeTimeSpan.ToString());
         }
 
         private void noiTray_Click(object sender, EventArgs e)
@@ -416,7 +370,7 @@ namespace WallChanger
             {
                 using (Stream read = File.Open(file, FileMode.Open))
                 {
-                    if (GetImageFormat(read) == ImageFormat.unknown)
+                    if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
                         continue;
                     FileList.Add(file);
                 }

@@ -33,6 +33,7 @@
             this.spcContainer = new System.Windows.Forms.SplitContainer();
             this.pnlImageList = new System.Windows.Forms.Panel();
             this.pnlFilters = new System.Windows.Forms.Panel();
+            this.btnAddToConfig = new System.Windows.Forms.Button();
             this.btnTagFilterClear = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbTagFilter = new System.Windows.Forms.ComboBox();
@@ -74,7 +75,6 @@
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.Tooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAddToConfig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
@@ -154,6 +154,17 @@
             this.pnlFilters.Name = "pnlFilters";
             this.pnlFilters.Size = new System.Drawing.Size(651, 146);
             this.pnlFilters.TabIndex = 1;
+            // 
+            // btnAddToConfig
+            // 
+            this.btnAddToConfig.Image = global::WallChanger.Properties.Resources.address_book__arrow;
+            this.btnAddToConfig.Location = new System.Drawing.Point(624, 3);
+            this.btnAddToConfig.Name = "btnAddToConfig";
+            this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
+            this.btnAddToConfig.TabIndex = 9;
+            this.Tooltips.SetToolTip(this.btnAddToConfig, "Add files to current config.");
+            this.btnAddToConfig.UseVisualStyleBackColor = true;
+            this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
             // 
             // btnTagFilterClear
             // 
@@ -566,19 +577,9 @@
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
-            // btnAddToConfig
-            // 
-            this.btnAddToConfig.Image = global::WallChanger.Properties.Resources.address_book__arrow;
-            this.btnAddToConfig.Location = new System.Drawing.Point(624, 3);
-            this.btnAddToConfig.Name = "btnAddToConfig";
-            this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
-            this.btnAddToConfig.TabIndex = 9;
-            this.Tooltips.SetToolTip(this.btnAddToConfig, "Add files to current config.");
-            this.btnAddToConfig.UseVisualStyleBackColor = true;
-            this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
-            // 
             // LibraryForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 522);
@@ -587,6 +588,8 @@
             this.Name = "LibraryForm";
             this.Text = "LibraryForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryForm_FormClosed);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.LibraryForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.LibraryForm_DragEnter);
             this.spcContainer.Panel1.ResumeLayout(false);
             this.spcContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).EndInit();
