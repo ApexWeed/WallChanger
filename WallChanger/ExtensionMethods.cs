@@ -6,8 +6,27 @@ using System.Threading.Tasks;
 
 namespace WallChanger
 {
-    public static class LibraryItemListExstensions
+    public static class ListExtensions
     {
+        public static void AddDistinct(this List<string> List, string Item)
+        {
+            foreach (string ListItem in List)
+            {
+                if (ListItem == Item)
+                    return;
+            }
+
+            List.Add(Item);
+        }
+
+        public static void AddDistinct(this List<string> List, List<string> Items)
+        {
+            foreach (string Item in Items)
+            {
+                List.AddDistinct(Item);
+            }
+        }
+
         public static void AddDistinct(this List<LibraryItem> List, LibraryItem Item)
         {
             foreach (LibraryItem ListItem in List)
@@ -28,25 +47,12 @@ namespace WallChanger
         }
     }
 
-    public static class StringListExtensions
+    public static class DictionaryExtensions
     {
-        public static void AddDistinct(this List<string> List, string Item)
+        public static void AddDistinct(this Dictionary<string, System.Drawing.Size> Dict, string Key, System.Drawing.Size Value)
         {
-            foreach (string ListItem in List)
-            {
-                if (ListItem == Item)
-                    return;
-            }
-
-            List.Add(Item);
-        }
-
-        public static void AddDistinct(this List<string> List, List<string> Items)
-        {
-            foreach (string Item in Items)
-            {
-                List.AddDistinct(Item);
-            }
+            if (!Dict.ContainsKey(Key))
+                Dict.Add(Key, Value);
         }
     }
 }

@@ -124,6 +124,9 @@
   <data name="address_book__arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\address-book--arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="cross_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cross-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -138,5 +141,11 @@
   </data>
   <data name="plus_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\plus-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="toggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toggle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="toggle_expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toggle-expand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

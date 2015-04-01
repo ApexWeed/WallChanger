@@ -31,8 +31,32 @@
             this.components = new System.ComponentModel.Container();
             this.lstImages = new System.Windows.Forms.ListBox();
             this.spcContainer = new System.Windows.Forms.SplitContainer();
+            this.pnlImageList = new System.Windows.Forms.Panel();
+            this.pnlFilters = new System.Windows.Forms.Panel();
+            this.btnTagFilterClear = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbTagFilter = new System.Windows.Forms.ComboBox();
+            this.btnCharacterFilterClear = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbCharacterFilter = new System.Windows.Forms.ComboBox();
+            this.btnShowNameFilterClear = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbShowNameFilter = new System.Windows.Forms.ComboBox();
+            this.btnCategoryFilterClear = new System.Windows.Forms.Button();
+            this.btnClearFilters = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbCategoryFilter = new System.Windows.Forms.ComboBox();
+            this.btnExpand = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
             this.pnlTagContainer = new System.Windows.Forms.Panel();
+            this.pnlTagList = new System.Windows.Forms.Panel();
+            this.lstTags = new System.Windows.Forms.ListBox();
+            this.pnlTagButtons = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnAddNewTag = new System.Windows.Forms.Button();
+            this.btnRemoveTag = new System.Windows.Forms.Button();
+            this.btnClearTags = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.lblImageSize = new System.Windows.Forms.Label();
             this.btnAddNewCharacter = new System.Windows.Forms.Button();
@@ -50,23 +74,19 @@
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.Tooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.lstTags = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnAddNewTag = new System.Windows.Forms.Button();
-            this.btnClearTags = new System.Windows.Forms.Button();
-            this.btnRemoveTag = new System.Windows.Forms.Button();
-            this.pnlTagButtons = new System.Windows.Forms.Panel();
-            this.pnlTagList = new System.Windows.Forms.Panel();
+            this.btnAddToConfig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
             this.spcContainer.SuspendLayout();
+            this.pnlImageList.SuspendLayout();
+            this.pnlFilters.SuspendLayout();
             this.pnlBottomRight.SuspendLayout();
             this.pnlTagContainer.SuspendLayout();
+            this.pnlTagList.SuspendLayout();
+            this.pnlTagButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
-            this.pnlTagButtons.SuspendLayout();
-            this.pnlTagList.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstImages
@@ -75,7 +95,8 @@
             this.lstImages.FormattingEnabled = true;
             this.lstImages.Location = new System.Drawing.Point(0, 0);
             this.lstImages.Name = "lstImages";
-            this.lstImages.Size = new System.Drawing.Size(651, 522);
+            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstImages.Size = new System.Drawing.Size(651, 376);
             this.lstImages.TabIndex = 0;
             this.lstImages.SelectedIndexChanged += new System.EventHandler(this.lstImages_SelectedIndexChanged);
             // 
@@ -87,16 +108,199 @@
             // 
             // spcContainer.Panel1
             // 
-            this.spcContainer.Panel1.Controls.Add(this.lstImages);
+            this.spcContainer.Panel1.Controls.Add(this.pnlImageList);
+            this.spcContainer.Panel1.Controls.Add(this.pnlFilters);
             // 
             // spcContainer.Panel2
             // 
             this.spcContainer.Panel2.Controls.Add(this.pnlBottomRight);
             this.spcContainer.Panel2.Controls.Add(this.picPreview);
+            this.spcContainer.Panel2.Resize += new System.EventHandler(this.spcContainer_Panel2_Resize);
             this.spcContainer.Panel2MinSize = 202;
             this.spcContainer.Size = new System.Drawing.Size(857, 522);
             this.spcContainer.SplitterDistance = 651;
             this.spcContainer.TabIndex = 1;
+            this.spcContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.spcContainer_SplitterMoved);
+            // 
+            // pnlImageList
+            // 
+            this.pnlImageList.Controls.Add(this.lstImages);
+            this.pnlImageList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlImageList.Location = new System.Drawing.Point(0, 146);
+            this.pnlImageList.Name = "pnlImageList";
+            this.pnlImageList.Size = new System.Drawing.Size(651, 376);
+            this.pnlImageList.TabIndex = 2;
+            // 
+            // pnlFilters
+            // 
+            this.pnlFilters.Controls.Add(this.btnAddToConfig);
+            this.pnlFilters.Controls.Add(this.btnTagFilterClear);
+            this.pnlFilters.Controls.Add(this.label9);
+            this.pnlFilters.Controls.Add(this.cmbTagFilter);
+            this.pnlFilters.Controls.Add(this.btnCharacterFilterClear);
+            this.pnlFilters.Controls.Add(this.label8);
+            this.pnlFilters.Controls.Add(this.cmbCharacterFilter);
+            this.pnlFilters.Controls.Add(this.btnShowNameFilterClear);
+            this.pnlFilters.Controls.Add(this.label7);
+            this.pnlFilters.Controls.Add(this.cmbShowNameFilter);
+            this.pnlFilters.Controls.Add(this.btnCategoryFilterClear);
+            this.pnlFilters.Controls.Add(this.btnClearFilters);
+            this.pnlFilters.Controls.Add(this.label6);
+            this.pnlFilters.Controls.Add(this.cmbCategoryFilter);
+            this.pnlFilters.Controls.Add(this.btnExpand);
+            this.pnlFilters.Controls.Add(this.label5);
+            this.pnlFilters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlFilters.Location = new System.Drawing.Point(0, 0);
+            this.pnlFilters.Name = "pnlFilters";
+            this.pnlFilters.Size = new System.Drawing.Size(651, 146);
+            this.pnlFilters.TabIndex = 1;
+            // 
+            // btnTagFilterClear
+            // 
+            this.btnTagFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnTagFilterClear.Location = new System.Drawing.Point(363, 88);
+            this.btnTagFilterClear.Name = "btnTagFilterClear";
+            this.btnTagFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnTagFilterClear.TabIndex = 26;
+            this.Tooltips.SetToolTip(this.btnTagFilterClear, "Clear category.");
+            this.btnTagFilterClear.UseVisualStyleBackColor = true;
+            this.btnTagFilterClear.Click += new System.EventHandler(this.btnTagFilterClear_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(198, 94);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(26, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Tag";
+            // 
+            // cmbTagFilter
+            // 
+            this.cmbTagFilter.FormattingEnabled = true;
+            this.cmbTagFilter.Location = new System.Drawing.Point(201, 118);
+            this.cmbTagFilter.Name = "cmbTagFilter";
+            this.cmbTagFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbTagFilter.TabIndex = 24;
+            this.cmbTagFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
+            // 
+            // btnCharacterFilterClear
+            // 
+            this.btnCharacterFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnCharacterFilterClear.Location = new System.Drawing.Point(168, 88);
+            this.btnCharacterFilterClear.Name = "btnCharacterFilterClear";
+            this.btnCharacterFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnCharacterFilterClear.TabIndex = 23;
+            this.Tooltips.SetToolTip(this.btnCharacterFilterClear, "Clear category.");
+            this.btnCharacterFilterClear.UseVisualStyleBackColor = true;
+            this.btnCharacterFilterClear.Click += new System.EventHandler(this.btnCharacterFilterClear_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 94);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Character";
+            // 
+            // cmbCharacterFilter
+            // 
+            this.cmbCharacterFilter.FormattingEnabled = true;
+            this.cmbCharacterFilter.Location = new System.Drawing.Point(6, 118);
+            this.cmbCharacterFilter.Name = "cmbCharacterFilter";
+            this.cmbCharacterFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbCharacterFilter.TabIndex = 21;
+            this.cmbCharacterFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
+            // 
+            // btnShowNameFilterClear
+            // 
+            this.btnShowNameFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnShowNameFilterClear.Location = new System.Drawing.Point(363, 31);
+            this.btnShowNameFilterClear.Name = "btnShowNameFilterClear";
+            this.btnShowNameFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnShowNameFilterClear.TabIndex = 20;
+            this.Tooltips.SetToolTip(this.btnShowNameFilterClear, "Clear category.");
+            this.btnShowNameFilterClear.UseVisualStyleBackColor = true;
+            this.btnShowNameFilterClear.Click += new System.EventHandler(this.btnShowNameFilterClear_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(198, 37);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Show Name";
+            // 
+            // cmbShowNameFilter
+            // 
+            this.cmbShowNameFilter.FormattingEnabled = true;
+            this.cmbShowNameFilter.Location = new System.Drawing.Point(201, 61);
+            this.cmbShowNameFilter.Name = "cmbShowNameFilter";
+            this.cmbShowNameFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbShowNameFilter.TabIndex = 18;
+            this.cmbShowNameFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
+            // 
+            // btnCategoryFilterClear
+            // 
+            this.btnCategoryFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnCategoryFilterClear.Location = new System.Drawing.Point(168, 31);
+            this.btnCategoryFilterClear.Name = "btnCategoryFilterClear";
+            this.btnCategoryFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnCategoryFilterClear.TabIndex = 17;
+            this.Tooltips.SetToolTip(this.btnCategoryFilterClear, "Clear category.");
+            this.btnCategoryFilterClear.UseVisualStyleBackColor = true;
+            this.btnCategoryFilterClear.Click += new System.EventHandler(this.btnCategoryFilterClear_Click);
+            // 
+            // btnClearFilters
+            // 
+            this.btnClearFilters.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnClearFilters.Location = new System.Drawing.Point(73, 3);
+            this.btnClearFilters.Name = "btnClearFilters";
+            this.btnClearFilters.Size = new System.Drawing.Size(24, 24);
+            this.btnClearFilters.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnClearFilters, "Clear filters.");
+            this.btnClearFilters.UseVisualStyleBackColor = true;
+            this.btnClearFilters.Click += new System.EventHandler(this.btnClearFilters_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 37);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(49, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Category";
+            // 
+            // cmbCategoryFilter
+            // 
+            this.cmbCategoryFilter.FormattingEnabled = true;
+            this.cmbCategoryFilter.Location = new System.Drawing.Point(6, 61);
+            this.cmbCategoryFilter.Name = "cmbCategoryFilter";
+            this.cmbCategoryFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbCategoryFilter.TabIndex = 15;
+            this.cmbCategoryFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
+            // 
+            // btnExpand
+            // 
+            this.btnExpand.Image = global::WallChanger.Properties.Resources.toggle_expand;
+            this.btnExpand.Location = new System.Drawing.Point(43, 3);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(24, 24);
+            this.btnExpand.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnExpand, "Expand filters.");
+            this.btnExpand.UseVisualStyleBackColor = true;
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Filters";
             // 
             // pnlBottomRight
             // 
@@ -119,6 +323,78 @@
             this.pnlTagContainer.Size = new System.Drawing.Size(202, 95);
             this.pnlTagContainer.TabIndex = 6;
             // 
+            // pnlTagList
+            // 
+            this.pnlTagList.Controls.Add(this.lstTags);
+            this.pnlTagList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTagList.Location = new System.Drawing.Point(7, 30);
+            this.pnlTagList.Name = "pnlTagList";
+            this.pnlTagList.Size = new System.Drawing.Size(186, 65);
+            this.pnlTagList.TabIndex = 19;
+            // 
+            // lstTags
+            // 
+            this.lstTags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstTags.FormattingEnabled = true;
+            this.lstTags.Location = new System.Drawing.Point(0, 0);
+            this.lstTags.Name = "lstTags";
+            this.lstTags.Size = new System.Drawing.Size(186, 65);
+            this.lstTags.TabIndex = 0;
+            // 
+            // pnlTagButtons
+            // 
+            this.pnlTagButtons.Controls.Add(this.label4);
+            this.pnlTagButtons.Controls.Add(this.btnAddNewTag);
+            this.pnlTagButtons.Controls.Add(this.btnRemoveTag);
+            this.pnlTagButtons.Controls.Add(this.btnClearTags);
+            this.pnlTagButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTagButtons.Location = new System.Drawing.Point(7, 0);
+            this.pnlTagButtons.Name = "pnlTagButtons";
+            this.pnlTagButtons.Size = new System.Drawing.Size(186, 30);
+            this.pnlTagButtons.TabIndex = 18;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(31, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Tags";
+            // 
+            // btnAddNewTag
+            // 
+            this.btnAddNewTag.Image = global::WallChanger.Properties.Resources.plus_button;
+            this.btnAddNewTag.Location = new System.Drawing.Point(101, 0);
+            this.btnAddNewTag.Name = "btnAddNewTag";
+            this.btnAddNewTag.Size = new System.Drawing.Size(24, 24);
+            this.btnAddNewTag.TabIndex = 17;
+            this.Tooltips.SetToolTip(this.btnAddNewTag, "Add new tag.");
+            this.btnAddNewTag.UseVisualStyleBackColor = true;
+            this.btnAddNewTag.Click += new System.EventHandler(this.btnAddNewTag_Click);
+            // 
+            // btnRemoveTag
+            // 
+            this.btnRemoveTag.Image = global::WallChanger.Properties.Resources.minus_button;
+            this.btnRemoveTag.Location = new System.Drawing.Point(131, 0);
+            this.btnRemoveTag.Name = "btnRemoveTag";
+            this.btnRemoveTag.Size = new System.Drawing.Size(24, 24);
+            this.btnRemoveTag.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnRemoveTag, "Remove tag.");
+            this.btnRemoveTag.UseVisualStyleBackColor = true;
+            this.btnRemoveTag.Click += new System.EventHandler(this.btnRemoveTag_Click);
+            // 
+            // btnClearTags
+            // 
+            this.btnClearTags.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnClearTags.Location = new System.Drawing.Point(162, 0);
+            this.btnClearTags.Name = "btnClearTags";
+            this.btnClearTags.Size = new System.Drawing.Size(24, 24);
+            this.btnClearTags.TabIndex = 16;
+            this.Tooltips.SetToolTip(this.btnClearTags, "Clear tags.");
+            this.btnClearTags.UseVisualStyleBackColor = true;
+            this.btnClearTags.Click += new System.EventHandler(this.btnClearTags_Click);
+            // 
             // pnlDetails
             // 
             this.pnlDetails.Controls.Add(this.lblImageSize);
@@ -140,7 +416,6 @@
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Size = new System.Drawing.Size(202, 225);
             this.pnlDetails.TabIndex = 5;
-            this.pnlDetails.Resize += new System.EventHandler(this.pnlDetails_Resize);
             // 
             // lblImageSize
             // 
@@ -291,78 +566,16 @@
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
-            // lstTags
+            // btnAddToConfig
             // 
-            this.lstTags.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstTags.FormattingEnabled = true;
-            this.lstTags.Location = new System.Drawing.Point(0, 0);
-            this.lstTags.Name = "lstTags";
-            this.lstTags.Size = new System.Drawing.Size(186, 65);
-            this.lstTags.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(0, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Tags";
-            // 
-            // btnAddNewTag
-            // 
-            this.btnAddNewTag.Image = global::WallChanger.Properties.Resources.plus_button;
-            this.btnAddNewTag.Location = new System.Drawing.Point(101, 0);
-            this.btnAddNewTag.Name = "btnAddNewTag";
-            this.btnAddNewTag.Size = new System.Drawing.Size(24, 24);
-            this.btnAddNewTag.TabIndex = 17;
-            this.Tooltips.SetToolTip(this.btnAddNewTag, "Add new character.");
-            this.btnAddNewTag.UseVisualStyleBackColor = true;
-            this.btnAddNewTag.Click += new System.EventHandler(this.btnAddNewTag_Click);
-            // 
-            // btnClearTags
-            // 
-            this.btnClearTags.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearTags.Location = new System.Drawing.Point(162, 0);
-            this.btnClearTags.Name = "btnClearTags";
-            this.btnClearTags.Size = new System.Drawing.Size(24, 24);
-            this.btnClearTags.TabIndex = 16;
-            this.Tooltips.SetToolTip(this.btnClearTags, "Clear characters.");
-            this.btnClearTags.UseVisualStyleBackColor = true;
-            this.btnClearTags.Click += new System.EventHandler(this.btnClearTags_Click);
-            // 
-            // btnRemoveTag
-            // 
-            this.btnRemoveTag.Image = global::WallChanger.Properties.Resources.minus_button;
-            this.btnRemoveTag.Location = new System.Drawing.Point(131, 0);
-            this.btnRemoveTag.Name = "btnRemoveTag";
-            this.btnRemoveTag.Size = new System.Drawing.Size(24, 24);
-            this.btnRemoveTag.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnRemoveTag, "Remove character.");
-            this.btnRemoveTag.UseVisualStyleBackColor = true;
-            this.btnRemoveTag.Click += new System.EventHandler(this.btnRemoveTag_Click);
-            // 
-            // pnlTagButtons
-            // 
-            this.pnlTagButtons.Controls.Add(this.label4);
-            this.pnlTagButtons.Controls.Add(this.btnAddNewTag);
-            this.pnlTagButtons.Controls.Add(this.btnRemoveTag);
-            this.pnlTagButtons.Controls.Add(this.btnClearTags);
-            this.pnlTagButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTagButtons.Location = new System.Drawing.Point(7, 0);
-            this.pnlTagButtons.Name = "pnlTagButtons";
-            this.pnlTagButtons.Size = new System.Drawing.Size(186, 30);
-            this.pnlTagButtons.TabIndex = 18;
-            this.pnlTagButtons.Resize += new System.EventHandler(this.pnlTagButtons_Resize);
-            // 
-            // pnlTagList
-            // 
-            this.pnlTagList.Controls.Add(this.lstTags);
-            this.pnlTagList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTagList.Location = new System.Drawing.Point(7, 30);
-            this.pnlTagList.Name = "pnlTagList";
-            this.pnlTagList.Size = new System.Drawing.Size(186, 65);
-            this.pnlTagList.TabIndex = 19;
+            this.btnAddToConfig.Image = global::WallChanger.Properties.Resources.address_book__arrow;
+            this.btnAddToConfig.Location = new System.Drawing.Point(624, 3);
+            this.btnAddToConfig.Name = "btnAddToConfig";
+            this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
+            this.btnAddToConfig.TabIndex = 9;
+            this.Tooltips.SetToolTip(this.btnAddToConfig, "Add files to current config.");
+            this.btnAddToConfig.UseVisualStyleBackColor = true;
+            this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
             // 
             // LibraryForm
             // 
@@ -370,7 +583,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 522);
             this.Controls.Add(this.spcContainer);
-            this.MinimumSize = new System.Drawing.Size(0, 560);
+            this.MinimumSize = new System.Drawing.Size(16, 560);
             this.Name = "LibraryForm";
             this.Text = "LibraryForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryForm_FormClosed);
@@ -378,14 +591,17 @@
             this.spcContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).EndInit();
             this.spcContainer.ResumeLayout(false);
+            this.pnlImageList.ResumeLayout(false);
+            this.pnlFilters.ResumeLayout(false);
+            this.pnlFilters.PerformLayout();
             this.pnlBottomRight.ResumeLayout(false);
             this.pnlTagContainer.ResumeLayout(false);
+            this.pnlTagList.ResumeLayout(false);
+            this.pnlTagButtons.ResumeLayout(false);
+            this.pnlTagButtons.PerformLayout();
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
-            this.pnlTagButtons.ResumeLayout(false);
-            this.pnlTagButtons.PerformLayout();
-            this.pnlTagList.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -420,5 +636,23 @@
         private System.Windows.Forms.Button btnAddNewTag;
         private System.Windows.Forms.Button btnRemoveTag;
         private System.Windows.Forms.Button btnClearTags;
+        private System.Windows.Forms.Panel pnlImageList;
+        private System.Windows.Forms.Panel pnlFilters;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnExpand;
+        private System.Windows.Forms.Button btnClearFilters;
+        private System.Windows.Forms.Button btnCategoryFilterClear;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbCategoryFilter;
+        private System.Windows.Forms.Button btnTagFilterClear;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbTagFilter;
+        private System.Windows.Forms.Button btnCharacterFilterClear;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbCharacterFilter;
+        private System.Windows.Forms.Button btnShowNameFilterClear;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cmbShowNameFilter;
+        private System.Windows.Forms.Button btnAddToConfig;
     }
 }
