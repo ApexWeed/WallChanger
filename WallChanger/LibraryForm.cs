@@ -12,9 +12,12 @@ namespace WallChanger
 {
     public partial class LibraryForm : Form
     {
+        bool ComboBoxLocked = false;
+
         List<string> Categories;
         List<string> ShowNames;
         List<string> CharacterNames;
+        List<string> Tags;
         
         public LibraryForm(Form Owner)
         {
@@ -24,6 +27,7 @@ namespace WallChanger
             Categories = new List<string>();
             ShowNames = new List<string>();
             CharacterNames = new List<string>();
+            Tags = new List<string>();
             UpdateList();
         }
 
@@ -42,17 +46,21 @@ namespace WallChanger
                 Categories.AddDistinct(libraryItem.Category);
                 ShowNames.AddDistinct(libraryItem.ShowName);
                 CharacterNames.AddDistinct(libraryItem.CharacterNames);
+                Tags.AddDistinct(libraryItem.Tags);
             }
         }
 
         private void UpdateComboBoxes()
         {
+            cmbCategory.DataSource = null;
+            cmbShowName.DataSource = null;
             cmbCategory.DataSource = Categories;
             cmbShowName.DataSource = ShowNames;
         }
 
         private void lstImages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ComboBoxLocked = true;
             Image preview = Image.FromFile(lstImages.SelectedItem as string);
             lblImageSize.Text = string.Format("Image Size: {0}x{1}px", preview.Width, preview.Height);
             picPreview.Image = preview;
@@ -71,6 +79,9 @@ namespace WallChanger
 
             lstCharacters.Items.Clear();
             lstCharacters.Items.AddRange(item.CharacterNames.ToArray());
+            lstTags.Items.Clear();
+            lstTags.Items.AddRange(item.Tags.ToArray());
+            ComboBoxLocked = false;
         }
 
         #region "Category"
@@ -92,8 +103,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).Category = "";
         }
 
-        private void cmbCategory_SelectionChangeCommitted(object sender, EventArgs e)
+        private void cmbCategory_SelectedValueChanged(object sender, EventArgs e)
         {
+            // Don't want the values changing when swapping between entries.
+            if (ComboBoxLocked)
+                return;
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).Category = cmbCategory.Text;
         }
         #endregion
@@ -117,8 +131,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).ShowName = "";
         }
 
-        private void cmbShowName_SelectionChangeCommitted(object sender, EventArgs e)
+        private void cmbShowName_SelectedValueChanged(object sender, EventArgs e)
         {
+            // Don't want the values changing when swapping between entries.
+            if (ComboBoxLocked)
+                return;
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).ShowName = cmbShowName.Text;
         }
         #endregion
@@ -131,6 +148,7 @@ namespace WallChanger
                 return;
 
             CharacterNames.AddDistinct(Value);
+            lstCharacters.Items.Add(Value);
             lstCharacters.SelectedItem = Value;
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).CharacterNames.AddDistinct(Value);
         }
@@ -150,5 +168,58 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).CharacterNames.Clear();
         }
         #endregion
+
+        #region "Tags"
+        private void btnAddNewTag_Click(object sender, EventArgs e)
+        {
+            string Value = Prompt.ShowStringComboBoxDialog("Enter the tag or use a pre existing value.", "Enter Tag", Tags.ToArray());
+            if (string.IsNullOrWhiteSpace(Value))
+                return;
+
+            Tags.AddDistinct(Value);
+            lstTags.Items.Add(Value);
+            lstTags.SelectedItem = Value;
+            GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).Tags.AddDistinct(Value);
+        }
+
+        private void btnRemoveTag_Click(object sender, EventArgs e)
+        {
+            if (lstTags.SelectedIndex > -1)
+            {
+                GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).Tags.Remove(lstTags.SelectedItem as string);
+                lstCharacters.Items.Remove(lstTags.SelectedItem);
+            }
+        }
+
+        private void btnClearTags_Click(object sender, EventArgs e)
+        {
+            lstTags.Items.Clear();
+            GlobalVars.LibraryItems.Find(i => i.Filename == lstImages.SelectedItem as string).Tags.Clear();
+        }
+        #endregion
+
+        private void pnlDetails_Resize(object sender, EventArgs e)
+        {
+            cmbCategory.Width = pnlDetails.Width - 16;
+            cmbShowName.Width = pnlDetails.Width - 16;
+            lstCharacters.Width = pnlDetails.Width - 16;
+
+            btnAddCategory.Left = pnlDetails.Width - 63;
+            btnClearCategory.Left = pnlDetails.Width - 33;
+
+            btnAddShowName.Left = pnlDetails.Width - 63;
+            btnClearShowName.Left = pnlDetails.Width - 33;
+
+            btnAddNewCharacter.Left = pnlDetails.Width - 93;
+            btnRemoveCharacter.Left = pnlDetails.Width - 63;
+            btnClearCharacters.Left = pnlDetails.Width - 33;
+        }
+
+        private void pnlTagButtons_Resize(object sender, EventArgs e)
+        {
+            btnAddNewTag.Left = pnlTagButtons.Width - 84;
+            btnRemoveTag.Left = pnlTagButtons.Width - 54;
+            btnClearTags.Left = pnlTagButtons.Width - 24;
+        }
     }
 }
