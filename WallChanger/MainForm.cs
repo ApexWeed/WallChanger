@@ -266,13 +266,15 @@ namespace WallChanger
             int parsedTime = ParseTime(outputTime);
             int index = (int)(parsedTime / Interval);
 
-            SetWallpaper(index - 1);
+            SetWallpaper(index);
         }
 
         private void SetWallpaper(int Index)
         {
             if (FileList.Count > 0)
             {
+                if (Index < 0)
+                    Index = FileList.Count + Index;
                 Wallpaper.Set(new Uri(FileList[(Index) % FileList.Count]), Wallpaper.Style.Fill);
             }
         }
@@ -290,7 +292,7 @@ namespace WallChanger
                 loadedConfig = CurrentConfig;
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 parsedTime = ParseTime(outputTime) - Offset;
-                index = (int)(parsedTime / Interval) - 1;
+                index = (int)(parsedTime / Interval);
 
                 SetWallpaper(index);
 
@@ -339,6 +341,11 @@ namespace WallChanger
         }
 
         private void btnTray_Click(object sender, EventArgs e)
+        {
+            Minimize();
+        }
+
+        private void Minimize()
         {
             this.Hide();
             this.ShowInTaskbar = false;
@@ -553,5 +560,36 @@ namespace WallChanger
         {
             SaveLibrary();
         }
+
+        protected override void WndProc(ref Message message)
+        {
+            const int WM_SYSCOMMAND = 0x0112;
+            const int SC_MAXIMIZE = 0xF030;
+            const int SC_RESTORE = 0xF120;
+            const int SC_MINIMIZE = 0xF020;
+
+            switch (message.Msg)
+            {
+                case WM_SYSCOMMAND:
+                    int command = message.WParam.ToInt32() & 0xfff0;
+                    if (command == SC_MAXIMIZE)
+                    {
+                        
+                    }
+                    if (command == SC_RESTORE)
+                    {
+                        
+                    }
+                    if (command == SC_MINIMIZE)
+                    {
+                        Minimize();
+                        return;
+                    }
+                    break;
+            }
+
+            base.WndProc(ref message);
+        }
+
     }
 }

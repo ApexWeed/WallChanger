@@ -411,6 +411,7 @@ namespace WallChanger
             const int WM_SYSCOMMAND = 0x0112;
             const int SC_MAXIMIZE = 0xF030;
             const int SC_RESTORE = 0xF120;
+            const int SC_MINIMIZE = 0xF020;
 
             switch (message.Msg)
             {
@@ -423,6 +424,10 @@ namespace WallChanger
                     if (command == SC_RESTORE)
                     {
                         UpdateControlPositionsAsync(50);
+                    }
+                    if (command == SC_MINIMIZE)
+                    {
+
                     }
                     break;
             }
@@ -511,6 +516,15 @@ namespace WallChanger
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void btnRemoveFromLibrary_Click(object sender, EventArgs e)
+        {
+            foreach (string image in lstImages.SelectedItems)
+            {
+                GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == image));
+            }
+            UpdateList();
         }
     }
 }

@@ -75,6 +75,7 @@
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.Tooltips = new System.Windows.Forms.ToolTip(this.components);
+            this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
@@ -133,6 +134,7 @@
             // 
             // pnlFilters
             // 
+            this.pnlFilters.Controls.Add(this.btnRemoveFromLibrary);
             this.pnlFilters.Controls.Add(this.btnAddToConfig);
             this.pnlFilters.Controls.Add(this.btnTagFilterClear);
             this.pnlFilters.Controls.Add(this.label9);
@@ -577,6 +579,17 @@
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
+            // btnRemoveFromLibrary
+            // 
+            this.btnRemoveFromLibrary.Image = global::WallChanger.Properties.Resources.minus_button;
+            this.btnRemoveFromLibrary.Location = new System.Drawing.Point(594, 3);
+            this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
+            this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
+            this.btnRemoveFromLibrary.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "Remove selected items from library.");
+            this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
+            this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
+            // 
             // LibraryForm
             // 
             this.AllowDrop = true;
@@ -657,5 +670,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbShowNameFilter;
         private System.Windows.Forms.Button btnAddToConfig;
+        private System.Windows.Forms.Button btnRemoveFromLibrary;
     }
 }
