@@ -50,12 +50,22 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="XnaFan.ImageComparison">
+      <HintPath>..\..\..\Libraries\XnaFan.ImageComparison.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveDesktop.cs" />
+    <Compile Include="DuplicateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DuplicateForm.Designer.cs">
+      <DependentUpon>DuplicateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="Imaging.cs" />
+    <Compile Include="Library.cs" />
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +73,7 @@
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LibraryItem.cs" />
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +96,9 @@
       <DependentUpon>TimingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Wallpaper.cs" />
+    <EmbeddedResource Include="DuplicateForm.resx">
+      <DependentUpon>DuplicateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LibraryForm.resx">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -148,6 +162,13 @@
   <ItemGroup>
     <None Include="Blank.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blue-document-copy.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

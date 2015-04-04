@@ -33,6 +33,10 @@
             this.spcContainer = new System.Windows.Forms.SplitContainer();
             this.pnlImageList = new System.Windows.Forms.Panel();
             this.pnlFilters = new System.Windows.Forms.Panel();
+            this.lblDuplicates = new System.Windows.Forms.Label();
+            this.btnFindAllDuplicates = new System.Windows.Forms.Button();
+            this.btnFindDuplicates = new System.Windows.Forms.Button();
+            this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
             this.btnAddToConfig = new System.Windows.Forms.Button();
             this.btnTagFilterClear = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -75,7 +79,16 @@
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.Tooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
+            this.btnClearLibrary = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.pnlStatusbar = new System.Windows.Forms.Panel();
+            this.pnlMainContainer = new System.Windows.Forms.Panel();
+            this.tslStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslStatistics = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lsvDisplay = new System.Windows.Forms.ListView();
+            this.colFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colHeight = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
@@ -88,16 +101,18 @@
             this.pnlTagButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.pnlStatusbar.SuspendLayout();
+            this.pnlMainContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstImages
             // 
-            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstImages.FormattingEnabled = true;
-            this.lstImages.Location = new System.Drawing.Point(0, 0);
+            this.lstImages.Location = new System.Drawing.Point(268, 99);
             this.lstImages.Name = "lstImages";
             this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstImages.Size = new System.Drawing.Size(651, 376);
+            this.lstImages.Size = new System.Drawing.Size(345, 212);
             this.lstImages.TabIndex = 0;
             this.lstImages.SelectedIndexChanged += new System.EventHandler(this.lstImages_SelectedIndexChanged);
             // 
@@ -125,6 +140,7 @@
             // 
             // pnlImageList
             // 
+            this.pnlImageList.Controls.Add(this.lsvDisplay);
             this.pnlImageList.Controls.Add(this.lstImages);
             this.pnlImageList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlImageList.Location = new System.Drawing.Point(0, 146);
@@ -134,6 +150,10 @@
             // 
             // pnlFilters
             // 
+            this.pnlFilters.Controls.Add(this.btnClearLibrary);
+            this.pnlFilters.Controls.Add(this.lblDuplicates);
+            this.pnlFilters.Controls.Add(this.btnFindAllDuplicates);
+            this.pnlFilters.Controls.Add(this.btnFindDuplicates);
             this.pnlFilters.Controls.Add(this.btnRemoveFromLibrary);
             this.pnlFilters.Controls.Add(this.btnAddToConfig);
             this.pnlFilters.Controls.Add(this.btnTagFilterClear);
@@ -156,6 +176,49 @@
             this.pnlFilters.Name = "pnlFilters";
             this.pnlFilters.Size = new System.Drawing.Size(651, 146);
             this.pnlFilters.TabIndex = 1;
+            // 
+            // lblDuplicates
+            // 
+            this.lblDuplicates.AutoSize = true;
+            this.lblDuplicates.Location = new System.Drawing.Point(380, 9);
+            this.lblDuplicates.Name = "lblDuplicates";
+            this.lblDuplicates.Size = new System.Drawing.Size(118, 13);
+            this.lblDuplicates.TabIndex = 29;
+            this.lblDuplicates.Text = "Scanning for duplicates";
+            this.lblDuplicates.Visible = false;
+            // 
+            // btnFindAllDuplicates
+            // 
+            this.btnFindAllDuplicates.Image = global::WallChanger.Properties.Resources.blue_document_copy;
+            this.btnFindAllDuplicates.Location = new System.Drawing.Point(504, 3);
+            this.btnFindAllDuplicates.Name = "btnFindAllDuplicates";
+            this.btnFindAllDuplicates.Size = new System.Drawing.Size(24, 24);
+            this.btnFindAllDuplicates.TabIndex = 28;
+            this.Tooltips.SetToolTip(this.btnFindAllDuplicates, "Find duplicates.");
+            this.btnFindAllDuplicates.UseVisualStyleBackColor = true;
+            this.btnFindAllDuplicates.Click += new System.EventHandler(this.btnFindAllDuplicates_Click);
+            // 
+            // btnFindDuplicates
+            // 
+            this.btnFindDuplicates.Image = global::WallChanger.Properties.Resources.document_copy;
+            this.btnFindDuplicates.Location = new System.Drawing.Point(534, 3);
+            this.btnFindDuplicates.Name = "btnFindDuplicates";
+            this.btnFindDuplicates.Size = new System.Drawing.Size(24, 24);
+            this.btnFindDuplicates.TabIndex = 27;
+            this.Tooltips.SetToolTip(this.btnFindDuplicates, "Find duplicates in selection.");
+            this.btnFindDuplicates.UseVisualStyleBackColor = true;
+            this.btnFindDuplicates.Click += new System.EventHandler(this.btnFindDuplicates_Click);
+            // 
+            // btnRemoveFromLibrary
+            // 
+            this.btnRemoveFromLibrary.Image = global::WallChanger.Properties.Resources.minus_button;
+            this.btnRemoveFromLibrary.Location = new System.Drawing.Point(594, 3);
+            this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
+            this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
+            this.btnRemoveFromLibrary.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "Remove selected items from library.");
+            this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
+            this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
             // 
             // btnAddToConfig
             // 
@@ -579,25 +642,98 @@
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
-            // btnRemoveFromLibrary
+            // btnClearLibrary
             // 
-            this.btnRemoveFromLibrary.Image = global::WallChanger.Properties.Resources.minus_button;
-            this.btnRemoveFromLibrary.Location = new System.Drawing.Point(594, 3);
-            this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
-            this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
-            this.btnRemoveFromLibrary.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "Remove selected items from library.");
-            this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
-            this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
+            this.btnClearLibrary.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnClearLibrary.Location = new System.Drawing.Point(564, 3);
+            this.btnClearLibrary.Name = "btnClearLibrary";
+            this.btnClearLibrary.Size = new System.Drawing.Size(24, 24);
+            this.btnClearLibrary.TabIndex = 30;
+            this.Tooltips.SetToolTip(this.btnClearLibrary, "Clear library.");
+            this.btnClearLibrary.UseVisualStyleBackColor = true;
+            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslStatus,
+            this.tslStatistics});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(857, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // pnlStatusbar
+            // 
+            this.pnlStatusbar.Controls.Add(this.statusStrip1);
+            this.pnlStatusbar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlStatusbar.Location = new System.Drawing.Point(0, 522);
+            this.pnlStatusbar.Name = "pnlStatusbar";
+            this.pnlStatusbar.Size = new System.Drawing.Size(857, 22);
+            this.pnlStatusbar.TabIndex = 3;
+            // 
+            // pnlMainContainer
+            // 
+            this.pnlMainContainer.Controls.Add(this.spcContainer);
+            this.pnlMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMainContainer.Location = new System.Drawing.Point(0, 0);
+            this.pnlMainContainer.Name = "pnlMainContainer";
+            this.pnlMainContainer.Size = new System.Drawing.Size(857, 522);
+            this.pnlMainContainer.TabIndex = 4;
+            // 
+            // tslStatus
+            // 
+            this.tslStatus.Name = "tslStatus";
+            this.tslStatus.Size = new System.Drawing.Size(39, 17);
+            this.tslStatus.Text = "Ready";
+            // 
+            // tslStatistics
+            // 
+            this.tslStatistics.Name = "tslStatistics";
+            this.tslStatistics.Size = new System.Drawing.Size(118, 17);
+            this.tslStatistics.Text = "toolStripStatusLabel1";
+            // 
+            // lsvDisplay
+            // 
+            this.lsvDisplay.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colFilename,
+            this.colWidth,
+            this.colHeight});
+            this.lsvDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvDisplay.FullRowSelect = true;
+            this.lsvDisplay.HideSelection = false;
+            this.lsvDisplay.Location = new System.Drawing.Point(0, 0);
+            this.lsvDisplay.Name = "lsvDisplay";
+            this.lsvDisplay.Size = new System.Drawing.Size(651, 376);
+            this.lsvDisplay.TabIndex = 1;
+            this.lsvDisplay.UseCompatibleStateImageBehavior = false;
+            this.lsvDisplay.View = System.Windows.Forms.View.Details;
+            this.lsvDisplay.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvDisplay_ColumnClick);
+            this.lsvDisplay.SelectedIndexChanged += new System.EventHandler(this.lsvDisplay_SelectedIndexChanged);
+            // 
+            // colFilename
+            // 
+            this.colFilename.Text = "Filename";
+            this.colFilename.Width = 527;
+            // 
+            // colWidth
+            // 
+            this.colWidth.Text = "Width";
+            // 
+            // colHeight
+            // 
+            this.colHeight.Text = "Height";
             // 
             // LibraryForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 522);
-            this.Controls.Add(this.spcContainer);
-            this.MinimumSize = new System.Drawing.Size(16, 560);
+            this.ClientSize = new System.Drawing.Size(857, 544);
+            this.Controls.Add(this.pnlMainContainer);
+            this.Controls.Add(this.pnlStatusbar);
+            this.MinimumSize = new System.Drawing.Size(16, 582);
             this.Name = "LibraryForm";
             this.Text = "LibraryForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryForm_FormClosed);
@@ -618,6 +754,11 @@
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.pnlStatusbar.ResumeLayout(false);
+            this.pnlStatusbar.PerformLayout();
+            this.pnlMainContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -671,5 +812,18 @@
         private System.Windows.Forms.ComboBox cmbShowNameFilter;
         private System.Windows.Forms.Button btnAddToConfig;
         private System.Windows.Forms.Button btnRemoveFromLibrary;
+        private System.Windows.Forms.Button btnFindAllDuplicates;
+        private System.Windows.Forms.Button btnFindDuplicates;
+        private System.Windows.Forms.Label lblDuplicates;
+        private System.Windows.Forms.Button btnClearLibrary;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tslStatus;
+        private System.Windows.Forms.Panel pnlStatusbar;
+        private System.Windows.Forms.Panel pnlMainContainer;
+        private System.Windows.Forms.ToolStripStatusLabel tslStatistics;
+        private System.Windows.Forms.ListView lsvDisplay;
+        private System.Windows.Forms.ColumnHeader colFilename;
+        private System.Windows.Forms.ColumnHeader colWidth;
+        private System.Windows.Forms.ColumnHeader colHeight;
     }
 }

@@ -24,12 +24,28 @@ namespace WallChanger
             set { libraryItems = value; }
         }
 
+        // Cache for image sizes.
+        private static Dictionary<string, System.Drawing.Size> imageSizeCache;
+        public static Dictionary<string, System.Drawing.Size> ImageSizeCache
+        {
+            get { return imageSizeCache; }
+            set { imageSizeCache = value; }
+        }
+
         // Only allow one instance of the libray at once.
         private static LibraryForm libraryForm;
         public static LibraryForm LibraryForm
         {
             get { return libraryForm; }
             set { libraryForm = value; }
+        }
+
+        // Only allow on instance of the duplicate viewer at once.
+        private static DuplicateForm duplicateForm;
+        public static DuplicateForm DuplicateForm
+        {
+            get { return duplicateForm; }
+            set { duplicateForm = value; }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace WallChanger
         bool AutoStarted;
         string CurrentConfig;
         TimingForm TimingFormChild;
+        int LastIndex = 0;
         
         public MainForm(bool Hide)
         {
@@ -43,36 +44,7 @@ namespace WallChanger
             AutoStarted = Hide;
 
             GlobalVars.ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
-            LoadLibrary();
-        }
-
-        private void LoadLibrary()
-        {
-            GlobalVars.LibraryItems = new List<LibraryItem>();
-
-            if (File.Exists(GlobalVars.ApplicationPath + "\\library.cfg"))
-            {
-                using (StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\library.cfg"))
-                {
-                    GlobalVars.LibraryItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LibraryItem>>(read.ReadLine());
-                }
-            }
-
-            if (GlobalVars.LibraryForm != null)
-            {
-                GlobalVars.LibraryForm.UpdateList();
-            }
-        }
-
-        private void SaveLibrary()
-        {
-            using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\library.cfg", FileMode.Create))
-            {
-                using (StreamWriter write = new StreamWriter(stream))
-                {
-                    write.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
-                }
-            }
+            Library.Load();
         }
 
         private void btnAddImage_Click(object sender, EventArgs e)
@@ -163,7 +135,7 @@ namespace WallChanger
             string[] files = Directory.GetFiles(GlobalVars.ApplicationPath);
             foreach (string file in files)
             {
-                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "config" && Path.GetFileNameWithoutExtension(file) != "library")
+                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "config" && Path.GetFileNameWithoutExtension(file) != "library" && Path.GetFileNameWithoutExtension(file) != "sizecache")
                     ConfigList.Add(Path.GetFileNameWithoutExtension(file));
             }
             FillConfigList();
@@ -218,15 +190,45 @@ namespace WallChanger
             SaveSettings(false);
         }
 
-        private void FillImageList()
+        private void FillImageList(bool PreserveScrolling = false)
         {
-            lstImages.Items.Clear();
-
-            DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000);
-            for (int i = 0; i < FileList.Count; i++)
+            if (lstImages.Items.Count == FileList.Count())
             {
-                showTime = showTime.AddSeconds(Interval / 1000);
-                lstImages.Items.Add(string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]));
+                string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                int parsedTime = ParseTime(outputTime) - Offset;
+                int index = (int)(parsedTime / Interval);
+                int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+
+                DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                for (int i = 0; i < FileList.Count; i++)
+                {
+                    showTime = showTime.AddSeconds(Interval / 1000);
+                    if (i < remainder)
+                        lstImages.Items[i] = string.Format("{0} - {1}", showTime.AddSeconds((Interval * FileList.Count) / 1000).ToString("hh:mm:ss tt"), FileList[i]);
+                    else
+                        lstImages.Items[i] = string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]);
+                }
+            }
+            else
+            {
+                lstImages.Items.Clear();
+
+                string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                int parsedTime = ParseTime(outputTime) - Offset;
+                int index = (int)(parsedTime / Interval);
+                int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+
+                DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                for (int i = 0; i < FileList.Count; i++)
+                {
+                    showTime = showTime.AddSeconds(Interval / 1000);
+                    if (i < remainder)
+                        lstImages.Items.Add(string.Format("{0} - {1}", showTime.AddSeconds((Interval * FileList.Count) / 1000).ToString("hh:mm:ss tt"), FileList[i]));
+                    else
+                        lstImages.Items.Add(string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]));
+                }
             }
         }
 
@@ -275,7 +277,7 @@ namespace WallChanger
             {
                 if (Index < 0)
                     Index = FileList.Count + Index;
-                Wallpaper.Set(new Uri(FileList[(Index) % FileList.Count]), Wallpaper.Style.Fill);
+                Wallpaper.Set(FileList[(Index) % FileList.Count], Wallpaper.Style.Fill);
             }
         }
 
@@ -305,7 +307,7 @@ namespace WallChanger
                     System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
                     TimerWorker.ReportProgress(sleepTime);
                     System.Threading.Thread.Sleep(delayTime);
-                } while (sleepTime == 1000 && loadedConfig == CurrentConfig);
+                } while (delayTime == 1000 && loadedConfig == CurrentConfig);
             }
         }
 
@@ -318,6 +320,15 @@ namespace WallChanger
             DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
             TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
             lblNextChange.Text = string.Format("Next change: {0}", nextChangeTimeSpan.ToString());
+
+            string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+            int parsedTime = ParseTime(outputTime) - Offset;
+            int index = (int)(parsedTime / Interval);
+            if (index != LastIndex)
+            {
+                LastIndex = index;
+                FillImageList();
+            }
         }
 
         private void noiTray_Click(object sender, EventArgs e)
@@ -372,17 +383,46 @@ namespace WallChanger
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string file in files)
+            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string path in paths)
             {
-                using (Stream read = File.Open(file, FileMode.Open))
-                {
-                    if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
-                        continue;
-                    FileList.Add(file);
-                }
+                LoadImages(path);
             }
             FillImageList();
+        }
+
+        private void LoadImages(string FilePath)
+        {
+            if (Directory.Exists(FilePath))
+            {
+                foreach (string directory in Directory.GetDirectories(FilePath))
+                    LoadImages(directory);
+
+                foreach (string file in Directory.GetFiles(FilePath))
+                {
+                    using (Stream read = File.Open(file, FileMode.Open))
+                    {
+                        if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
+                        {
+                            read.Close();
+                            continue;
+                        }
+                        FileList.Add(file);
+                    }
+                }
+            }
+            else
+            {
+                using (Stream read = File.Open(FilePath, FileMode.Open))
+                {
+                    if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
+                    {
+                        read.Close();
+                        return;
+                    }
+                    FileList.Add(FilePath);
+                }
+            }
         }
 
         public void SetTimes(int Offset, int Interval)
@@ -550,7 +590,7 @@ namespace WallChanger
                 GlobalVars.LibraryItems.AddDistinct(new LibraryItem(image));
             }
 
-            SaveLibrary();
+            Library.Save();
             
             if (GlobalVars.LibraryForm != null)
                 GlobalVars.LibraryForm.UpdateList();
@@ -558,7 +598,7 @@ namespace WallChanger
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveLibrary();
+            Library.Save();
         }
 
         protected override void WndProc(ref Message message)

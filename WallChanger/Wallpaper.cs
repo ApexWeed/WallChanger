@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using System.Threading.Tasks;
 
 namespace WallChanger
 {
@@ -59,14 +60,15 @@ namespace WallChanger
             Fill
         }
 
-        public static void Set(Uri uri, Style style)
+        public static  void Set(string url, Style style)
         {
-            System.IO.Stream s = new System.Net.WebClient().OpenRead(uri.ToString());
-
-            System.Drawing.Image img = System.Drawing.Image.FromStream(s);
+            System.Drawing.Image img = new System.Drawing.Bitmap(1, 1);
             string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
-            img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
 
+            img = Imaging.FromFile(url);
+            img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+            img.Dispose();
+            
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (style == Style.Stretched)
             {

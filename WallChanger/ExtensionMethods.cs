@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WallChanger
 {
@@ -53,6 +54,29 @@ namespace WallChanger
         {
             if (!Dict.ContainsKey(Key))
                 Dict.Add(Key, Value);
+        }
+    }
+
+    public static class ListViewItemExtensions
+    {
+        public static ListViewItem FindByTag(this ListView.ListViewItemCollection List, string Tag)
+        {
+            try
+            {
+                foreach (ListViewItem item in List)
+                {
+
+                    if (item.Tag as string == Tag)
+                        return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            throw new KeyNotFoundException(string.Format("The tag \"{0}\" was not found in the ListViewItemCollection", Tag as string));
         }
     }
 }
