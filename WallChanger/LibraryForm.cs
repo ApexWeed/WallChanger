@@ -292,15 +292,31 @@ namespace WallChanger
             else
             {
                 btnFindDuplicates.Enabled = false;
-                Image preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
-                GlobalVars.ImageSizeCache.AddDistinct(lsvDisplay.SelectedItems[0].Tag as string, preview.Size);
+                Image preview = new Bitmap(1, 1);
+                try
+                {
+                    preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
+                    lsvDisplay.SelectedItems[0].SubItems[1].Text = preview.Width.ToString();
+                    lsvDisplay.SelectedItems[0].SubItems[2].Text = preview.Height.ToString();
+                    GlobalVars.ImageSizeCache.AddDistinct(lsvDisplay.SelectedItems[0].Tag as string, preview.Size);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    // Raises the exception outside debugger but continues without issue anyways.
+                }
                 lblImageSize.Text = string.Format("Image Size: {0}x{1}px", preview.Width, preview.Height);
-                lsvDisplay.SelectedItems[0].SubItems[1].Text = preview.Width.ToString();
-                lsvDisplay.SelectedItems[0].SubItems[2].Text = preview.Height.ToString();
                 picPreview.Image = preview;
                 picPreview.Height = Imaging.CalculateImageHeight(preview, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
                 UpdateComboBoxes();
-                LibraryItem item = GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string);
+                LibraryItem item = new LibraryItem();
+                try
+                {
+                    item = GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    // Raises the exception outside debugger but continues without issue anyways.
+                }
 
                 if (!string.IsNullOrWhiteSpace(item.Category))
                     cmbCategory.Text = item.Category;
