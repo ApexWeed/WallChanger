@@ -67,6 +67,20 @@
       <ProjName>WallChanger</ProjName>
     </ProjBinary>
   </Binaries>
+  <Reports>
+    <Report>
+      <Path>WallChanger150424.vsp</Path>
+    </Report>
+    <Report>
+      <Path>WallChanger150424(1).vsp</Path>
+    </Report>
+    <Report>
+      <Path>WallChanger150424(2).vsp</Path>
+    </Report>
+    <Report>
+      <Path>WallChanger150424(3).vsp</Path>
+    </Report>
+  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{ED6B27C5-C79F-4060-9030-18A0A88F339D}|WallChanger\WallChanger.csproj</Path>
