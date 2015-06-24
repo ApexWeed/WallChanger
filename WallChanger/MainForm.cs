@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Microsoft.Win32;
@@ -281,7 +278,7 @@ namespace WallChanger
             }
         }
 
-        private void TimerWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void TimerWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string loadedConfig;
             string outputTime;
@@ -311,7 +308,7 @@ namespace WallChanger
             }
         }
 
-        private void TimerWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private void TimerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //SetWallpaper(e.ProgressPercentage);
             //noiTray.BalloonTipText = string.Format("Next wallpaper change at: {0}", new DateTime().AddSeconds((Interval * (e.ProgressPercentage + 2)) / 1000).AddSeconds(Offset).ToString("hh:mm:ss tt"));

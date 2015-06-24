@@ -50,21 +50,29 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="XnaFan.ImageComparison">
-      <HintPath>..\..\..\Libraries\XnaFan.ImageComparison.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveDesktop.cs" />
+    <Compile Include="AutoResolveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoResolveForm.Designer.cs">
+      <DependentUpon>AutoResolveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Duplicate.cs" />
     <Compile Include="DuplicateForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DuplicateForm.Designer.cs">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DuplicateList.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="Imaging.cs" />
+    <Compile Include="InfoProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Library.cs" />
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
@@ -96,6 +104,14 @@
       <DependentUpon>TimingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Wallpaper.cs" />
+    <Compile Include="XnaFan\ArrayComparer.cs" />
+    <Compile Include="XnaFan\ExtensionMethods.cs" />
+    <Compile Include="XnaFan\Histogram.cs" />
+    <Compile Include="XnaFan\ImageTool.cs" />
+    <Compile Include="XnaFan\PathGrayscaleTupleComparer.cs" />
+    <EmbeddedResource Include="AutoResolveForm.resx">
+      <DependentUpon>AutoResolveForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DuplicateForm.resx">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,7 +184,12 @@
   <ItemGroup>
     <None Include="Resources\blue-document-copy.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\picture-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\drive.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

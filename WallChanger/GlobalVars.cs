@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WallChanger
 {
@@ -32,7 +28,15 @@ namespace WallChanger
             set { imageSizeCache = value; }
         }
 
-        // Only allow one instance of the libray at once.
+        // Cache for 16x16 greyscale downscaled images.
+        private static Dictionary<string, byte[,]> imageCache;
+        public static Dictionary<string, byte[,]> ImageCache
+        {
+            get { return imageCache; }
+            set { imageCache = value; }
+        }
+
+        // Only allow one instance of the library at once.
         private static LibraryForm libraryForm;
         public static LibraryForm LibraryForm
         {

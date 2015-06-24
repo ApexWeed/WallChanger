@@ -29,29 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lstImages = new System.Windows.Forms.ListBox();
             this.spcContainer = new System.Windows.Forms.SplitContainer();
             this.pnlImageList = new System.Windows.Forms.Panel();
+            this.lsvDisplay = new System.Windows.Forms.ListView();
+            this.colFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colHeight = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlFilters = new System.Windows.Forms.Panel();
-            this.lblDuplicates = new System.Windows.Forms.Label();
-            this.btnFindAllDuplicates = new System.Windows.Forms.Button();
-            this.btnFindDuplicates = new System.Windows.Forms.Button();
-            this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
-            this.btnAddToConfig = new System.Windows.Forms.Button();
-            this.btnTagFilterClear = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbTagFilter = new System.Windows.Forms.ComboBox();
-            this.btnCharacterFilterClear = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbCharacterFilter = new System.Windows.Forms.ComboBox();
-            this.btnShowNameFilterClear = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.cmbShowNameFilter = new System.Windows.Forms.ComboBox();
-            this.btnCategoryFilterClear = new System.Windows.Forms.Button();
-            this.btnClearFilters = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbCategoryFilter = new System.Windows.Forms.ComboBox();
-            this.btnExpand = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
             this.pnlTagContainer = new System.Windows.Forms.Panel();
@@ -59,36 +51,45 @@
             this.lstTags = new System.Windows.Forms.ListBox();
             this.pnlTagButtons = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnAddNewTag = new System.Windows.Forms.Button();
-            this.btnRemoveTag = new System.Windows.Forms.Button();
-            this.btnClearTags = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.lblImageSize = new System.Windows.Forms.Label();
-            this.btnAddNewCharacter = new System.Windows.Forms.Button();
             this.lstCharacters = new System.Windows.Forms.ListBox();
-            this.btnClearCharacters = new System.Windows.Forms.Button();
-            this.btnRemoveCharacter = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnClearShowName = new System.Windows.Forms.Button();
-            this.btnClearCategory = new System.Windows.Forms.Button();
-            this.btnAddShowName = new System.Windows.Forms.Button();
             this.cmbShowName = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAddCategory = new System.Windows.Forms.Button();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
-            this.picPreview = new System.Windows.Forms.PictureBox();
             this.Tooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.pnlStatusbar = new System.Windows.Forms.Panel();
-            this.pnlMainContainer = new System.Windows.Forms.Panel();
             this.tslStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tslStatistics = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lsvDisplay = new System.Windows.Forms.ListView();
-            this.colFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colWidth = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colHeight = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tspProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.pnlStatusbar = new System.Windows.Forms.Panel();
+            this.pnlMainContainer = new System.Windows.Forms.Panel();
+            this.btnCheckFiles = new System.Windows.Forms.Button();
+            this.btnCacheDuplicateThumbnails = new System.Windows.Forms.Button();
+            this.btnClearLibrary = new System.Windows.Forms.Button();
+            this.btnFindAllDuplicates = new System.Windows.Forms.Button();
+            this.btnFindDuplicates = new System.Windows.Forms.Button();
+            this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
+            this.btnAddToConfig = new System.Windows.Forms.Button();
+            this.btnTagFilterClear = new System.Windows.Forms.Button();
+            this.btnCharacterFilterClear = new System.Windows.Forms.Button();
+            this.btnShowNameFilterClear = new System.Windows.Forms.Button();
+            this.btnCategoryFilterClear = new System.Windows.Forms.Button();
+            this.btnClearFilters = new System.Windows.Forms.Button();
+            this.btnExpand = new System.Windows.Forms.Button();
+            this.btnAddNewTag = new System.Windows.Forms.Button();
+            this.btnRemoveTag = new System.Windows.Forms.Button();
+            this.btnClearTags = new System.Windows.Forms.Button();
+            this.btnAddNewCharacter = new System.Windows.Forms.Button();
+            this.btnClearCharacters = new System.Windows.Forms.Button();
+            this.btnRemoveCharacter = new System.Windows.Forms.Button();
+            this.btnClearShowName = new System.Windows.Forms.Button();
+            this.btnClearCategory = new System.Windows.Forms.Button();
+            this.btnAddShowName = new System.Windows.Forms.Button();
+            this.btnAddCategory = new System.Windows.Forms.Button();
+            this.picPreview = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
@@ -100,21 +101,11 @@
             this.pnlTagList.SuspendLayout();
             this.pnlTagButtons.SuspendLayout();
             this.pnlDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.pnlStatusbar.SuspendLayout();
             this.pnlMainContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lstImages
-            // 
-            this.lstImages.FormattingEnabled = true;
-            this.lstImages.Location = new System.Drawing.Point(268, 99);
-            this.lstImages.Name = "lstImages";
-            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstImages.Size = new System.Drawing.Size(345, 212);
-            this.lstImages.TabIndex = 0;
-            this.lstImages.SelectedIndexChanged += new System.EventHandler(this.lstImages_SelectedIndexChanged);
             // 
             // spcContainer
             // 
@@ -141,17 +132,48 @@
             // pnlImageList
             // 
             this.pnlImageList.Controls.Add(this.lsvDisplay);
-            this.pnlImageList.Controls.Add(this.lstImages);
             this.pnlImageList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlImageList.Location = new System.Drawing.Point(0, 146);
             this.pnlImageList.Name = "pnlImageList";
             this.pnlImageList.Size = new System.Drawing.Size(651, 376);
             this.pnlImageList.TabIndex = 2;
             // 
+            // lsvDisplay
+            // 
+            this.lsvDisplay.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colFilename,
+            this.colWidth,
+            this.colHeight});
+            this.lsvDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvDisplay.FullRowSelect = true;
+            this.lsvDisplay.HideSelection = false;
+            this.lsvDisplay.Location = new System.Drawing.Point(0, 0);
+            this.lsvDisplay.Name = "lsvDisplay";
+            this.lsvDisplay.Size = new System.Drawing.Size(651, 376);
+            this.lsvDisplay.TabIndex = 1;
+            this.lsvDisplay.UseCompatibleStateImageBehavior = false;
+            this.lsvDisplay.View = System.Windows.Forms.View.Details;
+            this.lsvDisplay.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvDisplay_ColumnClick);
+            this.lsvDisplay.SelectedIndexChanged += new System.EventHandler(this.lsvDisplay_SelectedIndexChanged);
+            // 
+            // colFilename
+            // 
+            this.colFilename.Text = "Filename";
+            this.colFilename.Width = 527;
+            // 
+            // colWidth
+            // 
+            this.colWidth.Text = "Width";
+            // 
+            // colHeight
+            // 
+            this.colHeight.Text = "Height";
+            // 
             // pnlFilters
             // 
+            this.pnlFilters.Controls.Add(this.btnCheckFiles);
+            this.pnlFilters.Controls.Add(this.btnCacheDuplicateThumbnails);
             this.pnlFilters.Controls.Add(this.btnClearLibrary);
-            this.pnlFilters.Controls.Add(this.lblDuplicates);
             this.pnlFilters.Controls.Add(this.btnFindAllDuplicates);
             this.pnlFilters.Controls.Add(this.btnFindDuplicates);
             this.pnlFilters.Controls.Add(this.btnRemoveFromLibrary);
@@ -177,71 +199,6 @@
             this.pnlFilters.Size = new System.Drawing.Size(651, 146);
             this.pnlFilters.TabIndex = 1;
             // 
-            // lblDuplicates
-            // 
-            this.lblDuplicates.AutoSize = true;
-            this.lblDuplicates.Location = new System.Drawing.Point(380, 9);
-            this.lblDuplicates.Name = "lblDuplicates";
-            this.lblDuplicates.Size = new System.Drawing.Size(118, 13);
-            this.lblDuplicates.TabIndex = 29;
-            this.lblDuplicates.Text = "Scanning for duplicates";
-            this.lblDuplicates.Visible = false;
-            // 
-            // btnFindAllDuplicates
-            // 
-            this.btnFindAllDuplicates.Image = global::WallChanger.Properties.Resources.blue_document_copy;
-            this.btnFindAllDuplicates.Location = new System.Drawing.Point(504, 3);
-            this.btnFindAllDuplicates.Name = "btnFindAllDuplicates";
-            this.btnFindAllDuplicates.Size = new System.Drawing.Size(24, 24);
-            this.btnFindAllDuplicates.TabIndex = 28;
-            this.Tooltips.SetToolTip(this.btnFindAllDuplicates, "Find duplicates.");
-            this.btnFindAllDuplicates.UseVisualStyleBackColor = true;
-            this.btnFindAllDuplicates.Click += new System.EventHandler(this.btnFindAllDuplicates_Click);
-            // 
-            // btnFindDuplicates
-            // 
-            this.btnFindDuplicates.Image = global::WallChanger.Properties.Resources.document_copy;
-            this.btnFindDuplicates.Location = new System.Drawing.Point(534, 3);
-            this.btnFindDuplicates.Name = "btnFindDuplicates";
-            this.btnFindDuplicates.Size = new System.Drawing.Size(24, 24);
-            this.btnFindDuplicates.TabIndex = 27;
-            this.Tooltips.SetToolTip(this.btnFindDuplicates, "Find duplicates in selection.");
-            this.btnFindDuplicates.UseVisualStyleBackColor = true;
-            this.btnFindDuplicates.Click += new System.EventHandler(this.btnFindDuplicates_Click);
-            // 
-            // btnRemoveFromLibrary
-            // 
-            this.btnRemoveFromLibrary.Image = global::WallChanger.Properties.Resources.minus_button;
-            this.btnRemoveFromLibrary.Location = new System.Drawing.Point(594, 3);
-            this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
-            this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
-            this.btnRemoveFromLibrary.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "Remove selected items from library.");
-            this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
-            this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
-            // 
-            // btnAddToConfig
-            // 
-            this.btnAddToConfig.Image = global::WallChanger.Properties.Resources.address_book__arrow;
-            this.btnAddToConfig.Location = new System.Drawing.Point(624, 3);
-            this.btnAddToConfig.Name = "btnAddToConfig";
-            this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
-            this.btnAddToConfig.TabIndex = 9;
-            this.Tooltips.SetToolTip(this.btnAddToConfig, "Add files to current config.");
-            this.btnAddToConfig.UseVisualStyleBackColor = true;
-            this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
-            // 
-            // btnTagFilterClear
-            // 
-            this.btnTagFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnTagFilterClear.Location = new System.Drawing.Point(363, 88);
-            this.btnTagFilterClear.Name = "btnTagFilterClear";
-            this.btnTagFilterClear.Size = new System.Drawing.Size(24, 24);
-            this.btnTagFilterClear.TabIndex = 26;
-            this.Tooltips.SetToolTip(this.btnTagFilterClear, "Clear category.");
-            this.btnTagFilterClear.UseVisualStyleBackColor = true;
-            this.btnTagFilterClear.Click += new System.EventHandler(this.btnTagFilterClear_Click);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -259,17 +216,6 @@
             this.cmbTagFilter.Size = new System.Drawing.Size(186, 21);
             this.cmbTagFilter.TabIndex = 24;
             this.cmbTagFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
-            // 
-            // btnCharacterFilterClear
-            // 
-            this.btnCharacterFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnCharacterFilterClear.Location = new System.Drawing.Point(168, 88);
-            this.btnCharacterFilterClear.Name = "btnCharacterFilterClear";
-            this.btnCharacterFilterClear.Size = new System.Drawing.Size(24, 24);
-            this.btnCharacterFilterClear.TabIndex = 23;
-            this.Tooltips.SetToolTip(this.btnCharacterFilterClear, "Clear category.");
-            this.btnCharacterFilterClear.UseVisualStyleBackColor = true;
-            this.btnCharacterFilterClear.Click += new System.EventHandler(this.btnCharacterFilterClear_Click);
             // 
             // label8
             // 
@@ -289,17 +235,6 @@
             this.cmbCharacterFilter.TabIndex = 21;
             this.cmbCharacterFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
-            // btnShowNameFilterClear
-            // 
-            this.btnShowNameFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnShowNameFilterClear.Location = new System.Drawing.Point(363, 31);
-            this.btnShowNameFilterClear.Name = "btnShowNameFilterClear";
-            this.btnShowNameFilterClear.Size = new System.Drawing.Size(24, 24);
-            this.btnShowNameFilterClear.TabIndex = 20;
-            this.Tooltips.SetToolTip(this.btnShowNameFilterClear, "Clear category.");
-            this.btnShowNameFilterClear.UseVisualStyleBackColor = true;
-            this.btnShowNameFilterClear.Click += new System.EventHandler(this.btnShowNameFilterClear_Click);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -318,28 +253,6 @@
             this.cmbShowNameFilter.TabIndex = 18;
             this.cmbShowNameFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
-            // btnCategoryFilterClear
-            // 
-            this.btnCategoryFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnCategoryFilterClear.Location = new System.Drawing.Point(168, 31);
-            this.btnCategoryFilterClear.Name = "btnCategoryFilterClear";
-            this.btnCategoryFilterClear.Size = new System.Drawing.Size(24, 24);
-            this.btnCategoryFilterClear.TabIndex = 17;
-            this.Tooltips.SetToolTip(this.btnCategoryFilterClear, "Clear category.");
-            this.btnCategoryFilterClear.UseVisualStyleBackColor = true;
-            this.btnCategoryFilterClear.Click += new System.EventHandler(this.btnCategoryFilterClear_Click);
-            // 
-            // btnClearFilters
-            // 
-            this.btnClearFilters.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearFilters.Location = new System.Drawing.Point(73, 3);
-            this.btnClearFilters.Name = "btnClearFilters";
-            this.btnClearFilters.Size = new System.Drawing.Size(24, 24);
-            this.btnClearFilters.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnClearFilters, "Clear filters.");
-            this.btnClearFilters.UseVisualStyleBackColor = true;
-            this.btnClearFilters.Click += new System.EventHandler(this.btnClearFilters_Click);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -357,17 +270,6 @@
             this.cmbCategoryFilter.Size = new System.Drawing.Size(186, 21);
             this.cmbCategoryFilter.TabIndex = 15;
             this.cmbCategoryFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
-            // 
-            // btnExpand
-            // 
-            this.btnExpand.Image = global::WallChanger.Properties.Resources.toggle_expand;
-            this.btnExpand.Location = new System.Drawing.Point(43, 3);
-            this.btnExpand.Name = "btnExpand";
-            this.btnExpand.Size = new System.Drawing.Size(24, 24);
-            this.btnExpand.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnExpand, "Expand filters.");
-            this.btnExpand.UseVisualStyleBackColor = true;
-            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // label5
             // 
@@ -438,6 +340,280 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "Tags";
             // 
+            // pnlDetails
+            // 
+            this.pnlDetails.Controls.Add(this.lblImageSize);
+            this.pnlDetails.Controls.Add(this.btnAddNewCharacter);
+            this.pnlDetails.Controls.Add(this.lstCharacters);
+            this.pnlDetails.Controls.Add(this.btnClearCharacters);
+            this.pnlDetails.Controls.Add(this.btnRemoveCharacter);
+            this.pnlDetails.Controls.Add(this.label3);
+            this.pnlDetails.Controls.Add(this.btnClearShowName);
+            this.pnlDetails.Controls.Add(this.btnClearCategory);
+            this.pnlDetails.Controls.Add(this.btnAddShowName);
+            this.pnlDetails.Controls.Add(this.cmbShowName);
+            this.pnlDetails.Controls.Add(this.label2);
+            this.pnlDetails.Controls.Add(this.label1);
+            this.pnlDetails.Controls.Add(this.btnAddCategory);
+            this.pnlDetails.Controls.Add(this.cmbCategory);
+            this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlDetails.Location = new System.Drawing.Point(0, 0);
+            this.pnlDetails.Name = "pnlDetails";
+            this.pnlDetails.Size = new System.Drawing.Size(202, 225);
+            this.pnlDetails.TabIndex = 5;
+            // 
+            // lblImageSize
+            // 
+            this.lblImageSize.AutoSize = true;
+            this.lblImageSize.Location = new System.Drawing.Point(4, 3);
+            this.lblImageSize.Name = "lblImageSize";
+            this.lblImageSize.Size = new System.Drawing.Size(93, 13);
+            this.lblImageSize.TabIndex = 14;
+            this.lblImageSize.Text = "Image Size: 0x0px";
+            // 
+            // lstCharacters
+            // 
+            this.lstCharacters.FormattingEnabled = true;
+            this.lstCharacters.Location = new System.Drawing.Point(7, 163);
+            this.lstCharacters.Name = "lstCharacters";
+            this.lstCharacters.Size = new System.Drawing.Size(186, 56);
+            this.lstCharacters.TabIndex = 12;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 139);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Characters";
+            // 
+            // cmbShowName
+            // 
+            this.cmbShowName.FormattingEnabled = true;
+            this.cmbShowName.Location = new System.Drawing.Point(7, 106);
+            this.cmbShowName.Name = "cmbShowName";
+            this.cmbShowName.Size = new System.Drawing.Size(186, 21);
+            this.cmbShowName.TabIndex = 5;
+            this.cmbShowName.SelectedValueChanged += new System.EventHandler(this.cmbShowName_SelectedValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 82);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Show Name";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Category";
+            // 
+            // cmbCategory
+            // 
+            this.cmbCategory.FormattingEnabled = true;
+            this.cmbCategory.Location = new System.Drawing.Point(7, 49);
+            this.cmbCategory.Name = "cmbCategory";
+            this.cmbCategory.Size = new System.Drawing.Size(186, 21);
+            this.cmbCategory.TabIndex = 1;
+            this.cmbCategory.SelectedValueChanged += new System.EventHandler(this.cmbCategory_SelectedValueChanged);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslStatus,
+            this.tslStatistics,
+            this.tspProgressBar});
+            this.statusStrip1.Location = new System.Drawing.Point(0, -1);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(857, 23);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tslStatus
+            // 
+            this.tslStatus.Name = "tslStatus";
+            this.tslStatus.Size = new System.Drawing.Size(44, 18);
+            this.tslStatus.Text = "Ready";
+            // 
+            // tslStatistics
+            // 
+            this.tslStatistics.Name = "tslStatistics";
+            this.tslStatistics.Size = new System.Drawing.Size(134, 18);
+            this.tslStatistics.Text = "toolStripStatusLabel1";
+            // 
+            // tspProgressBar
+            // 
+            this.tspProgressBar.Name = "tspProgressBar";
+            this.tspProgressBar.Size = new System.Drawing.Size(100, 17);
+            // 
+            // pnlStatusbar
+            // 
+            this.pnlStatusbar.Controls.Add(this.statusStrip1);
+            this.pnlStatusbar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlStatusbar.Location = new System.Drawing.Point(0, 522);
+            this.pnlStatusbar.Name = "pnlStatusbar";
+            this.pnlStatusbar.Size = new System.Drawing.Size(857, 22);
+            this.pnlStatusbar.TabIndex = 3;
+            // 
+            // pnlMainContainer
+            // 
+            this.pnlMainContainer.Controls.Add(this.spcContainer);
+            this.pnlMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMainContainer.Location = new System.Drawing.Point(0, 0);
+            this.pnlMainContainer.Name = "pnlMainContainer";
+            this.pnlMainContainer.Size = new System.Drawing.Size(857, 522);
+            this.pnlMainContainer.TabIndex = 4;
+            // 
+            // btnCheckFiles
+            // 
+            this.btnCheckFiles.Image = global::WallChanger.Properties.Resources.drive;
+            this.btnCheckFiles.Location = new System.Drawing.Point(444, 3);
+            this.btnCheckFiles.Name = "btnCheckFiles";
+            this.btnCheckFiles.Size = new System.Drawing.Size(24, 24);
+            this.btnCheckFiles.TabIndex = 32;
+            this.Tooltips.SetToolTip(this.btnCheckFiles, "Check files exist on hard drive.");
+            this.btnCheckFiles.UseVisualStyleBackColor = true;
+            this.btnCheckFiles.Click += new System.EventHandler(this.btnCheckFiles_Click);
+            // 
+            // btnCacheDuplicateThumbnails
+            // 
+            this.btnCacheDuplicateThumbnails.Image = global::WallChanger.Properties.Resources.picture_small;
+            this.btnCacheDuplicateThumbnails.Location = new System.Drawing.Point(474, 3);
+            this.btnCacheDuplicateThumbnails.Name = "btnCacheDuplicateThumbnails";
+            this.btnCacheDuplicateThumbnails.Size = new System.Drawing.Size(24, 24);
+            this.btnCacheDuplicateThumbnails.TabIndex = 31;
+            this.Tooltips.SetToolTip(this.btnCacheDuplicateThumbnails, "Cache greyscale thumbnails. (For duplicate scans)");
+            this.btnCacheDuplicateThumbnails.UseVisualStyleBackColor = true;
+            this.btnCacheDuplicateThumbnails.Click += new System.EventHandler(this.btnCacheDuplicateThumbnails_Click);
+            // 
+            // btnClearLibrary
+            // 
+            this.btnClearLibrary.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnClearLibrary.Location = new System.Drawing.Point(564, 3);
+            this.btnClearLibrary.Name = "btnClearLibrary";
+            this.btnClearLibrary.Size = new System.Drawing.Size(24, 24);
+            this.btnClearLibrary.TabIndex = 30;
+            this.Tooltips.SetToolTip(this.btnClearLibrary, "Clear library.");
+            this.btnClearLibrary.UseVisualStyleBackColor = true;
+            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
+            // 
+            // btnFindAllDuplicates
+            // 
+            this.btnFindAllDuplicates.Image = global::WallChanger.Properties.Resources.blue_document_copy;
+            this.btnFindAllDuplicates.Location = new System.Drawing.Point(504, 3);
+            this.btnFindAllDuplicates.Name = "btnFindAllDuplicates";
+            this.btnFindAllDuplicates.Size = new System.Drawing.Size(24, 24);
+            this.btnFindAllDuplicates.TabIndex = 28;
+            this.Tooltips.SetToolTip(this.btnFindAllDuplicates, "Find duplicates.");
+            this.btnFindAllDuplicates.UseVisualStyleBackColor = true;
+            this.btnFindAllDuplicates.Click += new System.EventHandler(this.btnFindAllDuplicates_Click);
+            // 
+            // btnFindDuplicates
+            // 
+            this.btnFindDuplicates.Image = global::WallChanger.Properties.Resources.document_copy;
+            this.btnFindDuplicates.Location = new System.Drawing.Point(534, 3);
+            this.btnFindDuplicates.Name = "btnFindDuplicates";
+            this.btnFindDuplicates.Size = new System.Drawing.Size(24, 24);
+            this.btnFindDuplicates.TabIndex = 27;
+            this.Tooltips.SetToolTip(this.btnFindDuplicates, "Find duplicates in selection.");
+            this.btnFindDuplicates.UseVisualStyleBackColor = true;
+            this.btnFindDuplicates.Click += new System.EventHandler(this.btnFindDuplicates_Click);
+            // 
+            // btnRemoveFromLibrary
+            // 
+            this.btnRemoveFromLibrary.Image = global::WallChanger.Properties.Resources.minus_button;
+            this.btnRemoveFromLibrary.Location = new System.Drawing.Point(594, 3);
+            this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
+            this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
+            this.btnRemoveFromLibrary.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "Remove selected items from library.");
+            this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
+            this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
+            // 
+            // btnAddToConfig
+            // 
+            this.btnAddToConfig.Image = global::WallChanger.Properties.Resources.address_book__arrow;
+            this.btnAddToConfig.Location = new System.Drawing.Point(624, 3);
+            this.btnAddToConfig.Name = "btnAddToConfig";
+            this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
+            this.btnAddToConfig.TabIndex = 9;
+            this.Tooltips.SetToolTip(this.btnAddToConfig, "Add files to current config.");
+            this.btnAddToConfig.UseVisualStyleBackColor = true;
+            this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
+            // 
+            // btnTagFilterClear
+            // 
+            this.btnTagFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnTagFilterClear.Location = new System.Drawing.Point(363, 88);
+            this.btnTagFilterClear.Name = "btnTagFilterClear";
+            this.btnTagFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnTagFilterClear.TabIndex = 26;
+            this.Tooltips.SetToolTip(this.btnTagFilterClear, "Clear category.");
+            this.btnTagFilterClear.UseVisualStyleBackColor = true;
+            this.btnTagFilterClear.Click += new System.EventHandler(this.btnTagFilterClear_Click);
+            // 
+            // btnCharacterFilterClear
+            // 
+            this.btnCharacterFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnCharacterFilterClear.Location = new System.Drawing.Point(168, 88);
+            this.btnCharacterFilterClear.Name = "btnCharacterFilterClear";
+            this.btnCharacterFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnCharacterFilterClear.TabIndex = 23;
+            this.Tooltips.SetToolTip(this.btnCharacterFilterClear, "Clear category.");
+            this.btnCharacterFilterClear.UseVisualStyleBackColor = true;
+            this.btnCharacterFilterClear.Click += new System.EventHandler(this.btnCharacterFilterClear_Click);
+            // 
+            // btnShowNameFilterClear
+            // 
+            this.btnShowNameFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnShowNameFilterClear.Location = new System.Drawing.Point(363, 31);
+            this.btnShowNameFilterClear.Name = "btnShowNameFilterClear";
+            this.btnShowNameFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnShowNameFilterClear.TabIndex = 20;
+            this.Tooltips.SetToolTip(this.btnShowNameFilterClear, "Clear category.");
+            this.btnShowNameFilterClear.UseVisualStyleBackColor = true;
+            this.btnShowNameFilterClear.Click += new System.EventHandler(this.btnShowNameFilterClear_Click);
+            // 
+            // btnCategoryFilterClear
+            // 
+            this.btnCategoryFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnCategoryFilterClear.Location = new System.Drawing.Point(168, 31);
+            this.btnCategoryFilterClear.Name = "btnCategoryFilterClear";
+            this.btnCategoryFilterClear.Size = new System.Drawing.Size(24, 24);
+            this.btnCategoryFilterClear.TabIndex = 17;
+            this.Tooltips.SetToolTip(this.btnCategoryFilterClear, "Clear category.");
+            this.btnCategoryFilterClear.UseVisualStyleBackColor = true;
+            this.btnCategoryFilterClear.Click += new System.EventHandler(this.btnCategoryFilterClear_Click);
+            // 
+            // btnClearFilters
+            // 
+            this.btnClearFilters.Image = global::WallChanger.Properties.Resources.cross_button;
+            this.btnClearFilters.Location = new System.Drawing.Point(73, 3);
+            this.btnClearFilters.Name = "btnClearFilters";
+            this.btnClearFilters.Size = new System.Drawing.Size(24, 24);
+            this.btnClearFilters.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnClearFilters, "Clear filters.");
+            this.btnClearFilters.UseVisualStyleBackColor = true;
+            this.btnClearFilters.Click += new System.EventHandler(this.btnClearFilters_Click);
+            // 
+            // btnExpand
+            // 
+            this.btnExpand.Image = global::WallChanger.Properties.Resources.toggle_expand;
+            this.btnExpand.Location = new System.Drawing.Point(43, 3);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(24, 24);
+            this.btnExpand.TabIndex = 15;
+            this.Tooltips.SetToolTip(this.btnExpand, "Expand filters.");
+            this.btnExpand.UseVisualStyleBackColor = true;
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
+            // 
             // btnAddNewTag
             // 
             this.btnAddNewTag.Image = global::WallChanger.Properties.Resources.plus_button;
@@ -471,37 +647,6 @@
             this.btnClearTags.UseVisualStyleBackColor = true;
             this.btnClearTags.Click += new System.EventHandler(this.btnClearTags_Click);
             // 
-            // pnlDetails
-            // 
-            this.pnlDetails.Controls.Add(this.lblImageSize);
-            this.pnlDetails.Controls.Add(this.btnAddNewCharacter);
-            this.pnlDetails.Controls.Add(this.lstCharacters);
-            this.pnlDetails.Controls.Add(this.btnClearCharacters);
-            this.pnlDetails.Controls.Add(this.btnRemoveCharacter);
-            this.pnlDetails.Controls.Add(this.label3);
-            this.pnlDetails.Controls.Add(this.btnClearShowName);
-            this.pnlDetails.Controls.Add(this.btnClearCategory);
-            this.pnlDetails.Controls.Add(this.btnAddShowName);
-            this.pnlDetails.Controls.Add(this.cmbShowName);
-            this.pnlDetails.Controls.Add(this.label2);
-            this.pnlDetails.Controls.Add(this.label1);
-            this.pnlDetails.Controls.Add(this.btnAddCategory);
-            this.pnlDetails.Controls.Add(this.cmbCategory);
-            this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlDetails.Location = new System.Drawing.Point(0, 0);
-            this.pnlDetails.Name = "pnlDetails";
-            this.pnlDetails.Size = new System.Drawing.Size(202, 225);
-            this.pnlDetails.TabIndex = 5;
-            // 
-            // lblImageSize
-            // 
-            this.lblImageSize.AutoSize = true;
-            this.lblImageSize.Location = new System.Drawing.Point(4, 3);
-            this.lblImageSize.Name = "lblImageSize";
-            this.lblImageSize.Size = new System.Drawing.Size(93, 13);
-            this.lblImageSize.TabIndex = 14;
-            this.lblImageSize.Text = "Image Size: 0x0px";
-            // 
             // btnAddNewCharacter
             // 
             this.btnAddNewCharacter.Image = global::WallChanger.Properties.Resources.plus_button;
@@ -512,14 +657,6 @@
             this.Tooltips.SetToolTip(this.btnAddNewCharacter, "Add new character.");
             this.btnAddNewCharacter.UseVisualStyleBackColor = true;
             this.btnAddNewCharacter.Click += new System.EventHandler(this.btnAddNewCharacter_Click);
-            // 
-            // lstCharacters
-            // 
-            this.lstCharacters.FormattingEnabled = true;
-            this.lstCharacters.Location = new System.Drawing.Point(7, 163);
-            this.lstCharacters.Name = "lstCharacters";
-            this.lstCharacters.Size = new System.Drawing.Size(186, 56);
-            this.lstCharacters.TabIndex = 12;
             // 
             // btnClearCharacters
             // 
@@ -542,15 +679,6 @@
             this.Tooltips.SetToolTip(this.btnRemoveCharacter, "Remove character.");
             this.btnRemoveCharacter.UseVisualStyleBackColor = true;
             this.btnRemoveCharacter.Click += new System.EventHandler(this.btnRemoveCharacter_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 139);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Characters";
             // 
             // btnClearShowName
             // 
@@ -585,33 +713,6 @@
             this.btnAddShowName.UseVisualStyleBackColor = true;
             this.btnAddShowName.Click += new System.EventHandler(this.btnAddShowName_Click);
             // 
-            // cmbShowName
-            // 
-            this.cmbShowName.FormattingEnabled = true;
-            this.cmbShowName.Location = new System.Drawing.Point(7, 106);
-            this.cmbShowName.Name = "cmbShowName";
-            this.cmbShowName.Size = new System.Drawing.Size(186, 21);
-            this.cmbShowName.TabIndex = 5;
-            this.cmbShowName.SelectedValueChanged += new System.EventHandler(this.cmbShowName_SelectedValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 82);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Show Name";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Category";
-            // 
             // btnAddCategory
             // 
             this.btnAddCategory.Image = global::WallChanger.Properties.Resources.plus_button;
@@ -623,15 +724,6 @@
             this.btnAddCategory.UseVisualStyleBackColor = true;
             this.btnAddCategory.Click += new System.EventHandler(this.btnAddCategory_Click);
             // 
-            // cmbCategory
-            // 
-            this.cmbCategory.FormattingEnabled = true;
-            this.cmbCategory.Location = new System.Drawing.Point(7, 49);
-            this.cmbCategory.Name = "cmbCategory";
-            this.cmbCategory.Size = new System.Drawing.Size(186, 21);
-            this.cmbCategory.TabIndex = 1;
-            this.cmbCategory.SelectedValueChanged += new System.EventHandler(this.cmbCategory_SelectedValueChanged);
-            // 
             // picPreview
             // 
             this.picPreview.Dock = System.Windows.Forms.DockStyle.Top;
@@ -641,89 +733,6 @@
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
-            // 
-            // btnClearLibrary
-            // 
-            this.btnClearLibrary.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearLibrary.Location = new System.Drawing.Point(564, 3);
-            this.btnClearLibrary.Name = "btnClearLibrary";
-            this.btnClearLibrary.Size = new System.Drawing.Size(24, 24);
-            this.btnClearLibrary.TabIndex = 30;
-            this.Tooltips.SetToolTip(this.btnClearLibrary, "Clear library.");
-            this.btnClearLibrary.UseVisualStyleBackColor = true;
-            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tslStatus,
-            this.tslStatistics});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(857, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // pnlStatusbar
-            // 
-            this.pnlStatusbar.Controls.Add(this.statusStrip1);
-            this.pnlStatusbar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlStatusbar.Location = new System.Drawing.Point(0, 522);
-            this.pnlStatusbar.Name = "pnlStatusbar";
-            this.pnlStatusbar.Size = new System.Drawing.Size(857, 22);
-            this.pnlStatusbar.TabIndex = 3;
-            // 
-            // pnlMainContainer
-            // 
-            this.pnlMainContainer.Controls.Add(this.spcContainer);
-            this.pnlMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMainContainer.Location = new System.Drawing.Point(0, 0);
-            this.pnlMainContainer.Name = "pnlMainContainer";
-            this.pnlMainContainer.Size = new System.Drawing.Size(857, 522);
-            this.pnlMainContainer.TabIndex = 4;
-            // 
-            // tslStatus
-            // 
-            this.tslStatus.Name = "tslStatus";
-            this.tslStatus.Size = new System.Drawing.Size(39, 17);
-            this.tslStatus.Text = "Ready";
-            // 
-            // tslStatistics
-            // 
-            this.tslStatistics.Name = "tslStatistics";
-            this.tslStatistics.Size = new System.Drawing.Size(118, 17);
-            this.tslStatistics.Text = "toolStripStatusLabel1";
-            // 
-            // lsvDisplay
-            // 
-            this.lsvDisplay.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colFilename,
-            this.colWidth,
-            this.colHeight});
-            this.lsvDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvDisplay.FullRowSelect = true;
-            this.lsvDisplay.HideSelection = false;
-            this.lsvDisplay.Location = new System.Drawing.Point(0, 0);
-            this.lsvDisplay.Name = "lsvDisplay";
-            this.lsvDisplay.Size = new System.Drawing.Size(651, 376);
-            this.lsvDisplay.TabIndex = 1;
-            this.lsvDisplay.UseCompatibleStateImageBehavior = false;
-            this.lsvDisplay.View = System.Windows.Forms.View.Details;
-            this.lsvDisplay.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvDisplay_ColumnClick);
-            this.lsvDisplay.SelectedIndexChanged += new System.EventHandler(this.lsvDisplay_SelectedIndexChanged);
-            // 
-            // colFilename
-            // 
-            this.colFilename.Text = "Filename";
-            this.colFilename.Width = 527;
-            // 
-            // colWidth
-            // 
-            this.colWidth.Text = "Width";
-            // 
-            // colHeight
-            // 
-            this.colHeight.Text = "Height";
             // 
             // LibraryForm
             // 
@@ -753,19 +762,17 @@
             this.pnlTagButtons.PerformLayout();
             this.pnlDetails.ResumeLayout(false);
             this.pnlDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.pnlStatusbar.ResumeLayout(false);
             this.pnlStatusbar.PerformLayout();
             this.pnlMainContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox lstImages;
         private System.Windows.Forms.SplitContainer spcContainer;
         private System.Windows.Forms.PictureBox picPreview;
         private System.Windows.Forms.Button btnAddCategory;
@@ -814,7 +821,6 @@
         private System.Windows.Forms.Button btnRemoveFromLibrary;
         private System.Windows.Forms.Button btnFindAllDuplicates;
         private System.Windows.Forms.Button btnFindDuplicates;
-        private System.Windows.Forms.Label lblDuplicates;
         private System.Windows.Forms.Button btnClearLibrary;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tslStatus;
@@ -825,5 +831,8 @@
         private System.Windows.Forms.ColumnHeader colFilename;
         private System.Windows.Forms.ColumnHeader colWidth;
         private System.Windows.Forms.ColumnHeader colHeight;
+        private System.Windows.Forms.ToolStripProgressBar tspProgressBar;
+        private System.Windows.Forms.Button btnCacheDuplicateThumbnails;
+        private System.Windows.Forms.Button btnCheckFiles;
     }
 }

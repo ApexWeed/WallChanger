@@ -117,47 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="address_book" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\address-book.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="address_book__arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\address-book--arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cross_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cross-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="minus_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\minus-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="navigation_090_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\navigation-090-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="navigation_270_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\navigation-270-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="plus_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\plus-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="toggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\toggle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="toggle_expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\toggle-expand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blue_document_copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\blue-document-copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="document_copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\document-copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="picture_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\picture-small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="drive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\drive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>
