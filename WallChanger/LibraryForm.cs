@@ -80,8 +80,6 @@ namespace WallChanger
 
         public void UpdateList()
         {
-            // CONVERTED
-            //lstImages.Items.Clear();
             lsvDisplay.Items.Clear();
             List<ListViewItem> itemsToAdd = new List<ListViewItem>();
             foreach (var libraryItem in GlobalVars.LibraryItems)
@@ -100,12 +98,9 @@ namespace WallChanger
                 else
                     SizeCacheQueue.Enqueue(libraryItem.Filename);
 
-                // CONVERTED
                 ListViewItem item = new ListViewItem(new string[] { string.Concat(Path.GetDirectoryName(libraryItem.Filename).Split('\\').Reverse().ToArray()[0], "\\", Path.GetFileNameWithoutExtension(libraryItem.Filename)), ImageSize.Width.ToString(), ImageSize.Height.ToString() });
                 item.Tag = libraryItem.Filename;
                 itemsToAdd.Add(item);
-                //lsvDisplay.Items.Add(item);
-                //lstImages.Items.Add(libraryItem.Filename);
                 
                 Categories.AddDistinct(libraryItem.Category);
                 ShowNames.AddDistinct(libraryItem.ShowName);
@@ -120,16 +115,11 @@ namespace WallChanger
 
             lsvDisplay.Items.AddRange(itemsToAdd.ToArray());
 
-            // CONVERTED
             if (lsvDisplay.Items.Count > 0)
                 lsvDisplay.Items[0].Selected = true;
-            //if (lstImages.Items.Count > 0)
-            //    lstImages.SelectedIndex = 0;
 
-            // CONVERTED
             tslStatistics.Text = string.Format("Images displayed: {0}/{1} Size cache: {2}", lsvDisplay.Items.Count, GlobalVars.LibraryItems.Count, GlobalVars.ImageSizeCache.Count);
-            //tslStatistics.Text = string.Format("Images displayed: {0}/{1} Size cache: {2}", lstImages.Items.Count, GlobalVars.LibraryItems.Count, GlobalVars.ImageSizeCache.Count);
-
+            
             LoadImageSizes(false);
         }
 
@@ -264,8 +254,6 @@ namespace WallChanger
                     SizeCacheToUpdate.Clear();
                     lsvDisplay.EndUpdate();
                 }
-                
-                //UpdateList();
 
                 foreach (string image in LastSizeRequest)
                 {
@@ -282,9 +270,7 @@ namespace WallChanger
                 }
                 LastSizeRequest.Clear();
                 tslStatus.Text = "Ready";
-                // CONVERTED
                 tslStatistics.Text = string.Format("Images displayed: {0}/{1} Size cache: {2}", lsvDisplay.Items.Count, GlobalVars.LibraryItems.Count, GlobalVars.ImageSizeCache.Count);
-                //tslStatistics.Text = string.Format("Images displayed: {0}/{1} Size cache: {2}", lstImages.Items.Count, GlobalVars.LibraryItems.Count, GlobalVars.ImageSizeCache.Count);
             }
         }
 
@@ -302,7 +288,6 @@ namespace WallChanger
                 return (ListView.ListViewItemCollection)this.Invoke(new GetItems(GetListViewItems), new object[] { listView });
         }
 
-        // CONVERTED
         private void lsvDisplay_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBoxLocked = true;
@@ -322,34 +307,22 @@ namespace WallChanger
                 lstTags.Items.Clear();
                 picPreview.Image = Properties.Resources.Blank;
             }
-            else
+            else if (lsvDisplay.SelectedIndices.Count == 1)
             {
                 btnFindDuplicates.Enabled = false;
                 Image preview = new Bitmap(1, 1);
-                try
-                {
-                    preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
-                    lsvDisplay.SelectedItems[0].SubItems[1].Text = preview.Width.ToString();
-                    lsvDisplay.SelectedItems[0].SubItems[2].Text = preview.Height.ToString();
-                    GlobalVars.ImageSizeCache.AddDistinct(lsvDisplay.SelectedItems[0].Tag as string, preview.Size);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    // Raises the exception outside debugger but continues without issue anyways.
-                }
+
+                preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
+                lsvDisplay.SelectedItems[0].SubItems[1].Text = preview.Width.ToString();
+                lsvDisplay.SelectedItems[0].SubItems[2].Text = preview.Height.ToString();
+                GlobalVars.ImageSizeCache.AddDistinct(lsvDisplay.SelectedItems[0].Tag as string, preview.Size);
+
                 lblImageSize.Text = string.Format("Image Size: {0}x{1}px", preview.Width, preview.Height);
                 picPreview.Image = preview;
                 picPreview.Height = Imaging.CalculateImageHeight(preview, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
                 UpdateComboBoxes();
                 LibraryItem item = new LibraryItem();
-                try
-                {
-                    item = GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    // Raises the exception outside debugger but continues without issue anyways.
-                }
+                item = GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string);
 
                 if (!string.IsNullOrWhiteSpace(item.Category))
                     cmbCategory.Text = item.Category;
@@ -385,27 +358,13 @@ namespace WallChanger
             FilterCategories.AddDistinct(Value);
             UpdateComboBoxes();
             cmbCategory.SelectedItem = Value;
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
         }
 
         private void btnClearCategory_Click(object sender, EventArgs e)
         {
             cmbCategory.Text = "";
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = "";
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = "";
         }
 
         private void cmbCategory_SelectedValueChanged(object sender, EventArgs e)
@@ -418,14 +377,7 @@ namespace WallChanger
             if (ComboBoxLocked)
                 return;
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = cmbCategory.Text;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = cmbCategory.Text;
         }
         #endregion
 
@@ -441,28 +393,14 @@ namespace WallChanger
             UpdateComboBoxes();
             cmbShowName.SelectedItem = Value;
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = Value;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = Value;
         }
 
         private void btnClearShowName_Click(object sender, EventArgs e)
         {
             cmbShowName.Text = "";
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = "";
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = "";
         }
 
         private void cmbShowName_SelectedValueChanged(object sender, EventArgs e)
@@ -475,14 +413,7 @@ namespace WallChanger
             if (ComboBoxLocked)
                 return;
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = cmbShowName.Text;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = cmbShowName.Text;
         }
         #endregion
 
@@ -498,28 +429,14 @@ namespace WallChanger
             lstCharacters.Items.Add(Value);
             lstCharacters.SelectedItem = Value;
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
         }
 
         private void btnRemoveCharacter_Click(object sender, EventArgs e)
         {
             if (lstCharacters.SelectedIndex > -1)
             {
-                try
-                {
-                    GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Remove(lstCharacters.SelectedItem as string);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    // Raises the exception outside debugger but continues without issue anyways.
-                }
+                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Remove(lstCharacters.SelectedItem as string);
                 lstCharacters.Items.Remove(lstCharacters.SelectedItem);
             }
         }
@@ -527,14 +444,7 @@ namespace WallChanger
         private void btnClearCharacters_Click(object sender, EventArgs e)
         {
             lstCharacters.Items.Clear();
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Clear();
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Clear();
         }
         #endregion
 
@@ -550,28 +460,14 @@ namespace WallChanger
             lstTags.Items.Add(Value);
             lstTags.SelectedItem = Value;
 
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Clear();
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.AddDistinct(Value);
         }
 
         private void btnRemoveTag_Click(object sender, EventArgs e)
         {
             if (lstTags.SelectedIndex > -1)
             {
-                try
-                {
-                    GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Remove(lstTags.SelectedItem as string);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    // Raises the exception outside debugger but continues without issue anyways.
-                }
+                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Remove(lstTags.SelectedItem as string);
                 lstCharacters.Items.Remove(lstTags.SelectedItem);
             }
         }
@@ -579,14 +475,7 @@ namespace WallChanger
         private void btnClearTags_Click(object sender, EventArgs e)
         {
             lstTags.Items.Clear();
-            try
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Clear();
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                // Raises the exception outside debugger but continues without issue anyways.
-            }
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Clear();
         }
         #endregion
 

@@ -76,7 +76,7 @@ namespace WallChanger
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            chkStartup.Checked = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("WallChanger") == null ? false : true;
+            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
 
             LoadSettings();
 
