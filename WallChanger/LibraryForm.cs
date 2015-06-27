@@ -703,6 +703,8 @@ namespace WallChanger
         private void btnCheckFiles_Click(object sender, EventArgs e)
         {
             CheckFilesExist();
+
+            UpdateList();
         }
 
         private async void CheckFilesExist()

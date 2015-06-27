@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 // Use, alter and redistribute this code freely,
 // but please leave this comment :)
 
+// Updated to add multithreading and caching in 2015 by ApexWeed.
+
 
 namespace XnaFan.ImageComparison
 {
