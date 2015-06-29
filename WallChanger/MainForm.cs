@@ -104,6 +104,8 @@ namespace WallChanger
             // Cascade.
             if (TimingFormChild != null)
                 TimingFormChild.LocaliseInterface();
+            if (GlobalVars.LibraryForm != null)
+                GlobalVars.LibraryForm.LocaliseInterface();
         }
 
         private void LoadSettings()

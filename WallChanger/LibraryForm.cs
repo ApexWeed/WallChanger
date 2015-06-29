@@ -118,6 +118,9 @@ namespace WallChanger
             // Labels.
             // Filter options.
             lblFilters.Text = LM.GetString("LIBRARY_LABEL_FILTER");
+            // Move buttons so they don't overlap filter text.
+            btnExpand.Left = lblFilters.Left + TextRenderer.MeasureText(lblFilters.Text, lblFilters.Font).Width + 6;
+            btnClearFilters.Left = btnExpand.Left + btnExpand.Width + 6;
             lblFilterCategory.Text = LM.GetString("LIBRARY_LABEL_FILTER_CATEGORY");
             lblFilterShowName.Text = LM.GetString("LIBRARY_LABEL_FILTER_SHOW_NAME");
             lblFilterCharacter.Text = LM.GetString("LIBRARY_LABEL_FILTER_CHARACTER");
