@@ -59,6 +59,7 @@
     <Compile Include="AutoResolveForm.Designer.cs">
       <DependentUpon>AutoResolveForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComboBoxObjectCollectionExtensions.cs" />
     <Compile Include="Duplicate.cs" />
     <Compile Include="DuplicateForm.cs">
       <SubType>Form</SubType>
@@ -73,6 +74,14 @@
     <Compile Include="InfoProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Language.cs" />
+    <Compile Include="LanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LanguageForm.Designer.cs">
+      <DependentUpon>LanguageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LanguageManager.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
@@ -115,6 +124,9 @@
     <EmbeddedResource Include="DuplicateForm.resx">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LanguageForm.resx">
+      <DependentUpon>LanguageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LibraryForm.resx">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +150,12 @@
       <DependentUpon>TimingForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="lang\en_AU.lang">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="lang\ja_JP.lang">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -189,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\language.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

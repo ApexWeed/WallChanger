@@ -1,0 +1,129 @@
+Australian English
+Full interface in colourful language.
+ApexWeed
+# MainForm
+    # Buttons
+        MAIN_BUTTON_NEW = New
+        MAIN_BUTTON_REMOVE = Remove
+        MAIN_BUTTON_TIMING = Timing
+        MAIN_BUTTON_TRAY = To Tray
+        MAIN_BUTTON_RELOAD = Reload
+        MAIN_BUTTON_SAVE = Save
+    # Tooltips
+        MAIN_TOOLTIP_ADD = Add images...
+        MAIN_TOOLTIP_REMOVE = Remove selected images.
+        MAIN_TOOLTIP_MOVE_UP = Move selected images up.
+        MAIN_TOOLTIP_MOVE_DOWN = Move selected images down.
+        MAIN_TOOLTIP_CLEAR = Clear images.
+        MAIN_TOOLTIP_LIBRARY = Wallpaper library.
+        MAIN_TOOLTIP_LIBRARY_ADD = Add selection to library.
+        MAIN_TOOLTIP_LANGUAGE = Select language.
+    # Labels
+        MAIN_LABEL_IMAGES = Images ({0})
+        MAIN_LABEL_CONFIGS = Configs
+        MAIN_LABEL_STARTUP = Run on startup
+        MAIN_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
+        MAIN_LABEL_IMAGE = {0:HH:mm:ss} - {1}
+    # Messages
+        MAIN_MESSAGE_NEW_CONFIG = Enter config name:
+        MAIN_MESSAGE_NEW_CONFIG_TITLE = Config Name
+        MAIN_MESSAGE_NEW_CONFIG_DEFAULT = default
+        MAIN_MESSAGE_DELETE_CONFIG = Are you sure you want to delete "{0}"? Write the config name to confirm.
+        MAIN_MESSAGE_DELETE_CONFIG_TITLE = Confirm Delete
+# LanguageForm
+    # Buttons
+        LANG_BUTTON_SAVE = Save
+    # Tooltips
+    # Labels
+        LANG_LABEL_CURRENT_LANGUAGE = Current language
+        LANG_LABEL_FALLBACK_LANGUAGE = Fallback language
+    # Messages
+# TimingForm
+    # Buttons
+        TIMING_BUTTON_SAVE = Save
+    # Tooltips
+    # Labels
+        TIMING_LABEL_OFFSET = Offset
+        TIMING_LABEL_INTERVAL = Interval
+        TIMING_LABEL_SECONDS = Seconds
+        TIMING_LABEL_MINUTES = Minutes
+        TIMING_LABEL_HOURS = Hours
+    # Messages
+# LibraryForm
+    # Buttons
+    # Tooltips
+        LIBRARY_TOOLTIP_FILTER_SHRINK = Shrink filters.
+        LIBRARY_TOOLTIP_FILTER_EXPAND = Expand filters.
+        LIBRARY_TOOLTIP_FILTER_CLEAR = Clear filters.
+        LIBRARY_TOOLTIP_FILTER_CLEAR_CATEGORY = Clear category filter.
+        LIBRARY_TOOLTIP_FILTER_CLEAR_SHOW_NAME = Clear show name filter.
+        LIBRARY_TOOLTIP_FILTER_CLEAR_CHARACTER = Clear character filter.
+        LIBRARY_TOOLTIP_FILTER_CLEAR_TAG = Clear tag filter.
+        
+        LIBRARY_TOOLTIP_CATEGORY_ADD = Add new category.
+        LIBRARY_TOOLTIP_CATEGORY_CLEAR = Clear category.
+        LIBRARY_TOOLTIP_SHOW_NAME_ADD = Add new show name.
+        LIBRARY_TOOLTIP_SHOW_NAME_CLEAR = Clear show name.
+        LIBRARY_TOOLTIP_CHARACTER_ADD = Add new character.
+        LIBRARY_TOOLTIP_CHARACTER_REMOVE = Remove character.
+        LIBRARY_TOOLTIP_CHARACTER_CLEAR = Clear characters.
+        LIBRARY_TOOLTIP_TAG_ADD = Add new tag.
+        LIBRARY_TOOLTIP_TAG_REMOVE = Remove tag.
+        LIBRARY_TOOLTIP_TAG_CLEAR = Clear tags.
+        
+        LIBRARY_TOOLTIP_CONFIG_ADD = Add selection to current config.
+        LIBRARY_TOOLTIP_REMOVE = Remove selection from library.
+        LIBRARY_TOOLTIP_CLEAR = Clear library.
+        LIBRARY_TOOLTIP_DUPLICATES_SELECTION = Search selection for duplicates.
+        LIBRARY_TOOLTIP_DUPLICATES = Search library for duplicates.
+        LIBRARY_TOOLTIP_CACHE_GREYSCALE = Cache greyscale thumbnails (for duplicate detection).
+        LIBRARY_TOOLTIP_FILE_CHECK = Check files exist on disk.
+    # Labels
+        LIBRARY_LABEL_FILTER = Filters
+        LIBRARY_LABEL_FILTER_CATEGORY = Category
+        LIBRARY_LABEL_FILTER_SHOW_NAME = Show Name
+        LIBRARY_LABEL_FILTER_CHARACTER = Chracter
+        LIBRARY_LABEL_FILTER_TAG = Tag
+        LIBRARY_LABEL_IMAGE_SIZE = Image Size: {0}x{1}px
+        LIBRARY_LABEL_IMAGE_SIZES = Image Size: {0}-{1}x{2}-{3}px
+        LIBRARY_LABEL_CATEGORY = Category
+        LIBRARY_LABEL_SHOW_NAME = Show Name
+        LIBRARY_LABEL_CHARACTER = Characters
+        LIBRARY_LABEL_TAG = Tags
+        LIBRARY_LABEL_COLUMN_FILENAME = Filemane
+        LIBRARY_LABEL_COLUMN_WIDTH = Width
+        LIBRARY_LABEL_COLUMN_HEIGHT = height
+    # Messages
+        LIBRARY_MESSAGE_READY = Ready
+        LIBRARY_MESSAGE_STATS = Images displayed: {0}/{1} Size cache: {2}
+        LIBRARY_MESSAGE_SIZE_CALCULATE = Calculating image sizes ({0} remaining)
+        LIBRARY_MESSAGE_NEW_CATEGORY = Enter the name for the category or use a pre existing value.
+        LIBRARY_MESSAGE_NEW_CATEGORY_TITLE = Enter Category
+        LIBRARY_MESSAGE_NEW_SHOW_NAME = Enter the show name or use a pre existing value.
+        LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE = Enter Show Name
+        LIBRARY_MESSAGE_NEW_CHARACTER = Enter the character name or use a pre existing value.
+        LIBRARY_MESSAGE_NEW_CHARACTER_TITLE = Enter Character Name
+        LIBRARY_MESSAGE_NEW_TAG = Enter the tag or use a pre existing value.
+        LIBRARY_MESSAGE_NEW_TAG_TITLE = Enter Tag
+        LIBRARY_MESSAGE_CLEAR = Are you sure you want to clear the whole library? This cannot be undone.
+        LIBRARY_MESSAGE_CLEAR_TITLE = Confirm Clear
+        LIBRARY_MESSAGE_MISSING = {0} missing images removed.
+        LIBRARY_MESSAGE_CLOSE_DUPLICATES = Close the previous duplicate viewer first.
+        LIBRARY_MESSAGE_NO_DUPLICATES = No duplicates found.
+        LIBRARY_MESSAGE_SCANNING_DUPLICATES = Scanning for duplicates... ({0}/{1})
+        LIBRARY_MESSAGE_GENERATING_THUMBNAILS = Generating thumbnails
+        LIBRARY_MESSAGE_GENERATING_THUMBNAILS_STATUS = Generating thumbnails... ({0}/{1})
+# DuplicateForm
+    # Buttons
+        DUPE_BUTTON_KEEP = Keep
+        DUPE_BUTTON_REMOVE = Remove
+        DUPE_BUTTON_DELETE = Delete
+        DUPE_BUTTON_AUTO = Auto
+    # Tooltips
+    # Labels
+        DUPE_LABEL_IMAGE_SIZE = Image size: {0}x{1}px
+    # Messages
+        DUPE_MESSAGE_CONFIRM_DELETE = Are you sure you want to delete this image?
+        DUPE_MESSAGE_CONFIRM_DELETE_TITLE = Confirm Deletion
+        DUPE_MESSAGE_CONFIRM_AUTO = This will automatically delete duplicate images keeping the highest resolution version. Continue?
+        DUPE_MESSAGE_CONFIRM_AUTO_TITLE = Confirm Auto Resolve

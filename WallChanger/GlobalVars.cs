@@ -51,5 +51,17 @@ namespace WallChanger
             get { return duplicateForm; }
             set { duplicateForm = value; }
         }
+
+        private static LanguageManager languageManager = null;
+        public static LanguageManager LanguageManager
+            {
+                get
+                {
+                if (languageManager == null)
+                    languageManager = new LanguageManager();
+                return languageManager;
+                }
+            }
+
     }
 }

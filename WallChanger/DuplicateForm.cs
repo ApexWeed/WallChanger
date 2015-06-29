@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -14,6 +12,8 @@ namespace WallChanger
         bool AutoModeEngaged = false;
 
         AutoResolveForm autoResolveForm = null;
+
+        LanguageManager LM = GlobalVars.LanguageManager;
 
         public DuplicateForm(List<List<string>> Duplicates, Form Owner)
         {
@@ -38,6 +38,24 @@ namespace WallChanger
 
             if (lstDuplicates.Items.Count > 0)
                 lstDuplicates.SelectedIndex = 0;
+
+            LocaliseInterface();
+        }
+
+        /// <summary>
+        /// Sets the static strings to the chosen language and cascades to the main window.
+        /// </summary>
+        public void LocaliseInterface()
+        {
+            // Buttons.
+            btnKeep.Text = LM.GetString("DUPE_BUTTON_KEEP");
+            btnRemove.Text = LM.GetString("DUPE_BUTTON_REMOVE");
+            btnDelete.Text = LM.GetString("DUPE_BUTTON_DELETE");
+            btnAuto.Text = LM.GetString("DUPE_BUTTON_AUTO");
+            // Tooltips.
+            // Labels.
+
+            // Cascade.
         }
 
         private void DuplicateForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -74,7 +92,7 @@ namespace WallChanger
 
                 lblFilePath.Text = duplicate.Path;
                 picPreview.Image = Imaging.FromFile(duplicate.Path);
-                lblImageSize.Text = string.Format("{0} x {1}", picPreview.Image.Width, picPreview.Image.Height);
+                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE_LABEL_IMAGE_SIZE","DUPE_LABEL_IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
             }
         }
 
@@ -103,7 +121,7 @@ namespace WallChanger
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this image?", "Confirm Deletion", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE"), LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 File.Delete((lstDuplicateImages.SelectedItem as Duplicate).Path);
                 RemoveFromLibrary();
@@ -117,7 +135,7 @@ namespace WallChanger
 
         private void btnAuto_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will automatically delete duplicate images keeping the highest resolution version. Continue?") == DialogResult.OK)
+            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO"), LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 AutoModeEngaged = true;
 

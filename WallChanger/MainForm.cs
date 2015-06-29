@@ -19,8 +19,15 @@ namespace WallChanger
         bool AutoStarted;
         string CurrentConfig;
         TimingForm TimingFormChild;
+        LanguageForm LanguageFormChild;
         int LastIndex = 0;
+
+        LanguageManager LM;
         
+        /// <summary>
+        /// Creates a new instance of the main form.
+        /// </summary>
+        /// <param name="Hide">Whether this instance was auto run.</param>
         public MainForm(bool Hide)
         {
             InitializeComponent();
@@ -41,44 +48,22 @@ namespace WallChanger
             AutoStarted = Hide;
 
             GlobalVars.ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
+            LM = GlobalVars.LanguageManager;
             Library.Load();
         }
 
-        private void btnAddImage_Click(object sender, EventArgs e)
-        {
-            if (ofdAdd.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string file in ofdAdd.FileNames)
-                {
-                    using (Stream read = File.Open(file, FileMode.Open))
-                    {
-                        if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
-                            continue;
-                        FileList.Add(file);
-                    }
-                }
-                FillImageList();
-            }
-        }
-
-        private void btnDeleteImage_Click(object sender, EventArgs e)
-        {
-            int[] indexArray = new int[lstImages.SelectedIndices.Count];
-            lstImages.SelectedIndices.CopyTo(indexArray, 0);
-            Array.Sort(indexArray, (a, b) => b.CompareTo(a));
-            foreach (int index in indexArray)
-            {
-                FileList.RemoveAt(index);
-            }
-
-            FillImageList();
-        }
-
+        /// <summary>
+        /// Initialises the form.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
             chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
-
+            
             LoadSettings();
+
+            LocaliseInterface();
 
             TimerWorker.RunWorkerAsync();
 
@@ -88,6 +73,37 @@ namespace WallChanger
                 this.ShowInTaskbar = false;
                 noiTray.Visible = true;
             }
+        }
+
+        /// <summary>
+        /// Sets the static strings to the chosen language.
+        /// </summary>
+        public void LocaliseInterface()
+        {
+            // Buttons.
+            btnNewConfig.Text = LM.GetString("MAIN_BUTTON_NEW");
+            btnRemoveConfig.Text = LM.GetString("MAIN_BUTTON_REMOVE");
+            btnTiming.Text = LM.GetString("MAIN_BUTTON_TIMING");
+            btnTray.Text = LM.GetString("MAIN_BUTTON_TRAY");
+            btnReload.Text = LM.GetString("MAIN_BUTTON_RELOAD");
+            btnSave.Text = LM.GetString("MAIN_BUTTON_SAVE");
+            // Tooltips.
+            ToolTips.SetToolTip(btnAddImage, LM.GetString("MAIN_TOOLTIP_ADD"));
+            ToolTips.SetToolTip(btnRemoveImage, LM.GetString("MAIN_TOOLTIP_REMOVE"));
+            ToolTips.SetToolTip(btnMoveUp, LM.GetString("MAIN_TOOLTIP_MOVE_UP"));
+            ToolTips.SetToolTip(btnMoveDown, LM.GetString("MAIN_TOOLTIP_MOVE_DOWN"));
+            ToolTips.SetToolTip(btnClear, LM.GetString("MAIN_TOOLTIP_CLEAR"));
+            ToolTips.SetToolTip(btnLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY"));
+            ToolTips.SetToolTip(btnAddToLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY_ADD"));
+            ToolTips.SetToolTip(btnLanguage, LM.GetString("MAIN_TOOLTIP_LANGUAGE"));
+            // Labels.
+            grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
+            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), CurrentConfig);
+            chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
+
+            // Cascade.
+            if (TimingFormChild != null)
+                TimingFormChild.LocaliseInterface();
         }
 
         private void LoadSettings()
@@ -146,7 +162,7 @@ namespace WallChanger
 
         private void LoadConfig()
         {
-            grpImages.Text = string.Format("Images ({0})", CurrentConfig);
+            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), CurrentConfig);
             StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\" + CurrentConfig + ".cfg");
 
             Offset = ParseTime(read.ReadLine());
@@ -163,7 +179,7 @@ namespace WallChanger
             FillImageList();
         }
 
-        private void SaveSettings(bool OnlyConfig)
+        private void SaveSettings(bool OnlyConfig = false)
         {
             StreamWriter write = new StreamWriter(GlobalVars.ApplicationPath + "\\config.cfg");
             write.Write(CurrentConfig);
@@ -182,11 +198,6 @@ namespace WallChanger
             write.Close();
         }
 
-        private void SaveSettings()
-        {
-            SaveSettings(false);
-        }
-
         private void FillImageList(bool PreserveScrolling = false)
         {
             if (lstImages.Items.Count == FileList.Count())
@@ -202,9 +213,9 @@ namespace WallChanger
                 {
                     showTime = showTime.AddSeconds(Interval / 1000);
                     if (i < remainder)
-                        lstImages.Items[i] = string.Format("{0} - {1}", showTime.AddSeconds((Interval * FileList.Count) / 1000).ToString("hh:mm:ss tt"), FileList[i]);
+                        lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]);
                     else
-                        lstImages.Items[i] = string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]);
+                        lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]);
                 }
             }
             else
@@ -222,9 +233,9 @@ namespace WallChanger
                 {
                     showTime = showTime.AddSeconds(Interval / 1000);
                     if (i < remainder)
-                        lstImages.Items.Add(string.Format("{0} - {1}", showTime.AddSeconds((Interval * FileList.Count) / 1000).ToString("hh:mm:ss tt"), FileList[i]));
+                        lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]));
                     else
-                        lstImages.Items.Add(string.Format("{0} - {1}", showTime.ToString("hh:mm:ss tt"), FileList[i]));
+                        lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]));
                 }
             }
         }
@@ -263,7 +274,7 @@ namespace WallChanger
         {
             string outputTime = DateTime.Now.ToString(@"H \h m \m s \s");
             int parsedTime = ParseTime(outputTime);
-            int index = (int)(parsedTime / Interval);
+            int index = parsedTime / Interval;
 
             SetWallpaper(index);
         }
@@ -291,7 +302,7 @@ namespace WallChanger
                 loadedConfig = CurrentConfig;
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 parsedTime = ParseTime(outputTime) - Offset;
-                index = (int)(parsedTime / Interval);
+                index = parsedTime / Interval;
 
                 SetWallpaper(index);
 
@@ -301,7 +312,7 @@ namespace WallChanger
                     parsedTime = ParseTime(outputTime) - Offset;
                     sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
                     delayTime = sleepTime > 1000 ? 1000 : sleepTime;
-                    System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
+                    //System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
                     TimerWorker.ReportProgress(sleepTime);
                     System.Threading.Thread.Sleep(delayTime);
                 } while (delayTime == 1000 && loadedConfig == CurrentConfig);
@@ -316,11 +327,11 @@ namespace WallChanger
             //noiTray.ShowBalloonTip(1000);
             DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
             TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
-            lblNextChange.Text = string.Format("Next change: {0}", nextChangeTimeSpan.ToString());
+            lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
 
             string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
             int parsedTime = ParseTime(outputTime) - Offset;
-            int index = (int)(parsedTime / Interval);
+            int index = parsedTime / Interval;
             if (index != LastIndex)
             {
                 LastIndex = index;
@@ -346,6 +357,46 @@ namespace WallChanger
             {
                 StartupKey.DeleteValue("WallChanger", false);
             }
+        }
+
+        /// <summary>
+        /// Asks the user to select images to add to the active config.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
+        private void btnAddImage_Click(object sender, EventArgs e)
+        {
+            if (ofdAdd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string file in ofdAdd.FileNames)
+                {
+                    using (Stream read = File.Open(file, FileMode.Open))
+                    {
+                        if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
+                            continue;
+                        FileList.Add(file);
+                    }
+                }
+                FillImageList();
+            }
+        }
+
+        /// <summary>
+        /// Removes selected images from the current config.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
+        private void btnRemoveImage_Click(object sender, EventArgs e)
+        {
+            int[] indexArray = new int[lstImages.SelectedIndices.Count];
+            lstImages.SelectedIndices.CopyTo(indexArray, 0);
+            Array.Sort(indexArray, (a, b) => b.CompareTo(a));
+            foreach (int index in indexArray)
+            {
+                FileList.RemoveAt(index);
+            }
+
+            FillImageList();
         }
 
         private void btnTray_Click(object sender, EventArgs e)
@@ -457,13 +508,13 @@ namespace WallChanger
 
         private void btnNewConfig_Click(object sender, EventArgs e)
         {
-            string configName = Prompt.ShowStringDialog("Enter config name", "Config Name", "default");
+            string configName = Prompt.ShowStringDialog(LM.GetString("MAIN_MESSAGE_NEW_CONFIG"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_TITLE"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_DEFAULT"));
             CreateConfig(configName);
         }
 
         private void btnRemoveConfig_Click(object sender, EventArgs e)
         {
-            if (Prompt.ShowStringDialog(string.Format("Are you sure you want to delete \"{0}\"? Write the config name to confirm.", lstConfigs.SelectedItem as string), "Confirm Delete") == lstConfigs.SelectedItem as string)
+            if (Prompt.ShowStringDialog(string.Format(LM.GetString("MAIN_MESSAGE_DELETE_CONFIG"), lstConfigs.SelectedItem as string), LM.GetString("MAIN_MESSAGE_DELETE_CONFIG_TITLE")) == lstConfigs.SelectedItem as string)
             {
                 File.Delete(GlobalVars.ApplicationPath + "\\" + lstConfigs.SelectedItem as string + ".cfg");
                 LoadConfigs();
@@ -572,6 +623,8 @@ namespace WallChanger
         {
             if (Child is LibraryForm)
                 GlobalVars.LibraryForm = null;
+            if (Child is LanguageForm)
+                LanguageFormChild = null;
         }
 
         public void AddImages(List<string> Images)
@@ -593,9 +646,19 @@ namespace WallChanger
                 GlobalVars.LibraryForm.UpdateList();
         }
 
+        private void btnLanguage_Click(object sender, EventArgs e)
+        {
+            if (LanguageFormChild == null)
+            {
+                LanguageFormChild = new LanguageForm(this);
+                LanguageFormChild.Show();
+            }
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Library.Save();
+            Properties.Settings.Default.Save();
         }
 
         protected override void WndProc(ref Message message)
@@ -627,6 +690,5 @@ namespace WallChanger
 
             base.WndProc(ref message);
         }
-
     }
 }

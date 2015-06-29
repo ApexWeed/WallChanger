@@ -29,220 +29,220 @@
         private void InitializeComponent()
         {
             this.grpOffset = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.OffsetHours = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.OffsetMinutes = new System.Windows.Forms.NumericUpDown();
-            this.OffsetSeconds = new System.Windows.Forms.NumericUpDown();
+            this.lblOffsetHours = new System.Windows.Forms.Label();
+            this.cmbOffsetHours = new System.Windows.Forms.NumericUpDown();
+            this.lblOffsetMinutes = new System.Windows.Forms.Label();
+            this.lblOffsetSeconds = new System.Windows.Forms.Label();
+            this.cmbOffsetMinutes = new System.Windows.Forms.NumericUpDown();
+            this.cmbOffsetSeconds = new System.Windows.Forms.NumericUpDown();
             this.grpInterval = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.IntervalHours = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.IntervalMinutes = new System.Windows.Forms.NumericUpDown();
-            this.IntervalSeconds = new System.Windows.Forms.NumericUpDown();
+            this.lblIntervalHours = new System.Windows.Forms.Label();
+            this.cmbIntervalHours = new System.Windows.Forms.NumericUpDown();
+            this.lblIntervalMinutes = new System.Windows.Forms.Label();
+            this.lblIntervalSeconds = new System.Windows.Forms.Label();
+            this.cmbIntervalMinutes = new System.Windows.Forms.NumericUpDown();
+            this.cmbIntervalSeconds = new System.Windows.Forms.NumericUpDown();
             this.btnSave = new System.Windows.Forms.Button();
             this.grpOffset.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetHours)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetMinutes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetSeconds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetHours)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetMinutes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetSeconds)).BeginInit();
             this.grpInterval.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalHours)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalMinutes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalSeconds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalHours)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalMinutes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalSeconds)).BeginInit();
             this.SuspendLayout();
             // 
             // grpOffset
             // 
-            this.grpOffset.Controls.Add(this.label4);
-            this.grpOffset.Controls.Add(this.OffsetHours);
-            this.grpOffset.Controls.Add(this.label2);
-            this.grpOffset.Controls.Add(this.label1);
-            this.grpOffset.Controls.Add(this.OffsetMinutes);
-            this.grpOffset.Controls.Add(this.OffsetSeconds);
+            this.grpOffset.Controls.Add(this.lblOffsetHours);
+            this.grpOffset.Controls.Add(this.cmbOffsetHours);
+            this.grpOffset.Controls.Add(this.lblOffsetMinutes);
+            this.grpOffset.Controls.Add(this.lblOffsetSeconds);
+            this.grpOffset.Controls.Add(this.cmbOffsetMinutes);
+            this.grpOffset.Controls.Add(this.cmbOffsetSeconds);
             this.grpOffset.Location = new System.Drawing.Point(12, 12);
             this.grpOffset.Name = "grpOffset";
             this.grpOffset.Size = new System.Drawing.Size(260, 100);
             this.grpOffset.TabIndex = 0;
             this.grpOffset.TabStop = false;
-            this.grpOffset.Text = "Offset";
+            this.grpOffset.Text = "TIMING_LABEL_OFFSET";
             // 
-            // label4
+            // lblOffsetHours
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(113, 58);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Hours";
+            this.lblOffsetHours.AutoSize = true;
+            this.lblOffsetHours.Location = new System.Drawing.Point(113, 58);
+            this.lblOffsetHours.Name = "lblOffsetHours";
+            this.lblOffsetHours.Size = new System.Drawing.Size(129, 13);
+            this.lblOffsetHours.TabIndex = 6;
+            this.lblOffsetHours.Text = "TIMING_LABEL_HOURS";
             // 
-            // OffsetHours
+            // cmbOffsetHours
             // 
-            this.OffsetHours.Location = new System.Drawing.Point(70, 74);
-            this.OffsetHours.Maximum = new decimal(new int[] {
+            this.cmbOffsetHours.Location = new System.Drawing.Point(70, 74);
+            this.cmbOffsetHours.Maximum = new decimal(new int[] {
             24,
             0,
             0,
             0});
-            this.OffsetHours.Minimum = new decimal(new int[] {
+            this.cmbOffsetHours.Minimum = new decimal(new int[] {
             24,
             0,
             0,
             -2147483648});
-            this.OffsetHours.Name = "OffsetHours";
-            this.OffsetHours.Size = new System.Drawing.Size(120, 20);
-            this.OffsetHours.TabIndex = 4;
-            this.OffsetHours.Tag = "OffsetHours";
+            this.cmbOffsetHours.Name = "cmbOffsetHours";
+            this.cmbOffsetHours.Size = new System.Drawing.Size(120, 20);
+            this.cmbOffsetHours.TabIndex = 4;
+            this.cmbOffsetHours.Tag = "OffsetHours";
             // 
-            // label2
+            // lblOffsetMinutes
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(172, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Minutes";
+            this.lblOffsetMinutes.AutoSize = true;
+            this.lblOffsetMinutes.Location = new System.Drawing.Point(172, 16);
+            this.lblOffsetMinutes.Name = "lblOffsetMinutes";
+            this.lblOffsetMinutes.Size = new System.Drawing.Size(139, 13);
+            this.lblOffsetMinutes.TabIndex = 3;
+            this.lblOffsetMinutes.Text = "TIMING_LABEL_MINUTES";
             // 
-            // label1
+            // lblOffsetSeconds
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Seconds";
+            this.lblOffsetSeconds.AutoSize = true;
+            this.lblOffsetSeconds.Location = new System.Drawing.Point(44, 16);
+            this.lblOffsetSeconds.Name = "lblOffsetSeconds";
+            this.lblOffsetSeconds.Size = new System.Drawing.Size(142, 13);
+            this.lblOffsetSeconds.TabIndex = 2;
+            this.lblOffsetSeconds.Text = "TIMING_LABLE_SECONDS";
             // 
-            // OffsetMinutes
+            // cmbOffsetMinutes
             // 
-            this.OffsetMinutes.Location = new System.Drawing.Point(134, 32);
-            this.OffsetMinutes.Maximum = new decimal(new int[] {
+            this.cmbOffsetMinutes.Location = new System.Drawing.Point(134, 32);
+            this.cmbOffsetMinutes.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.OffsetMinutes.Minimum = new decimal(new int[] {
+            this.cmbOffsetMinutes.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
-            this.OffsetMinutes.Name = "OffsetMinutes";
-            this.OffsetMinutes.Size = new System.Drawing.Size(120, 20);
-            this.OffsetMinutes.TabIndex = 1;
-            this.OffsetMinutes.Tag = "OffsetMinutes";
-            this.OffsetMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
+            this.cmbOffsetMinutes.Name = "cmbOffsetMinutes";
+            this.cmbOffsetMinutes.Size = new System.Drawing.Size(120, 20);
+            this.cmbOffsetMinutes.TabIndex = 1;
+            this.cmbOffsetMinutes.Tag = "OffsetMinutes";
+            this.cmbOffsetMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // OffsetSeconds
+            // cmbOffsetSeconds
             // 
-            this.OffsetSeconds.Location = new System.Drawing.Point(8, 32);
-            this.OffsetSeconds.Maximum = new decimal(new int[] {
+            this.cmbOffsetSeconds.Location = new System.Drawing.Point(8, 32);
+            this.cmbOffsetSeconds.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.OffsetSeconds.Minimum = new decimal(new int[] {
+            this.cmbOffsetSeconds.Minimum = new decimal(new int[] {
             60,
             0,
             0,
             -2147483648});
-            this.OffsetSeconds.Name = "OffsetSeconds";
-            this.OffsetSeconds.Size = new System.Drawing.Size(120, 20);
-            this.OffsetSeconds.TabIndex = 0;
-            this.OffsetSeconds.Tag = "OffsetSeconds";
-            this.OffsetSeconds.ValueChanged += new System.EventHandler(this.ValueChanged);
+            this.cmbOffsetSeconds.Name = "cmbOffsetSeconds";
+            this.cmbOffsetSeconds.Size = new System.Drawing.Size(120, 20);
+            this.cmbOffsetSeconds.TabIndex = 0;
+            this.cmbOffsetSeconds.Tag = "OffsetSeconds";
+            this.cmbOffsetSeconds.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // grpInterval
             // 
-            this.grpInterval.Controls.Add(this.label3);
-            this.grpInterval.Controls.Add(this.IntervalHours);
-            this.grpInterval.Controls.Add(this.label5);
-            this.grpInterval.Controls.Add(this.label6);
-            this.grpInterval.Controls.Add(this.IntervalMinutes);
-            this.grpInterval.Controls.Add(this.IntervalSeconds);
+            this.grpInterval.Controls.Add(this.lblIntervalHours);
+            this.grpInterval.Controls.Add(this.cmbIntervalHours);
+            this.grpInterval.Controls.Add(this.lblIntervalMinutes);
+            this.grpInterval.Controls.Add(this.lblIntervalSeconds);
+            this.grpInterval.Controls.Add(this.cmbIntervalMinutes);
+            this.grpInterval.Controls.Add(this.cmbIntervalSeconds);
             this.grpInterval.Location = new System.Drawing.Point(12, 118);
             this.grpInterval.Name = "grpInterval";
             this.grpInterval.Size = new System.Drawing.Size(260, 100);
             this.grpInterval.TabIndex = 7;
             this.grpInterval.TabStop = false;
-            this.grpInterval.Text = "Interval";
+            this.grpInterval.Text = "TIMING_LABEL_INTERVAL";
             // 
-            // label3
+            // lblIntervalHours
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(113, 58);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Hours";
+            this.lblIntervalHours.AutoSize = true;
+            this.lblIntervalHours.Location = new System.Drawing.Point(113, 58);
+            this.lblIntervalHours.Name = "lblIntervalHours";
+            this.lblIntervalHours.Size = new System.Drawing.Size(142, 13);
+            this.lblIntervalHours.TabIndex = 6;
+            this.lblIntervalHours.Text = "TIMING_LABEL_SECONDS";
             // 
-            // IntervalHours
+            // cmbIntervalHours
             // 
-            this.IntervalHours.Location = new System.Drawing.Point(70, 74);
-            this.IntervalHours.Maximum = new decimal(new int[] {
+            this.cmbIntervalHours.Location = new System.Drawing.Point(70, 74);
+            this.cmbIntervalHours.Maximum = new decimal(new int[] {
             24,
             0,
             0,
             0});
-            this.IntervalHours.Name = "IntervalHours";
-            this.IntervalHours.Size = new System.Drawing.Size(120, 20);
-            this.IntervalHours.TabIndex = 4;
-            this.IntervalHours.Tag = "IntervalHours";
+            this.cmbIntervalHours.Name = "cmbIntervalHours";
+            this.cmbIntervalHours.Size = new System.Drawing.Size(120, 20);
+            this.cmbIntervalHours.TabIndex = 4;
+            this.cmbIntervalHours.Tag = "IntervalHours";
             // 
-            // label5
+            // lblIntervalMinutes
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(172, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Minutes";
+            this.lblIntervalMinutes.AutoSize = true;
+            this.lblIntervalMinutes.Location = new System.Drawing.Point(172, 16);
+            this.lblIntervalMinutes.Name = "lblIntervalMinutes";
+            this.lblIntervalMinutes.Size = new System.Drawing.Size(139, 13);
+            this.lblIntervalMinutes.TabIndex = 3;
+            this.lblIntervalMinutes.Text = "TIMING_LABEL_MINUTES";
             // 
-            // label6
+            // lblIntervalSeconds
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(44, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Seconds";
+            this.lblIntervalSeconds.AutoSize = true;
+            this.lblIntervalSeconds.Location = new System.Drawing.Point(44, 16);
+            this.lblIntervalSeconds.Name = "lblIntervalSeconds";
+            this.lblIntervalSeconds.Size = new System.Drawing.Size(142, 13);
+            this.lblIntervalSeconds.TabIndex = 2;
+            this.lblIntervalSeconds.Text = "TIMING_LABEL_SECONDS";
             // 
-            // IntervalMinutes
+            // cmbIntervalMinutes
             // 
-            this.IntervalMinutes.Location = new System.Drawing.Point(134, 32);
-            this.IntervalMinutes.Maximum = new decimal(new int[] {
+            this.cmbIntervalMinutes.Location = new System.Drawing.Point(134, 32);
+            this.cmbIntervalMinutes.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.IntervalMinutes.Minimum = new decimal(new int[] {
+            this.cmbIntervalMinutes.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
-            this.IntervalMinutes.Name = "IntervalMinutes";
-            this.IntervalMinutes.Size = new System.Drawing.Size(120, 20);
-            this.IntervalMinutes.TabIndex = 1;
-            this.IntervalMinutes.Tag = "IntervalMinutes";
-            this.IntervalMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
+            this.cmbIntervalMinutes.Name = "cmbIntervalMinutes";
+            this.cmbIntervalMinutes.Size = new System.Drawing.Size(120, 20);
+            this.cmbIntervalMinutes.TabIndex = 1;
+            this.cmbIntervalMinutes.Tag = "IntervalMinutes";
+            this.cmbIntervalMinutes.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // IntervalSeconds
+            // cmbIntervalSeconds
             // 
-            this.IntervalSeconds.Location = new System.Drawing.Point(8, 32);
-            this.IntervalSeconds.Maximum = new decimal(new int[] {
+            this.cmbIntervalSeconds.Location = new System.Drawing.Point(8, 32);
+            this.cmbIntervalSeconds.Maximum = new decimal(new int[] {
             60,
             0,
             0,
             0});
-            this.IntervalSeconds.Minimum = new decimal(new int[] {
+            this.cmbIntervalSeconds.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
-            this.IntervalSeconds.Name = "IntervalSeconds";
-            this.IntervalSeconds.Size = new System.Drawing.Size(120, 20);
-            this.IntervalSeconds.TabIndex = 0;
-            this.IntervalSeconds.Tag = "IntervalSeconds";
-            this.IntervalSeconds.ValueChanged += new System.EventHandler(this.ValueChanged);
+            this.cmbIntervalSeconds.Name = "cmbIntervalSeconds";
+            this.cmbIntervalSeconds.Size = new System.Drawing.Size(120, 20);
+            this.cmbIntervalSeconds.TabIndex = 0;
+            this.cmbIntervalSeconds.Tag = "IntervalSeconds";
+            this.cmbIntervalSeconds.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // btnSave
             // 
@@ -250,7 +250,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 8;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "TIMING_BUTTON_SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -268,14 +268,14 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TimingForm_FormClosed);
             this.grpOffset.ResumeLayout(false);
             this.grpOffset.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetHours)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetMinutes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetSeconds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetHours)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetMinutes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbOffsetSeconds)).EndInit();
             this.grpInterval.ResumeLayout(false);
             this.grpInterval.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalHours)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalMinutes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IntervalSeconds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalHours)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalMinutes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbIntervalSeconds)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -283,19 +283,19 @@
         #endregion
 
         private System.Windows.Forms.GroupBox grpOffset;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown OffsetHours;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown OffsetMinutes;
-        private System.Windows.Forms.NumericUpDown OffsetSeconds;
+        private System.Windows.Forms.Label lblOffsetHours;
+        private System.Windows.Forms.NumericUpDown cmbOffsetHours;
+        private System.Windows.Forms.Label lblOffsetMinutes;
+        private System.Windows.Forms.Label lblOffsetSeconds;
+        private System.Windows.Forms.NumericUpDown cmbOffsetMinutes;
+        private System.Windows.Forms.NumericUpDown cmbOffsetSeconds;
         private System.Windows.Forms.GroupBox grpInterval;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown IntervalHours;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown IntervalMinutes;
-        private System.Windows.Forms.NumericUpDown IntervalSeconds;
+        private System.Windows.Forms.Label lblIntervalHours;
+        private System.Windows.Forms.NumericUpDown cmbIntervalHours;
+        private System.Windows.Forms.Label lblIntervalMinutes;
+        private System.Windows.Forms.Label lblIntervalSeconds;
+        private System.Windows.Forms.NumericUpDown cmbIntervalMinutes;
+        private System.Windows.Forms.NumericUpDown cmbIntervalSeconds;
         private System.Windows.Forms.Button btnSave;
     }
 }

@@ -33,15 +33,15 @@
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.pnlControls = new System.Windows.Forms.Panel();
+            this.btnAuto = new System.Windows.Forms.Button();
             this.btnKeep = new System.Windows.Forms.Button();
             this.lblImageSize = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblFilePath = new System.Windows.Forms.Label();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.picPreview = new System.Windows.Forms.PictureBox();
             this.lstDuplicateImages = new System.Windows.Forms.ListBox();
             this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAuto = new System.Windows.Forms.Button();
-            this.picPreview = new System.Windows.Forms.PictureBox();
             this.pnlRight.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.pnlControls.SuspendLayout();
@@ -92,13 +92,24 @@
             this.pnlControls.Size = new System.Drawing.Size(407, 58);
             this.pnlControls.TabIndex = 5;
             // 
+            // btnAuto
+            // 
+            this.btnAuto.Location = new System.Drawing.Point(313, 29);
+            this.btnAuto.Name = "btnAuto";
+            this.btnAuto.Size = new System.Drawing.Size(75, 23);
+            this.btnAuto.TabIndex = 6;
+            this.btnAuto.Text = "DUPE_BUTTON_AUTO";
+            this.ToolTips.SetToolTip(this.btnAuto, "Automatically resolves duplicates.");
+            this.btnAuto.UseVisualStyleBackColor = true;
+            this.btnAuto.Click += new System.EventHandler(this.btnAuto_Click);
+            // 
             // btnKeep
             // 
-            this.btnKeep.Location = new System.Drawing.Point(151, 29);
+            this.btnKeep.Location = new System.Drawing.Point(70, 29);
             this.btnKeep.Name = "btnKeep";
             this.btnKeep.Size = new System.Drawing.Size(75, 23);
             this.btnKeep.TabIndex = 5;
-            this.btnKeep.Text = "Keep";
+            this.btnKeep.Text = "DUPE_BUTTON_KEEP";
             this.btnKeep.UseVisualStyleBackColor = true;
             this.btnKeep.Click += new System.EventHandler(this.btnKeep_Click);
             // 
@@ -107,9 +118,9 @@
             this.lblImageSize.AutoSize = true;
             this.lblImageSize.Location = new System.Drawing.Point(52, 0);
             this.lblImageSize.Name = "lblImageSize";
-            this.lblImageSize.Size = new System.Drawing.Size(88, 13);
+            this.lblImageSize.Size = new System.Drawing.Size(146, 13);
             this.lblImageSize.TabIndex = 1;
-            this.lblImageSize.Text = "Image Size: (nxn)";
+            this.lblImageSize.Text = "DUPE_LABEL_IMAGE_SIZE";
             // 
             // btnDelete
             // 
@@ -117,7 +128,7 @@
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "Delete";
+            this.btnDelete.Text = "DUPE_BUTTON_DELETE";
             this.ToolTips.SetToolTip(this.btnDelete, "Delete from disk.");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -127,20 +138,30 @@
             this.lblFilePath.AutoSize = true;
             this.lblFilePath.Location = new System.Drawing.Point(66, 13);
             this.lblFilePath.Name = "lblFilePath";
-            this.lblFilePath.Size = new System.Drawing.Size(35, 13);
+            this.lblFilePath.Size = new System.Drawing.Size(133, 13);
             this.lblFilePath.TabIndex = 2;
-            this.lblFilePath.Text = "label1";
+            this.lblFilePath.Text = "DUPE_LABEL_FILEPATH";
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(70, 29);
+            this.btnRemove.Location = new System.Drawing.Point(151, 29);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
             this.btnRemove.TabIndex = 3;
-            this.btnRemove.Text = "Remove";
+            this.btnRemove.Text = "DUPE_BUTTON_REMOVE";
             this.ToolTips.SetToolTip(this.btnRemove, "Remove from library.");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // picPreview
+            // 
+            this.picPreview.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picPreview.Location = new System.Drawing.Point(0, 0);
+            this.picPreview.Name = "picPreview";
+            this.picPreview.Size = new System.Drawing.Size(407, 476);
+            this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPreview.TabIndex = 0;
+            this.picPreview.TabStop = false;
             // 
             // lstDuplicateImages
             // 
@@ -152,27 +173,6 @@
             this.lstDuplicateImages.Size = new System.Drawing.Size(186, 534);
             this.lstDuplicateImages.TabIndex = 0;
             this.lstDuplicateImages.SelectedValueChanged += new System.EventHandler(this.lstDuplicateImages_SelectedValueChanged);
-            // 
-            // btnAuto
-            // 
-            this.btnAuto.Location = new System.Drawing.Point(313, 29);
-            this.btnAuto.Name = "btnAuto";
-            this.btnAuto.Size = new System.Drawing.Size(75, 23);
-            this.btnAuto.TabIndex = 6;
-            this.btnAuto.Text = "Auto";
-            this.ToolTips.SetToolTip(this.btnAuto, "Automatically resolves duplicates.");
-            this.btnAuto.UseVisualStyleBackColor = true;
-            this.btnAuto.Click += new System.EventHandler(this.btnAuto_Click);
-            // 
-            // picPreview
-            // 
-            this.picPreview.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picPreview.Location = new System.Drawing.Point(0, 0);
-            this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(407, 476);
-            this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picPreview.TabIndex = 0;
-            this.picPreview.TabStop = false;
             // 
             // DuplicateForm
             // 

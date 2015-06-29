@@ -5,34 +5,64 @@ namespace WallChanger
 {
     public partial class TimingForm : Form
     {
-        MainForm ParentForm;
+        new MainForm ParentForm;
+        LanguageManager LM = GlobalVars.LanguageManager;
 
         public TimingForm(int Offset, int Interval, MainForm Parent)
         {
             InitializeComponent();
 
-            OffsetSeconds.Value = Offset % 60;
-            OffsetMinutes.Value = (Offset / 60) % 60;
-            OffsetHours.Value = (Offset / 3600);
+            cmbOffsetSeconds.Value = Offset % 60;
+            cmbOffsetMinutes.Value = (Offset / 60) % 60;
+            cmbOffsetHours.Value = (Offset / 3600);
 
-            IntervalSeconds.Value = Interval % 60;
-            IntervalMinutes.Value = (Interval / 60) % 60;
-            IntervalHours.Value = (Interval / 3600);
+            cmbIntervalSeconds.Value = Interval % 60;
+            cmbIntervalMinutes.Value = (Interval / 60) % 60;
+            cmbIntervalHours.Value = (Interval / 3600);
 
             ParentForm = Parent;
+
+            LocaliseInterface();
+        }
+
+        /// <summary>
+        /// Sets the static strings to the chosen language and cascades to the main window.
+        /// </summary>
+        public void LocaliseInterface()
+        {
+            // Buttons.
+            btnSave.Text = LM.GetString("TIMING_BUTTON_SAVE");
+            // Tooltips.
+            // Labels.
+            lblOffsetSeconds.Text = LM.GetString("TIMING_LABEL_SECONDS");
+            lblOffsetSeconds.Left = cmbOffsetSeconds.Left + ((cmbOffsetSeconds.Width / 2) - (TextRenderer.MeasureText(lblOffsetSeconds.Text, lblOffsetSeconds.Font).Width / 2));
+            lblOffsetMinutes.Text = LM.GetString("TIMING_LABEL_MINUTES");
+            lblOffsetMinutes.Left = cmbOffsetMinutes.Left + ((cmbOffsetMinutes.Width / 2) - (TextRenderer.MeasureText(lblOffsetMinutes.Text, lblOffsetMinutes.Font).Width / 2));
+            lblOffsetHours.Text = LM.GetString("TIMING_LABEL_HOURS");
+            lblOffsetHours.Left = cmbOffsetHours.Left + ((cmbOffsetHours.Width / 2) - (TextRenderer.MeasureText(lblOffsetHours.Text, lblOffsetHours.Font).Width / 2));
+            lblIntervalSeconds.Text = LM.GetString("TIMING_LABEL_SECONDS");
+            lblIntervalSeconds.Left = cmbIntervalSeconds.Left + ((cmbIntervalSeconds.Width / 2) - (TextRenderer.MeasureText(lblIntervalSeconds.Text, lblIntervalSeconds.Font).Width / 2));
+            lblIntervalMinutes.Text = LM.GetString("TIMING_LABEL_MINUTES");
+            lblIntervalMinutes.Left = cmbIntervalMinutes.Left + ((cmbIntervalMinutes.Width / 2) - (TextRenderer.MeasureText(lblIntervalMinutes.Text, lblIntervalMinutes.Font).Width / 2));
+            lblIntervalHours.Text = LM.GetString("TIMING_LABEL_HOURS");
+            lblIntervalHours.Left = cmbIntervalHours.Left + ((cmbIntervalHours.Width / 2) - (TextRenderer.MeasureText(lblIntervalHours.Text, lblIntervalHours.Font).Width / 2));
+            grpOffset.Text = LM.GetString("TIMING_LABEL_OFFSET");
+            grpInterval.Text = LM.GetString("TIMING_LABEL_INTERVAL");
+
+            // Cascade.
         }
 
         private void Save()
         {
             int offset = 0;
-            offset += ((int)OffsetSeconds.Value);
-            offset += ((int)OffsetMinutes.Value * 60);
-            offset += ((int)OffsetHours.Value * 3600);
+            offset += ((int)cmbOffsetSeconds.Value);
+            offset += ((int)cmbOffsetMinutes.Value * 60);
+            offset += ((int)cmbOffsetHours.Value * 3600);
 
             int interval = 0;
-            interval += ((int)IntervalSeconds.Value);
-            interval += ((int)IntervalMinutes.Value * 60);
-            interval += ((int)IntervalHours.Value * 3600);
+            interval += ((int)cmbIntervalSeconds.Value);
+            interval += ((int)cmbIntervalMinutes.Value * 60);
+            interval += ((int)cmbIntervalHours.Value * 3600);
 
             if (offset < -interval)
                 MessageBox.Show(string.Format("Offset ({0} - Interval ({1}) cannot be less than zero.", offset, interval));
@@ -60,12 +90,12 @@ namespace WallChanger
                     {
                         if ((int)Control.Value == -60)
                         {
-                            OffsetMinutes.Value--;
+                            cmbOffsetMinutes.Value--;
                             Control.Value = 0;
                         }
                         else if ((int)Control.Value == 60)
                         {
-                            OffsetMinutes.Value++;
+                            cmbOffsetMinutes.Value++;
                             Control.Value = 0;
                         }
                         break;
@@ -74,12 +104,12 @@ namespace WallChanger
                     {
                         if ((int)Control.Value == -60)
                         {
-                            OffsetHours.Value--;
+                            cmbOffsetHours.Value--;
                             Control.Value = 0;
                         }
                         else if ((int)Control.Value == 60)
                         {
-                            OffsetHours.Value++;
+                            cmbOffsetHours.Value++;
                             Control.Value = 0;
                         }
                         break;
@@ -88,15 +118,15 @@ namespace WallChanger
                     {
                         if ((int)Control.Value == -1)
                         {
-                            if (IntervalMinutes.Value > 0)
+                            if (cmbIntervalMinutes.Value > 0)
                             {
-                                IntervalMinutes.Value--;
+                                cmbIntervalMinutes.Value--;
                                 Control.Value = 59;
                             }
                         }
                         else if ((int)Control.Value == 60)
                         {
-                            IntervalMinutes.Value++;
+                            cmbIntervalMinutes.Value++;
                             Control.Value = 0;
                         }
                         break;
@@ -105,15 +135,15 @@ namespace WallChanger
                     {
                         if ((int)Control.Value == -1)
                         {
-                            if (IntervalHours.Value > 0)
+                            if (cmbIntervalHours.Value > 0)
                             {
-                                IntervalHours.Value--;
+                                cmbIntervalHours.Value--;
                                 Control.Value = 59;
                             }
                         }
                         else if ((int)Control.Value == 60)
                         {
-                            IntervalHours.Value++;
+                            cmbIntervalHours.Value++;
                             Control.Value = 0;
                         }
                         break;
