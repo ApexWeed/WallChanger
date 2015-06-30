@@ -82,7 +82,7 @@ ApexWeed
         LIBRARY_LABEL_FILTER = Filters
         LIBRARY_LABEL_FILTER_CATEGORY = Category
         LIBRARY_LABEL_FILTER_SHOW_NAME = Show Name
-        LIBRARY_LABEL_FILTER_CHARACTER = Chracter
+        LIBRARY_LABEL_FILTER_CHARACTER = Character
         LIBRARY_LABEL_FILTER_TAG = Tag
         LIBRARY_LABEL_IMAGE_SIZE = Image Size: {0}x{1}px
         LIBRARY_LABEL_IMAGE_SIZES = Image Size: {0}-{1}x{2}-{3}px
@@ -90,9 +90,9 @@ ApexWeed
         LIBRARY_LABEL_SHOW_NAME = Show Name
         LIBRARY_LABEL_CHARACTER = Characters
         LIBRARY_LABEL_TAG = Tags
-        LIBRARY_LABEL_COLUMN_FILENAME = Filemane
+        LIBRARY_LABEL_COLUMN_FILENAME = Filename
         LIBRARY_LABEL_COLUMN_WIDTH = Width
-        LIBRARY_LABEL_COLUMN_HEIGHT = height
+        LIBRARY_LABEL_COLUMN_HEIGHT = Height
     # Messages
         LIBRARY_MESSAGE_READY = Ready
         LIBRARY_MESSAGE_STATS = Images displayed: {0}/{1} Size cache: {2}
