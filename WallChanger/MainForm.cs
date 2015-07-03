@@ -10,6 +10,8 @@ namespace WallChanger
 {
     public partial class MainForm : Form
     {
+        const string REG_AUTORUN = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+
         Dictionary<char, int> TimeMapping = new Dictionary<char, int>();
         List<string> FileList = new List<string>();
         List<string> ConfigList = new List<string>();
@@ -17,9 +19,9 @@ namespace WallChanger
         int Offset;
         BackgroundWorker TimerWorker = new BackgroundWorker();
         bool AutoStarted;
-        string CurrentConfig;
         TimingForm TimingFormChild;
         LanguageForm LanguageFormChild;
+        SettingsForm SettingsFormChild;
         int LastIndex = 0;
 
         LanguageManager LM;
@@ -59,7 +61,7 @@ namespace WallChanger
         /// <param name="e">Event args associated with this event.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
+            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
             
             LoadSettings();
 
@@ -96,47 +98,56 @@ namespace WallChanger
             ToolTips.SetToolTip(btnLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY"));
             ToolTips.SetToolTip(btnAddToLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY_ADD"));
             ToolTips.SetToolTip(btnLanguage, LM.GetString("MAIN_TOOLTIP_LANGUAGE"));
+            ToolTips.SetToolTip(btnSettings, LM.GetString("MAIN_TOOLTIP_SETTINGS"));
             // Labels.
             grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
-            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), CurrentConfig);
+            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
             chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
 
             // Cascade.
             if (TimingFormChild != null)
                 TimingFormChild.LocaliseInterface();
+            if (SettingsFormChild != null)
+                SettingsFormChild.LocaliseInterface();
             if (GlobalVars.LibraryForm != null)
                 GlobalVars.LibraryForm.LocaliseInterface();
         }
 
         private void LoadSettings()
         {
-            if (File.Exists(GlobalVars.ApplicationPath + "\\config.cfg"))
+            if (Properties.Settings.Default.CurrentConfig == "")
             {
-                StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\config.cfg");
+                if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg")))
+                {
+                    StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg"));
 
-                CurrentConfig = read.ReadLine();
-                read.Close();
+                    Properties.Settings.Default.CurrentConfig = read.ReadLine();
+                    read.Close();
+                    File.Delete(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg"));
 
-                LoadConfigs();
-                LoadConfig();
+                    LoadConfigs();
+                    LoadConfig();
+                }
+                else
+                {
+                    CreateConfig("default");
+                }
             }
             else
             {
-                FileStream file = File.Create(GlobalVars.ApplicationPath + "\\config.cfg");
-                file.Close();
-
-                CreateConfig("default");
+                LoadConfigs();
+                LoadConfig();
             }
         }
 
         private void CreateConfig(string name)
         {
-            FileStream file = File.Create(GlobalVars.ApplicationPath + "\\" + name + ".cfg");
+            FileStream file = File.Create(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", name)));
             file.Close();
 
             Offset = ParseTime("0 h");
             Interval = ParseTime("1 m");
-            CurrentConfig = name;
+            Properties.Settings.Default.CurrentConfig = name;
             FileList.Clear();
 
             SaveSettings();
@@ -150,7 +161,7 @@ namespace WallChanger
             string[] files = Directory.GetFiles(GlobalVars.ApplicationPath);
             foreach (string file in files)
             {
-                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "config" && Path.GetFileNameWithoutExtension(file) != "library" && Path.GetFileNameWithoutExtension(file) != "sizecache")
+                if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "library" && Path.GetFileNameWithoutExtension(file) != "sizecache")
                     ConfigList.Add(Path.GetFileNameWithoutExtension(file));
             }
             FillConfigList();
@@ -158,14 +169,14 @@ namespace WallChanger
 
         private void LoadConfig(string Config)
         {
-            CurrentConfig = Config;
+            Properties.Settings.Default.CurrentConfig = Config;
             LoadConfig();
         }
 
         private void LoadConfig()
         {
-            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), CurrentConfig);
-            StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\" + CurrentConfig + ".cfg");
+            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
+            StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
 
             Offset = ParseTime(read.ReadLine());
             Interval = ParseTime(read.ReadLine());
@@ -181,16 +192,9 @@ namespace WallChanger
             FillImageList();
         }
 
-        private void SaveSettings(bool OnlyConfig = false)
+        private void SaveSettings()
         {
-            StreamWriter write = new StreamWriter(GlobalVars.ApplicationPath + "\\config.cfg");
-            write.Write(CurrentConfig);
-            write.Close();
-
-            if (OnlyConfig)
-                return;
-
-            write = new StreamWriter(GlobalVars.ApplicationPath + "\\" + CurrentConfig + ".cfg");
+            StreamWriter write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
             write.WriteLine(new DateTime().AddYears(10).AddSeconds(Offset / 1000).ToString(@"H \h m \m s \s"));
             write.WriteLine(new DateTime().AddYears(10).AddSeconds(Interval / 1000).ToString(@"H \h m \m s \s"));
             foreach (string image in FileList)
@@ -206,7 +210,7 @@ namespace WallChanger
             {
                 string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 int parsedTime = ParseTime(outputTime) - Offset;
-                int index = (int)(parsedTime / Interval);
+                int index = parsedTime / Interval;
                 int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
                 int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
 
@@ -250,7 +254,7 @@ namespace WallChanger
                 lstConfigs.Items.Add(config);
             }
 
-            lstConfigs.SelectedIndex = lstConfigs.FindString(CurrentConfig, 0);
+            lstConfigs.SelectedIndex = lstConfigs.FindStringExact(Properties.Settings.Default.CurrentConfig, 0);
         }
 
         private int ParseTime(string Time)
@@ -301,7 +305,7 @@ namespace WallChanger
             int delayTime;
             while (true)
             {
-                loadedConfig = CurrentConfig;
+                loadedConfig = Properties.Settings.Default.CurrentConfig;
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
                 parsedTime = ParseTime(outputTime) - Offset;
                 index = parsedTime / Interval;
@@ -314,19 +318,15 @@ namespace WallChanger
                     parsedTime = ParseTime(outputTime) - Offset;
                     sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
                     delayTime = sleepTime > 1000 ? 1000 : sleepTime;
-                    //System.Diagnostics.Debug.Print(string.Format("outputTime: {0} parsedTime: {1} index: {2} interval: {3} delayTime: {4} sleepTime: {5} minutes: {6}", outputTime, parsedTime, index, Interval, delayTime, sleepTime, sleepTime / 1000 / 60));
+                    
                     TimerWorker.ReportProgress(sleepTime);
                     System.Threading.Thread.Sleep(delayTime);
-                } while (delayTime == 1000 && loadedConfig == CurrentConfig);
+                } while (delayTime == 1000 && loadedConfig == Properties.Settings.Default.CurrentConfig);
             }
         }
 
         private void TimerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //SetWallpaper(e.ProgressPercentage);
-            //noiTray.BalloonTipText = string.Format("Next wallpaper change at: {0}", new DateTime().AddSeconds((Interval * (e.ProgressPercentage + 2)) / 1000).AddSeconds(Offset).ToString("hh:mm:ss tt"));
-            //noiTray.BalloonTipTitle = "Next Wallpaper Change";
-            //noiTray.ShowBalloonTip(1000);
             DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
             TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
             lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
@@ -350,7 +350,7 @@ namespace WallChanger
 
         private void chkStartup_CheckedChanged(object sender, EventArgs e)
         {
-            RegistryKey StartupKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            RegistryKey StartupKey = Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true);
             if (chkStartup.Checked)
             {
                 StartupKey.SetValue("WallChanger", string.Format("\"{0}\" hide", Application.ExecutablePath));
@@ -505,7 +505,6 @@ namespace WallChanger
         private void lstConfigs_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadConfig(lstConfigs.SelectedItem.ToString());
-            SaveSettings(true);
         }
 
         private void btnNewConfig_Click(object sender, EventArgs e)
@@ -521,7 +520,6 @@ namespace WallChanger
                 File.Delete(GlobalVars.ApplicationPath + "\\" + lstConfigs.SelectedItem as string + ".cfg");
                 LoadConfigs();
                 LoadConfig(ConfigList[0]);
-                SaveSettings(true);
             }
         }
 
@@ -627,6 +625,8 @@ namespace WallChanger
                 GlobalVars.LibraryForm = null;
             if (Child is LanguageForm)
                 LanguageFormChild = null;
+            if (Child is SettingsForm)
+                SettingsFormChild = null;
         }
 
         public void AddImages(List<string> Images)
@@ -654,6 +654,15 @@ namespace WallChanger
             {
                 LanguageFormChild = new LanguageForm(this);
                 LanguageFormChild.Show();
+            }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            if (SettingsFormChild == null)
+            {
+                SettingsFormChild = new SettingsForm(this);
+                SettingsFormChild.Show();
             }
         }
 

@@ -21,3 +21,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 Some icons by Yusuke Kamiyamane (http://p.yusukekamiyamane.com/). Licensed under a Creative Commons Attribution 3.0 License (http://creativecommons.org/licenses/by/3.0/).
+
+Uses 7-zip for compression (http://www.7-zip.org/) which is licensed under LGPL 2.1 (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html).
+
+Uses SevenZipSharp (https://sevenzipsharp.codeplex.com/) which is licensed under LGPL 2.1 (https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html).
+
+Uses ImageComparison by Jakob "XnaFan" Krarup (http://www.codeproject.com/Articles/374386/Simple-image-comparison-in-NET) licensed under the CPOL (http://www.codeproject.com/info/cpol10.aspx).
+Modifications were made to add multithreading and cache support.

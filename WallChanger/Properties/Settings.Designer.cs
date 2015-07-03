@@ -46,5 +46,29 @@ namespace WallChanger.Properties {
                 this["FallbackLanguage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CurrentConfig {
+            get {
+                return ((string)(this["CurrentConfig"]));
+            }
+            set {
+                this["CurrentConfig"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::SevenZip.CompressionLevel CompressionLevel {
+            get {
+                return ((global::SevenZip.CompressionLevel)(this["CompressionLevel"]));
+            }
+            set {
+                this["CompressionLevel"] = value;
+            }
+        }
     }
 }

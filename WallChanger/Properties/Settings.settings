@@ -8,5 +8,11 @@
     <Setting Name="FallbackLanguage" Type="System.String" Scope="User">
       <Value Profile="(Default)">en_AU</Value>
     </Setting>
+    <Setting Name="CurrentConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CompressionLevel" Type="SevenZip.CompressionLevel" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -55,6 +55,8 @@
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnLanguage = new System.Windows.Forms.Button();
             this.btnAddToLibrary = new System.Windows.Forms.Button();
             this.btnLibrary = new System.Windows.Forms.Button();
             this.btnAddImage = new System.Windows.Forms.Button();
@@ -62,7 +64,6 @@
             this.btnRemoveImage = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
-            this.btnLanguage = new System.Windows.Forms.Button();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -242,6 +243,7 @@
             // 
             // pnlImageButtons
             // 
+            this.pnlImageButtons.Controls.Add(this.btnSettings);
             this.pnlImageButtons.Controls.Add(this.btnLanguage);
             this.pnlImageButtons.Controls.Add(this.btnAddToLibrary);
             this.pnlImageButtons.Controls.Add(this.btnLibrary);
@@ -315,6 +317,28 @@
             this.pnlSpacer.Name = "pnlSpacer";
             this.pnlSpacer.Size = new System.Drawing.Size(8, 495);
             this.pnlSpacer.TabIndex = 11;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Image = global::WallChanger.Properties.Resources.gear;
+            this.btnSettings.Location = new System.Drawing.Point(3, 243);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(24, 24);
+            this.btnSettings.TabIndex = 10;
+            this.ToolTips.SetToolTip(this.btnSettings, "MAIN_TOOLTIP_SETTINGS");
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // btnLanguage
+            // 
+            this.btnLanguage.Image = global::WallChanger.Properties.Resources.language;
+            this.btnLanguage.Location = new System.Drawing.Point(3, 213);
+            this.btnLanguage.Name = "btnLanguage";
+            this.btnLanguage.Size = new System.Drawing.Size(24, 24);
+            this.btnLanguage.TabIndex = 9;
+            this.ToolTips.SetToolTip(this.btnLanguage, "MAIN_TOOLTIP_LANGUAGE");
+            this.btnLanguage.UseVisualStyleBackColor = true;
+            this.btnLanguage.Click += new System.EventHandler(this.btnLanguage_Click);
             // 
             // btnAddToLibrary
             // 
@@ -393,17 +417,6 @@
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // btnLanguage
-            // 
-            this.btnLanguage.Image = global::WallChanger.Properties.Resources.language;
-            this.btnLanguage.Location = new System.Drawing.Point(3, 213);
-            this.btnLanguage.Name = "btnLanguage";
-            this.btnLanguage.Size = new System.Drawing.Size(24, 24);
-            this.btnLanguage.TabIndex = 9;
-            this.ToolTips.SetToolTip(this.btnLanguage, "MAIN_TOOLTIP_LANGUAGE");
-            this.btnLanguage.UseVisualStyleBackColor = true;
-            this.btnLanguage.Click += new System.EventHandler(this.btnLanguage_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -469,6 +482,7 @@
         private System.Windows.Forms.Button btnAddToLibrary;
         private System.Windows.Forms.Label lblNextChange;
         private System.Windows.Forms.Button btnLanguage;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
 

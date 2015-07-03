@@ -40,6 +40,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\Libraries\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\SevenZipSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveDesktop.cs" />
+    <Compile Include="ArrayComparer.cs" />
     <Compile Include="AutoResolveForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +105,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StringComboBoxPrompt.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +154,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StringComboBoxPrompt.resx">
       <DependentUpon>StringComboBoxPrompt.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +224,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\language.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="7z.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\gear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

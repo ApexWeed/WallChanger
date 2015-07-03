@@ -1,47 +1,70 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace WallChanger
 {
     public static class Library
     {
         private static Mutex FileMutex = new Mutex();
-
+        private static ArrayComparer<byte> byteComparer = new ArrayComparer<byte>();
+        
         public static void Save()
         {
             if (FileMutex.WaitOne(1))
             {
-                //byte[,] Test = new byte[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
-                //byte[,] Test2 = Expand(Flatten(Test), 4);
-                //MessageBox.Show(string.Format("{0}\n{1}", ArrayToString(Test), ArrayToString(Test2)));
-
-                using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\library.cfg", FileMode.Create))
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
                 {
-                    using (StreamWriter write = new StreamWriter(stream))
+                    using (MemoryStream ms = new MemoryStream())
                     {
-                        write.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
-                    }
-                }
-
-                using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\sizecache.cfg", FileMode.Create))
-                {
-                    using (StreamWriter write = new StreamWriter(stream))
-                    {
-                        write.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
-                    }
-                }
-
-                using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\imagecache.dat", FileMode.Create))
-                {
-                    using (BinaryWriter write = new BinaryWriter(stream))
-                    {
-                        write.Write(GlobalVars.ImageCache.Count);
-                        foreach (var Item in GlobalVars.ImageCache)
+                        using (StreamWriter w = new StreamWriter(ms))
                         {
-                            write.Write(Item.Key);
-                            write.Write(Flatten(Item.Value));
+                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
+                            w.Flush();
+
+                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
+                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
+                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
+                            compresser.CompressStream(ms, fs);
+                        }
+                    }
+                }
+
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (StreamWriter w = new StreamWriter(ms))
+                        {
+                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
+                            w.Flush();
+
+                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
+                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
+                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
+                            compresser.CompressStream(ms, fs);
+                        }
+                    }
+                }
+
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (BinaryWriter w = new BinaryWriter(ms))
+                        {
+                            w.Write(GlobalVars.ImageCache.Count);
+                            foreach (var Item in GlobalVars.ImageCache)
+                            {
+                                w.Write(Item.Key);
+                                w.Write(Flatten(Item.Value));
+                            }
+                            w.Flush();
+
+                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
+                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
+                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
+                            compresser.CompressStream(ms, fs);
                         }
                     }
                 }
@@ -97,38 +120,165 @@ namespace WallChanger
             {
                 GlobalVars.LibraryItems = new List<LibraryItem>();
 
-                if (File.Exists(GlobalVars.ApplicationPath + "\\library.cfg"))
+                if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, "library.dat")))
                 {
-                    using (StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\library.cfg"))
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Open))
                     {
-                        GlobalVars.LibraryItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LibraryItem>>(read.ReadLine());
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            // Look for 7zip signature
+                            byte[] buffer = new byte[2];
+                            fs.Read(buffer, 0, 2);
+                            fs.Seek(0, SeekOrigin.Begin);
+                            if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
+                            {
+                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
+                                extractor.ExtractFile(0, ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                fs.CopyTo(ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            using (StreamReader read = new StreamReader(ms))
+                            {
+                                GlobalVars.LibraryItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LibraryItem>>(read.ReadLine());
+                            }
+                        }
                     }
+                }
+                // Legacy file path.
+                else if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, "library.cfg")))
+                {
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.cfg"), FileMode.Open))
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            // Look for 7zip signature
+                            byte[] buffer = new byte[2];
+                            fs.Read(buffer, 0, 2);
+                            fs.Seek(0, SeekOrigin.Begin);
+                            if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
+                            {
+                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
+                                extractor.ExtractFile(0, ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                fs.CopyTo(ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            using (StreamReader read = new StreamReader(ms))
+                            {
+                                GlobalVars.LibraryItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LibraryItem>>(read.ReadLine());
+                            }
+                        }
+                    }
+                    // Remove old file.
+                    File.Delete(Path.Combine(GlobalVars.ApplicationPath, "library.cfg"));
                 }
 
                 GlobalVars.ImageSizeCache = new Dictionary<string, System.Drawing.Size>();
 
-                if (File.Exists(GlobalVars.ApplicationPath + "\\sizecache.cfg"))
+                if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat")))
                 {
-                    using (StreamReader read = new StreamReader(GlobalVars.ApplicationPath + "\\sizecache.cfg"))
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Open))
                     {
-                        GlobalVars.ImageSizeCache = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, System.Drawing.Size>>(read.ReadLine());
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            // Look for 7zip signature
+                            byte[] buffer = new byte[2];
+                            fs.Read(buffer, 0, 2);
+                            fs.Seek(0, SeekOrigin.Begin);
+                            if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
+                            {
+                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
+                                extractor.ExtractFile(0, ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                fs.CopyTo(ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            using (StreamReader read = new StreamReader(ms))
+                            {
+                                GlobalVars.ImageSizeCache = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, System.Drawing.Size>>(read.ReadLine());
+                            }
+                        }
                     }
+                }
+                // Legacy file path.
+                else if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, "sizecache.cfg")))
+                {
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.cfg"), FileMode.Open))
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            // Look for 7zip signature
+                            byte[] buffer = new byte[2];
+                            fs.Read(buffer, 0, 2);
+                            fs.Seek(0, SeekOrigin.Begin);
+                            if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
+                            {
+                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
+                                extractor.ExtractFile(0, ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                fs.CopyTo(ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            using (StreamReader read = new StreamReader(ms))
+                            {
+                                GlobalVars.ImageSizeCache = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, System.Drawing.Size>>(read.ReadLine());
+                            }
+                        }
+                    }
+                    // Remove old file.
+                    File.Delete(Path.Combine(GlobalVars.ApplicationPath, "sizecache.cfg"));
                 }
 
                 GlobalVars.ImageCache = new Dictionary<string, byte[,]>();
 
-                if (File.Exists(GlobalVars.ApplicationPath + "\\imagecache.dat"))
+                if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat")))
                 {
-                    using (FileStream stream = File.Open(GlobalVars.ApplicationPath + "\\imagecache.dat", FileMode.Open))
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Open))
                     {
-                        using (BinaryReader read = new BinaryReader(stream))
+                        using (MemoryStream ms = new MemoryStream())
                         {
-                            int ImageCount = read.ReadInt32();
-                            for (int i = 0; i < ImageCount; i++)
+                            // Look for 7zip signature
+                            byte[] buffer = new byte[2];
+                            fs.Read(buffer, 0, 2);
+                            fs.Seek(0, SeekOrigin.Begin);
+                            if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                string ImagePath = read.ReadString();
-                                byte[] Image = read.ReadBytes(256);
-                                GlobalVars.ImageCache.Add(ImagePath, Expand(Image, 16));
+                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
+                                extractor.ExtractFile(0, ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+                            else
+                            {
+                                fs.CopyTo(ms);
+                                ms.Seek(0, SeekOrigin.Begin);
+                            }
+
+                            using (BinaryReader read = new BinaryReader(ms))
+                            {
+                                int ImageCount = read.ReadInt32();
+                                for (int i = 0; i < ImageCount; i++)
+                                {
+                                    string ImagePath = read.ReadString();
+                                    byte[] Image = read.ReadBytes(256);
+                                    GlobalVars.ImageCache.Add(ImagePath, Expand(Image, 16));
+                                }
                             }
                         }
                     }
