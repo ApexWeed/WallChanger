@@ -18,7 +18,8 @@ namespace WallChanger
     {
         const string REG_AUTORUN = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
-        Dictionary<char, int> TimeMapping = new Dictionary<char, int>();
+        Version AssemblyVersion;
+
         List<string> FileList = new List<string>();
         List<string> ConfigList = new List<string>();
         int Interval;
@@ -40,15 +41,8 @@ namespace WallChanger
         {
             InitializeComponent();
 
-            TimeMapping.Add('f', 1);
-            TimeMapping.Add('F', 1);
-            TimeMapping.Add('s', 1000);
-            TimeMapping.Add('S', 1000);
-            TimeMapping.Add('m', 60000);
-            TimeMapping.Add('M', 60000);
-            TimeMapping.Add('h', 3600000);
-            TimeMapping.Add('H', 3600000);
-            
+            AssemblyVersion = new Version(ProductVersion);
+
             TimerWorker.DoWork += TimerWorker_DoWork;
             TimerWorker.ProgressChanged += TimerWorker_ProgressChanged;
             TimerWorker.WorkerReportsProgress = true;
@@ -109,6 +103,10 @@ namespace WallChanger
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
             chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
             chkStartup.Left = (pnlBottomRight.Width / 2) - (chkStartup.Width / 2);
+            chkRandomise.Text = LM.GetString("MAIN_LABEL_RANDOMISE");
+            chkRandomise.Left = (pnlBottomRight.Width / 2) - (chkRandomise.Width / 2);
+            chkFade.Text = LM.GetString("MAIN_LABEL_FADE");
+            chkFade.Left = (pnlBottomRight.Width / 2) - (chkFade.Width / 2);
 
             // Cascade.
             if (TimingFormChild != null)
@@ -158,8 +156,8 @@ namespace WallChanger
             FileStream file = File.Create(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", name)));
             file.Close();
 
-            Offset = ParseTime("0 h");
-            Interval = ParseTime("1 m");
+            Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
+            Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
             Properties.Settings.Default.CurrentConfig = name;
             FileList.Clear();
 
@@ -199,15 +197,77 @@ namespace WallChanger
         private void LoadConfig()
         {
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
+
             StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
 
-            Offset = ParseTime(read.ReadLine());
-            Interval = ParseTime(read.ReadLine());
+            // Set defaults.
+            Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
+            Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
+            chkRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
+            chkFade.Checked = Properties.Settings.Default.DefaultFade;
 
-            FileList.Clear();
-            while (!read.EndOfStream)
+            string firstLine = read.ReadLine().Trim();
+            if (firstLine.StartsWith("Version="))
             {
-                FileList.Add(read.ReadLine());
+                // New format.
+                Version FileVersion = new Version(firstLine.Split('=')[1].Trim());
+                if (FileVersion.Major > AssemblyVersion.Major)
+                {
+                    MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
+                    read.Close();
+                    return;
+                }
+                else
+                {
+                    if (FileVersion.Minor > AssemblyVersion.Minor)
+                    {
+                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
+                        read.Close();
+                        return;
+                    }
+                    else
+                    {
+                        FileList.Clear();
+                        while (!read.EndOfStream)
+                        {
+                            string Line = read.ReadLine().Trim();
+                            string[] Parts = Line.Split('=');
+                            if (Parts.Count() != 2)
+                                continue;
+
+                            switch (Parts[0].Trim())
+                            {
+                                case "Offset":
+                                    Offset = Timing.ParseTime(Parts[1].Trim());
+                                    break;
+                                case "Interval":
+                                    Interval = Timing.ParseTime(Parts[1].Trim());
+                                    break;
+                                case "Randomise":
+                                    chkRandomise.Checked = bool.Parse(Parts[1].Trim());
+                                    break;
+                                case "Fade":
+                                    chkFade.Checked = bool.Parse(Parts[1].Trim());
+                                    break;
+                                case "Image":
+                                    FileList.Add(Parts[1].Trim());
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Old format.
+                Offset = Timing.ParseTime(firstLine);
+                Interval = Timing.ParseTime(read.ReadLine());
+
+                FileList.Clear();
+                while (!read.EndOfStream)
+                {
+                    FileList.Add(read.ReadLine());
+                }
             }
 
             read.Close();
@@ -221,11 +281,14 @@ namespace WallChanger
         private void SaveSettings()
         {
             StreamWriter write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
-            write.WriteLine(new DateTime().AddYears(10).AddSeconds(Offset / 1000).ToString(@"H \h m \m s \s"));
-            write.WriteLine(new DateTime().AddYears(10).AddSeconds(Interval / 1000).ToString(@"H \h m \m s \s"));
+            write.WriteLine(string.Format("Version={0}", AssemblyVersion));
+            write.WriteLine(string.Format("Offset={0}", Timing.ToString(Offset)));
+            write.WriteLine(string.Format("Interval={0}", Timing.ToString(Interval)));
+            write.WriteLine(string.Format("Randomise={0}", chkRandomise.Checked));
+            write.WriteLine(string.Format("Fade={0}", chkFade.Checked));
             foreach (string image in FileList)
             {
-                write.WriteLine(image);
+                write.WriteLine(string.Format("Image={0}", image));
             }
             write.Close();
         }
@@ -239,7 +302,7 @@ namespace WallChanger
             if (lstImages.Items.Count == FileList.Count())
             {
                 string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                int parsedTime = ParseTime(outputTime) - Offset;
+                int parsedTime = Timing.ParseTime(outputTime) - Offset;
                 int index = parsedTime / Interval;
                 int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
                 int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
@@ -259,8 +322,8 @@ namespace WallChanger
                 lstImages.Items.Clear();
 
                 string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                int parsedTime = ParseTime(outputTime) - Offset;
-                int index = (int)(parsedTime / Interval);
+                int parsedTime = Timing.ParseTime(outputTime) - Offset;
+                int index = parsedTime / Interval;
                 int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
                 int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
 
@@ -291,36 +354,12 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Parses the config file times to seconds.
-        /// </summary>
-        /// <param name="Time">Time in "xh ym zs" format.</param>
-        /// <returns>Number of seconds.</returns>
-        private int ParseTime(string Time)
-        {
-            string[] parts = Time.Split(' ');
-            int interval = 0;
-            if (parts.Length % 2 == 0)
-            {
-                for (int i = 0; i < parts.Length / 2; i++)
-                {
-                    interval += int.Parse(parts[i * 2]) * TimeMapping[parts[i * 2 + 1][0]];
-                }
-            }
-            else
-            {
-                interval = 10;
-            }
-            
-            return interval;
-        }
-
-        /// <summary>
         /// Sets the wallpaper using the current index.
         /// </summary>
         private void SetWallpaper()
         {
             string outputTime = DateTime.Now.ToString(@"H \h m \m s \s");
-            int parsedTime = ParseTime(outputTime);
+            int parsedTime = Timing.ParseTime(outputTime);
             int index = parsedTime / Interval;
 
             SetWallpaper(index);
@@ -371,7 +410,7 @@ namespace WallChanger
             {
                 loadedConfig = Properties.Settings.Default.CurrentConfig;
                 outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                parsedTime = ParseTime(outputTime) - Offset;
+                parsedTime = Timing.ParseTime(outputTime) - Offset;
                 index = parsedTime / Interval;
 
                 SetWallpaper(index);
@@ -379,7 +418,7 @@ namespace WallChanger
                 do
                 {
                     outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                    parsedTime = ParseTime(outputTime) - Offset;
+                    parsedTime = Timing.ParseTime(outputTime) - Offset;
                     sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
                     delayTime = sleepTime > 1000 ? 1000 : sleepTime;
                     
@@ -401,7 +440,7 @@ namespace WallChanger
             lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
 
             string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-            int parsedTime = ParseTime(outputTime) - Offset;
+            int parsedTime = Timing.ParseTime(outputTime) - Offset;
             int index = parsedTime / Interval;
             if (index != LastIndex)
             {
@@ -593,8 +632,8 @@ namespace WallChanger
         /// <param name="Interval">The interval that the images should change at.</param>
         public void SetTimes(int Offset, int Interval)
         {
-            this.Offset = Offset * 1000;
-            this.Interval = Interval * 1000;
+            this.Offset = Offset;
+            this.Interval = Interval;
 
             FillImageList();
         }
@@ -608,7 +647,7 @@ namespace WallChanger
         {
             if (TimingFormChild == null)
             {
-                TimingFormChild = new TimingForm(Offset / 1000, Interval / 1000, this);
+                TimingFormChild = new TimingForm(Offset, Interval, this);
                 TimingFormChild.Show();
             }
             else
@@ -777,6 +816,10 @@ namespace WallChanger
                 GlobalVars.LibraryForm = new LibraryForm(this);
                 GlobalVars.LibraryForm.Show();
             }
+            else
+            {
+                GlobalVars.LibraryForm.BringToFront();
+            }
         }
 
         /// <summary>
@@ -835,6 +878,10 @@ namespace WallChanger
                 LanguageFormChild = new LanguageForm(this);
                 LanguageFormChild.Show();
             }
+            else
+            {
+                LanguageFormChild.BringToFront();
+            }
         }
 
         /// <summary>
@@ -848,6 +895,10 @@ namespace WallChanger
             {
                 SettingsFormChild = new SettingsForm(this);
                 SettingsFormChild.Show();
+            }
+            else
+            {
+                SettingsFormChild.BringToFront();
             }
         }
 

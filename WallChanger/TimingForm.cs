@@ -5,7 +5,7 @@ namespace WallChanger
 {
     public partial class TimingForm : Form
     {
-        new MainForm ParentForm;
+        new Form ParentForm;
         LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
@@ -14,9 +14,12 @@ namespace WallChanger
         /// <param name="Offset">Offset to initialise the form to.</param>
         /// <param name="Interval">Interval to initialise the form to.</param>
         /// <param name="Parent">The parent of this form.</param>
-        public TimingForm(int Offset, int Interval, MainForm Parent)
+        public TimingForm(int Offset, int Interval, Form Parent)
         {
             InitializeComponent();
+
+            Offset /= 1000;
+            Interval /= 1000;
 
             cmbOffsetSeconds.Value = Offset % 60;
             cmbOffsetMinutes.Value = (Offset / 60) % 60;
@@ -67,16 +70,25 @@ namespace WallChanger
             offset += ((int)cmbOffsetSeconds.Value);
             offset += ((int)cmbOffsetMinutes.Value * 60);
             offset += ((int)cmbOffsetHours.Value * 3600);
+            offset *= 1000;
 
             int interval = 0;
             interval += ((int)cmbIntervalSeconds.Value);
             interval += ((int)cmbIntervalMinutes.Value * 60);
             interval += ((int)cmbIntervalHours.Value * 3600);
+            interval *= 1000;
 
             if (offset < -interval)
+            {
                 MessageBox.Show(string.Format(LM.GetStringDefault("TIMING_MESSAGE_OFFSET_ERROR", "TIMING_MESSAGE_OFFSET_ERROR {0} - {1}"), offset, interval));
+            }
             else
-                ParentForm.SetTimes(offset, interval);
+            {
+                if (ParentForm is MainForm)
+                    (ParentForm as MainForm).SetTimes(offset, interval);
+                else if (ParentForm is SettingsForm)
+                    (ParentForm as SettingsForm).SetTimes(offset, interval);
+            }
         }
 
         /// <summary>
@@ -97,7 +109,10 @@ namespace WallChanger
         private void TimingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Save();
-            ParentForm.ChildClosed(this);
+            if (ParentForm is MainForm)
+                (ParentForm as MainForm).ChildClosed(this);
+            else if (ParentForm is SettingsForm)
+                (ParentForm as SettingsForm).ChildClosed(this);
         }
 
         /// <summary>

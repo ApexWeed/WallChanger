@@ -73,13 +73,61 @@ namespace WallChanger.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Fill")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public Wallpaper.WallpaperStyle WallpaperStyle {
             get {
                 return ((Wallpaper.WallpaperStyle)(this["WallpaperStyle"]));
             }
             set {
                 this["WallpaperStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultRandomise {
+            get {
+                return ((bool)(this["DefaultRandomise"]));
+            }
+            set {
+                this["DefaultRandomise"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultFade {
+            get {
+                return ((bool)(this["DefaultFade"]));
+            }
+            set {
+                this["DefaultFade"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0 h")]
+        public string DefaultOffset {
+            get {
+                return ((string)(this["DefaultOffset"]));
+            }
+            set {
+                this["DefaultOffset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1 m")]
+        public string DefaultInterval {
+            get {
+                return ((string)(this["DefaultInterval"]));
+            }
+            set {
+                this["DefaultInterval"] = value;
             }
         }
     }

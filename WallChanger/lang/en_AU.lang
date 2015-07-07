@@ -23,6 +23,8 @@ ApexWeed
         MAIN_LABEL_IMAGES = Images ({0})
         MAIN_LABEL_CONFIGS = Configs
         MAIN_LABEL_STARTUP = Run on startup
+		MAIN_LABEL_RANDOMISE = Randomise
+		MAIN_LABEL_FADE = Fade wallpaper
         MAIN_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
         MAIN_LABEL_IMAGE = {0:HH:mm:ss} - {1}
     # Messages
@@ -31,6 +33,7 @@ ApexWeed
         MAIN_MESSAGE_NEW_CONFIG_DEFAULT = default
         MAIN_MESSAGE_DELETE_CONFIG = Are you sure you want to delete "{0}"? Write the config name to confirm.
         MAIN_MESSAGE_DELETE_CONFIG_TITLE = Confirm Delete
+		MAIN_MESSAGE_VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
 # LanguageForm
     # Buttons
         LANG_BUTTON_SAVE = Save
@@ -131,13 +134,21 @@ ApexWeed
         DUPE_MESSAGE_CONFIRM_AUTO_TITLE = Confirm Auto Resolve
 # SettingsForm
 	# Buttons
+		SETTINGS_BUTTON_DEFAULT_TIMING = Edit Timings...
 	# Tooltips
 	# Labels
 		SETTINGS_LABEL_COMPRESSION = Compression
 		SETTINGS_LABEL_COMPRESSION_LEVEL = Compression Level
 		SETTINGS_LABEL_COMPRESSION_WARNING = Using higher compression levels can result in freezing during saves.
+
 		SETTINGS_LABEL_WALLPAPER = Wallpaper
 		SETTINGS_LABEL_WALLPAPER_STYLE = Wallpaper style
+
+		SETTINGS_LABEL_DEFAULT = Defaults
+		SETTINGS_LABEL_DEFAULT_OFFSET = Default offset: {0}
+		SETTINGS_LABEL_DEFAULT_INTERVAL = Default intervel: {0}
+		SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
+		SETTINGS_LABEL_DEFAULT_FADE = Fade by default
 	# Messages
 # Prompts
 	# Buttons

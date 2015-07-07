@@ -35,8 +35,15 @@
             this.grpWallpaper = new System.Windows.Forms.GroupBox();
             this.lblWallpaperStyle = new System.Windows.Forms.Label();
             this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
+            this.grpDefaults = new System.Windows.Forms.GroupBox();
+            this.lblDefaultOffset = new System.Windows.Forms.Label();
+            this.lblDefaultInterval = new System.Windows.Forms.Label();
+            this.btnChangeDefaultTiming = new System.Windows.Forms.Button();
+            this.chkDefaultRandomise = new System.Windows.Forms.CheckBox();
+            this.chkDefaultFade = new System.Windows.Forms.CheckBox();
             this.grpCompression.SuspendLayout();
             this.grpWallpaper.SuspendLayout();
+            this.grpDefaults.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpCompression
@@ -107,13 +114,79 @@
             this.cmbWallpaperStyle.TabIndex = 0;
             this.cmbWallpaperStyle.SelectedValueChanged += new System.EventHandler(this.cmbWallpaperStyle_SelectedValueChanged);
             // 
+            // grpDefaults
+            // 
+            this.grpDefaults.Controls.Add(this.chkDefaultFade);
+            this.grpDefaults.Controls.Add(this.chkDefaultRandomise);
+            this.grpDefaults.Controls.Add(this.btnChangeDefaultTiming);
+            this.grpDefaults.Controls.Add(this.lblDefaultInterval);
+            this.grpDefaults.Controls.Add(this.lblDefaultOffset);
+            this.grpDefaults.Location = new System.Drawing.Point(12, 183);
+            this.grpDefaults.Name = "grpDefaults";
+            this.grpDefaults.Size = new System.Drawing.Size(741, 101);
+            this.grpDefaults.TabIndex = 4;
+            this.grpDefaults.TabStop = false;
+            this.grpDefaults.Text = "SETTINGS_LABEL_DEFAULT";
+            // 
+            // lblDefaultOffset
+            // 
+            this.lblDefaultOffset.AutoSize = true;
+            this.lblDefaultOffset.Location = new System.Drawing.Point(6, 16);
+            this.lblDefaultOffset.Name = "lblDefaultOffset";
+            this.lblDefaultOffset.Size = new System.Drawing.Size(274, 13);
+            this.lblDefaultOffset.TabIndex = 1;
+            this.lblDefaultOffset.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_OFFSET";
+            // 
+            // lblDefaultInterval
+            // 
+            this.lblDefaultInterval.AutoSize = true;
+            this.lblDefaultInterval.Location = new System.Drawing.Point(6, 29);
+            this.lblDefaultInterval.Name = "lblDefaultInterval";
+            this.lblDefaultInterval.Size = new System.Drawing.Size(286, 13);
+            this.lblDefaultInterval.TabIndex = 2;
+            this.lblDefaultInterval.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_INTERVAL";
+            // 
+            // btnChangeDefaultTiming
+            // 
+            this.btnChangeDefaultTiming.Location = new System.Drawing.Point(660, 16);
+            this.btnChangeDefaultTiming.Name = "btnChangeDefaultTiming";
+            this.btnChangeDefaultTiming.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeDefaultTiming.TabIndex = 3;
+            this.btnChangeDefaultTiming.Text = "SETTINGS_BUTTON_DEFAULT_TIMING";
+            this.btnChangeDefaultTiming.UseVisualStyleBackColor = true;
+            this.btnChangeDefaultTiming.Click += new System.EventHandler(this.btnChangeDefaultTiming_Click);
+            // 
+            // chkDefaultRandomise
+            // 
+            this.chkDefaultRandomise.AutoSize = true;
+            this.chkDefaultRandomise.Location = new System.Drawing.Point(9, 45);
+            this.chkDefaultRandomise.Name = "chkDefaultRandomise";
+            this.chkDefaultRandomise.Size = new System.Drawing.Size(245, 17);
+            this.chkDefaultRandomise.TabIndex = 4;
+            this.chkDefaultRandomise.Text = "SETTINGS_LABEL_DEFAULT_RANDOMISE";
+            this.chkDefaultRandomise.UseVisualStyleBackColor = true;
+            this.chkDefaultRandomise.CheckedChanged += new System.EventHandler(this.chkDefaultRandomise_CheckedChanged);
+            // 
+            // chkDefaultFade
+            // 
+            this.chkDefaultFade.AutoSize = true;
+            this.chkDefaultFade.Location = new System.Drawing.Point(9, 68);
+            this.chkDefaultFade.Name = "chkDefaultFade";
+            this.chkDefaultFade.Size = new System.Drawing.Size(208, 17);
+            this.chkDefaultFade.TabIndex = 5;
+            this.chkDefaultFade.Text = "SETTINGS_LABEL_DEFAULT_FADE";
+            this.chkDefaultFade.UseVisualStyleBackColor = true;
+            this.chkDefaultFade.CheckedChanged += new System.EventHandler(this.chkDefaultFade_CheckedChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 411);
+            this.ClientSize = new System.Drawing.Size(765, 297);
+            this.Controls.Add(this.grpDefaults);
             this.Controls.Add(this.grpWallpaper);
             this.Controls.Add(this.grpCompression);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "SettingsForm";
             this.Text = "SettingsForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsForm_FormClosing);
@@ -122,6 +195,8 @@
             this.grpCompression.PerformLayout();
             this.grpWallpaper.ResumeLayout(false);
             this.grpWallpaper.PerformLayout();
+            this.grpDefaults.ResumeLayout(false);
+            this.grpDefaults.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -135,5 +210,11 @@
         private System.Windows.Forms.GroupBox grpWallpaper;
         private System.Windows.Forms.Label lblWallpaperStyle;
         private System.Windows.Forms.ComboBox cmbWallpaperStyle;
+        private System.Windows.Forms.GroupBox grpDefaults;
+        private System.Windows.Forms.Label lblDefaultOffset;
+        private System.Windows.Forms.Label lblDefaultInterval;
+        private System.Windows.Forms.CheckBox chkDefaultFade;
+        private System.Windows.Forms.CheckBox chkDefaultRandomise;
+        private System.Windows.Forms.Button btnChangeDefaultTiming;
     }
 }

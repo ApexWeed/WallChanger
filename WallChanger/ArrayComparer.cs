@@ -13,7 +13,7 @@ namespace WallChanger
         /// <returns>Relative sort order of the arrays.</returns>
         public int Compare(T[] array1, T[] array2)
         {
-            int comparisonResult = array1.GetLength(0).CompareTo(array2.GetLength(0));
+            var comparisonResult = array1.GetLength(0).CompareTo(array2.GetLength(0));
             if (comparisonResult != 0)
                 return comparisonResult;
             for (int i = 0; i < array1.GetLength(0); i++)

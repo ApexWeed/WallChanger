@@ -321,7 +321,7 @@ namespace WallChanger
                             {
                                 size = Imaging.GetDimensions(image);
                             }
-                            catch (ArgumentException ex)
+                            catch (ArgumentException)
                             {
                                 using (Image img = Image.FromFile(image))
                                 {
@@ -1112,6 +1112,10 @@ namespace WallChanger
                 {
                     GlobalVars.DuplicateForm = new DuplicateForm(Duplicates, this);
                     GlobalVars.DuplicateForm.Show();
+                }
+                else
+                {
+                    GlobalVars.DuplicateForm.BringToFront();
                 }
             }
         }

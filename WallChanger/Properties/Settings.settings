@@ -17,5 +17,17 @@
     <Setting Name="WallpaperStyle" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="DefaultRandomise" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DefaultFade" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DefaultOffset" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0 h</Value>
+    </Setting>
+    <Setting Name="DefaultInterval" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1 m</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

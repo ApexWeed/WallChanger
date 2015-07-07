@@ -5,7 +5,7 @@ namespace WallChanger
 {
     public partial class AutoResolveForm : Form
     {
-        DuplicateForm Parent;
+        new DuplicateForm Parent;
 
         public AutoResolveForm(DuplicateForm Parent)
         {
