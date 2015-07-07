@@ -20,15 +20,20 @@ namespace WallChanger
             unknown
         }
 
+        /// <summary>
+        /// Gets the format of an image from a stream.
+        /// </summary>
+        /// <param name="stream">The stream to read.</param>
+        /// <returns>The image format of the image.</returns>
         public static ImageFormat GetImageFormat(Stream stream)
         {
             // see http://www.mikekunz.com/image_file_header.html
             var bmp = Encoding.ASCII.GetBytes("BM");       // BMP
             var gif = Encoding.ASCII.GetBytes("GIF");      // GIF
-            var png = new byte[] { 137, 80, 78, 71 };      // PNG
-            var tiff = new byte[] { 73, 73, 42 };          // TIFF
-            var tiff2 = new byte[] { 77, 77, 42 };         // TIFF
-            var jpeg = new byte[] { 255, 216, 255, 224 };  // jpeg
+            var png = new byte[]   { 137, 080, 078, 071 }; // PNG
+            var tiff = new byte[]  { 073, 073, 042 };      // TIFF
+            var tiff2 = new byte[] { 077, 077, 042 };      // TIFF
+            var jpeg = new byte[]  { 255, 216, 255, 224 }; // jpeg
             var jpeg2 = new byte[] { 255, 216, 255, 225 }; // jpeg canon
             var jpeg3 = new byte[] { 255, 216, 255, 226 }; // jpeg again
             var jpeg4 = new byte[] { 255, 216, 255, 219 }; // jpeg yet again
@@ -78,6 +83,14 @@ namespace WallChanger
             return ImageFormat.unknown;
         }
 
+        /// <summary>
+        /// Calculates the correct height for an image.
+        /// </summary>
+        /// <param name="Image">The image to size.</param>
+        /// <param name="PictureBox">The picture box.</param>
+        /// <param name="ContainerHeight">The height of the container.</param>
+        /// <param name="MinimumDataHeight">The minimum height to leave for data.</param>
+        /// <returns>The height for the image.</returns>
         public static int CalculateImageHeight(Image Image, PictureBox PictureBox, int ContainerHeight, int MinimumDataHeight)
         {
             if (Image == null)
@@ -89,6 +102,11 @@ namespace WallChanger
             return ImageHeight <= MaxImageHeight ? ImageHeight : MaxImageHeight;
         }
 
+        /// <summary>
+        /// Creates an image that does not keep the source file locked.
+        /// </summary>
+        /// <param name="path">Image path to load.</param>
+        /// <returns>The image.</returns>
         public static Image FromFile(string path)
         {
             var bytes = File.ReadAllBytes(path);
@@ -164,6 +182,12 @@ namespace WallChanger
             throw new ArgumentException(errorMessage, "binaryReader");
         }
 
+        /// <summary>
+        /// Checks if a byte array starts with another byte array.
+        /// </summary>
+        /// <param name="thisBytes">The array to check.</param>
+        /// <param name="thatBytes">The start to check.</param>
+        /// <returns>True if thisBytes starts with thatBytes, false if not.</returns>
         private static bool StartsWith(this byte[] thisBytes, byte[] thatBytes)
         {
             for (int i = 0; i < thatBytes.Length; i += 1)
@@ -176,6 +200,11 @@ namespace WallChanger
             return true;
         }
 
+        /// <summary>
+        /// Reads a little endian 16 bit integer from the stream.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The short.</returns>
         private static short ReadLittleEndianInt16(this BinaryReader binaryReader)
         {
             byte[] bytes = new byte[sizeof(short)];
@@ -186,6 +215,11 @@ namespace WallChanger
             return BitConverter.ToInt16(bytes, 0);
         }
 
+        /// <summary>
+        /// Reads a little endian 32 bit integer from the stream.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The int.</returns>
         private static int ReadLittleEndianInt32(this BinaryReader binaryReader)
         {
             byte[] bytes = new byte[sizeof(int)];
@@ -196,6 +230,11 @@ namespace WallChanger
             return BitConverter.ToInt32(bytes, 0);
         }
 
+        /// <summary>
+        /// Decodes the width and height of a bitmap.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the bitmap.</returns>
         private static Size DecodeBitmap(BinaryReader binaryReader)
         {
             binaryReader.ReadBytes(16);
@@ -203,7 +242,11 @@ namespace WallChanger
             int height = binaryReader.ReadInt32();
             return new Size(width, height);
         }
-
+        /// <summary>
+        /// Decodes the width and height of a gif.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the gif.</returns>
         private static Size DecodeGif(BinaryReader binaryReader)
         {
             int width = binaryReader.ReadInt16();
@@ -211,6 +254,11 @@ namespace WallChanger
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Decodes the width and height of a png.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the png.</returns>
         private static Size DecodePng(BinaryReader binaryReader)
         {
             binaryReader.ReadBytes(8);
@@ -219,6 +267,11 @@ namespace WallChanger
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Decodes the width and height of a jfif.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the jfif.</returns>
         private static Size DecodeJfif(BinaryReader binaryReader)
         {
             while (binaryReader.ReadByte() == 0xff)

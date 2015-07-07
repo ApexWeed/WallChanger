@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WallChanger
 {
@@ -12,7 +8,7 @@ namespace WallChanger
         Dictionary<string, Language> Languages;
 
         /// <summary>
-        /// Initialses the language manager and loads languages.
+        /// Initialises the language manager and loads languages.
         /// </summary>
         public LanguageManager()
         {

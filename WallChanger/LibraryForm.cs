@@ -39,6 +39,10 @@ namespace WallChanger
 
         LanguageManager LM = GlobalVars.LanguageManager;
         
+        /// <summary>
+        /// Initialises a new instance of the library form.
+        /// </summary>
+        /// <param name="Owner">The form that owns this form.</param>
         public LibraryForm(Form Owner)
         {
             InitializeComponent();
@@ -142,6 +146,11 @@ namespace WallChanger
                 GlobalVars.DuplicateForm.LocaliseInterface();
         }
 
+        /// <summary>
+        /// Saves the library and notifies the parent of closure.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void LibraryForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (GlobalVars.DuplicateForm != null)
@@ -155,6 +164,9 @@ namespace WallChanger
                 (Owner as MainForm).ChildClosed(this);
         }
 
+        /// <summary>
+        /// Updates the list of images with the current filters.
+        /// </summary>
         public void UpdateList()
         {
             lsvDisplay.Items.Clear();
@@ -200,6 +212,9 @@ namespace WallChanger
             LoadImageSizes(false);
         }
 
+        /// <summary>
+        /// Updates the data in the comboboxes.
+        /// </summary>
         private void UpdateComboBoxes()
         {
             ComboBoxLocked = true;
@@ -232,6 +247,9 @@ namespace WallChanger
             ComboBoxLocked = false;
         }
 
+        /// <summary>
+        /// Updates the controls to fill the window.
+        /// </summary>
         private void UpdateControlPositions()
         {
             picPreview.Height = Imaging.CalculateImageHeight(picPreview.Image, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
@@ -265,6 +283,10 @@ namespace WallChanger
             colFilename.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
+        /// <summary>
+        /// Loads the sizes of the images asynchronously.
+        /// </summary>
+        /// <param name="skipChanges">Whether or not to skip the last update request.</param>
         private async void LoadImageSizes(bool skipChanges = false)
         {
             int minWidth = int.MaxValue;
@@ -353,7 +375,17 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Delegate to allow cross thread listview item retrieval.
+        /// </summary>
+        /// <param name="listView">The list view to retrieve items from.</param>
+        /// <returns>A delegate of some kind. This is magic.</returns>
         private delegate ListView.ListViewItemCollection GetItems(ListView listView);
+        /// <summary>
+        /// Gets the items in a listview, using a delegate if required.
+        /// </summary>
+        /// <param name="listView">The listview to retrieve items from.</param>
+        /// <returns>A ListViewItemCollection containing all items in the listview.</returns>
         private ListView.ListViewItemCollection GetListViewItems(ListView listView)
         {
             ListView.ListViewItemCollection temp = new ListView.ListViewItemCollection(new ListView());
@@ -367,6 +399,11 @@ namespace WallChanger
                 return (ListView.ListViewItemCollection)this.Invoke(new GetItems(GetListViewItems), new object[] { listView });
         }
 
+        /// <summary>
+        /// Updates the interface to the currently selected image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void lsvDisplay_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBoxLocked = true;
@@ -427,6 +464,11 @@ namespace WallChanger
         }
 
         #region "Category"
+        /// <summary>
+        /// Adds a category to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddCategory_Click(object sender, EventArgs e)
         {
             string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY"), LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY_TITLE"), Categories.ToArray());
@@ -440,12 +482,22 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
         }
 
+        /// <summary>
+        /// Clears the category on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearCategory_Click(object sender, EventArgs e)
         {
             cmbCategory.Text = "";
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = "";
         }
 
+        /// <summary>
+        /// Updates the image's category to the selected category.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void cmbCategory_SelectedValueChanged(object sender, EventArgs e)
         {
             // Don't want to update any values when multiple are selected.
@@ -461,6 +513,11 @@ namespace WallChanger
         #endregion
 
         #region "Show Name"
+        /// <summary>
+        /// Adds a show name to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddShowName_Click(object sender, EventArgs e)
         {
             string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME"), LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE"), ShowNames.ToArray());
@@ -475,6 +532,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = Value;
         }
 
+        /// <summary>
+        /// Clears the showname on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearShowName_Click(object sender, EventArgs e)
         {
             cmbShowName.Text = "";
@@ -482,6 +544,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = "";
         }
 
+        /// <summary>
+        /// Updates the image's showname to the selected showname.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void cmbShowName_SelectedValueChanged(object sender, EventArgs e)
         {
             // Don't want to update any values when multiple are selected.
@@ -497,6 +564,11 @@ namespace WallChanger
         #endregion
 
         #region "Character"
+        /// <summary>
+        /// Adds a character name to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddNewCharacter_Click(object sender, EventArgs e)
         {
             string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER"), LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER_TITLE"), Characters.ToArray());
@@ -511,6 +583,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
         }
 
+        /// <summary>
+        /// Removes the selected character name from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemoveCharacter_Click(object sender, EventArgs e)
         {
             if (lstCharacters.SelectedIndex > -1)
@@ -520,6 +597,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// CLears the character names from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearCharacters_Click(object sender, EventArgs e)
         {
             lstCharacters.Items.Clear();
@@ -528,6 +610,11 @@ namespace WallChanger
         #endregion
 
         #region "Tags"
+        /// <summary>
+        /// Adds a tag to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddNewTag_Click(object sender, EventArgs e)
         {
             string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_TAG"), LM.GetString("LIBRARY_MESSAGE_NEW_TAG_TITLE"), Tags.ToArray());
@@ -542,6 +629,11 @@ namespace WallChanger
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.AddDistinct(Value);
         }
 
+        /// <summary>
+        /// Removes the selected tag from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemoveTag_Click(object sender, EventArgs e)
         {
             if (lstTags.SelectedIndex > -1)
@@ -551,6 +643,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Clears the tags on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearTags_Click(object sender, EventArgs e)
         {
             lstTags.Items.Clear();
@@ -558,6 +655,11 @@ namespace WallChanger
         }
         #endregion
 
+        /// <summary>
+        /// Toggles whether the filtering options are expanded.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnExpand_Click(object sender, EventArgs e)
         {
             FiltersExpanded = !FiltersExpanded;
@@ -575,16 +677,30 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Update the control positions when the container changes size.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void spcContainer_Panel2_Resize(object sender, EventArgs e)
         {
             UpdateControlPositions();
         }
 
+        /// <summary>
+        /// Update the control positions when the splitter is moved.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void spcContainer_SplitterMoved(object sender, SplitterEventArgs e)
         {
             UpdateControlPositions();
         }
 
+        /// <summary>
+        /// Handle windows messages.
+        /// </summary>
+        /// <param name="message">The message to handle.</param>
         protected override void WndProc(ref Message message)
         {
             const int WM_SYSCOMMAND = 0x0112;
@@ -614,6 +730,10 @@ namespace WallChanger
             base.WndProc(ref message);
         }
 
+        /// <summary>
+        /// Updates the control positions after the specfied delay.
+        /// </summary>
+        /// <param name="Delay">Delay in milliseconds.</param>
         private async void UpdateControlPositionsAsync(int Delay)
         {
             await Task.Delay(Delay);
@@ -621,6 +741,11 @@ namespace WallChanger
         }
 
         #region "Filters"
+        /// <summary>
+        /// Updates the list when the filters are changed.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void FilterChoiceChanged(object sender, EventArgs e)
         {
             // Don't update the list if we are already updating it.
@@ -629,30 +754,55 @@ namespace WallChanger
             UpdateList();
         }
 
+        /// <summary>
+        /// CLears the category filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnCategoryFilterClear_Click(object sender, EventArgs e)
         {
             cmbCategoryFilter.Text = "";
             UpdateList();
         }
 
+        /// <summary>
+        /// Clears the showname filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnShowNameFilterClear_Click(object sender, EventArgs e)
         {
             cmbShowNameFilter.Text = "";
             UpdateList();
         }
 
+        /// <summary>
+        /// Clears the character name filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnCharacterFilterClear_Click(object sender, EventArgs e)
         {
             cmbCharacterFilter.Text = "";
             UpdateList();
         }
 
+        /// <summary>
+        /// Clears the tag filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnTagFilterClear_Click(object sender, EventArgs e)
         {
             cmbTagFilter.Text = "";
             UpdateList();
         }
 
+        /// <summary>
+        /// Clears all filters.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearFilters_Click(object sender, EventArgs e)
         {
             cmbCategoryFilter.Text = "";
@@ -663,6 +813,11 @@ namespace WallChanger
         }
         #endregion
 
+        /// <summary>
+        /// Adds the selected images to the current config.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddToConfig_Click(object sender, EventArgs e)
         {
             if (Owner is MainForm)
@@ -677,6 +832,11 @@ namespace WallChanger
 
         }
 
+        /// <summary>
+        /// Adds the file drop to the library if they are images..
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void LibraryForm_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -694,6 +854,10 @@ namespace WallChanger
             UpdateList();
         }
 
+        /// <summary>
+        /// Loads the folder and it's subfolders into the library.
+        /// </summary>
+        /// <param name="Folder">The folder to load.</param>
         private void LoadFolder(string Folder)
         {
             foreach (string directory in Directory.GetDirectories(Folder))
@@ -706,13 +870,17 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Loads the file into the library.
+        /// </summary>
+        /// <param name="FileName">The file to add.</param>
         private void LoadFile(string FileName)
         {
             using (Stream read = File.Open(FileName, FileMode.Open))
             {
                 if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
                 {
-                    using (StreamWriter write = File.AppendText("debuglog.log"))
+                    using (StreamWriter write = File.AppendText("unknownFiles.log"))
                     {
                         write.WriteLine(FileName);
                     }
@@ -723,6 +891,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the cursor when the user drags files onto the window.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void LibraryForm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -731,6 +904,11 @@ namespace WallChanger
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Removes the selected items from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemoveFromLibrary_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in lsvDisplay.SelectedItems)
@@ -740,6 +918,11 @@ namespace WallChanger
             UpdateList();
         }
 
+        /// <summary>
+        /// Clears the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClearLibrary_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_CLEAR"), LM.GetString("LIBRARY_MESSAGE_CLEAR_TITLE")) == DialogResult.OK)
@@ -749,6 +932,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Finds duplicates in the selection.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnFindDuplicates_Click(object sender, EventArgs e)
         {
             List<string> items = new List<string>();
@@ -759,6 +947,11 @@ namespace WallChanger
             FindDuplicates(items);
         }
 
+        /// <summary>
+        /// Finds duplicates in the filtered list.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnFindAllDuplicates_Click(object sender, EventArgs e)
         {
             List<string> Images = new List<string>();
@@ -769,6 +962,11 @@ namespace WallChanger
             FindDuplicates(Images);
         }
 
+        /// <summary>
+        /// Caches thumbnails.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnCacheDuplicateThumbnails_Click(object sender, EventArgs e)
         {
             List<string> Images = new List<string>();
@@ -780,6 +978,11 @@ namespace WallChanger
             tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
         }
 
+        /// <summary>
+        /// Removes deleted images from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnCheckFiles_Click(object sender, EventArgs e)
         {
             CheckFilesExist();
@@ -787,6 +990,9 @@ namespace WallChanger
             UpdateList();
         }
 
+        /// <summary>
+        /// Checks if the library files exist on disk.
+        /// </summary>
         private async void CheckFilesExist()
         {
             List<string> LibraryFilenames = new List<string>();
@@ -814,6 +1020,11 @@ namespace WallChanger
             MessageBox.Show(string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_MISSING", "{0} LIBRARY_MESSAGE_MISSING"), MissingCount));
         }
 
+        /// <summary>
+        /// Gets a list of unique directory from a file list.
+        /// </summary>
+        /// <param name="Files">List of filenames.</param>
+        /// <returns>List of unique directory names.</returns>
         private List<string> GetUniqueDirectories(IEnumerable<string> Files)
         {
             List<string> DirectoryNames = new List<string>();
@@ -826,6 +1037,12 @@ namespace WallChanger
             return DirectoryNames;
         }
 
+        /// <summary>
+        /// Gets a list of files in the specified directories.
+        /// </summary>
+        /// <param name="Directories">The enumerable list of directories.</param>
+        /// <param name="Recursive">Whether or not to search sub directories.</param>
+        /// <returns>A list of files in all directories.</returns>
         private List<string> GetFiles(IEnumerable<string> Directories, bool Recursive = false)
         {
             List<string> FileList = new List<string>();
@@ -838,6 +1055,12 @@ namespace WallChanger
             return FileList;
         }
 
+        /// <summary>
+        /// Gets a list of files in the specified directory.
+        /// </summary>
+        /// <param name="Directory">The directory to scan.</param>
+        /// <param name="Recursive">Whether or not to recursively scan directories.</param>
+        /// <returns>A list of files in the specified directory.</returns>
         private List<string> GetFiles(string Directory, bool Recursive = false)
         {
             List<string> FileList = new List<string>();
@@ -857,7 +1080,11 @@ namespace WallChanger
             return FileList;
         }
 
-        private async void FindDuplicates(List<string> ImagePaths)
+        /// <summary>
+        /// Finds duplicate images in the specified list.
+        /// </summary>
+        /// <param name="ImagePaths">An enumerable list of image paths to check.</param>
+        private async void FindDuplicates(IEnumerable<string> ImagePaths)
         {
             if (GlobalVars.DuplicateForm != null)
             {
@@ -889,12 +1116,20 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the progress of the duplicate scan.
+        /// </summary>
+        /// <param name="Progress"></param>
         public void UpdateDuplicateScanProgress(Tuple<int, int> Progress)
         {
             tslStatus.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_SCANNING_DUPLICATES", "LIBRARY_MESSAGE_SCANNING_DUPLICATES ({0}/{1})"), Progress.Item1, Progress.Item2);
             tspProgressBar.Value = (int)(((float)Progress.Item1 / Progress.Item2) * 100);
         }
 
+        /// <summary>
+        /// Caches the thumbnails of the specified images.
+        /// </summary>
+        /// <param name="ImagePaths"></param>
         private async void CacheDuplicateThumbnails(List<string> ImagePaths)
         {
             tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_GENERATING_THUMBNAILS");
@@ -914,12 +1149,21 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Allows child forms to be opened.
+        /// </summary>
+        /// <param name="Child">The child that has closed.</param>
         public void ChildClosed(Form Child)
         {
             if (Child is DuplicateForm)
                 GlobalVars.DuplicateForm = null;
         }
 
+        /// <summary>
+        /// Sorts the listview.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void lsvDisplay_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             // Determine if clicked column is already the column that is being sorted.

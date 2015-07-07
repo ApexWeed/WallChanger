@@ -14,5 +14,8 @@
     <Setting Name="CompressionLevel" Type="SevenZip.CompressionLevel" Scope="User">
       <Value Profile="(Default)">Normal</Value>
     </Setting>
+    <Setting Name="WallpaperStyle" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

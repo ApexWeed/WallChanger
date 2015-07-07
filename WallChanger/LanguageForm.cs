@@ -9,6 +9,10 @@ namespace WallChanger
         new Form Parent;
         LanguageManager LM = GlobalVars.LanguageManager;
 
+        /// <summary>
+        /// Initialises a new language form.
+        /// </summary>
+        /// <param name="Parent">The parent of this form.</param>
         public LanguageForm(Form Parent)
         {
             InitializeComponent();
@@ -16,6 +20,11 @@ namespace WallChanger
             this.Parent = Parent;
         }
 
+        /// <summary>
+        /// Sets up the form for use.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void LanguageForm_Load(object sender, EventArgs e)
         {
             List<Language> Languages = LM.GetLanguages();
@@ -48,12 +57,22 @@ namespace WallChanger
                 (Parent as MainForm).LocaliseInterface();
         }
 
+        /// <summary>
+        /// Notifies the parent of closure.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void LanguageForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Parent is MainForm)
                 (Parent as MainForm).ChildClosed(this);
         }
 
+        /// <summary>
+        /// Saves the language settings and updates the interface.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Language = (cmbCurrentLanguage.SelectedItem as Language).Code;
@@ -63,6 +82,11 @@ namespace WallChanger
             LocaliseInterface();
         }
 
+        /// <summary>
+        /// Updates the description.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void LanguageChanged(object sender, EventArgs e)
         {
             txtDescription.Text = ((sender as ComboBox).SelectedItem as Language).Description;

@@ -7,54 +7,53 @@ namespace WallChanger
     {
         public string ChosenString;
 
-        public StringComboBoxPrompt(string Prompt, string Title, string[] ComboBoxValues)
+        LanguageManager LM = GlobalVars.LanguageManager;
+
+        /// <summary>
+        /// Initialises a new combobox prompt.
+        /// </summary>
+        /// <param name="Prompt">The text for the window.</param>
+        /// <param name="Title">The text in the title bar.</param>
+        /// <param name="ComboBoxValues">The values for the combo box.</param>
+        /// <param name="AllowNew">Whether to allow the user to enter a new value.</param>
+        public StringComboBoxPrompt(string Prompt, string Title, string[] ComboBoxValues, bool AllowNew = true)
         {
             InitializeComponent();
 
             lblPrompt.Text = Prompt;
             this.Text = Title;
             cmbComboBox.DataSource = ComboBoxValues;
+            cmbComboBox.DropDownStyle = AllowNew ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;
         }
 
+        /// <summary>
+        /// Submit form values.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (rdbComboBox.Checked)
-            {
-                ChosenString = cmbComboBox.Text;
-            }
-            else
-            {
-                ChosenString = txtTextBox.Text;
-            }
+            ChosenString = cmbComboBox.Text;
 
             if (string.IsNullOrWhiteSpace(ChosenString))
             {
-                MessageBox.Show("You need to enter a string in either of the two input methods.");
+                MessageBox.Show(LM.GetString("PROMPT_MESSAGE_BLANK_VALUE"));
                 return;
             }
 
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
+        /// <summary>
+        /// Cancel the form.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void CheckChanged(object sender, EventArgs e)
-        {
-            if (rdbComboBox.Checked)
-            {
-                cmbComboBox.Enabled = true;
-                txtTextBox.Enabled = false;
-            }
-            else
-            {
-                cmbComboBox.Enabled = false;
-                txtTextBox.Enabled = true;
-            }
         }
     }
 }

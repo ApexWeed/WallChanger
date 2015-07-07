@@ -15,6 +15,11 @@ namespace WallChanger
 
         LanguageManager LM = GlobalVars.LanguageManager;
 
+        /// <summary>
+        /// Initialises a new duplicate form.
+        /// </summary>
+        /// <param name="Duplicates">The list of duplicate entries to add.</param>
+        /// <param name="Owner">The owner of this form.</param>
         public DuplicateForm(List<List<string>> Duplicates, Form Owner)
         {
             InitializeComponent();
@@ -58,12 +63,22 @@ namespace WallChanger
             // Cascade.
         }
 
+        /// <summary>
+        /// Notifies the parent form of closure.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void DuplicateForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Owner is LibraryForm)
                 (Owner as LibraryForm).ChildClosed(this);
         }
 
+        /// <summary>
+        /// Updates the displayed duplicate.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void lstDuplicates_SelectedValueChanged(object sender, EventArgs e)
         {
             if (!AutoModeEngaged)
@@ -81,6 +96,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the displayed image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void lstDuplicateImages_SelectedValueChanged(object sender, EventArgs e)
         {
             if (!AutoModeEngaged)
@@ -96,6 +116,9 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the positions of controls for this window size.
+        /// </summary>
         private void UpdateControlPositions()
         {
             lblFilePath.Left = (pnlControls.Width / 2) - (TextRenderer.MeasureText(lblFilePath.Text, lblFilePath.Font).Width / 2);
@@ -109,16 +132,31 @@ namespace WallChanger
             btnAuto.Left = (pnlControls.Width / 2) + btnAuto.Width + 9;
         }
 
+        /// <summary>
+        /// Updates control positions on resize.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void DuplicateForm_Resize(object sender, EventArgs e)
         {
             UpdateControlPositions();
         }
 
+        /// <summary>
+        /// Removes the selected image from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemove_Click(object sender, EventArgs e)
         {
             RemoveFromLibrary();
         }
 
+        /// <summary>
+        /// Deletes the selected image from disk.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE"), LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -128,11 +166,21 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Keeps the image but removes it from the list.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnKeep_Click(object sender, EventArgs e)
         {
             RemoveEntry();
         }
 
+        /// <summary>
+        /// Automatically keeps the highest resolution image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAuto_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO"), LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
@@ -181,6 +229,9 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Removes the image from the library.
+        /// </summary>
         private void RemoveFromLibrary()
         {
             GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == (lstDuplicateImages.SelectedItem as Duplicate).Path));
@@ -190,6 +241,9 @@ namespace WallChanger
             RemoveEntry();
         }
 
+        /// <summary>
+        /// Removes the duplicate entry from the form.
+        /// </summary>
         private void RemoveEntry()
         {
             (lstDuplicates.SelectedItem as DuplicateList).Duplicates.RemoveAt(lstDuplicateImages.SelectedIndex);
@@ -203,6 +257,10 @@ namespace WallChanger
             RefreshList(lstDuplicates);
         }
 
+        /// <summary>
+        /// Refreshes the displayed values in the listbox.
+        /// </summary>
+        /// <param name="List">The listbox to refresh.</param>
         private void RefreshList(ListBox List)
         {
             int count = List.Items.Count;

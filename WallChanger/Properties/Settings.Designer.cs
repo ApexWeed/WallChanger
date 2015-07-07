@@ -70,5 +70,17 @@ namespace WallChanger.Properties {
                 this["CompressionLevel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Fill")]
+        public Wallpaper.WallpaperStyle WallpaperStyle {
+            get {
+                return ((Wallpaper.WallpaperStyle)(this["WallpaperStyle"]));
+            }
+            set {
+                this["WallpaperStyle"] = value;
+            }
+        }
     }
 }

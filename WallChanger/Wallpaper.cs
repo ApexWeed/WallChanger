@@ -30,6 +30,15 @@ namespace WallChanger
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, IntPtr ZeroOnly);
 
+        public enum WallpaperStyle
+        {
+            Tiled,
+            Centered,
+            Stretched,
+            Fit,
+            Fill
+        }
+
         public static IActiveDesktop GetActiveDesktop()
         {
             Type typeActiveDesktop = Type.GetTypeFromCLSID(new Guid("{75048700-EF1F-11D0-9888-006097DEACF9}"));
@@ -47,50 +56,46 @@ namespace WallChanger
             return castedValue;
         }
 
-        public enum Style : int
-        {
-            Tiled,
-            Centered,
-            Stretched,
-            Fit,
-            Fill
-        }
-
-        public static  void Set(string url, Style style)
+        /// <summary>
+        /// Sets the wallpaper from the specified filename.
+        /// </summary>
+        /// <param name="Filename">The path to the image.</param>
+        /// <param name="Style">The style for the wallpaper.</param>
+        public static void Set(string Filename, WallpaperStyle Style)
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(1, 1);
             string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
 
-            img = Imaging.FromFile(url);
+            img = Imaging.FromFile(Filename);
             img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
             img.Dispose();
             
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-            if (style == Style.Stretched)
+            if (Style == WallpaperStyle.Stretched)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Centered)
+            if (Style == WallpaperStyle.Centered)
             {
                 key.SetValue(@"WallpaperStyle", 0.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Tiled)
+            if (Style == WallpaperStyle.Tiled)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 1.ToString());
             }
 
-            if (style == Style.Fit)
+            if (Style == WallpaperStyle.Fit)
             {
                 key.SetValue(@"WallpaperStyle", 6.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Fill)
+            if (Style == WallpaperStyle.Fill)
             {
                 key.SetValue(@"WallpaperStyle", 10.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
@@ -102,14 +107,25 @@ namespace WallChanger
                 SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
         }
 
-        public static void FadeSet(Uri uri, Style style)
+        /// <summary>
+        /// Sets the wallpaper using active desktop to fade the image.
+        /// </summary>
+        /// <param name="Filename">The path to the image to set.</param>
+        /// <param name="Style">The style for the wallpaper.</param>
+        public static void FadeSet(string Filename, WallpaperStyle Style)
         {
             //Use IActiveDesktop to change the wallpaper
             IActiveDesktop iad = GetActiveDesktop();
-            FadeSet(uri, style, iad);
+            FadeSet(Filename, Style, iad);
         }
 
-        public static void FadeSet(Uri uri, Style style, IActiveDesktop iActiveDesktop)
+        /// <summary>
+        /// Sets the wallpaper using the specified active desktop instance to fade the image.
+        /// </summary>
+        /// <param name="Filename">The path to the image to set.</param>
+        /// <param name="Style">The style for the wallpapre.</param>
+        /// <param name="iActiveDesktop">The active desktop instance to use.</param>
+        public static void FadeSet(string Filename, WallpaperStyle Style, IActiveDesktop iActiveDesktop)
         {
             //System.IO.Stream s = new System.Net.WebClient().OpenRead(uri.ToString());
 
@@ -118,29 +134,41 @@ namespace WallChanger
             //img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-            if (style == Style.Stretched)
+            if (Style == WallpaperStyle.Stretched)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Centered)
+            if (Style == WallpaperStyle.Centered)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
+                key.SetValue(@"WallpaperStyle", 0.ToString());
                 key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
-            if (style == Style.Tiled)
+            if (Style == WallpaperStyle.Tiled)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
+                key.SetValue(@"WallpaperStyle", 2.ToString());
                 key.SetValue(@"TileWallpaper", 1.ToString());
+            }
+
+            if (Style == WallpaperStyle.Fit)
+            {
+                key.SetValue(@"WallpaperStyle", 6.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            if (Style == WallpaperStyle.Fill)
+            {
+                key.SetValue(@"WallpaperStyle", 10.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
             }
 
             //kill Progman, so Windows launches WorkerW instead to perform the animation
             IntPtr result = IntPtr.Zero;
             SendMessageTimeout(FindWindow("Progman", IntPtr.Zero), 0x52c, IntPtr.Zero, IntPtr.Zero, 0, 500, out result);
             //Use IActiveDesktop to change the wallpaper
-            iActiveDesktop.SetWallpaper(uri.ToString(), 0);
+            iActiveDesktop.SetWallpaper(Filename, 0);
             iActiveDesktop.ApplyChanges(AD_APPLY.ALL | AD_APPLY.FORCE | AD_APPLY.BUFFERED_REFRESH);
         }
     }

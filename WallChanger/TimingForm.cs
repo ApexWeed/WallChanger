@@ -8,6 +8,12 @@ namespace WallChanger
         new MainForm ParentForm;
         LanguageManager LM = GlobalVars.LanguageManager;
 
+        /// <summary>
+        /// Creates a new TimingForm with the specified offset and interval.
+        /// </summary>
+        /// <param name="Offset">Offset to initialise the form to.</param>
+        /// <param name="Interval">Interval to initialise the form to.</param>
+        /// <param name="Parent">The parent of this form.</param>
         public TimingForm(int Offset, int Interval, MainForm Parent)
         {
             InitializeComponent();
@@ -52,6 +58,9 @@ namespace WallChanger
             // Cascade.
         }
 
+        /// <summary>
+        /// Sends the interval and offset values to the main form.
+        /// </summary>
         private void Save()
         {
             int offset = 0;
@@ -65,21 +74,37 @@ namespace WallChanger
             interval += ((int)cmbIntervalHours.Value * 3600);
 
             if (offset < -interval)
-                MessageBox.Show(string.Format("Offset ({0} - Interval ({1}) cannot be less than zero.", offset, interval));
+                MessageBox.Show(string.Format(LM.GetStringDefault("TIMING_MESSAGE_OFFSET_ERROR", "TIMING_MESSAGE_OFFSET_ERROR {0} - {1}"), offset, interval));
             else
                 ParentForm.SetTimes(offset, interval);
         }
 
+        /// <summary>
+        /// Saves the interval and offset values.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
         }
 
+        /// <summary>
+        /// Saves the offset and interval and notifies the parent of closingness. Closure. Closingosity.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void TimingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Save();
+            ParentForm.ChildClosed(this);
         }
 
+        /// <summary>
+        /// Updates the offset or interval values, looping numeric selectors where appropriate.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown Control = sender as NumericUpDown;

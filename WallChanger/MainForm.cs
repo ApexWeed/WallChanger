@@ -8,6 +8,12 @@ using Microsoft.Win32;
 
 namespace WallChanger
 {
+    enum MoveDirection
+    {
+        Up,
+        Down
+    }
+
     public partial class MainForm : Form
     {
         const string REG_AUTORUN = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
@@ -62,9 +68,8 @@ namespace WallChanger
         private void Form1_Load(object sender, EventArgs e)
         {
             chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
-            
-            LoadSettings();
 
+            LoadSettings();
             LocaliseInterface();
 
             TimerWorker.RunWorkerAsync();
@@ -103,6 +108,7 @@ namespace WallChanger
             grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
             chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
+            chkStartup.Left = (pnlBottomRight.Width / 2) - (chkStartup.Width / 2);
 
             // Cascade.
             if (TimingFormChild != null)
@@ -113,6 +119,9 @@ namespace WallChanger
                 GlobalVars.LibraryForm.LocaliseInterface();
         }
 
+        /// <summary>
+        /// Loads the settings and converts the old settings selection to the new storage format.
+        /// </summary>
         private void LoadSettings()
         {
             if (Properties.Settings.Default.CurrentConfig == "")
@@ -140,6 +149,10 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Creates a blank configuration file witn the specified name.
+        /// </summary>
+        /// <param name="name">The name to call the config.</param>
         private void CreateConfig(string name)
         {
             FileStream file = File.Create(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", name)));
@@ -155,6 +168,9 @@ namespace WallChanger
             LoadConfigs();
         }
 
+        /// <summary>
+        /// Loads the list of config files.
+        /// </summary>
         private void LoadConfigs()
         {
             ConfigList.Clear();
@@ -167,12 +183,19 @@ namespace WallChanger
             FillConfigList();
         }
 
+        /// <summary>
+        /// Loads the config file with the specified name.
+        /// </summary>
+        /// <param name="Config">Name of the config to load.</param>
         private void LoadConfig(string Config)
         {
             Properties.Settings.Default.CurrentConfig = Config;
             LoadConfig();
         }
 
+        /// <summary>
+        /// Loads the currently active config file.
+        /// </summary>
         private void LoadConfig()
         {
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
@@ -192,6 +215,9 @@ namespace WallChanger
             FillImageList();
         }
 
+        /// <summary>
+        /// Saves the current config file.
+        /// </summary>
         private void SaveSettings()
         {
             StreamWriter write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
@@ -204,6 +230,10 @@ namespace WallChanger
             write.Close();
         }
 
+        /// <summary>
+        /// Refills the list with the current files.
+        /// </summary>
+        /// <param name="PreserveScrolling">Not yet implemented.</param>
         private void FillImageList(bool PreserveScrolling = false)
         {
             if (lstImages.Items.Count == FileList.Count())
@@ -246,6 +276,9 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Fills the config list.
+        /// </summary>
         private void FillConfigList()
         {
             lstConfigs.Items.Clear();
@@ -257,6 +290,11 @@ namespace WallChanger
             lstConfigs.SelectedIndex = lstConfigs.FindStringExact(Properties.Settings.Default.CurrentConfig, 0);
         }
 
+        /// <summary>
+        /// Parses the config file times to seconds.
+        /// </summary>
+        /// <param name="Time">Time in "xh ym zs" format.</param>
+        /// <returns>Number of seconds.</returns>
         private int ParseTime(string Time)
         {
             string[] parts = Time.Split(' ');
@@ -276,6 +314,9 @@ namespace WallChanger
             return interval;
         }
 
+        /// <summary>
+        /// Sets the wallpaper using the current index.
+        /// </summary>
         private void SetWallpaper()
         {
             string outputTime = DateTime.Now.ToString(@"H \h m \m s \s");
@@ -285,16 +326,25 @@ namespace WallChanger
             SetWallpaper(index);
         }
 
+        /// <summary>
+        /// Sets the wallpaper to the specified index.
+        /// </summary>
+        /// <param name="Index">Index in the file list.</param>
         private void SetWallpaper(int Index)
         {
             if (FileList.Count > 0)
             {
                 if (Index < 0)
                     Index = FileList.Count + Index;
-                Wallpaper.Set(FileList[(Index) % FileList.Count], Wallpaper.Style.Fill);
+                Wallpaper.Set(FileList[(Index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
             }
         }
 
+        /// <summary>
+        /// Worker that changes the background image.
+        /// </summary>
+        /// <param name="sender">Object that sent the event.</param>
+        /// <param name="e">Parameters.</param>
         private void TimerWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string loadedConfig;
@@ -325,6 +375,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the time until next change label.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void TimerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
@@ -341,6 +396,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Makes the main window visible.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void noiTray_Click(object sender, EventArgs e)
         {
             noiTray.Visible = false;
@@ -348,6 +408,11 @@ namespace WallChanger
             this.ShowInTaskbar = true;
         }
 
+        /// <summary>
+        /// Updates the startup key in the registry.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void chkStartup_CheckedChanged(object sender, EventArgs e)
         {
             RegistryKey StartupKey = Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true);
@@ -364,8 +429,8 @@ namespace WallChanger
         /// <summary>
         /// Asks the user to select images to add to the active config.
         /// </summary>
-        /// <param name="sender">Sender that fired the event.</param>
-        /// <param name="e">Event args associated with this event.</param>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddImage_Click(object sender, EventArgs e)
         {
             if (ofdAdd.ShowDialog() == DialogResult.OK)
@@ -386,8 +451,8 @@ namespace WallChanger
         /// <summary>
         /// Removes selected images from the current config.
         /// </summary>
-        /// <param name="sender">Sender that fired the event.</param>
-        /// <param name="e">Event args associated with this event.</param>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemoveImage_Click(object sender, EventArgs e)
         {
             int[] indexArray = new int[lstImages.SelectedIndices.Count];
@@ -401,28 +466,51 @@ namespace WallChanger
             FillImageList();
         }
 
+        /// <summary>
+        /// Minimises the form to the tray.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnTray_Click(object sender, EventArgs e)
         {
-            Minimize();
+            Minimise();
         }
 
-        private void Minimize()
+        /// <summary>
+        /// Minimises the form.
+        /// </summary>
+        private void Minimise()
         {
             this.Hide();
             this.ShowInTaskbar = false;
             noiTray.Visible = true;
         }
 
+        /// <summary>
+        /// Saves the settings to disk.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveSettings();
         }
 
+        /// <summary>
+        /// Reloads the settings from disk.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnReload_Click(object sender, EventArgs e)
         {
             LoadSettings();
         }
 
+        /// <summary>
+        /// Updates the cursor when the user drags something onto the window.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -431,6 +519,11 @@ namespace WallChanger
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Loads the dropped files into the current config.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -441,6 +534,10 @@ namespace WallChanger
             FillImageList();
         }
 
+        /// <summary>
+        /// Loads the files in the supplied path into the current config if they are images.
+        /// </summary>
+        /// <param name="FilePath">Path to load images from.</param>
         private void LoadImages(string FilePath)
         {
             if (Directory.Exists(FilePath))
@@ -475,6 +572,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Updates the times in the image list.
+        /// </summary>
+        /// <param name="Offset">The offset from 0 that should be applied.</param>
+        /// <param name="Interval">The interval that the images should change at.</param>
         public void SetTimes(int Offset, int Interval)
         {
             this.Offset = Offset * 1000;
@@ -483,12 +585,16 @@ namespace WallChanger
             FillImageList();
         }
 
+        /// <summary>
+        /// Opens the timing form or swaps to it if it is already open.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnTiming_Click(object sender, EventArgs e)
         {
             if (TimingFormChild == null)
             {
                 TimingFormChild = new TimingForm(Offset / 1000, Interval / 1000, this);
-                TimingFormChild.FormClosed += TimingFormClosed;
                 TimingFormChild.Show();
             }
             else
@@ -497,22 +603,33 @@ namespace WallChanger
             }
         }
 
-        private void TimingFormClosed(object sender, EventArgs e)
-        {
-            TimingFormChild = null;
-        }
-
+        /// <summary>
+        /// Updates the current config when the user selects a new one.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void lstConfigs_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadConfig(lstConfigs.SelectedItem.ToString());
         }
 
+        /// <summary>
+        /// Prompts the user for a new config name.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnNewConfig_Click(object sender, EventArgs e)
         {
             string configName = Prompt.ShowStringDialog(LM.GetString("MAIN_MESSAGE_NEW_CONFIG"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_TITLE"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_DEFAULT"));
-            CreateConfig(configName);
+            if (configName != null)
+                CreateConfig(configName);
         }
 
+        /// <summary>
+        /// Removes the selected config from disk.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnRemoveConfig_Click(object sender, EventArgs e)
         {
             if (Prompt.ShowStringDialog(string.Format(LM.GetString("MAIN_MESSAGE_DELETE_CONFIG"), lstConfigs.SelectedItem as string), LM.GetString("MAIN_MESSAGE_DELETE_CONFIG_TITLE")) == lstConfigs.SelectedItem as string)
@@ -523,12 +640,16 @@ namespace WallChanger
             }
         }
 
-        private void MoveSelection(string Direction)
+        /// <summary>
+        /// Moves the current selection up or down.
+        /// </summary>
+        /// <param name="Direction">Direction to move the selection.</param>
+        private void MoveSelection(MoveDirection Direction)
         {
             int[] indexArray = new int[lstImages.SelectedIndices.Count];
             lstImages.SelectedIndices.CopyTo(indexArray, 0);
             List<int> newSelection = new List<int>();
-            if (Direction == "Up")
+            if (Direction == MoveDirection.Up)
             {
                 Array.Sort(indexArray, (a, b) => a.CompareTo(b));
                 for (int i = 0; i < indexArray.Length; i++)
@@ -555,7 +676,7 @@ namespace WallChanger
                     newSelection.Add(indexArray[i] - 1);
                 }
             }
-            else if (Direction == "Down")
+            else if (Direction == MoveDirection.Down)
             {
                 Array.Sort(indexArray, (a, b) => b.CompareTo(a));
                 for (int i = 0; i < indexArray.Length; i++)
@@ -586,6 +707,11 @@ namespace WallChanger
             SetSelection(lstImages, newSelection.ToArray());
         }
 
+        /// <summary>
+        /// Sets the selection in a listbox.
+        /// </summary>
+        /// <param name="ListBoxControl">The listbox to update.</param>
+        /// <param name="Selection">The indexes to select.</param>
         private void SetSelection(ListBox ListBoxControl, int[] Selection)
         {
             foreach (int Index in Selection)
@@ -594,22 +720,42 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Moves the selection up.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            MoveSelection("Up");
+            MoveSelection(MoveDirection.Up);
         }
 
+        /// <summary>
+        /// Move sthe selection down.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            MoveSelection("Down");
+            MoveSelection(MoveDirection.Down);
         }
 
+        /// <summary>
+        /// Removes all images from the current config.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnClear_Click(object sender, EventArgs e)
         {
             FileList.Clear();
             FillImageList();
         }
 
+        /// <summary>
+        /// Opens the library form.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnLibrary_Click(object sender, EventArgs e)
         {
             if (GlobalVars.LibraryForm == null)
@@ -619,6 +765,10 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Used by children to allow new copies to be opened.
+        /// </summary>
+        /// <param name="Child">The child that has closed.</param>
         public void ChildClosed(Form Child)
         {
             if (Child is LibraryForm)
@@ -627,14 +777,25 @@ namespace WallChanger
                 LanguageFormChild = null;
             if (Child is SettingsForm)
                 SettingsFormChild = null;
+            if (Child is TimingForm)
+                TimingFormChild = null;
         }
 
-        public void AddImages(List<string> Images)
+        /// <summary>
+        /// Adds the list of iamges to the current config.
+        /// </summary>
+        /// <param name="Images">The images to add to the list.</param>
+        public void AddImages(IEnumerable<string> Images)
         {
-            FileList.AddRange(Images.ToArray());
+            FileList.AddRange(Images);
             FillImageList();
         }
 
+        /// <summary>
+        /// Adds the selected images to the library and triggers and update of the library form if it is open.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnAddToLibrary_Click(object sender, EventArgs e)
         {
             foreach (string image in FileList)
@@ -648,6 +809,11 @@ namespace WallChanger
                 GlobalVars.LibraryForm.UpdateList();
         }
 
+        /// <summary>
+        /// Opens the language form.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnLanguage_Click(object sender, EventArgs e)
         {
             if (LanguageFormChild == null)
@@ -657,6 +823,11 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Opens the settings form.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void btnSettings_Click(object sender, EventArgs e)
         {
             if (SettingsFormChild == null)
@@ -666,12 +837,22 @@ namespace WallChanger
             }
         }
 
+        /// <summary>
+        /// Saves the library and configuration files.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Library.Save();
             Properties.Settings.Default.Save();
+            SaveSettings();
         }
 
+        /// <summary>
+        /// Handles windows message for minimise.
+        /// </summary>
+        /// <param name="message">The windows message.</param>
         protected override void WndProc(ref Message message)
         {
             const int WM_SYSCOMMAND = 0x0112;
@@ -693,7 +874,7 @@ namespace WallChanger
                     }
                     if (command == SC_MINIMIZE)
                     {
-                        Minimize();
+                        Minimise();
                         return;
                     }
                     break;

@@ -9,6 +9,9 @@ namespace WallChanger
         private static Mutex FileMutex = new Mutex();
         private static ArrayComparer<byte> byteComparer = new ArrayComparer<byte>();
         
+        /// <summary>
+        /// Saves the library content to disk.
+        /// </summary>
         public static void Save()
         {
             if (FileMutex.WaitOne(1))
@@ -72,7 +75,12 @@ namespace WallChanger
             }
         }
 
-        private static string ArrayToString(byte[,] Input)
+        /// <summary>
+        /// Converts a two dimensional array to a string.
+        /// </summary>
+        /// <param name="Input">The array to stringify.</param>
+        /// <returns>The string representation.</returns>
+        private static string ArrayToString<T>(T[,] Input)
         {
             int Columns = Input.GetLength(0);
             int Rows = Input.GetLength(1);
@@ -80,7 +88,7 @@ namespace WallChanger
             string[] Bits = new string[Columns];
             for (int x = 0; x < Columns; x++)
             {
-                byte[] SingleDimension = new byte[Rows];
+                T[] SingleDimension = new T[Rows];
                 for (int y = 0; y < Rows; y++)
                 {
                     SingleDimension[y] = Input[x, y];
@@ -91,17 +99,27 @@ namespace WallChanger
             return string.Format("{{{0}}}", string.Join(" ", Bits));
         }
 
-        private static string ArrayToString(byte[] Input)
+        /// <summary>
+        /// Converts a one dimensional array to a string.
+        /// </summary>
+        /// <param name="Input">The array to stringify.</param>
+        /// <returns>The string representation.</returns>
+        private static string ArrayToString<T>(T[] Input)
         {
             return string.Format("{{{0}}}", string.Join(" ", Input));
         }
 
-        private static byte[] Flatten(byte[,] Input)
+        /// <summary>
+        /// Converts a two dimensional array to one dimension.
+        /// </summary>
+        /// <param name="Input">The two dimensional array to convert</param>
+        /// <returns></returns>
+        private static T[] Flatten<T>(T[,] Input)
         {
             int Columns = Input.GetLength(0);
             int Rows = Input.GetLength(1);
 
-            byte[] Out = new byte[Input.Length];
+            T[] Out = new T[Input.Length];
 
             for (int x = 0; x < Columns; x++)
             {
@@ -114,6 +132,9 @@ namespace WallChanger
             return Out;
         }
 
+        /// <summary>
+        /// Loads the library data from disk.
+        /// </summary>
         public static void Load()
         {
             if (FileMutex.WaitOne(1))
@@ -292,9 +313,15 @@ namespace WallChanger
             }
         }
 
-        private static byte[,] Expand(byte[] Input, int Columns)
+        /// <summary>
+        /// Expands a one dimensional array to two dimensions.
+        /// </summary>
+        /// <param name="Input">The one dimensional array.</param>
+        /// <param name="Columns">The number of columns in the new array.</param>
+        /// <returns>The two dimensional array.</returns>
+        private static T[,] Expand<T>(T[] Input, int Columns)
         {
-            byte[,] Out = new byte[Columns, Input.Length / Columns];
+            T[,] Out = new T[Columns, Input.Length / Columns];
 
             for (int i = 0; i < Input.Length; i++)
             {

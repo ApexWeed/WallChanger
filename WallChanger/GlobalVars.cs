@@ -52,6 +52,7 @@ namespace WallChanger
             set { duplicateForm = value; }
         }
 
+        // Only allow one instance of the language manager.
         private static LanguageManager languageManager = null;
         public static LanguageManager LanguageManager
             {

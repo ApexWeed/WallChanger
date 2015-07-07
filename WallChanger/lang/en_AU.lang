@@ -50,6 +50,7 @@ ApexWeed
         TIMING_LABEL_MINUTES = Minutes
         TIMING_LABEL_HOURS = Hours
     # Messages
+		TIMING_MESSAGE_OFFSET_ERROR = Offset ({0}) - Interval ({1}) cannot be less than zero.
 # LibraryForm
     # Buttons
     # Tooltips
@@ -135,4 +136,12 @@ ApexWeed
 		SETTINGS_LABEL_COMPRESSION = Compression
 		SETTINGS_LABEL_COMPRESSION_LEVEL = Compression Level
 		SETTINGS_LABEL_COMPRESSION_WARNING = Using higher compression levels can result in freezing during saves.
+		SETTINGS_LABEL_WALLPAPER = Wallpaper
+		SETTINGS_LABEL_WALLPAPER_STYLE = Wallpaper style
 	# Messages
+# Prompts
+	# Buttons
+	# Tooltips
+	# Lables
+	# Messages
+		PROMPT_MESSAGE_BLANK_VALUE = Input cannot be blank.
