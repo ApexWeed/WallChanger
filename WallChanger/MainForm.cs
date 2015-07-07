@@ -334,9 +334,23 @@ namespace WallChanger
         {
             if (FileList.Count > 0)
             {
-                if (Index < 0)
+                while (Index < 0)
+                {
                     Index = FileList.Count + Index;
-                Wallpaper.Set(FileList[(Index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                }
+                if (Index >= FileList.Count)
+                    Index = Index % FileList.Count;
+                if (File.Exists(FileList[(Index) % FileList.Count]))
+                {
+                    Wallpaper.Set(FileList[(Index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                }
+                else
+                {
+                    FileList.RemoveAt((Index) % FileList.Count);
+                    FillImageList();
+                    MessageBox.Show(string.Format("The following image cannot be found and has been removed from the current config.\n{0}", FileList[(Index) % FileList.Count]));
+                    SetWallpaper(Index);
+                }
             }
         }
 
