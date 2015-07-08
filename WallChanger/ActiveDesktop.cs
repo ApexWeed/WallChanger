@@ -6,7 +6,10 @@ public enum WPSTYLE
     CENTER = 0,
     TILE = 1,
     STRETCH = 2,
-    MAX = 3
+    FIT = 3,
+    FILL = 4,
+    SPAN = 5,
+    MAX = 6
 }
 
 public struct WALLPAPEROPT

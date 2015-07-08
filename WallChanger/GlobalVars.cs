@@ -59,7 +59,17 @@ namespace WallChanger
                 get
                 {
                 if (languageManager == null)
-                    languageManager = new LanguageManager();
+                {
+                    try
+                    {
+                        languageManager = new LanguageManager();
+                    }
+                    catch (System.IO.FileNotFoundException ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        languageManager = new LanguageManager(true);
+                    }
+                }
                 return languageManager;
                 }
             }

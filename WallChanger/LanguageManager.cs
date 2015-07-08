@@ -10,9 +10,17 @@ namespace WallChanger
         /// <summary>
         /// Initialises the language manager and loads languages.
         /// </summary>
-        public LanguageManager()
+        public LanguageManager(bool IgnoreFileNotFound = false)
         {
             Languages = new Dictionary<string, Language>();
+
+            if (!Directory.Exists(Path.Combine(GlobalVars.ApplicationPath, "lang")))
+            {
+                if (IgnoreFileNotFound)
+                    return;
+                else
+                    throw new FileNotFoundException("Language folder not found, the program will still work but the interface will identifier names instead.");
+            }
 
             foreach (var File in Directory.GetFiles(Path.Combine(GlobalVars.ApplicationPath, "lang"), "*.lang"))
             {

@@ -36,12 +36,14 @@ namespace WallChanger
             cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.Ultra);
 
             cmbCompressionLevel.SelectedItem = cmbCompressionLevel.Items.Find(x => (SevenZip.CompressionLevel)x == Properties.Settings.Default.CompressionLevel);
-
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Centered);
+            
             cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Fill);
             cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Fit);
             cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Stretched);
             cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Tiled);
+            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Centered);
+            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
+                cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Span);
 
             cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (Wallpaper.WallpaperStyle)x == Properties.Settings.Default.WallpaperStyle);
 

@@ -36,11 +36,11 @@
             this.lblWallpaperStyle = new System.Windows.Forms.Label();
             this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.grpDefaults = new System.Windows.Forms.GroupBox();
-            this.lblDefaultOffset = new System.Windows.Forms.Label();
-            this.lblDefaultInterval = new System.Windows.Forms.Label();
-            this.btnChangeDefaultTiming = new System.Windows.Forms.Button();
-            this.chkDefaultRandomise = new System.Windows.Forms.CheckBox();
             this.chkDefaultFade = new System.Windows.Forms.CheckBox();
+            this.chkDefaultRandomise = new System.Windows.Forms.CheckBox();
+            this.btnChangeDefaultTiming = new System.Windows.Forms.Button();
+            this.lblDefaultInterval = new System.Windows.Forms.Label();
+            this.lblDefaultOffset = new System.Windows.Forms.Label();
             this.grpCompression.SuspendLayout();
             this.grpWallpaper.SuspendLayout();
             this.grpDefaults.SuspendLayout();
@@ -78,6 +78,7 @@
             // 
             // cmbCompressionLevel
             // 
+            this.cmbCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCompressionLevel.FormattingEnabled = true;
             this.cmbCompressionLevel.Location = new System.Drawing.Point(9, 32);
             this.cmbCompressionLevel.Name = "cmbCompressionLevel";
@@ -107,6 +108,7 @@
             // 
             // cmbWallpaperStyle
             // 
+            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbWallpaperStyle.FormattingEnabled = true;
             this.cmbWallpaperStyle.Location = new System.Drawing.Point(9, 32);
             this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
@@ -128,33 +130,16 @@
             this.grpDefaults.TabStop = false;
             this.grpDefaults.Text = "SETTINGS_LABEL_DEFAULT";
             // 
-            // lblDefaultOffset
+            // chkDefaultFade
             // 
-            this.lblDefaultOffset.AutoSize = true;
-            this.lblDefaultOffset.Location = new System.Drawing.Point(6, 16);
-            this.lblDefaultOffset.Name = "lblDefaultOffset";
-            this.lblDefaultOffset.Size = new System.Drawing.Size(274, 13);
-            this.lblDefaultOffset.TabIndex = 1;
-            this.lblDefaultOffset.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_OFFSET";
-            // 
-            // lblDefaultInterval
-            // 
-            this.lblDefaultInterval.AutoSize = true;
-            this.lblDefaultInterval.Location = new System.Drawing.Point(6, 29);
-            this.lblDefaultInterval.Name = "lblDefaultInterval";
-            this.lblDefaultInterval.Size = new System.Drawing.Size(286, 13);
-            this.lblDefaultInterval.TabIndex = 2;
-            this.lblDefaultInterval.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_INTERVAL";
-            // 
-            // btnChangeDefaultTiming
-            // 
-            this.btnChangeDefaultTiming.Location = new System.Drawing.Point(660, 16);
-            this.btnChangeDefaultTiming.Name = "btnChangeDefaultTiming";
-            this.btnChangeDefaultTiming.Size = new System.Drawing.Size(75, 23);
-            this.btnChangeDefaultTiming.TabIndex = 3;
-            this.btnChangeDefaultTiming.Text = "SETTINGS_BUTTON_DEFAULT_TIMING";
-            this.btnChangeDefaultTiming.UseVisualStyleBackColor = true;
-            this.btnChangeDefaultTiming.Click += new System.EventHandler(this.btnChangeDefaultTiming_Click);
+            this.chkDefaultFade.AutoSize = true;
+            this.chkDefaultFade.Location = new System.Drawing.Point(9, 68);
+            this.chkDefaultFade.Name = "chkDefaultFade";
+            this.chkDefaultFade.Size = new System.Drawing.Size(208, 17);
+            this.chkDefaultFade.TabIndex = 5;
+            this.chkDefaultFade.Text = "SETTINGS_LABEL_DEFAULT_FADE";
+            this.chkDefaultFade.UseVisualStyleBackColor = true;
+            this.chkDefaultFade.CheckedChanged += new System.EventHandler(this.chkDefaultFade_CheckedChanged);
             // 
             // chkDefaultRandomise
             // 
@@ -167,16 +152,33 @@
             this.chkDefaultRandomise.UseVisualStyleBackColor = true;
             this.chkDefaultRandomise.CheckedChanged += new System.EventHandler(this.chkDefaultRandomise_CheckedChanged);
             // 
-            // chkDefaultFade
+            // btnChangeDefaultTiming
             // 
-            this.chkDefaultFade.AutoSize = true;
-            this.chkDefaultFade.Location = new System.Drawing.Point(9, 68);
-            this.chkDefaultFade.Name = "chkDefaultFade";
-            this.chkDefaultFade.Size = new System.Drawing.Size(208, 17);
-            this.chkDefaultFade.TabIndex = 5;
-            this.chkDefaultFade.Text = "SETTINGS_LABEL_DEFAULT_FADE";
-            this.chkDefaultFade.UseVisualStyleBackColor = true;
-            this.chkDefaultFade.CheckedChanged += new System.EventHandler(this.chkDefaultFade_CheckedChanged);
+            this.btnChangeDefaultTiming.Location = new System.Drawing.Point(660, 16);
+            this.btnChangeDefaultTiming.Name = "btnChangeDefaultTiming";
+            this.btnChangeDefaultTiming.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeDefaultTiming.TabIndex = 3;
+            this.btnChangeDefaultTiming.Text = "SETTINGS_BUTTON_DEFAULT_TIMING";
+            this.btnChangeDefaultTiming.UseVisualStyleBackColor = true;
+            this.btnChangeDefaultTiming.Click += new System.EventHandler(this.btnChangeDefaultTiming_Click);
+            // 
+            // lblDefaultInterval
+            // 
+            this.lblDefaultInterval.AutoSize = true;
+            this.lblDefaultInterval.Location = new System.Drawing.Point(6, 29);
+            this.lblDefaultInterval.Name = "lblDefaultInterval";
+            this.lblDefaultInterval.Size = new System.Drawing.Size(286, 13);
+            this.lblDefaultInterval.TabIndex = 2;
+            this.lblDefaultInterval.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_INTERVAL";
+            // 
+            // lblDefaultOffset
+            // 
+            this.lblDefaultOffset.AutoSize = true;
+            this.lblDefaultOffset.Location = new System.Drawing.Point(6, 16);
+            this.lblDefaultOffset.Name = "lblDefaultOffset";
+            this.lblDefaultOffset.Size = new System.Drawing.Size(274, 13);
+            this.lblDefaultOffset.TabIndex = 1;
+            this.lblDefaultOffset.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_OFFSET";
             // 
             // SettingsForm
             // 
