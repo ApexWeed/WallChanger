@@ -18,13 +18,13 @@ ApexWeed
         MAIN_TOOLTIP_LIBRARY = Wallpaper library.
         MAIN_TOOLTIP_LIBRARY_ADD = Add selection to library.
         MAIN_TOOLTIP_LANGUAGE = Select language.
-		MAIN_TOOLTIP_SETTINGS = Change settings.
+        MAIN_TOOLTIP_SETTINGS = Change settings.
     # Labels
         MAIN_LABEL_IMAGES = Images ({0})
         MAIN_LABEL_CONFIGS = Configs
         MAIN_LABEL_STARTUP = Run on startup
-		MAIN_LABEL_RANDOMISE = Randomise
-		MAIN_LABEL_FADE = Fade wallpaper
+        MAIN_LABEL_RANDOMISE = Randomise
+        MAIN_LABEL_FADE = Fade wallpaper
         MAIN_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
         MAIN_LABEL_IMAGE = {0:HH:mm:ss} - {1}
     # Messages
@@ -33,7 +33,9 @@ ApexWeed
         MAIN_MESSAGE_NEW_CONFIG_DEFAULT = default
         MAIN_MESSAGE_DELETE_CONFIG = Are you sure you want to delete "{0}"? Write the config name to confirm.
         MAIN_MESSAGE_DELETE_CONFIG_TITLE = Confirm Delete
-		MAIN_MESSAGE_VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
+        MAIN_MESSAGE_VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
+        MAIN_MESSAGE_SPAN_UNSUPPORTED = Span is not supported before Windows 8, defaulting to {0}.
+        MAIN_MESSAGE_CONFIG_MISSING = The current config file "{0}" doesn't exist, creating blank config.
 # LanguageForm
     # Buttons
         LANG_BUTTON_SAVE = Save
@@ -53,7 +55,7 @@ ApexWeed
         TIMING_LABEL_MINUTES = Minutes
         TIMING_LABEL_HOURS = Hours
     # Messages
-		TIMING_MESSAGE_OFFSET_ERROR = Offset ({0}) - Interval ({1}) cannot be less than zero.
+        TIMING_MESSAGE_OFFSET_ERROR = Offset ({0}) - Interval ({1}) cannot be less than zero.
 # LibraryForm
     # Buttons
     # Tooltips
@@ -64,7 +66,7 @@ ApexWeed
         LIBRARY_TOOLTIP_FILTER_CLEAR_SHOW_NAME = Clear show name filter.
         LIBRARY_TOOLTIP_FILTER_CLEAR_CHARACTER = Clear character filter.
         LIBRARY_TOOLTIP_FILTER_CLEAR_TAG = Clear tag filter.
-        
+
         LIBRARY_TOOLTIP_CATEGORY_ADD = Add new category.
         LIBRARY_TOOLTIP_CATEGORY_CLEAR = Clear category.
         LIBRARY_TOOLTIP_SHOW_NAME_ADD = Add new show name.
@@ -75,7 +77,7 @@ ApexWeed
         LIBRARY_TOOLTIP_TAG_ADD = Add new tag.
         LIBRARY_TOOLTIP_TAG_REMOVE = Remove tag.
         LIBRARY_TOOLTIP_TAG_CLEAR = Clear tags.
-        
+
         LIBRARY_TOOLTIP_CONFIG_ADD = Add selection to current config.
         LIBRARY_TOOLTIP_REMOVE = Remove selection from library.
         LIBRARY_TOOLTIP_CLEAR = Clear library.
@@ -133,26 +135,42 @@ ApexWeed
         DUPE_MESSAGE_CONFIRM_AUTO = This will automatically delete duplicate images keeping the highest resolution version. Continue?
         DUPE_MESSAGE_CONFIRM_AUTO_TITLE = Confirm Auto Resolve
 # SettingsForm
-	# Buttons
-		SETTINGS_BUTTON_DEFAULT_TIMING = Edit Timings...
-	# Tooltips
-	# Labels
-		SETTINGS_LABEL_COMPRESSION = Compression
-		SETTINGS_LABEL_COMPRESSION_LEVEL = Compression Level
-		SETTINGS_LABEL_COMPRESSION_WARNING = Using higher compression levels can result in freezing during saves.
+    # Buttons
+        SETTINGS_BUTTON_DEFAULT_TIMING = Edit Timings...
+    # Tooltips
+    # Labels
+        SETTINGS_LABEL_COMPRESSION = Compression
+        SETTINGS_LABEL_COMPRESSION_LEVEL = Compression Level
+        SETTINGS_LABEL_COMPRESSION_WARNING = Using higher compression levels can result in freezing during saves.
 
-		SETTINGS_LABEL_WALLPAPER = Wallpaper
-		SETTINGS_LABEL_WALLPAPER_STYLE = Wallpaper style
-
-		SETTINGS_LABEL_DEFAULT = Defaults
-		SETTINGS_LABEL_DEFAULT_OFFSET = Default offset: {0}
-		SETTINGS_LABEL_DEFAULT_INTERVAL = Default intervel: {0}
-		SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
-		SETTINGS_LABEL_DEFAULT_FADE = Fade by default
-	# Messages
+        SETTINGS_LABEL_DEFAULT = Defaults
+        SETTINGS_LABEL_DEFAULT_OFFSET = Default offset: {0}
+        SETTINGS_LABEL_DEFAULT_INTERVAL = Default intervel: {0}
+        SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
+        SETTINGS_LABEL_DEFAULT_FADE = Fade by default
+        SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE = Default wallpaper style
+    # Messages
 # Prompts
-	# Buttons
-	# Tooltips
-	# Lables
-	# Messages
-		PROMPT_MESSAGE_BLANK_VALUE = Input cannot be blank.
+    # Buttons
+    # Tooltips
+    # Labels
+    # Messages
+        PROMPT_MESSAGE_BLANK_VALUE = Input cannot be blank.
+# Enumerations
+    # Buttons
+    # Tooltips
+    # Labels
+        ENUM_LABEL_COMPRESSION_LEVEL_NONE = None
+        ENUM_LABEL_COMPRESSION_LEVEL_FAST = Fast
+        ENUM_LABEL_COMPRESSION_LEVEL_LOW = Low
+        ENUM_LABEL_COMPRESSION_LEVEL_NORMAL = Normal
+        ENUM_LABEL_COMPRESSION_LEVEL_HIGH = High
+        ENUM_LABEL_COMPRESSION_LEVEL_ULTRA = Ultra
+
+        ENUM_LABEL_WALLPAPER_STYLE_FILL = Fill
+        ENUM_LABEL_WALLPAPER_STYLE_FIT = Fit
+        ENUM_LABEL_WALLPAPER_STYLE_STRETCHED = Stretched
+        ENUM_LABEL_WALLPAPER_STYLE_TILED = Tiled
+        ENUM_LABEL_WALLPAPER_STYLE_CENTERED = Centered
+        ENUM_LABEL_WALLPAPER_STYLE_SPAN = Span
+    # Messages

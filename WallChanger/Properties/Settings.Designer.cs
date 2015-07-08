@@ -74,12 +74,12 @@ namespace WallChanger.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Fill")]
-        public Wallpaper.WallpaperStyle WallpaperStyle {
+        public Wallpaper.WallpaperStyle DefaultWallpaperStyle {
             get {
-                return ((Wallpaper.WallpaperStyle)(this["WallpaperStyle"]));
+                return ((Wallpaper.WallpaperStyle)(this["DefaultWallpaperStyle"]));
             }
             set {
-                this["WallpaperStyle"] = value;
+                this["DefaultWallpaperStyle"] = value;
             }
         }
         

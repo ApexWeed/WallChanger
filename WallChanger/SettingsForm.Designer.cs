@@ -32,17 +32,15 @@
             this.lblCompressionWarning = new System.Windows.Forms.Label();
             this.lblCompressionLevel = new System.Windows.Forms.Label();
             this.cmbCompressionLevel = new System.Windows.Forms.ComboBox();
-            this.grpWallpaper = new System.Windows.Forms.GroupBox();
-            this.lblWallpaperStyle = new System.Windows.Forms.Label();
-            this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.grpDefaults = new System.Windows.Forms.GroupBox();
+            this.lblDefaultWallpaperStyle = new System.Windows.Forms.Label();
+            this.cmbDefaultWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.chkDefaultFade = new System.Windows.Forms.CheckBox();
             this.chkDefaultRandomise = new System.Windows.Forms.CheckBox();
             this.btnChangeDefaultTiming = new System.Windows.Forms.Button();
             this.lblDefaultInterval = new System.Windows.Forms.Label();
             this.lblDefaultOffset = new System.Windows.Forms.Label();
             this.grpCompression.SuspendLayout();
-            this.grpWallpaper.SuspendLayout();
             this.grpDefaults.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,49 +84,40 @@
             this.cmbCompressionLevel.TabIndex = 0;
             this.cmbCompressionLevel.SelectedValueChanged += new System.EventHandler(this.cmbCompressionLevel_SelectedValueChanged);
             // 
-            // grpWallpaper
-            // 
-            this.grpWallpaper.Controls.Add(this.lblWallpaperStyle);
-            this.grpWallpaper.Controls.Add(this.cmbWallpaperStyle);
-            this.grpWallpaper.Location = new System.Drawing.Point(12, 106);
-            this.grpWallpaper.Name = "grpWallpaper";
-            this.grpWallpaper.Size = new System.Drawing.Size(741, 71);
-            this.grpWallpaper.TabIndex = 3;
-            this.grpWallpaper.TabStop = false;
-            this.grpWallpaper.Text = "SETTINGS_LABEL_WALLPAPER";
-            // 
-            // lblWallpaperStyle
-            // 
-            this.lblWallpaperStyle.AutoSize = true;
-            this.lblWallpaperStyle.Location = new System.Drawing.Point(6, 16);
-            this.lblWallpaperStyle.Name = "lblWallpaperStyle";
-            this.lblWallpaperStyle.Size = new System.Drawing.Size(212, 13);
-            this.lblWallpaperStyle.TabIndex = 1;
-            this.lblWallpaperStyle.Text = "SETTINGS_LABEL_WALLPAPER_STYLE";
-            // 
-            // cmbWallpaperStyle
-            // 
-            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbWallpaperStyle.FormattingEnabled = true;
-            this.cmbWallpaperStyle.Location = new System.Drawing.Point(9, 32);
-            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
-            this.cmbWallpaperStyle.Size = new System.Drawing.Size(726, 21);
-            this.cmbWallpaperStyle.TabIndex = 0;
-            this.cmbWallpaperStyle.SelectedValueChanged += new System.EventHandler(this.cmbWallpaperStyle_SelectedValueChanged);
-            // 
             // grpDefaults
             // 
+            this.grpDefaults.Controls.Add(this.lblDefaultWallpaperStyle);
+            this.grpDefaults.Controls.Add(this.cmbDefaultWallpaperStyle);
             this.grpDefaults.Controls.Add(this.chkDefaultFade);
             this.grpDefaults.Controls.Add(this.chkDefaultRandomise);
             this.grpDefaults.Controls.Add(this.btnChangeDefaultTiming);
             this.grpDefaults.Controls.Add(this.lblDefaultInterval);
             this.grpDefaults.Controls.Add(this.lblDefaultOffset);
-            this.grpDefaults.Location = new System.Drawing.Point(12, 183);
+            this.grpDefaults.Location = new System.Drawing.Point(12, 106);
             this.grpDefaults.Name = "grpDefaults";
-            this.grpDefaults.Size = new System.Drawing.Size(741, 101);
+            this.grpDefaults.Size = new System.Drawing.Size(741, 146);
             this.grpDefaults.TabIndex = 4;
             this.grpDefaults.TabStop = false;
             this.grpDefaults.Text = "SETTINGS_LABEL_DEFAULT";
+            // 
+            // lblDefaultWallpaperStyle
+            // 
+            this.lblDefaultWallpaperStyle.AutoSize = true;
+            this.lblDefaultWallpaperStyle.Location = new System.Drawing.Point(6, 88);
+            this.lblDefaultWallpaperStyle.Name = "lblDefaultWallpaperStyle";
+            this.lblDefaultWallpaperStyle.Size = new System.Drawing.Size(212, 13);
+            this.lblDefaultWallpaperStyle.TabIndex = 7;
+            this.lblDefaultWallpaperStyle.Text = "SETTINGS_LABEL_WALLPAPER_STYLE";
+            // 
+            // cmbDefaultWallpaperStyle
+            // 
+            this.cmbDefaultWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDefaultWallpaperStyle.FormattingEnabled = true;
+            this.cmbDefaultWallpaperStyle.Location = new System.Drawing.Point(9, 104);
+            this.cmbDefaultWallpaperStyle.Name = "cmbDefaultWallpaperStyle";
+            this.cmbDefaultWallpaperStyle.Size = new System.Drawing.Size(726, 21);
+            this.cmbDefaultWallpaperStyle.TabIndex = 6;
+            this.cmbDefaultWallpaperStyle.SelectedValueChanged += new System.EventHandler(this.cmbDefaultWallpaperStyle_SelectedValueChanged);
             // 
             // chkDefaultFade
             // 
@@ -184,9 +173,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 297);
+            this.ClientSize = new System.Drawing.Size(765, 267);
             this.Controls.Add(this.grpDefaults);
-            this.Controls.Add(this.grpWallpaper);
             this.Controls.Add(this.grpCompression);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "SettingsForm";
@@ -195,8 +183,6 @@
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.grpCompression.ResumeLayout(false);
             this.grpCompression.PerformLayout();
-            this.grpWallpaper.ResumeLayout(false);
-            this.grpWallpaper.PerformLayout();
             this.grpDefaults.ResumeLayout(false);
             this.grpDefaults.PerformLayout();
             this.ResumeLayout(false);
@@ -209,14 +195,13 @@
         private System.Windows.Forms.Label lblCompressionWarning;
         private System.Windows.Forms.Label lblCompressionLevel;
         private System.Windows.Forms.ComboBox cmbCompressionLevel;
-        private System.Windows.Forms.GroupBox grpWallpaper;
-        private System.Windows.Forms.Label lblWallpaperStyle;
-        private System.Windows.Forms.ComboBox cmbWallpaperStyle;
         private System.Windows.Forms.GroupBox grpDefaults;
         private System.Windows.Forms.Label lblDefaultOffset;
         private System.Windows.Forms.Label lblDefaultInterval;
         private System.Windows.Forms.CheckBox chkDefaultFade;
         private System.Windows.Forms.CheckBox chkDefaultRandomise;
         private System.Windows.Forms.Button btnChangeDefaultTiming;
+        private System.Windows.Forms.Label lblDefaultWallpaperStyle;
+        private System.Windows.Forms.ComboBox cmbDefaultWallpaperStyle;
     }
 }

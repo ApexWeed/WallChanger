@@ -28,25 +28,6 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.None);
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.Fast);
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.Low);
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.Normal);
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.High);
-            cmbCompressionLevel.Items.Add(SevenZip.CompressionLevel.Ultra);
-
-            cmbCompressionLevel.SelectedItem = cmbCompressionLevel.Items.Find(x => (SevenZip.CompressionLevel)x == Properties.Settings.Default.CompressionLevel);
-            
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Fill);
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Fit);
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Stretched);
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Tiled);
-            cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Centered);
-            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
-                cmbWallpaperStyle.Items.Add(Wallpaper.WallpaperStyle.Span);
-
-            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (Wallpaper.WallpaperStyle)x == Properties.Settings.Default.WallpaperStyle);
-
             LocaliseInterface();
         }
 
@@ -63,15 +44,34 @@ namespace WallChanger
             grpCompression.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION");
             lblCompressionLevel.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_LEVEL");
             lblCompressionWarning.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_WARNING");
-
-            grpWallpaper.Text = LM.GetString("SETTINGS_LABEL_WALLPAPER");
-            lblWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_WALLPAPER_STYLE");
-
+            
             grpDefaults.Text = LM.GetString("SETTINGS_LABEL_DEFAULT");
             lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
             lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
             chkDefaultRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_RANDOMISE");
             chkDefaultFade.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_FADE");
+            lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE");
+
+            cmbCompressionLevel.Items.Clear();
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.None));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Fast));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Low));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Normal));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.High));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Ultra));
+
+            cmbCompressionLevel.SelectedItem = cmbCompressionLevel.Items.Find(x => (CompressionLevelWrapper)x == Properties.Settings.Default.CompressionLevel);
+
+            cmbDefaultWallpaperStyle.Items.Clear();
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
+            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
+                cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
+
+            cmbDefaultWallpaperStyle.SelectedItem = cmbDefaultWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
 
             // Cascade.
         }
@@ -96,7 +96,7 @@ namespace WallChanger
         {
             if (cmbCompressionLevel.SelectedItem != null)
             {
-                Properties.Settings.Default.CompressionLevel = (SevenZip.CompressionLevel)cmbCompressionLevel.SelectedItem;
+                Properties.Settings.Default.CompressionLevel = (CompressionLevelWrapper)cmbCompressionLevel.SelectedItem;
             }
         }
 
@@ -105,11 +105,11 @@ namespace WallChanger
         /// </summary>
         /// <param name="sender">Object that triggered the event.</param>
         /// <param name="e">Arguments.</param>
-        private void cmbWallpaperStyle_SelectedValueChanged(object sender, EventArgs e)
+        private void cmbDefaultWallpaperStyle_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (cmbWallpaperStyle.SelectedItem != null)
+            if (cmbDefaultWallpaperStyle.SelectedItem != null)
             {
-                Properties.Settings.Default.WallpaperStyle = (Wallpaper.WallpaperStyle)cmbWallpaperStyle.SelectedItem;
+                Properties.Settings.Default.DefaultWallpaperStyle = (WallpaperStyleWrapper)cmbDefaultWallpaperStyle.SelectedItem;
             }
         }
 

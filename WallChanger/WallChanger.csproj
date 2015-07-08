@@ -125,6 +125,7 @@
       <DependentUpon>TimingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Wallpaper.cs" />
+    <Compile Include="EnumWrappers.cs" />
     <Compile Include="XnaFan\ArrayComparer.cs" />
     <Compile Include="XnaFan\ExtensionMethods.cs" />
     <Compile Include="XnaFan\Histogram.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
@@ -19,13 +18,16 @@ namespace WallChanger
     {
         const string REG_AUTORUN = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
+        bool SupportsSpan = Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1);
+
         Version AssemblyVersion;
 
         List<string> FileList = new List<string>();
         List<string> ConfigList = new List<string>();
+
         int Interval;
         int Offset;
-        BackgroundWorker TimerWorker = new BackgroundWorker();
+
         bool AutoStarted;
         TimingForm TimingFormChild;
         LanguageForm LanguageFormChild;
@@ -51,10 +53,6 @@ namespace WallChanger
 
             AssemblyVersion = new Version(ProductVersion);
 
-            TimerWorker.DoWork += TimerWorker_DoWork;
-            TimerWorker.ProgressChanged += TimerWorker_ProgressChanged;
-            TimerWorker.WorkerReportsProgress = true;
-
             AutoStarted = Hide;
 
             GlobalVars.ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -71,8 +69,8 @@ namespace WallChanger
         {
             chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
 
-            LoadSettings();
             LocaliseInterface();
+            LoadSettings();
 
             //TimerWorker.RunWorkerAsync();
 
@@ -112,11 +110,27 @@ namespace WallChanger
             grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
             chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
-            //chkStartup.Left = (pnlBottomRight.Width / 2) - (chkStartup.Width / 2);
             chkRandomise.Text = LM.GetString("MAIN_LABEL_RANDOMISE");
-            //chkRandomise.Left = (pnlBottomRight.Width / 2) - (chkRandomise.Width / 2);
             chkFade.Text = LM.GetString("MAIN_LABEL_FADE");
-            //chkFade.Left = (pnlBottomRight.Width / 2) - (chkFade.Width / 2);
+
+            Wallpaper.WallpaperStyle style;
+            if (cmbWallpaperStyle.SelectedItem != null)
+            {
+                style = (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem;
+            }
+            else
+            {
+                style = new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
+            }
+            cmbWallpaperStyle.Items.Clear();
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
+            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
+                cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
+            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
 
             // Cascade.
             if (TimingFormChild != null)
@@ -168,6 +182,7 @@ namespace WallChanger
 
             Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
             Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
+            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
             Properties.Settings.Default.CurrentConfig = name;
             FileList.Clear();
 
@@ -208,6 +223,13 @@ namespace WallChanger
         {
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
 
+            if (!File.Exists(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig))))
+            {
+                MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_CONFIG_MISSING"), Properties.Settings.Default.CurrentConfig));
+                CreateConfig(Properties.Settings.Default.CurrentConfig);
+                return;
+            }
+
             StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
 
             // Set defaults.
@@ -215,6 +237,7 @@ namespace WallChanger
             Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
             chkRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
             chkFade.Checked = Properties.Settings.Default.DefaultFade;
+            cmbWallpaperStyle.SelectedIndex = 0;
 
             string firstLine = read.ReadLine().Trim();
             if (firstLine.StartsWith("Version="))
@@ -254,10 +277,27 @@ namespace WallChanger
                                     Interval = Timing.ParseTime(Parts[1].Trim());
                                     break;
                                 case "Randomise":
-                                    chkRandomise.Checked = bool.Parse(Parts[1].Trim());
+                                    bool randomiseValue = false;
+                                    bool.TryParse(Parts[1].Trim(), out randomiseValue);
+                                    chkRandomise.Checked = randomiseValue;
                                     break;
                                 case "Fade":
-                                    chkFade.Checked = bool.Parse(Parts[1].Trim());
+                                    bool fadeValue = false;
+                                    bool.TryParse(Parts[1].Trim(), out fadeValue);
+                                    chkFade.Checked = fadeValue;
+                                    break;
+                                case "WallpaperStyle":
+                                    Wallpaper.WallpaperStyle style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
+                                    if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
+                                    {
+                                        cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
+                                    }
+                                    else
+                                    {
+                                        // Span is not supported on Windows 7.
+                                        MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
+                                        cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
+                                    }
                                     break;
                                 case "Image":
                                     FileList.Add(Parts[1].Trim());
@@ -305,6 +345,7 @@ namespace WallChanger
             write.WriteLine(string.Format("Interval={0}", Timing.ToString(Interval)));
             write.WriteLine(string.Format("Randomise={0}", chkRandomise.Checked));
             write.WriteLine(string.Format("Fade={0}", chkFade.Checked));
+            write.WriteLine(string.Format("WallpaperStyle={0}", (Wallpaper.WallpaperStyle)(WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem));
             foreach (string image in FileList)
             {
                 write.WriteLine(string.Format("Image={0}", image));
@@ -421,7 +462,7 @@ namespace WallChanger
                     Index = Index % FileList.Count;
                 if (File.Exists(FileList[(Index) % FileList.Count]))
                 {
-                    Wallpaper.Set(FileList[(Index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                    Wallpaper.Set(FileList[(Index) % FileList.Count], (Wallpaper.WallpaperStyle)cmbWallpaperStyle.SelectedItem);
                 }
                 else
                 {
@@ -430,62 +471,6 @@ namespace WallChanger
                     MessageBox.Show(string.Format("The following image cannot be found and has been removed from the current config.\n{0}", FileList[(Index) % FileList.Count]));
                     SetWallpaper(Index);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Worker that changes the background image.
-        /// </summary>
-        /// <param name="sender">Object that sent the event.</param>
-        /// <param name="e">Parameters.</param>
-        private void TimerWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            string loadedConfig;
-            string outputTime;
-            int parsedTime;
-            int index;
-            int sleepTime;
-            int delayTime;
-            while (true)
-            {
-                loadedConfig = Properties.Settings.Default.CurrentConfig;
-                outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                parsedTime = Timing.ParseTime(outputTime) - Offset;
-                index = parsedTime / Interval;
-
-                SetWallpaper(index);
-
-                do
-                {
-                    outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                    parsedTime = Timing.ParseTime(outputTime) - Offset;
-                    sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
-                    delayTime = sleepTime > 1000 ? 1000 : sleepTime;
-                    
-                    TimerWorker.ReportProgress(sleepTime);
-                    System.Threading.Thread.Sleep(delayTime);
-                } while (delayTime == 1000 && loadedConfig == Properties.Settings.Default.CurrentConfig);
-            }
-        }
-
-        /// <summary>
-        /// Updates the time until next change label.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void TimerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            DateTime nextChange = DateTime.Now.AddMilliseconds(e.ProgressPercentage);
-            TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
-            lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
-
-            string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-            int parsedTime = Timing.ParseTime(outputTime) - Offset;
-            int index = parsedTime / Interval;
-            if (index != LastIndex)
-            {
-                LastIndex = index;
-                FillImageList();
             }
         }
 
@@ -524,9 +509,9 @@ namespace WallChanger
                     if (File.Exists(FileList[(index) % FileList.Count]))
                     {
                         if (chkFade.Checked)
-                            Wallpaper.FadeSet(FileList[(index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                            Wallpaper.FadeSet(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
                         else
-                            Wallpaper.SetAsync(FileList[(index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                            Wallpaper.SetAsync(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
                     }
                     else
                     {

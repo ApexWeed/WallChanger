@@ -66,6 +66,7 @@
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
+            this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -158,7 +159,7 @@
             this.grpConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpConfig.Location = new System.Drawing.Point(0, 0);
             this.grpConfig.Name = "grpConfig";
-            this.grpConfig.Size = new System.Drawing.Size(179, 382);
+            this.grpConfig.Size = new System.Drawing.Size(179, 350);
             this.grpConfig.TabIndex = 9;
             this.grpConfig.TabStop = false;
             this.grpConfig.Text = "MAIN_LABEL_CONFIGS";
@@ -170,7 +171,7 @@
             this.pnlConfigInner.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlConfigInner.Location = new System.Drawing.Point(3, 16);
             this.pnlConfigInner.Name = "pnlConfigInner";
-            this.pnlConfigInner.Size = new System.Drawing.Size(173, 363);
+            this.pnlConfigInner.Size = new System.Drawing.Size(173, 331);
             this.pnlConfigInner.TabIndex = 4;
             // 
             // lstConfigs
@@ -179,7 +180,7 @@
             this.lstConfigs.FormattingEnabled = true;
             this.lstConfigs.Location = new System.Drawing.Point(0, 0);
             this.lstConfigs.Name = "lstConfigs";
-            this.lstConfigs.Size = new System.Drawing.Size(173, 334);
+            this.lstConfigs.Size = new System.Drawing.Size(173, 302);
             this.lstConfigs.TabIndex = 0;
             this.lstConfigs.SelectedIndexChanged += new System.EventHandler(this.lstConfigs_SelectedIndexChanged);
             // 
@@ -188,7 +189,7 @@
             this.pnlConfigButtons.Controls.Add(this.btnNewConfig);
             this.pnlConfigButtons.Controls.Add(this.btnRemoveConfig);
             this.pnlConfigButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 334);
+            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 302);
             this.pnlConfigButtons.Name = "pnlConfigButtons";
             this.pnlConfigButtons.Size = new System.Drawing.Size(173, 29);
             this.pnlConfigButtons.TabIndex = 3;
@@ -375,11 +376,12 @@
             this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTopRight.Location = new System.Drawing.Point(0, 0);
             this.pnlTopRight.Name = "pnlTopRight";
-            this.pnlTopRight.Size = new System.Drawing.Size(179, 382);
+            this.pnlTopRight.Size = new System.Drawing.Size(179, 350);
             this.pnlTopRight.TabIndex = 13;
             // 
             // pnlBottomRight
             // 
+            this.pnlBottomRight.Controls.Add(this.cmbWallpaperStyle);
             this.pnlBottomRight.Controls.Add(this.chkFade);
             this.pnlBottomRight.Controls.Add(this.chkRandomise);
             this.pnlBottomRight.Controls.Add(this.lblNextChange);
@@ -389,9 +391,9 @@
             this.pnlBottomRight.Controls.Add(this.btnSave);
             this.pnlBottomRight.Controls.Add(this.chkStartup);
             this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottomRight.Location = new System.Drawing.Point(0, 382);
+            this.pnlBottomRight.Location = new System.Drawing.Point(0, 350);
             this.pnlBottomRight.Name = "pnlBottomRight";
-            this.pnlBottomRight.Size = new System.Drawing.Size(179, 150);
+            this.pnlBottomRight.Size = new System.Drawing.Size(179, 182);
             this.pnlBottomRight.TabIndex = 12;
             // 
             // chkFade
@@ -418,7 +420,7 @@
             // lblNextChange
             // 
             this.lblNextChange.AutoSize = true;
-            this.lblNextChange.Location = new System.Drawing.Point(3, 127);
+            this.lblNextChange.Location = new System.Drawing.Point(3, 160);
             this.lblNextChange.Name = "lblNextChange";
             this.lblNextChange.Size = new System.Drawing.Size(159, 13);
             this.lblNextChange.TabIndex = 9;
@@ -441,6 +443,15 @@
             this.pnlSpacer.Name = "pnlSpacer";
             this.pnlSpacer.Size = new System.Drawing.Size(8, 532);
             this.pnlSpacer.TabIndex = 11;
+            // 
+            // cmbWallpaperStyle
+            // 
+            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbWallpaperStyle.FormattingEnabled = true;
+            this.cmbWallpaperStyle.Location = new System.Drawing.Point(6, 130);
+            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
+            this.cmbWallpaperStyle.Size = new System.Drawing.Size(167, 21);
+            this.cmbWallpaperStyle.TabIndex = 12;
             // 
             // MainForm
             // 
@@ -510,6 +521,7 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.CheckBox chkRandomise;
         private System.Windows.Forms.CheckBox chkFade;
+        private System.Windows.Forms.ComboBox cmbWallpaperStyle;
     }
 }
 
