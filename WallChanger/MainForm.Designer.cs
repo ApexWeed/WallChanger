@@ -61,11 +61,11 @@
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlTopRight = new System.Windows.Forms.Panel();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
+            this.chkFade = new System.Windows.Forms.CheckBox();
+            this.chkRandomise = new System.Windows.Forms.CheckBox();
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
-            this.chkRandomise = new System.Windows.Forms.CheckBox();
-            this.chkFade = new System.Windows.Forms.CheckBox();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -394,6 +394,27 @@
             this.pnlBottomRight.Size = new System.Drawing.Size(179, 150);
             this.pnlBottomRight.TabIndex = 12;
             // 
+            // chkFade
+            // 
+            this.chkFade.AutoSize = true;
+            this.chkFade.Location = new System.Drawing.Point(16, 84);
+            this.chkFade.Name = "chkFade";
+            this.chkFade.Size = new System.Drawing.Size(126, 17);
+            this.chkFade.TabIndex = 11;
+            this.chkFade.Text = "MAIN_LABEL_FADE";
+            this.chkFade.UseVisualStyleBackColor = true;
+            // 
+            // chkRandomise
+            // 
+            this.chkRandomise.AutoSize = true;
+            this.chkRandomise.Location = new System.Drawing.Point(16, 61);
+            this.chkRandomise.Name = "chkRandomise";
+            this.chkRandomise.Size = new System.Drawing.Size(163, 17);
+            this.chkRandomise.TabIndex = 10;
+            this.chkRandomise.Text = "MAIN_LABEL_RANDOMISE";
+            this.chkRandomise.UseVisualStyleBackColor = true;
+            this.chkRandomise.CheckedChanged += new System.EventHandler(this.chkRandomise_CheckedChanged);
+            // 
             // lblNextChange
             // 
             this.lblNextChange.AutoSize = true;
@@ -420,26 +441,6 @@
             this.pnlSpacer.Name = "pnlSpacer";
             this.pnlSpacer.Size = new System.Drawing.Size(8, 532);
             this.pnlSpacer.TabIndex = 11;
-            // 
-            // chkRandomise
-            // 
-            this.chkRandomise.AutoSize = true;
-            this.chkRandomise.Location = new System.Drawing.Point(16, 61);
-            this.chkRandomise.Name = "chkRandomise";
-            this.chkRandomise.Size = new System.Drawing.Size(163, 17);
-            this.chkRandomise.TabIndex = 10;
-            this.chkRandomise.Text = "MAIN_LABEL_RANDOMISE";
-            this.chkRandomise.UseVisualStyleBackColor = true;
-            // 
-            // chkFade
-            // 
-            this.chkFade.AutoSize = true;
-            this.chkFade.Location = new System.Drawing.Point(16, 84);
-            this.chkFade.Name = "chkFade";
-            this.chkFade.Size = new System.Drawing.Size(126, 17);
-            this.chkFade.TabIndex = 11;
-            this.chkFade.Text = "MAIN_LABEL_FADE";
-            this.chkFade.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace WallChanger
@@ -70,6 +71,60 @@ namespace WallChanger
             img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
             img.Dispose();
             
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+            if (Style == WallpaperStyle.Stretched)
+            {
+                key.SetValue(@"WallpaperStyle", 2.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            if (Style == WallpaperStyle.Centered)
+            {
+                key.SetValue(@"WallpaperStyle", 0.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            if (Style == WallpaperStyle.Tiled)
+            {
+                key.SetValue(@"WallpaperStyle", 2.ToString());
+                key.SetValue(@"TileWallpaper", 1.ToString());
+            }
+
+            if (Style == WallpaperStyle.Fit)
+            {
+                key.SetValue(@"WallpaperStyle", 6.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            if (Style == WallpaperStyle.Fill)
+            {
+                key.SetValue(@"WallpaperStyle", 10.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+            }
+
+            SystemParametersInfo(SPI_SETDESKWALLPAPER,
+                0,
+                tempPath,
+                SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+        }
+
+        /// <summary>
+        /// Sets the wallpaper from the specified filename asynchronously.
+        /// </summary>
+        /// <param name="Filename">The path to the image.</param>
+        /// <param name="Style">The style for the wallpaper.</param>
+        public static async void SetAsync(string Filename, WallpaperStyle Style)
+        {
+            System.Drawing.Image img = new System.Drawing.Bitmap(1, 1);
+            string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
+
+            await Task.Run(() =>
+            {
+                img = Imaging.FromFile(Filename);
+                img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+                img.Dispose();
+            });
+
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (Style == WallpaperStyle.Stretched)
             {

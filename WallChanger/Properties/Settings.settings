@@ -29,5 +29,8 @@
     <Setting Name="DefaultInterval" Type="System.String" Scope="User">
       <Value Profile="(Default)">1 m</Value>
     </Setting>
+    <Setting Name="UpdateSettings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

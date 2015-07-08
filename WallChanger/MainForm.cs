@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using Microsoft.Win32;
+using System.Threading.Tasks;
 
 namespace WallChanger
 {
@@ -41,6 +42,13 @@ namespace WallChanger
         {
             InitializeComponent();
 
+            if (Properties.Settings.Default.UpdateSettings)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateSettings = false;
+                Properties.Settings.Default.Save();
+            }
+
             AssemblyVersion = new Version(ProductVersion);
 
             TimerWorker.DoWork += TimerWorker_DoWork;
@@ -66,7 +74,7 @@ namespace WallChanger
             LoadSettings();
             LocaliseInterface();
 
-            TimerWorker.RunWorkerAsync();
+            //TimerWorker.RunWorkerAsync();
 
             if (AutoStarted)
             {
@@ -74,6 +82,8 @@ namespace WallChanger
                 this.ShowInTaskbar = false;
                 noiTray.Visible = true;
             }
+
+            UpdateWallpaper();
         }
 
         /// <summary>
@@ -301,40 +311,61 @@ namespace WallChanger
         {
             if (lstImages.Items.Count == FileList.Count())
             {
-                string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                int parsedTime = Timing.ParseTime(outputTime) - Offset;
-                int index = parsedTime / Interval;
-                int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
-                int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
-
-                DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
-                for (int i = 0; i < FileList.Count; i++)
+                if (chkRandomise.Checked)
                 {
-                    showTime = showTime.AddSeconds(Interval / 1000);
-                    if (i < remainder)
-                        lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]);
-                    else
-                        lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]);
+                    for (int i = 0; i < FileList.Count; i++)
+                    {
+                        lstImages.Items[i] = FileList[i];
+                    }
+                }
+                else
+                {
+                    string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    int parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    int index = parsedTime / Interval;
+                    int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                    int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+
+                    DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                    for (int i = 0; i < FileList.Count; i++)
+                    {
+                        showTime = showTime.AddSeconds(Interval / 1000);
+                        if (i < remainder)
+                            lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]);
+                        else
+                            lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]);
+                    }
                 }
             }
             else
             {
                 lstImages.Items.Clear();
 
-                string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                int parsedTime = Timing.ParseTime(outputTime) - Offset;
-                int index = parsedTime / Interval;
-                int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
-                int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
-
-                DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
-                for (int i = 0; i < FileList.Count; i++)
+                if (chkRandomise.Checked)
                 {
-                    showTime = showTime.AddSeconds(Interval / 1000);
-                    if (i < remainder)
-                        lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]));
-                    else
-                        lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]));
+                    foreach (var File in FileList)
+                    {
+                        lstImages.Items.Add(File);
+                    }
+                }
+                else
+                {
+                    string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    int parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    int index = parsedTime / Interval;
+                    int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                    int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+
+
+                    DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                    for (int i = 0; i < FileList.Count; i++)
+                    {
+                        showTime = showTime.AddSeconds(Interval / 1000);
+                        if (i < remainder)
+                            lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]));
+                        else
+                            lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]));
+                    }
                 }
             }
         }
@@ -446,6 +477,90 @@ namespace WallChanger
             {
                 LastIndex = index;
                 FillImageList();
+            }
+        }
+
+        private async void UpdateWallpaper()
+        {
+            string loadedConfig;
+            string outputTime;
+            int parsedTime;
+            int index;
+            int sleepTime;
+            int delayTime;
+            Random rnd = new Random();
+            while (true)
+            {
+                loadedConfig = Properties.Settings.Default.CurrentConfig;
+                if (chkRandomise.Checked)
+                {
+                    index = rnd.Next(FileList.Count);
+                }
+                else
+                {
+                    outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    index = parsedTime / Interval;
+                }
+
+                // Set wallpaper.
+                if (FileList.Count > 0)
+                {
+                    while (index < 0)
+                    {
+                        index = FileList.Count + index;
+                    }
+                    if (index >= FileList.Count)
+                        index = index % FileList.Count;
+                    if (File.Exists(FileList[(index) % FileList.Count]))
+                    {
+                        if (chkFade.Checked)
+                            Wallpaper.FadeSet(FileList[(index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                        else
+                            Wallpaper.SetAsync(FileList[(index) % FileList.Count], Properties.Settings.Default.WallpaperStyle);
+                    }
+                    else
+                    {
+                        FileList.RemoveAt((index) % FileList.Count);
+                        try
+                        {
+                            FillImageList();
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            // Program is closing.
+                            return;
+                        }
+                        MessageBox.Show(string.Format("The following image cannot be found and has been removed from the current config.\n{0}", FileList[(index) % FileList.Count]));
+                        SetWallpaper(index);
+                    }
+                }
+
+                do
+                {
+                    outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    sleepTime = (parsedTime % Interval == 0) ? Interval : (Interval - parsedTime % Interval);
+                    delayTime = sleepTime > 1000 ? 1000 : sleepTime;
+
+                    // Report progress.
+                    DateTime nextChange = DateTime.Now.AddMilliseconds(sleepTime);
+                    TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
+                    lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
+                    LastIndex = index;
+
+                    try
+                    {
+                        FillImageList();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // Program is closing.
+                        return;
+                    }
+
+                    await Task.Run(() => System.Threading.Thread.Sleep(delayTime));
+                } while (delayTime == 1000 && loadedConfig == Properties.Settings.Default.CurrentConfig);
             }
         }
 
@@ -946,6 +1061,11 @@ namespace WallChanger
             }
 
             base.WndProc(ref message);
+        }
+
+        private void chkRandomise_CheckedChanged(object sender, EventArgs e)
+        {
+            FillImageList();
         }
     }
 }
