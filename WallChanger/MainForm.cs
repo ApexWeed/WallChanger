@@ -112,11 +112,11 @@ namespace WallChanger
             grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
             chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
-            chkStartup.Left = (pnlBottomRight.Width / 2) - (chkStartup.Width / 2);
+            //chkStartup.Left = (pnlBottomRight.Width / 2) - (chkStartup.Width / 2);
             chkRandomise.Text = LM.GetString("MAIN_LABEL_RANDOMISE");
-            chkRandomise.Left = (pnlBottomRight.Width / 2) - (chkRandomise.Width / 2);
+            //chkRandomise.Left = (pnlBottomRight.Width / 2) - (chkRandomise.Width / 2);
             chkFade.Text = LM.GetString("MAIN_LABEL_FADE");
-            chkFade.Left = (pnlBottomRight.Width / 2) - (chkFade.Width / 2);
+            //chkFade.Left = (pnlBottomRight.Width / 2) - (chkFade.Width / 2);
 
             // Cascade.
             if (TimingFormChild != null)
@@ -266,6 +266,7 @@ namespace WallChanger
                         }
                     }
                 }
+                read.Close();
             }
             else
             {
@@ -278,9 +279,12 @@ namespace WallChanger
                 {
                     FileList.Add(read.ReadLine());
                 }
-            }
 
-            read.Close();
+                read.Close();
+
+                // Immediately save updated version.
+                SaveSettings();
+            }
 
             FillImageList();
         }
@@ -290,6 +294,11 @@ namespace WallChanger
         /// </summary>
         private void SaveSettings()
         {
+            if (Interval == 0)
+            {
+                // Application has just started up, don't overwrite with blank config.
+                return;
+            }
             StreamWriter write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
             write.WriteLine(string.Format("Version={0}", AssemblyVersion));
             write.WriteLine(string.Format("Offset={0}", Timing.ToString(Offset)));
@@ -778,6 +787,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void lstConfigs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SaveSettings();
             LoadConfig(lstConfigs.SelectedItem.ToString());
         }
 

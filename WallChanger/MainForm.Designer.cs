@@ -104,7 +104,7 @@
             // chkStartup
             // 
             this.chkStartup.AutoSize = true;
-            this.chkStartup.Location = new System.Drawing.Point(16, 107);
+            this.chkStartup.Location = new System.Drawing.Point(6, 107);
             this.chkStartup.Name = "chkStartup";
             this.chkStartup.Size = new System.Drawing.Size(149, 17);
             this.chkStartup.TabIndex = 4;
@@ -397,7 +397,7 @@
             // chkFade
             // 
             this.chkFade.AutoSize = true;
-            this.chkFade.Location = new System.Drawing.Point(16, 84);
+            this.chkFade.Location = new System.Drawing.Point(6, 84);
             this.chkFade.Name = "chkFade";
             this.chkFade.Size = new System.Drawing.Size(126, 17);
             this.chkFade.TabIndex = 11;
@@ -407,7 +407,7 @@
             // chkRandomise
             // 
             this.chkRandomise.AutoSize = true;
-            this.chkRandomise.Location = new System.Drawing.Point(16, 61);
+            this.chkRandomise.Location = new System.Drawing.Point(6, 61);
             this.chkRandomise.Name = "chkRandomise";
             this.chkRandomise.Size = new System.Drawing.Size(163, 17);
             this.chkRandomise.TabIndex = 10;
@@ -418,7 +418,7 @@
             // lblNextChange
             // 
             this.lblNextChange.AutoSize = true;
-            this.lblNextChange.Location = new System.Drawing.Point(8, 127);
+            this.lblNextChange.Location = new System.Drawing.Point(3, 127);
             this.lblNextChange.Name = "lblNextChange";
             this.lblNextChange.Size = new System.Drawing.Size(159, 13);
             this.lblNextChange.TabIndex = 9;
