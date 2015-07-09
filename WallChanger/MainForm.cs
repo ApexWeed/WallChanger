@@ -20,6 +20,9 @@ namespace WallChanger
 
         bool SupportsSpan = Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1);
 
+        // Allow background thread to finish to avoid GDI+ errors.
+        bool IsClosing = false;
+
         Version AssemblyVersion;
 
         List<string> FileList = new List<string>();
@@ -89,6 +92,8 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_MAIN");
             // Buttons.
             btnNewConfig.Text = LM.GetString("MAIN_BUTTON_NEW");
             btnRemoveConfig.Text = LM.GetString("MAIN_BUTTON_REMOVE");
@@ -359,6 +364,8 @@ namespace WallChanger
         /// <param name="PreserveScrolling">Not yet implemented.</param>
         private void FillImageList(bool PreserveScrolling = false)
         {
+            lstImages.HighlightColour = Properties.Settings.Default.HighlightColour;
+            lstImages.HighlightMode = Properties.Settings.Default.HighlightMode;
             if (lstImages.Items.Count == FileList.Count())
             {
                 if (chkRandomise.Checked)
@@ -381,9 +388,11 @@ namespace WallChanger
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
                         if (i < remainder)
-                            lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]);
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false);
+                        else if (i == remainder)
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true);
                         else
-                            lstImages.Items[i] = string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]);
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false);
                     }
                 }
             }
@@ -405,16 +414,17 @@ namespace WallChanger
                     int index = parsedTime / Interval;
                     int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
                     int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
-
-
+                    
                     DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
                     for (int i = 0; i < FileList.Count; i++)
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
                         if (i < remainder)
-                            lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]));
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false));
+                        else if (i == remainder)
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true));
                         else
-                            lstImages.Items.Add(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]));
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false));
                     }
                 }
             }
@@ -554,6 +564,8 @@ namespace WallChanger
                     }
 
                     await Task.Run(() => System.Threading.Thread.Sleep(delayTime));
+                    if (IsClosing)
+                        this.Close();
                 } while (delayTime == 1000 && loadedConfig == Properties.Settings.Default.CurrentConfig);
             }
         }
@@ -1031,10 +1043,11 @@ namespace WallChanger
         protected override void WndProc(ref Message message)
         {
             const int WM_SYSCOMMAND = 0x0112;
+            const int WM_CLOSE = 0x0010;
             const int SC_MAXIMIZE = 0xF030;
             const int SC_RESTORE = 0xF120;
             const int SC_MINIMIZE = 0xF020;
-
+            
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
@@ -1053,6 +1066,12 @@ namespace WallChanger
                         return;
                     }
                     break;
+                case WM_CLOSE:
+                    if (IsClosing)
+                        base.WndProc(ref message);
+                    else
+                        IsClosing = true;
+                    return;
             }
 
             base.WndProc(ref message);

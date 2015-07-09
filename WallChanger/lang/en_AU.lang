@@ -1,6 +1,13 @@
 Australian English
 Full interface in colourful language.
 ApexWeed
+# Titles
+    TITLE_MAIN = Wall Changer
+    TITLE_DUPLICATE = Duplicate Viewer
+    TITLE_LANGUAGE = Languages
+    TITLE_LIBRARY = Library
+    TITLE_SETTINGS = Settings
+    TITLE_TIMING = Timing
 # MainForm
     # Buttons
         MAIN_BUTTON_NEW = New
@@ -137,6 +144,7 @@ ApexWeed
 # SettingsForm
     # Buttons
         SETTINGS_BUTTON_DEFAULT_TIMING = Edit Timings...
+        SETTINGS_BUTTON_HIGHLIGHT_COLOUR = Choose colour...
     # Tooltips
     # Labels
         SETTINGS_LABEL_COMPRESSION = Compression
@@ -149,6 +157,10 @@ ApexWeed
         SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
         SETTINGS_LABEL_DEFAULT_FADE = Fade by default
         SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE = Default wallpaper style
+
+        SETTINGS_LABEL_HIGHLIGHT = Highlighting
+        SETTINGS_LABEL_HIGHLIGHT_MODE = Highlight mode
+        SETTINGS_LABEL_HIGHLIGHT_COLOUR = Highlight colour
     # Messages
 # Prompts
     # Buttons
@@ -173,4 +185,10 @@ ApexWeed
         ENUM_LABEL_WALLPAPER_STYLE_TILED = Tiled
         ENUM_LABEL_WALLPAPER_STYLE_CENTERED = Centered
         ENUM_LABEL_WALLPAPER_STYLE_SPAN = Span
+
+        ENUM_LABEL_HIGHLIGHT_MODE_BOLD = Bold
+        ENUM_LABEL_HIGHLIGHT_MODE_ITALIC = Italic
+        ENUM_LABEL_HIGHLIGHT_MODE_FOREGROUND = Foreground
+        ENUM_LABEL_HIGHLIGHT_MODE_BACKGROUND = Background
+        ENUM_LABEL_HIGHLIGHT_MODE_NONE = None
     # Messages

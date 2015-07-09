@@ -58,12 +58,6 @@
   <ItemGroup>
     <Compile Include="ActiveDesktop.cs" />
     <Compile Include="ArrayComparer.cs" />
-    <Compile Include="AutoResolveForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AutoResolveForm.Designer.cs">
-      <DependentUpon>AutoResolveForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Duplicate.cs" />
     <Compile Include="DuplicateForm.cs">
       <SubType>Form</SubType>
@@ -74,6 +68,10 @@
     <Compile Include="DuplicateList.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalVars.cs" />
+    <Compile Include="HighlistListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageEntry.cs" />
     <Compile Include="Imaging.cs" />
     <Compile Include="InfoProgressBar.cs">
       <SubType>Component</SubType>
@@ -131,9 +129,6 @@
     <Compile Include="XnaFan\Histogram.cs" />
     <Compile Include="XnaFan\ImageTool.cs" />
     <Compile Include="XnaFan\PathGrayscaleTupleComparer.cs" />
-    <EmbeddedResource Include="AutoResolveForm.resx">
-      <DependentUpon>AutoResolveForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DuplicateForm.resx">
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </EmbeddedResource>

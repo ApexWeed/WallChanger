@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.lstImages = new System.Windows.Forms.ListBox();
             this.ofdAdd = new System.Windows.Forms.OpenFileDialog();
             this.noiTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.chkStartup = new System.Windows.Forms.CheckBox();
@@ -61,12 +60,13 @@
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlTopRight = new System.Windows.Forms.Panel();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
+            this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.chkFade = new System.Windows.Forms.CheckBox();
             this.chkRandomise = new System.Windows.Forms.CheckBox();
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
-            this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
+            this.lstImages = new WallChanger.HighlightListBox();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -79,17 +79,6 @@
             this.pnlBottomRight.SuspendLayout();
             this.pnlLeft.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lstImages
-            // 
-            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstImages.FormattingEnabled = true;
-            this.lstImages.HorizontalScrollbar = true;
-            this.lstImages.Location = new System.Drawing.Point(0, 0);
-            this.lstImages.Name = "lstImages";
-            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstImages.Size = new System.Drawing.Size(561, 513);
-            this.lstImages.TabIndex = 0;
             // 
             // ofdAdd
             // 
@@ -396,6 +385,15 @@
             this.pnlBottomRight.Size = new System.Drawing.Size(179, 182);
             this.pnlBottomRight.TabIndex = 12;
             // 
+            // cmbWallpaperStyle
+            // 
+            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbWallpaperStyle.FormattingEnabled = true;
+            this.cmbWallpaperStyle.Location = new System.Drawing.Point(6, 130);
+            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
+            this.cmbWallpaperStyle.Size = new System.Drawing.Size(167, 21);
+            this.cmbWallpaperStyle.TabIndex = 12;
+            // 
             // chkFade
             // 
             this.chkFade.AutoSize = true;
@@ -444,14 +442,17 @@
             this.pnlSpacer.Size = new System.Drawing.Size(8, 532);
             this.pnlSpacer.TabIndex = 11;
             // 
-            // cmbWallpaperStyle
+            // lstImages
             // 
-            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbWallpaperStyle.FormattingEnabled = true;
-            this.cmbWallpaperStyle.Location = new System.Drawing.Point(6, 130);
-            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
-            this.cmbWallpaperStyle.Size = new System.Drawing.Size(167, 21);
-            this.cmbWallpaperStyle.TabIndex = 12;
+            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstImages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.lstImages.FormattingEnabled = true;
+            this.lstImages.HorizontalScrollbar = true;
+            this.lstImages.Location = new System.Drawing.Point(0, 0);
+            this.lstImages.Name = "lstImages";
+            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstImages.Size = new System.Drawing.Size(561, 513);
+            this.lstImages.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -485,7 +486,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox lstImages;
+        private HighlightListBox lstImages;
         private System.Windows.Forms.Button btnAddImage;
         private System.Windows.Forms.Button btnRemoveImage;
         private System.Windows.Forms.OpenFileDialog ofdAdd;

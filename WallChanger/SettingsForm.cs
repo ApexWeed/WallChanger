@@ -28,6 +28,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void SettingsForm_Load(object sender, EventArgs e)
         {
+            picHighlightColour.BackColor = Properties.Settings.Default.HighlightColour;
             LocaliseInterface();
         }
 
@@ -36,8 +37,11 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_SETTINGS");
             // Buttons.
             btnChangeDefaultTiming.Text = LM.GetString("SETTINGS_BUTTON_DEFAULT_TIMING");
+            btnHighlightColour.Text = LM.GetString("SETTINGS_BUTTON_HIGHLIGHT_COLOUR");
             // Tooltips.
 
             // Labels.
@@ -51,6 +55,11 @@ namespace WallChanger
             chkDefaultRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_RANDOMISE");
             chkDefaultFade.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_FADE");
             lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE");
+
+            grpHighlight.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT");
+            lblHighlightMode.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT_MODE");
+            lblHighlightColour.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT_COLOUR");
+            picHighlightColour.Left = lblHighlightColour.Left + lblHighlightColour.Width + 6;
 
             cmbCompressionLevel.Items.Clear();
             cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.None));
@@ -72,6 +81,15 @@ namespace WallChanger
                 cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
 
             cmbDefaultWallpaperStyle.SelectedItem = cmbDefaultWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
+
+            cmbHighlightMode.Items.Clear();
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Bold));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Italic));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Foreground));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Background));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.None));
+
+            cmbHighlightMode.SelectedItem = cmbHighlightMode.Items.Find(x => (HighlightModeWrapper)x == Properties.Settings.Default.HighlightMode);
 
             // Cascade.
         }
@@ -110,6 +128,19 @@ namespace WallChanger
             if (cmbDefaultWallpaperStyle.SelectedItem != null)
             {
                 Properties.Settings.Default.DefaultWallpaperStyle = (WallpaperStyleWrapper)cmbDefaultWallpaperStyle.SelectedItem;
+            }
+        }
+
+        /// <summary>
+        /// Updates the highlight mode setting.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void cmbHighlightMode_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmbHighlightMode.SelectedItem != null)
+            {
+                Properties.Settings.Default.HighlightMode = (HighlightModeWrapper)cmbHighlightMode.SelectedItem;
             }
         }
 
@@ -170,6 +201,21 @@ namespace WallChanger
             else
             {
                 TimingFormChild.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Prompts the user for a highlight colour.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnHighlightColour_Click(object sender, EventArgs e)
+        {
+            cdgColourDialog.Color = picHighlightColour.BackColor;
+            if (cdgColourDialog.ShowDialog() == DialogResult.OK)
+            {
+                picHighlightColour.BackColor = cdgColourDialog.Color;
+                Properties.Settings.Default.HighlightColour = cdgColourDialog.Color;
             }
         }
     }

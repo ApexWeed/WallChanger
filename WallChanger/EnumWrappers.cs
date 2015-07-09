@@ -119,4 +119,62 @@
             }
         }
     }
+
+    public class HighlightModeWrapper
+    {
+        private LanguageManager LM;
+
+        public HighlightListBox.HighlightMode_ HighlightMode;
+
+        /// <summary>
+        /// Create a new wrapper from a highlight mode object.
+        /// </summary>
+        /// <param name="Mode">The highlight mode to wrap.</param>
+        public HighlightModeWrapper(HighlightListBox.HighlightMode_ Mode)
+        {
+            HighlightMode = Mode;
+            LM = GlobalVars.LanguageManager;
+        }
+
+        /// <summary>
+        /// Automatic conversion from wrapper to base highlight mode object.
+        /// </summary>
+        /// <param name="Wrapper">The wrapper to un wrap.</param>
+        public static implicit operator HighlightListBox.HighlightMode_(HighlightModeWrapper Wrapper)
+        {
+            return Wrapper.HighlightMode;
+        }
+
+        /// <summary>
+        /// Automatic conversion from base highlight mode to wrapper object.
+        /// </summary>
+        /// <param name="Mode">The highlight mode to wrap.</param>
+        public static implicit operator HighlightModeWrapper(HighlightListBox.HighlightMode_ Mode)
+        {
+            return new HighlightModeWrapper(Mode);
+        }
+
+        /// <summary>
+        /// Converts the highlight mode to the translated version.
+        /// </summary>
+        /// <returns>The translated version.</returns>
+        public override string ToString()
+        {
+            switch (HighlightMode)
+            {
+                case HighlightListBox.HighlightMode_.Bold:
+                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_BOLD");
+                case HighlightListBox.HighlightMode_.Italic:
+                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_ITALIC");
+                case HighlightListBox.HighlightMode_.Foreground:
+                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_FOREGROUND");
+                case HighlightListBox.HighlightMode_.Background:
+                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_BACKGROUND");
+                case HighlightListBox.HighlightMode_.None:
+                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_NONE");
+                default:
+                    return "Unknown highlight mode.";
+            }
+        }
+    }
 }

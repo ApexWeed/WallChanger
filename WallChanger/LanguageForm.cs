@@ -45,6 +45,8 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_LANGUAGE");
             // Buttons.
             btnSave.Text = LM.GetString("LANG_BUTTON_SAVE");
             // Tooltips.

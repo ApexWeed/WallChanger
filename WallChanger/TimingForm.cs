@@ -39,6 +39,8 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_TIMING");
             // Buttons.
             btnSave.Text = LM.GetString("TIMING_BUTTON_SAVE");
             // Tooltips.

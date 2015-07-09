@@ -86,6 +86,8 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_LIBRARY");
             // Buttons.
             // Tooltips.
             // Filtering options.

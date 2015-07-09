@@ -14,8 +14,8 @@
     <Setting Name="CompressionLevel" Type="SevenZip.CompressionLevel" Scope="User">
       <Value Profile="(Default)">Normal</Value>
     </Setting>
-    <Setting Name="WallpaperStyle" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="DefaultWallpaperStyle" Type="WallChanger.Wallpaper.WallpaperStyle" Scope="User">
+      <Value Profile="(Default)">Fill</Value>
     </Setting>
     <Setting Name="DefaultRandomise" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -31,6 +31,12 @@
     </Setting>
     <Setting Name="UpdateSettings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="HighlightMode" Type="WallChanger.HighlightListBox.HighlightMode_" Scope="User">
+      <Value Profile="(Default)">Background</Value>
+    </Setting>
+    <Setting Name="HighlightColour" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ActiveCaption</Value>
     </Setting>
   </Settings>
 </SettingsFile>

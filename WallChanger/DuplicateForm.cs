@@ -11,8 +11,6 @@ namespace WallChanger
 
         bool AutoModeEngaged = false;
 
-        AutoResolveForm autoResolveForm = null;
-
         LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
@@ -52,6 +50,8 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
+            // Title.
+            this.Text = LM.GetString("TITLE_DUPLICATE");
             // Buttons.
             btnKeep.Text = LM.GetString("DUPE_BUTTON_KEEP");
             btnRemove.Text = LM.GetString("DUPE_BUTTON_REMOVE");

@@ -40,8 +40,17 @@
             this.btnChangeDefaultTiming = new System.Windows.Forms.Button();
             this.lblDefaultInterval = new System.Windows.Forms.Label();
             this.lblDefaultOffset = new System.Windows.Forms.Label();
+            this.lblHighlightMode = new System.Windows.Forms.Label();
+            this.cmbHighlightMode = new System.Windows.Forms.ComboBox();
+            this.grpHighlight = new System.Windows.Forms.GroupBox();
+            this.lblHighlightColour = new System.Windows.Forms.Label();
+            this.cdgColourDialog = new System.Windows.Forms.ColorDialog();
+            this.picHighlightColour = new System.Windows.Forms.PictureBox();
+            this.btnHighlightColour = new System.Windows.Forms.Button();
             this.grpCompression.SuspendLayout();
             this.grpDefaults.SuspendLayout();
+            this.grpHighlight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).BeginInit();
             this.SuspendLayout();
             // 
             // grpCompression
@@ -169,11 +178,73 @@
             this.lblDefaultOffset.TabIndex = 1;
             this.lblDefaultOffset.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_OFFSET";
             // 
+            // lblHighlightMode
+            // 
+            this.lblHighlightMode.AutoSize = true;
+            this.lblHighlightMode.Location = new System.Drawing.Point(6, 16);
+            this.lblHighlightMode.Name = "lblHighlightMode";
+            this.lblHighlightMode.Size = new System.Drawing.Size(203, 13);
+            this.lblHighlightMode.TabIndex = 7;
+            this.lblHighlightMode.Text = "SETTINGS_LABEL_HIGHLIGHT_MODE";
+            // 
+            // cmbHighlightMode
+            // 
+            this.cmbHighlightMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbHighlightMode.FormattingEnabled = true;
+            this.cmbHighlightMode.Location = new System.Drawing.Point(9, 32);
+            this.cmbHighlightMode.Name = "cmbHighlightMode";
+            this.cmbHighlightMode.Size = new System.Drawing.Size(726, 21);
+            this.cmbHighlightMode.TabIndex = 6;
+            this.cmbHighlightMode.SelectedValueChanged += new System.EventHandler(this.cmbHighlightMode_SelectedValueChanged);
+            // 
+            // grpHighlight
+            // 
+            this.grpHighlight.Controls.Add(this.btnHighlightColour);
+            this.grpHighlight.Controls.Add(this.picHighlightColour);
+            this.grpHighlight.Controls.Add(this.lblHighlightColour);
+            this.grpHighlight.Controls.Add(this.lblHighlightMode);
+            this.grpHighlight.Controls.Add(this.cmbHighlightMode);
+            this.grpHighlight.Location = new System.Drawing.Point(12, 258);
+            this.grpHighlight.Name = "grpHighlight";
+            this.grpHighlight.Size = new System.Drawing.Size(741, 146);
+            this.grpHighlight.TabIndex = 5;
+            this.grpHighlight.TabStop = false;
+            this.grpHighlight.Text = "SETTINGS_LABEL_HIGHLIGHT";
+            // 
+            // lblHighlightColour
+            // 
+            this.lblHighlightColour.AutoSize = true;
+            this.lblHighlightColour.Location = new System.Drawing.Point(6, 64);
+            this.lblHighlightColour.Name = "lblHighlightColour";
+            this.lblHighlightColour.Size = new System.Drawing.Size(216, 13);
+            this.lblHighlightColour.TabIndex = 8;
+            this.lblHighlightColour.Text = "SETTINGS_LABEL_HIGHLIGHT_COLOUR";
+            // 
+            // picHighlightColour
+            // 
+            this.picHighlightColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picHighlightColour.Location = new System.Drawing.Point(228, 59);
+            this.picHighlightColour.Name = "picHighlightColour";
+            this.picHighlightColour.Size = new System.Drawing.Size(426, 23);
+            this.picHighlightColour.TabIndex = 9;
+            this.picHighlightColour.TabStop = false;
+            // 
+            // btnHighlightColour
+            // 
+            this.btnHighlightColour.Location = new System.Drawing.Point(660, 59);
+            this.btnHighlightColour.Name = "btnHighlightColour";
+            this.btnHighlightColour.Size = new System.Drawing.Size(75, 23);
+            this.btnHighlightColour.TabIndex = 8;
+            this.btnHighlightColour.Text = "SETTINGS_BUTTON_HIGHLIGHT_COLOUR";
+            this.btnHighlightColour.UseVisualStyleBackColor = true;
+            this.btnHighlightColour.Click += new System.EventHandler(this.btnHighlightColour_Click);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 267);
+            this.ClientSize = new System.Drawing.Size(765, 487);
+            this.Controls.Add(this.grpHighlight);
             this.Controls.Add(this.grpDefaults);
             this.Controls.Add(this.grpCompression);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -185,6 +256,9 @@
             this.grpCompression.PerformLayout();
             this.grpDefaults.ResumeLayout(false);
             this.grpDefaults.PerformLayout();
+            this.grpHighlight.ResumeLayout(false);
+            this.grpHighlight.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -203,5 +277,12 @@
         private System.Windows.Forms.Button btnChangeDefaultTiming;
         private System.Windows.Forms.Label lblDefaultWallpaperStyle;
         private System.Windows.Forms.ComboBox cmbDefaultWallpaperStyle;
+        private System.Windows.Forms.Label lblHighlightMode;
+        private System.Windows.Forms.ComboBox cmbHighlightMode;
+        private System.Windows.Forms.GroupBox grpHighlight;
+        private System.Windows.Forms.Label lblHighlightColour;
+        private System.Windows.Forms.Button btnHighlightColour;
+        private System.Windows.Forms.PictureBox picHighlightColour;
+        private System.Windows.Forms.ColorDialog cdgColourDialog;
     }
 }

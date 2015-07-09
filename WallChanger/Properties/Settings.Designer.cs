@@ -74,9 +74,9 @@ namespace WallChanger.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Fill")]
-        public Wallpaper.WallpaperStyle DefaultWallpaperStyle {
+        public global::WallChanger.Wallpaper.WallpaperStyle DefaultWallpaperStyle {
             get {
-                return ((Wallpaper.WallpaperStyle)(this["DefaultWallpaperStyle"]));
+                return ((global::WallChanger.Wallpaper.WallpaperStyle)(this["DefaultWallpaperStyle"]));
             }
             set {
                 this["DefaultWallpaperStyle"] = value;
@@ -140,6 +140,30 @@ namespace WallChanger.Properties {
             }
             set {
                 this["UpdateSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Background")]
+        public global::WallChanger.HighlightListBox.HighlightMode_ HighlightMode {
+            get {
+                return ((global::WallChanger.HighlightListBox.HighlightMode_)(this["HighlightMode"]));
+            }
+            set {
+                this["HighlightMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ActiveCaption")]
+        public global::System.Drawing.Color HighlightColour {
+            get {
+                return ((global::System.Drawing.Color)(this["HighlightColour"]));
+            }
+            set {
+                this["HighlightColour"] = value;
             }
         }
     }
