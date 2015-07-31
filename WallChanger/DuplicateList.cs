@@ -4,8 +4,8 @@ namespace WallChanger
 {
     class DuplicateList
     {
-        public string Title;
-        public List<Duplicate> Duplicates;
+        public readonly string Title;
+        public readonly List<Duplicate> Duplicates;
 
         /// <summary>
         /// Initialises a new duplicate list.
@@ -20,7 +20,7 @@ namespace WallChanger
 
         public override string ToString()
         {
-            return string.Format("{0} ({1} images)", Title, Duplicates.Count);
+            return $"{Title} ({Duplicates.Count} images)";
         }
     }
 }

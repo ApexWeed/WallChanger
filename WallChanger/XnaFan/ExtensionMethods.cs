@@ -9,11 +9,13 @@ namespace XnaFan.ImageComparison
     {
 
 
-        //the font to use for the DifferenceImages
+#pragma warning disable CC0033 // Dispose Fields Properly
+                              //the font to use for the DifferenceImages
         private static readonly Font DefaultFont = new Font("Arial", 8);
+#pragma warning restore CC0033 // Dispose Fields Properly
 
         //the brushes to use for the DifferenceImages
-        private static Brush[] brushes = new Brush[256];
+        private static readonly Brush[] brushes = new Brush[256];
 
         //Create the brushes in varying intensities
         static ExtensionMethods()
@@ -27,7 +29,7 @@ namespace XnaFan.ImageComparison
 
         //the colormatrix needed to grayscale an image
         //http://www.switchonthecode.com/tutorials/csharp-tutorial-convert-a-color-image-to-grayscale
-        static readonly ColorMatrix ColorMatrix = new ColorMatrix(new float[][] 
+        static readonly ColorMatrix ColorMatrix = new ColorMatrix(new float[][]
         {
             new float[] {.3f, .3f, .3f, 0, 0},
             new float[] {.59f, .59f, .59f, 0, 0},
@@ -45,9 +47,9 @@ namespace XnaFan.ImageComparison
         /// <returns>The difference between the two images as a percentage</returns>
         public static float PercentageDifference(this Image img1, Image img2, byte threshold = 3)
         {
-            byte[,] differences = img1.GetDifferences(img2);
+            var differences = img1.GetDifferences(img2);
 
-            int diffPixels = 0;
+            var diffPixels = 0;
 
             foreach (byte b in differences)
             {
@@ -59,7 +61,7 @@ namespace XnaFan.ImageComparison
 
         public static byte[,] Difference(this byte[,] array1, byte[,] array2)
         {
-            byte[,] differences = new byte[16, 16];
+            var differences = new byte[16, 16];
             for (int x = 0; x < 16; x++)
             {
                 for (int y = 0; y < 16; y++)
@@ -72,8 +74,8 @@ namespace XnaFan.ImageComparison
 
         public static int Compare(this Tuple<string, byte[,]> a, Tuple<string, byte[,]> b, int Tolerance)
         {
-            byte[,] Difference = a.Item2.Difference(b.Item2);
-            int Different = 0;
+            var Difference = a.Item2.Difference(b.Item2);
+            var Different = 0;
             for (int x = 0; x < 16; x++)
             {
                 for (int y = 0; y < 16; y++)
@@ -94,14 +96,14 @@ namespace XnaFan.ImageComparison
         /// <returns>The difference between the images' normalized histograms</returns>
         public static float BhattacharyyaDifference(this Image img1, Image img2)
         {
-            byte[,] img1GrayscaleValues = img1.GetGrayScaleValues();
-            byte[,] img2GrayscaleValues = img2.GetGrayScaleValues();
+            var img1GrayscaleValues = img1.GetGrayScaleValues();
+            var img2GrayscaleValues = img2.GetGrayScaleValues();
 
             var normalizedHistogram1 = new double[16, 16];
             var normalizedHistogram2 = new double[16, 16];
 
-            double histSum1 = 0.0;
-            double histSum2 = 0.0;
+            var histSum1 = 0.0;
+            var histSum2 = 0.0;
 
             foreach (var value in img1GrayscaleValues) { histSum1 += value; }
             foreach (var value in img2GrayscaleValues) { histSum2 += value; }
@@ -122,19 +124,19 @@ namespace XnaFan.ImageComparison
                 }
             }
 
-            double bCoefficient = 0.0;
+            var bCoefficient = 0.0;
             for (int x = 0; x < img2GrayscaleValues.GetLength(0); x++)
             {
                 for (int y = 0; y < img2GrayscaleValues.GetLength(1); y++)
                 {
-                    double histSquared = normalizedHistogram1[x, y] * normalizedHistogram2[x, y];
+                    var histSquared = normalizedHistogram1[x, y] * normalizedHistogram2[x, y];
                     bCoefficient += Math.Sqrt(histSquared);
                 }
             }
 
-            double dist1 = 1.0 - bCoefficient;
+            var dist1 = 1.0 - bCoefficient;
             dist1 = Math.Round(dist1, 8);
-            double distance = Math.Sqrt(dist1);
+            var distance = Math.Sqrt(dist1);
             distance = Math.Round(distance, 8);
             return (float)distance;
 
@@ -149,18 +151,18 @@ namespace XnaFan.ImageComparison
         /// <param name="adjustColorSchemeToMaxDifferenceFound">Whether to adjust the color indicating maximum difference (usually 255) to the maximum difference found in this case.
         /// E.g. if the maximum difference found is 12, then a true value in adjustColorSchemeToMaxDifferenceFound would result in 0 being black, 6 being dark pink, and 12 being bright pink.
         /// A false value would still have differences of 255 as bright pink resulting in the 12 difference still being very dark.</param>
-        /// <param name="percentages">Whether to write percentages in each of the 255 squares (true) or the absolute value (false)</param>
+        /// <param name="absoluteText">todo: describe absoluteText parameter on GetDifferenceImage</param>
         /// <returns>an image which displays the differences between two images</returns>
         public static Bitmap GetDifferenceImage(this Image img1, Image img2, bool adjustColorSchemeToMaxDifferenceFound = false, bool absoluteText = false)
         {
             //create a 16x16 tiles image with information about how much the two images differ
-            int cellsize = 16;  //each tile is 16 pixels wide and high
-            Bitmap bmp = new Bitmap(16 * cellsize + 1, 16 * cellsize + 1); //16 blocks * 16 pixels + a borderpixel at left/bottom
+            const int cellsize = 16;  //each tile is 16 pixels wide and high
+            var bmp = new Bitmap(16 * cellsize + 1, 16 * cellsize + 1); //16 blocks * 16 pixels + a borderpixel at left/bottom
 
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.FillRectangle(Brushes.Black, 0, 0, bmp.Width, bmp.Height);
-                byte[,] differences = img1.GetDifferences(img2);
+                var differences = img1.GetDifferences(img2);
                 byte maxDifference = 255;
 
                 //if wanted - adjust the color scheme, by finding the new maximum difference
@@ -192,24 +194,17 @@ namespace XnaFan.ImageComparison
             {
                 for (int x = 0; x < differences.GetLength(0); x++)
                 {
-                    byte cellValue = differences[x, y];
+                    var cellValue = differences[x, y];
                     string cellText = null;
 
-                    if (absoluteText)
-                    {
-                        cellText = cellValue.ToString();
-                    }
-                    else
-                    {
-                        cellText = string.Format("{0}%", (int)cellValue);
-                    }
+                    cellText = absoluteText ? cellValue.ToString() : $"{(int)cellValue}%";
 
-                    float percentageDifference = (float)differences[x, y] / maxDifference;
-                    int colorIndex = (int)(255 * percentageDifference);
+                    var percentageDifference = (float)differences[x, y] / maxDifference;
+                    var colorIndex = (int)(255 * percentageDifference);
 
                     g.FillRectangle(brushes[colorIndex], x * cellsize, y * cellsize, cellsize, cellsize);
                     g.DrawRectangle(Pens.Blue, x * cellsize, y * cellsize, cellsize, cellsize);
-                    SizeF size = g.MeasureString(cellText, DefaultFont);
+                    var size = g.MeasureString(cellText, DefaultFont);
                     g.DrawString(cellText, DefaultFont, Brushes.Black, x * cellsize + cellsize / 2 - size.Width / 2 + 1, y * cellsize + cellsize / 2 - size.Height / 2 + 1);
                     g.DrawString(cellText, DefaultFont, Brushes.White, x * cellsize + cellsize / 2 - size.Width / 2, y * cellsize + cellsize / 2 - size.Height / 2);
                 }
@@ -225,11 +220,11 @@ namespace XnaFan.ImageComparison
         /// <returns>the differences between the two images as a doublearray</returns>
         public static byte[,] GetDifferences(this Image img1, Image img2)
         {
-            Bitmap thisOne = (Bitmap)img1.Resize(16, 16).GetGrayScaleVersion();
-            Bitmap theOtherOne = (Bitmap)img2.Resize(16, 16).GetGrayScaleVersion();
-            byte[,] differences = new byte[16, 16];
-            byte[,] firstGray = thisOne.GetGrayScaleValues();
-            byte[,] secondGray = theOtherOne.GetGrayScaleValues();
+            var thisOne = (Bitmap)img1.Resize(16, 16).GetGrayScaleVersion();
+            var theOtherOne = (Bitmap)img2.Resize(16, 16).GetGrayScaleVersion();
+            var differences = new byte[16, 16];
+            var firstGray = thisOne.GetGrayScaleValues();
+            var secondGray = theOtherOne.GetGrayScaleValues();
 
             for (int y = 0; y < 16; y++)
             {
@@ -252,7 +247,7 @@ namespace XnaFan.ImageComparison
         {
             using (Bitmap thisOne = (Bitmap)img.Resize(16, 16).GetGrayScaleVersion())
             {
-                byte[,] grayScale = new byte[16, 16];
+                var grayScale = new byte[16, 16];
 
                 for (int y = 0; y < 16; y++)
                 {
@@ -273,15 +268,17 @@ namespace XnaFan.ImageComparison
         /// <returns>A grayscale version of the image</returns>
         public static Image GetGrayScaleVersion(this Image original)
         {
-            //http://www.switchonthecode.com/tutorials/csharp-tutorial-convert-a-color-image-to-grayscale
-            //create a blank bitmap the same size as original
-            Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+#pragma warning disable CC0022 // Should dispose object
+                              //http://www.switchonthecode.com/tutorials/csharp-tutorial-convert-a-color-image-to-grayscale
+                              //create a blank bitmap the same size as original
+            var newBitmap = new Bitmap(original.Width, original.Height);
+#pragma warning restore CC0022 // Should dispose object
 
             //get a graphics object from the new image
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
                 //create some image attributes
-                ImageAttributes attributes = new ImageAttributes();
+                var attributes = new ImageAttributes();
 
                 //set the color matrix attribute
                 attributes.SetColorMatrix(ColorMatrix);
@@ -290,6 +287,7 @@ namespace XnaFan.ImageComparison
                 //using the grayscale color matrix
                 g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
                    0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
+                attributes.Dispose();
             }
             return newBitmap;
 
@@ -317,7 +315,7 @@ namespace XnaFan.ImageComparison
         }
 
         /// <summary>
-        /// Helpermethod to print a doublearray of 
+        /// Helpermethod to print a doublearray of
         /// </summary>
         /// <typeparam name="T">The type of doublearray</typeparam>
         /// <param name="doubleArray">The doublearray to print</param>
@@ -328,7 +326,7 @@ namespace XnaFan.ImageComparison
                 Console.Write("[");
                 for (int x = 0; x < doubleArray.GetLength(1); x++)
                 {
-                    Console.Write(string.Format("{0,3},", doubleArray[x, y]));
+                    Console.Write($"{doubleArray[x, y],3},");
                 }
                 Console.WriteLine("]");
             }

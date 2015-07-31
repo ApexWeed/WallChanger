@@ -5,8 +5,8 @@ namespace WallChanger
 {
     public partial class TimingForm : Form
     {
-        new Form ParentForm;
-        LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form ParentForm;
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
         /// Creates a new TimingForm with the specified offset and interval.
@@ -68,13 +68,13 @@ namespace WallChanger
         /// </summary>
         private void Save()
         {
-            int offset = 0;
+            var offset = 0;
             offset += ((int)cmbOffsetSeconds.Value);
             offset += ((int)cmbOffsetMinutes.Value * 60);
             offset += ((int)cmbOffsetHours.Value * 3600);
             offset *= 1000;
 
-            int interval = 0;
+            var interval = 0;
             interval += ((int)cmbIntervalSeconds.Value);
             interval += ((int)cmbIntervalMinutes.Value * 60);
             interval += ((int)cmbIntervalHours.Value * 3600);
@@ -124,7 +124,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void ValueChanged(object sender, EventArgs e)
         {
-            NumericUpDown Control = sender as NumericUpDown;
+            var Control = sender as NumericUpDown;
 
             switch (Control.Tag as string)
             {

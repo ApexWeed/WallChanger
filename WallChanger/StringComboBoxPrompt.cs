@@ -7,7 +7,7 @@ namespace WallChanger
     {
         public string ChosenString;
 
-        LanguageManager LM = GlobalVars.LanguageManager;
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
         /// Initialises a new combobox prompt.

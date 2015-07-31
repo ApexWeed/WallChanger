@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WallChanger
 {
     public partial class LanguageForm : Form
     {
-        new Form Parent;
-        LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form Parent;
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
         /// Initialises a new language form.
@@ -27,7 +26,7 @@ namespace WallChanger
         /// <param name="e">Event args associated with this event.</param>
         private void LanguageForm_Load(object sender, EventArgs e)
         {
-            List<Language> Languages = LM.GetLanguages();
+            var Languages = LM.GetLanguages();
             foreach (Language Lang in Languages)
             {
                 cmbCurrentLanguage.Items.Add(Lang);

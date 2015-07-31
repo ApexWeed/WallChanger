@@ -57,7 +57,7 @@ namespace XnaFan.ImageComparison
         /// </summary>
         private void CalculateHistogram()
         {
-            Bitmap newBmp = (Bitmap)this.Bitmap.Resize(16, 16);
+            var newBmp = (Bitmap)this.Bitmap.Resize(16, 16);
             Color c;
             for (int x = 0; x < newBmp.Width; x++)
             {
@@ -81,17 +81,17 @@ namespace XnaFan.ImageComparison
         /// <returns>Three histograms for R, G and B values in the Histogram</returns>
         public Bitmap Visualize()
         {
-            int oneColorHeight = 100;
-            int margin = 10;
+            const int oneColorHeight = 100;
+            const int margin = 10;
 
-            float[] maxValues = new float[] { Red.Max(), Green.Max(), Blue.Max() };
-            byte[][] values = new byte[][] { Red, Green, Blue };
+            var maxValues = new float[] { Red.Max(), Green.Max(), Blue.Max() };
+            var values = new byte[][] { Red, Green, Blue };
 
 
-            Bitmap histogramBitmap = new Bitmap(276, oneColorHeight * 3 + margin * 4);
-            Graphics g = Graphics.FromImage(histogramBitmap);
+            var histogramBitmap = new Bitmap(276, oneColorHeight * 3 + margin * 4);
+            var g = Graphics.FromImage(histogramBitmap);
             g.FillRectangle(Brushes.White, 0, 0, histogramBitmap.Width, histogramBitmap.Height);
-            int yOffset = margin + oneColorHeight;
+            const int yOffset = margin + oneColorHeight;
 
             for (int i = 0; i < 256; i++)
             {
@@ -119,11 +119,11 @@ namespace XnaFan.ImageComparison
         /// <returns>a human-readable representation of the RGB values in the histogram</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             for (int i = 0; i < 256; i++)
             {
-                sb.Append(string.Format("RGB {0,3} : ", i) + string.Format("({0,3},{1,3},{2,3})", Red[i], Green[i], Blue[i]));
+                sb.Append($"RGB {i,3} : "+ $"({Red[i],3},{Green[i],3},{Blue[i],3})");
                 sb.AppendLine();
             }
 

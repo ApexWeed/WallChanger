@@ -14,31 +14,31 @@ namespace WallChanger
         const int FILTERS_SHRUNKEN_HEIGHT = 30;
         const int FILTERS_EXPANDED_HEIGHT = 146;
 
-        int MINIMUM_DATA_HEIGHT;
-        
-        bool ComboBoxLocked = false;
-        bool FiltersExpanded = false;
-        bool ScanningDuplicates = false;
+        readonly int MINIMUM_DATA_HEIGHT;
 
-        List<string> Categories;
-        List<string> ShowNames;
-        List<string> Characters;
-        List<string> Tags;
+        bool ComboBoxLocked;
+        bool FiltersExpanded;
+        bool ScanningDuplicates;
 
-        List<string> FilterCategories;
-        List<string> FilterShowNames;
-        List<string> FilterCharacters;
-        List<string> FilterTags;
+        readonly List<string> Categories;
+        readonly List<string> ShowNames;
+        readonly List<string> Characters;
+        readonly List<string> Tags;
 
-        List<string> SizeCacheToUpdate = new List<string>();
-        Queue<string> SizeCacheQueue = new Queue<string>();
-        bool SizeCacheRunning = false;
+        readonly List<string> FilterCategories;
+        readonly List<string> FilterShowNames;
+        readonly List<string> FilterCharacters;
+        readonly List<string> FilterTags;
+
+        readonly List<string> SizeCacheToUpdate = new List<string>();
+        readonly Queue<string> SizeCacheQueue = new Queue<string>();
+        bool SizeCacheRunning;
         List<string> LastSizeRequest = new List<string>();
 
-        ListViewColumnSorter lsvSorter;
+        readonly ListViewColumnSorter lsvSorter;
 
-        LanguageManager LM = GlobalVars.LanguageManager;
-        
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
+
         /// <summary>
         /// Initialises a new instance of the library form.
         /// </summary>
@@ -172,7 +172,7 @@ namespace WallChanger
         public void UpdateList()
         {
             lsvDisplay.Items.Clear();
-            List<ListViewItem> itemsToAdd = new List<ListViewItem>();
+            var itemsToAdd = new List<ListViewItem>();
             foreach (var libraryItem in GlobalVars.LibraryItems)
             {
                 if (!string.IsNullOrWhiteSpace(cmbCategoryFilter.Text) && cmbCategoryFilter.Text != libraryItem.Category)
@@ -183,16 +183,18 @@ namespace WallChanger
                     continue;
                 if (!string.IsNullOrWhiteSpace(cmbTagFilter.Text) && !libraryItem.Tags.Contains(cmbTagFilter.Text))
                     continue;
-                Size ImageSize = new Size(0, 0);
+                var ImageSize = new Size(0, 0);
                 if (GlobalVars.ImageSizeCache.ContainsKey(libraryItem.Filename))
                     ImageSize = GlobalVars.ImageSizeCache[libraryItem.Filename];
                 else
                     SizeCacheQueue.Enqueue(libraryItem.Filename);
 
-                ListViewItem item = new ListViewItem(new string[] { string.Concat(Path.GetDirectoryName(libraryItem.Filename).Split('\\').Reverse().ToArray()[0], "\\", Path.GetFileNameWithoutExtension(libraryItem.Filename)), ImageSize.Width.ToString(), ImageSize.Height.ToString() });
-                item.Tag = libraryItem.Filename;
+                var item = new ListViewItem(new string[] { string.Concat(Path.GetDirectoryName(libraryItem.Filename).Split('\\').Reverse().ToArray()[0], "\\", Path.GetFileNameWithoutExtension(libraryItem.Filename)), ImageSize.Width.ToString(), ImageSize.Height.ToString() })
+                {
+                    Tag = libraryItem.Filename
+                };
                 itemsToAdd.Add(item);
-                
+
                 Categories.AddDistinct(libraryItem.Category);
                 ShowNames.AddDistinct(libraryItem.ShowName);
                 Characters.AddDistinct(libraryItem.CharacterNames);
@@ -210,8 +212,8 @@ namespace WallChanger
                 lsvDisplay.Items[0].Selected = true;
 
             tslStatistics.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_STATS", "LIBRARY_MESSAGE_STATS: {0}/{1} {2}"), lsvDisplay.Items.Count, GlobalVars.LibraryItems.Count, GlobalVars.ImageSizeCache.Count);
-            
-            LoadImageSizes(false);
+
+            LoadImageSizesAsync(false);
         }
 
         /// <summary>
@@ -221,26 +223,26 @@ namespace WallChanger
         {
             ComboBoxLocked = true;
 
-            string CategoryFilter = cmbCategoryFilter.Text;
+            var CategoryFilter = cmbCategoryFilter.Text;
             cmbCategoryFilter.DataSource = null;
             cmbCategoryFilter.DataSource = FilterCategories;
             cmbCategoryFilter.Text = CategoryFilter;
 
-            string ShowNameFilter = cmbShowNameFilter.Text;
+            var ShowNameFilter = cmbShowNameFilter.Text;
             cmbShowNameFilter.DataSource = null;
             cmbShowNameFilter.DataSource = FilterShowNames;
             cmbShowNameFilter.Text = ShowNameFilter;
 
-            string CharacterFilter = cmbCharacterFilter.Text;
+            var CharacterFilter = cmbCharacterFilter.Text;
             cmbCharacterFilter.DataSource = null;
             cmbCharacterFilter.DataSource = FilterCharacters;
             cmbCharacterFilter.Text = CharacterFilter;
 
-            string TagFilter = cmbTagFilter.Text;
+            var TagFilter = cmbTagFilter.Text;
             cmbTagFilter.DataSource = null;
             cmbTagFilter.DataSource = FilterTags;
             cmbTagFilter.Text = TagFilter;
-            
+
             cmbCategory.DataSource = null;
             cmbShowName.DataSource = null;
             cmbCategory.DataSource = Categories;
@@ -289,12 +291,12 @@ namespace WallChanger
         /// Loads the sizes of the images asynchronously.
         /// </summary>
         /// <param name="skipChanges">Whether or not to skip the last update request.</param>
-        private async void LoadImageSizes(bool skipChanges = false)
+        private async void LoadImageSizesAsync(bool skipChanges = false)
         {
-            int minWidth = int.MaxValue;
-            int minHeight = int.MaxValue;
-            int maxWidth = int.MinValue;
-            int maxHeight = int.MinValue;
+            var minWidth = int.MaxValue;
+            var minHeight = int.MaxValue;
+            var maxWidth = int.MinValue;
+            var maxHeight = int.MinValue;
 
             if (skipChanges)
             {
@@ -311,11 +313,11 @@ namespace WallChanger
                 SizeCacheRunning = true;
                 while (SizeCacheQueue.Count > 0)
                 {
-                    string image = SizeCacheQueue.Dequeue();
+                    var image = SizeCacheQueue.Dequeue();
                     // Get the image size if it is not already cached.
                     if (!GlobalVars.ImageSizeCache.ContainsKey(image))
                     {
-                        Size size = new Size();
+                        var size = new Size();
                         await Task.Run(() =>
                         {
 
@@ -349,7 +351,7 @@ namespace WallChanger
                     lsvDisplay.BeginUpdate();
                     foreach (string image in SizeCacheToUpdate)
                     {
-                        ListViewItem item = lsvDisplay.Items.FindByTag(image);
+                        var item = lsvDisplay.Items.FindByTag(image);
                         item.SubItems[1].Text = GlobalVars.ImageSizeCache[image].Width.ToString();
                         item.SubItems[2].Text = GlobalVars.ImageSizeCache[image].Height.ToString();
                     }
@@ -390,7 +392,9 @@ namespace WallChanger
         /// <returns>A ListViewItemCollection containing all items in the listview.</returns>
         private ListView.ListViewItemCollection GetListViewItems(ListView listView)
         {
-            ListView.ListViewItemCollection temp = new ListView.ListViewItemCollection(new ListView());
+#pragma warning disable CC0022 // Should dispose object
+            var temp = new ListView.ListViewItemCollection(new ListView());
+#pragma warning restore CC0022 // Should dispose object
             if (!listView.InvokeRequired)
             {
                 foreach (ListViewItem item in listView.Items)
@@ -417,7 +421,7 @@ namespace WallChanger
                 lstCharacters.Enabled = false;
                 lstTags.Enabled = false;
 
-                LoadImageSizes(true);
+                LoadImageSizesAsync(true);
 
                 cmbCategory.Text = "";
                 cmbShowName.Text = "";
@@ -428,9 +432,8 @@ namespace WallChanger
             else if (lsvDisplay.SelectedIndices.Count == 1)
             {
                 btnFindDuplicates.Enabled = false;
-                Image preview = new Bitmap(1, 1);
 
-                preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
+                var preview = Imaging.FromFile(lsvDisplay.SelectedItems[0].Tag as string);
                 lsvDisplay.SelectedItems[0].SubItems[1].Text = preview.Width.ToString();
                 lsvDisplay.SelectedItems[0].SubItems[2].Text = preview.Height.ToString();
                 GlobalVars.ImageSizeCache.AddDistinct(lsvDisplay.SelectedItems[0].Tag as string, preview.Size);
@@ -439,7 +442,7 @@ namespace WallChanger
                 picPreview.Image = preview;
                 picPreview.Height = Imaging.CalculateImageHeight(preview, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
                 UpdateComboBoxes();
-                LibraryItem item = new LibraryItem();
+                var item = new LibraryItem();
                 item = GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string);
 
                 if (!string.IsNullOrWhiteSpace(item.Category))
@@ -473,7 +476,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnAddCategory_Click(object sender, EventArgs e)
         {
-            string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY"), LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY_TITLE"), Categories.ToArray());
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY"), LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY_TITLE"), Categories.ToArray());
             if (string.IsNullOrWhiteSpace(Value))
                 return;
 
@@ -505,7 +508,7 @@ namespace WallChanger
             // Don't want to update any values when multiple are selected.
             if (lsvDisplay.SelectedItems.Count > 1)
                 return;
-            
+
             // Don't want the values changing when swapping between entries.
             if (ComboBoxLocked)
                 return;
@@ -522,7 +525,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnAddShowName_Click(object sender, EventArgs e)
         {
-            string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME"), LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE"), ShowNames.ToArray());
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME"), LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE"), ShowNames.ToArray());
             if (string.IsNullOrWhiteSpace(Value))
                 return;
 
@@ -573,7 +576,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnAddNewCharacter_Click(object sender, EventArgs e)
         {
-            string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER"), LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER_TITLE"), Characters.ToArray());
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER"), LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER_TITLE"), Characters.ToArray());
             if (string.IsNullOrWhiteSpace(Value))
                 return;
 
@@ -619,7 +622,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnAddNewTag_Click(object sender, EventArgs e)
         {
-            string Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_TAG"), LM.GetString("LIBRARY_MESSAGE_NEW_TAG_TITLE"), Tags.ToArray());
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_TAG"), LM.GetString("LIBRARY_MESSAGE_NEW_TAG_TITLE"), Tags.ToArray());
             if (string.IsNullOrWhiteSpace(Value))
                 return;
 
@@ -713,7 +716,7 @@ namespace WallChanger
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
-                    int command = message.WParam.ToInt32() & 0xfff0;
+                    var command = message.WParam.ToInt32() & 0xfff0;
                     if (command == SC_MAXIMIZE)
                     {
                         UpdateControlPositionsAsync(50);
@@ -824,7 +827,7 @@ namespace WallChanger
         {
             if (Owner is MainForm)
             {
-                List<string> Images = new List<string>();
+                var Images = new List<string>();
                 foreach (ListViewItem item in lsvDisplay.SelectedItems)
                 {
                     Images.Add(item.Tag as string);
@@ -841,7 +844,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void LibraryForm_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
                 if (Directory.Exists(file))
@@ -876,7 +879,7 @@ namespace WallChanger
         /// Loads the file into the library.
         /// </summary>
         /// <param name="FileName">The file to add.</param>
-        private void LoadFile(string FileName)
+        private static void LoadFile(string FileName)
         {
             using (Stream read = File.Open(FileName, FileMode.Open))
             {
@@ -893,12 +896,14 @@ namespace WallChanger
             }
         }
 
-        /// <summary>
-        /// Updates the cursor when the user drags files onto the window.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
+#pragma warning disable CC0091 // Use static method
+                              /// <summary>
+                              /// Updates the cursor when the user drags files onto the window.
+                              /// </summary>
+                              /// <param name="sender">Object that triggered the event.</param>
+                              /// <param name="e">Arguments.</param>
         private void LibraryForm_DragEnter(object sender, DragEventArgs e)
+#pragma warning restore CC0091 // Use static method
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
@@ -941,12 +946,12 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnFindDuplicates_Click(object sender, EventArgs e)
         {
-            List<string> items = new List<string>();
+            var items = new List<string>();
             foreach (ListViewItem item in lsvDisplay.SelectedItems)
             {
                 items.Add(item.Tag as string);
             }
-            FindDuplicates(items);
+            FindDuplicatesAsync(items);
         }
 
         /// <summary>
@@ -956,12 +961,12 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnFindAllDuplicates_Click(object sender, EventArgs e)
         {
-            List<string> Images = new List<string>();
+            var Images = new List<string>();
             foreach (ListViewItem item in lsvDisplay.Items)
             {
                 Images.Add(item.Tag as string);
             }
-            FindDuplicates(Images);
+            FindDuplicatesAsync(Images);
         }
 
         /// <summary>
@@ -971,12 +976,12 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnCacheDuplicateThumbnails_Click(object sender, EventArgs e)
         {
-            List<string> Images = new List<string>();
+            var Images = new List<string>();
             foreach (ListViewItem item in lsvDisplay.Items)
             {
                 Images.Add(item.Tag as string);
             }
-            CacheDuplicateThumbnails(Images);
+            CacheDuplicateThumbnailsAsync(Images);
             tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
         }
 
@@ -987,7 +992,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnCheckFiles_Click(object sender, EventArgs e)
         {
-            CheckFilesExist();
+            CheckFilesExistAsync();
 
             UpdateList();
         }
@@ -995,20 +1000,20 @@ namespace WallChanger
         /// <summary>
         /// Checks if the library files exist on disk.
         /// </summary>
-        private async void CheckFilesExist()
+        private async void CheckFilesExistAsync()
         {
-            List<string> LibraryFilenames = new List<string>();
+            var LibraryFilenames = new List<string>();
 
             foreach (var Item in GlobalVars.LibraryItems)
             {
                 LibraryFilenames.Add(Item.Filename);
             }
 
-            List<string> Directories = await Task.Run(() => GetUniqueDirectories(LibraryFilenames));
+            var Directories = await Task.Run(() => GetUniqueDirectories(LibraryFilenames));
 
-            List<string> DiskFilenames = await Task.Run(() => GetFiles(Directories));
+            var DiskFilenames = await Task.Run(() => GetFiles(Directories));
 
-            int MissingCount = 0;
+            var MissingCount = 0;
 
             foreach (string ImagePath in LibraryFilenames)
             {
@@ -1027,9 +1032,9 @@ namespace WallChanger
         /// </summary>
         /// <param name="Files">List of filenames.</param>
         /// <returns>List of unique directory names.</returns>
-        private List<string> GetUniqueDirectories(IEnumerable<string> Files)
+        private static List<string> GetUniqueDirectories(IEnumerable<string> Files)
         {
-            List<string> DirectoryNames = new List<string>();
+            var DirectoryNames = new List<string>();
 
             foreach (string File in Files)
             {
@@ -1045,9 +1050,9 @@ namespace WallChanger
         /// <param name="Directories">The enumerable list of directories.</param>
         /// <param name="Recursive">Whether or not to search sub directories.</param>
         /// <returns>A list of files in all directories.</returns>
-        private List<string> GetFiles(IEnumerable<string> Directories, bool Recursive = false)
+        private static List<string> GetFiles(IEnumerable<string> Directories, bool Recursive = false)
         {
-            List<string> FileList = new List<string>();
+            var FileList = new List<string>();
 
             foreach (string Directory in Directories)
             {
@@ -1063,9 +1068,9 @@ namespace WallChanger
         /// <param name="Directory">The directory to scan.</param>
         /// <param name="Recursive">Whether or not to recursively scan directories.</param>
         /// <returns>A list of files in the specified directory.</returns>
-        private List<string> GetFiles(string Directory, bool Recursive = false)
+        private static List<string> GetFiles(string Directory, bool Recursive = false)
         {
-            List<string> FileList = new List<string>();
+            var FileList = new List<string>();
 
             var Files = System.IO.Directory.GetFiles(Directory);
 
@@ -1086,7 +1091,7 @@ namespace WallChanger
         /// Finds duplicate images in the specified list.
         /// </summary>
         /// <param name="ImagePaths">An enumerable list of image paths to check.</param>
-        private async void FindDuplicates(IEnumerable<string> ImagePaths)
+        private async void FindDuplicatesAsync(IEnumerable<string> ImagePaths)
         {
             if (GlobalVars.DuplicateForm != null)
             {
@@ -1097,9 +1102,9 @@ namespace WallChanger
                 return;
             ScanningDuplicates = true;
 
-            List<List<string>> Duplicates = new List<List<string>>();
-            Duplicates = await ImageTool.GetDuplicateImagesMultithreadedCache(ImagePaths, 3, GlobalVars.ImageCache, new Progress<Tuple<int, int>>(UpdateDuplicateScanProgress));
-            
+            var Duplicates = new List<List<string>>();
+            Duplicates = await ImageTool.GetDuplicateImagesMultithreadedCacheAsync(ImagePaths, 3, GlobalVars.ImageCache, new Progress<Tuple<int, int>>(UpdateDuplicateScanProgress));
+
             ScanningDuplicates = false;
 
             tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
@@ -1136,7 +1141,7 @@ namespace WallChanger
         /// Caches the thumbnails of the specified images.
         /// </summary>
         /// <param name="ImagePaths"></param>
-        private async void CacheDuplicateThumbnails(List<string> ImagePaths)
+        private async void CacheDuplicateThumbnailsAsync(List<string> ImagePaths)
         {
             tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_GENERATING_THUMBNAILS");
             for (int i = 0; i < ImagePaths.Count; i++)
@@ -1145,7 +1150,7 @@ namespace WallChanger
                 {
                     await Task.Run(() =>
                     {
-                        Image image = Image.FromFile(ImagePaths[i]);
+                        var image = Image.FromFile(ImagePaths[i]);
                         GlobalVars.ImageCache.Add(ImagePaths[i], image.GetGrayScaleValues());
                         image.Dispose();
                     });
@@ -1159,7 +1164,7 @@ namespace WallChanger
         /// Allows child forms to be opened.
         /// </summary>
         /// <param name="Child">The child that has closed.</param>
-        public void ChildClosed(Form Child)
+        public static void ChildClosed(Form Child)
         {
             if (Child is DuplicateForm)
                 GlobalVars.DuplicateForm = null;

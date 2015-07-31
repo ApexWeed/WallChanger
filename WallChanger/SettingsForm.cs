@@ -5,10 +5,10 @@ namespace WallChanger
 {
     public partial class SettingsForm : Form
     {
-        new Form Parent;
-        LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form Parent;
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
-        TimingForm TimingFormChild = null;
+        TimingForm TimingFormChild;
 
         /// <summary>
         /// Initialises a new settings form.
@@ -48,7 +48,7 @@ namespace WallChanger
             grpCompression.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION");
             lblCompressionLevel.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_LEVEL");
             lblCompressionWarning.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_WARNING");
-            
+
             grpDefaults.Text = LM.GetString("SETTINGS_LABEL_DEFAULT");
             lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
             lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
@@ -158,12 +158,13 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Allows a new instance of the timing for to be opened.
+        /// Allows a new instance of the timing form to be opened.
         /// </summary>
         /// <param name="Child">The child that closed.</param>
         public void ChildClosed(Form Child)
         {
-            TimingFormChild = null;
+            if (Child is TimingForm)
+                TimingFormChild = null;
         }
 
         /// <summary>

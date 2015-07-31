@@ -4,12 +4,12 @@ namespace WallChanger
 {
     public class Language
     {
-        public string Code;
-        public string Name;
-        public string Description;
-        public string Author;
+        public readonly string Code;
+        public readonly string Name;
+        public readonly string Description;
+        public readonly string Author;
 
-        private Dictionary<string, string> Strings;
+        private readonly Dictionary<string, string> Strings;
 
         /// <summary>
         /// Create a new instance of a language.
@@ -56,15 +56,12 @@ namespace WallChanger
         /// <returns>The entry if it exists or the key.</returns>
         public string GetString(string Key)
         {
-            if (Strings.ContainsKey(Key))
-                return Strings[Key];
-            else
-                return Key;
+            return Strings.ContainsKey(Key) ? Strings[Key] : Key;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", Name, Code);
+            return $"{Name} ({Code})";
         }
     }
 }

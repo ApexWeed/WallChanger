@@ -21,9 +21,11 @@ namespace XnaFan.ImageComparison
     /// </summary>
     public static class ImageTool
     {
-        static Mutex QueueMutex = new Mutex();
+#pragma warning disable CC0033 // Dispose Fields Properly
+        static readonly Mutex QueueMutex = new Mutex();
+#pragma warning restore CC0033 // Dispose Fields Properly
 
-        private static PathGrayscaleTupleComparer Comparer = new PathGrayscaleTupleComparer();
+        private static readonly PathGrayscaleTupleComparer Comparer = new PathGrayscaleTupleComparer();
 
         /// <summary>
         /// Gets the difference between two images as a percentage
@@ -37,10 +39,10 @@ namespace XnaFan.ImageComparison
         {
             if (CheckIfFileExists(image1Path) && CheckIfFileExists(image2Path))
             {
-                Image img1 = Image.FromFile(image1Path);
-                Image img2 = Image.FromFile(image2Path);
+                var img1 = Image.FromFile(image1Path);
+                var img2 = Image.FromFile(image2Path);
 
-                float difference = img1.PercentageDifference(img2, threshold);
+                var difference = img1.PercentageDifference(img2, threshold);
 
                 img1.Dispose();
                 img2.Dispose();
@@ -56,16 +58,15 @@ namespace XnaFan.ImageComparison
         /// <returns>The difference between the two images as a percentage</returns>
         /// <param name="image1Path">The path to the first image</param>
         /// <param name="image2Path">The path to the second image</param>
-        /// <param name="threshold">How big a difference (out of 255) will be ignored - the default is 3.</param>
         /// <returns>The difference between the two images as a percentage</returns>
         public static float GetBhattacharyyaDifference(string image1Path, string image2Path)
         {
             if (CheckIfFileExists(image1Path) && CheckIfFileExists(image2Path))
             {
-                Image img1 = Image.FromFile(image1Path);
-                Image img2 = Image.FromFile(image2Path);
+                var img1 = Image.FromFile(image1Path);
+                var img2 = Image.FromFile(image2Path);
 
-                float difference = img1.BhattacharyyaDifference(img2);
+                var difference = img1.BhattacharyyaDifference(img2);
 
                 img1.Dispose();
                 img2.Dispose();
@@ -133,12 +134,13 @@ namespace XnaFan.ImageComparison
         /// </summary>
         /// <param name="pathsOfPossibleDuplicateImages">The paths to the images to check for duplicates</param>
         /// <param name="Tolerance">How big a difference (out of 255) will be ignored.</param>
+        /// <param name="ProgressChanged">IProgress object used to report progress of greyscale conversion.</param>
         /// <returns>A list of all the duplicates found, collected in separate Lists (one for each distinct image found)</returns>
-        public static async Task<List<List<string>>> GetDuplicateImages(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, IProgress<Tuple<int, int>> ProgressChanged = null)
+        public static async Task<List<List<string>>> GetDuplicateImagesAsync(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, IProgress<Tuple<int, int>> ProgressChanged = null)
         {
-            List<Tuple<string, byte[,]>> imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
+            var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
             await Task.Run(() => { imagePathsAndGrayValues = GetSortedGrayscaleValues(pathsOfPossibleDuplicateImages, ProgressChanged); });
-            List<List<Tuple<string, byte[,]>>> duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
+            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
             await Task.Run(() => { duplicateGroups = GetDuplicateGroups(imagePathsAndGrayValues, Tolerance); });
 
             var pathsGroupedByDuplicates = new List<List<string>>();
@@ -157,11 +159,11 @@ namespace XnaFan.ImageComparison
         /// <param name="Tolerance">How big a difference (out of 255) will be ignored.</param>
         /// <param name="ProgressChanged">An IProgress that updates progress of the image loading.</param>
         /// <returns>A list of all the duplicates found, collected in separate Lists (one for each distinct image found)</returns>
-        public static async Task<List<List<string>>> GetDuplicateImagesMultithreaded(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, IProgress<Tuple<int, int>> ProgressChanged = null)
+        public static async Task<List<List<string>>> GetDuplicateImagesMultithreadedAsync(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, IProgress<Tuple<int, int>> ProgressChanged = null)
         {
-            List<Tuple<string, byte[,]>> imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
+            var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
             await Task.Run(() => { imagePathsAndGrayValues = GetSortedGrayscaleValuesMultithreaded(pathsOfPossibleDuplicateImages, ProgressChanged); });
-            List<List<Tuple<string, byte[,]>>> duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
+            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
             await Task.Run(() => { duplicateGroups = GetDuplicateGroups(imagePathsAndGrayValues, Tolerance); });
 
             var pathsGroupedByDuplicates = new List<List<string>>();
@@ -181,11 +183,11 @@ namespace XnaFan.ImageComparison
         /// <param name="ProgressChanged">An IProgress that updates the progress of the image loading.</param>
         /// <param name="Cache">A dictionary that contains the cache for greyscale thumbnails. This method will add new entries to the cache.</param>
         /// <returns>A list of all the duplicates found, collected in separate Lists (one for each distinct image found)</returns>
-        public static async Task<List<List<string>>> GetDuplicateImagesMultithreadedCache(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, Dictionary<string, byte[,]> Cache, IProgress<Tuple<int, int>> ProgressChanged = null)
+        public static async Task<List<List<string>>> GetDuplicateImagesMultithreadedCacheAsync(IEnumerable<string> pathsOfPossibleDuplicateImages, byte Tolerance, Dictionary<string, byte[,]> Cache, IProgress<Tuple<int, int>> ProgressChanged = null)
         {
-            List<Tuple<string, byte[,]>> imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
+            var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
             await Task.Run(() => { imagePathsAndGrayValues = GetSortedGrayscaleValuesMultithreadedCache(pathsOfPossibleDuplicateImages, ProgressChanged, Cache); });
-            List<List<Tuple<string, byte[,]>>> duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
+            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
             await Task.Run(() => { duplicateGroups = GetDuplicateGroups(imagePathsAndGrayValues, Tolerance); });
 
             var pathsGroupedByDuplicates = new List<List<string>>();
@@ -206,7 +208,7 @@ namespace XnaFan.ImageComparison
             {
                 using (Image image = Image.FromFile(imagePath))
                 {
-                    byte[,] grayValues = image.GetGrayScaleValues();
+                    var grayValues = image.GetGrayScaleValues();
                     var tuple = new Tuple<string, byte[,]>(imagePath, grayValues);
                     imagePathsAndGrayValues.Add(tuple);
                 }
@@ -219,13 +221,13 @@ namespace XnaFan.ImageComparison
         private static List<Tuple<string, byte[,]>> GetSortedGrayscaleValues(IEnumerable<string> pathsOfPossibleDuplicateImages, IProgress<Tuple<int, int>> ProgressChanged)
         {
             var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
-            int count = pathsOfPossibleDuplicateImages.Count();
-            int current = 0;
+            var count = pathsOfPossibleDuplicateImages.Count();
+            var current = 0;
             foreach (var imagePath in pathsOfPossibleDuplicateImages)
             {
                 using (Image image = Image.FromFile(imagePath))
                 {
-                    byte[,] grayValues = image.GetGrayScaleValues();
+                    var grayValues = image.GetGrayScaleValues();
                     var tuple = new Tuple<string, byte[,]>(imagePath, grayValues);
                     imagePathsAndGrayValues.Add(tuple);
                     ProgressChanged.Report(new Tuple<int, int>(++current, count));
@@ -239,13 +241,13 @@ namespace XnaFan.ImageComparison
         private static List<Tuple<string, byte[,]>> GetSortedGrayscaleValuesMultithreaded(IEnumerable<string> pathsOfPossibleDuplicateImages, IProgress<Tuple<int, int>> ProgressChanged)
         {
             var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
-            int count = pathsOfPossibleDuplicateImages.Count();
+            var count = pathsOfPossibleDuplicateImages.Count();
 
-            Thread[] workers = new Thread[Environment.ProcessorCount];
-            bool[] workerFinished = new bool[Environment.ProcessorCount];
-            Queue<string> workItems = new Queue<string>();
-            List<Tuple<string, byte[,]>>[] workerData = new List<Tuple<string, byte[,]>>[Environment.ProcessorCount];
-            int completedThreads = 0;
+            var workers = new Thread[Environment.ProcessorCount];
+            var workerFinished = new bool[Environment.ProcessorCount];
+            var workItems = new Queue<string>();
+            var workerData = new List<Tuple<string, byte[,]>>[Environment.ProcessorCount];
+            var completedThreads = 0;
 
             foreach (var imagePath in pathsOfPossibleDuplicateImages)
             {
@@ -254,7 +256,7 @@ namespace XnaFan.ImageComparison
 
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                int innerI = i;
+                var innerI = i;
                 workers[i] = new Thread(() => GetSortedGrayscaleValuesWork(innerI, workItems, workerData, ProgressChanged, count, workerFinished));
                 workers[i].Start();
             }
@@ -281,13 +283,13 @@ namespace XnaFan.ImageComparison
         private static List<Tuple<string, byte[,]>> GetSortedGrayscaleValuesMultithreadedCache(IEnumerable<string> pathsOfPossibleDuplicateImages, IProgress<Tuple<int, int>> ProgressChanged, Dictionary<string, byte[,]> Cache)
         {
             var imagePathsAndGrayValues = new List<Tuple<string, byte[,]>>();
-            int count = pathsOfPossibleDuplicateImages.Count();
+            var count = pathsOfPossibleDuplicateImages.Count();
 
-            Thread[] workers = new Thread[Environment.ProcessorCount];
-            bool[] workerFinished = new bool[Environment.ProcessorCount];
-            Queue<string> workItems = new Queue<string>();
-            List<Tuple<string, byte[,]>>[] workerData = new List<Tuple<string, byte[,]>>[Environment.ProcessorCount];
-            int completedThreads = 0;
+            var workers = new Thread[Environment.ProcessorCount];
+            var workerFinished = new bool[Environment.ProcessorCount];
+            var workItems = new Queue<string>();
+            var workerData = new List<Tuple<string, byte[,]>>[Environment.ProcessorCount];
+            var completedThreads = 0;
 
             foreach (var imagePath in pathsOfPossibleDuplicateImages)
             {
@@ -296,7 +298,7 @@ namespace XnaFan.ImageComparison
 
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                int innerI = i;
+                var innerI = i;
                 workers[i] = new Thread(() => GetSortedGrayscaleValuesCacheWork(innerI, workItems, workerData, ProgressChanged, count, workerFinished, Cache));
                 workers[i].Start();
             }
@@ -326,11 +328,11 @@ namespace XnaFan.ImageComparison
             while (WorkItems.Count > 0)
             {
                 QueueMutex.WaitOne();
-                string currentWorkItem = WorkItems.Dequeue();
+                var currentWorkItem = WorkItems.Dequeue();
                 QueueMutex.ReleaseMutex();
                 using (Image image = Image.FromFile(currentWorkItem))
                 {
-                    byte[,] grayValues = image.GetGrayScaleValues();
+                    var grayValues = image.GetGrayScaleValues();
                     var tuple = new Tuple<string, byte[,]>(currentWorkItem, grayValues);
                     WorkerData[Id].Add(tuple);
                     ProgressChanged.Report(new Tuple<int, int>(TotalItems - WorkItems.Count, TotalItems));
@@ -347,7 +349,7 @@ namespace XnaFan.ImageComparison
                 QueueMutex.WaitOne();
                 if (WorkItems.Count == 0)
                     break;
-                string currentWorkItem = WorkItems.Dequeue();
+                var currentWorkItem = WorkItems.Dequeue();
                 QueueMutex.ReleaseMutex();
                 if (Cache.ContainsKey(currentWorkItem))
                 {
@@ -359,7 +361,7 @@ namespace XnaFan.ImageComparison
                 {
                     using (Image image = Image.FromFile(currentWorkItem))
                     {
-                        byte[,] grayValues = image.GetGrayScaleValues();
+                        var grayValues = image.GetGrayScaleValues();
                         var tuple = new Tuple<string, byte[,]>(currentWorkItem, grayValues);
                         WorkerData[Id].Add(tuple);
                         Cache.Add(currentWorkItem, grayValues);

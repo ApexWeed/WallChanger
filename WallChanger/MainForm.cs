@@ -18,27 +18,27 @@ namespace WallChanger
     {
         const string REG_AUTORUN = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
-        bool SupportsSpan = Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1);
+        readonly bool SupportsSpan = Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1);
 
         // Allow background thread to finish to avoid GDI+ errors.
-        bool IsClosing = false;
+        bool IsClosing;
 
-        Version AssemblyVersion;
+        readonly Version AssemblyVersion;
 
-        List<string> FileList = new List<string>();
-        List<string> ConfigList = new List<string>();
+        readonly List<string> FileList = new List<string>();
+        readonly List<string> ConfigList = new List<string>();
 
         int Interval;
         int Offset;
 
-        bool AutoStarted;
+        readonly bool AutoStarted;
         TimingForm TimingFormChild;
         LanguageForm LanguageFormChild;
         SettingsForm SettingsFormChild;
-        int LastIndex = 0;
+        int LastIndex;
 
-        LanguageManager LM;
-        
+        readonly LanguageManager LM;
+
         /// <summary>
         /// Creates a new instance of the main form.
         /// </summary>
@@ -70,7 +70,7 @@ namespace WallChanger
         /// <param name="e">Event args associated with this event.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue("WallChanger") == string.Format("\"{0}\" hide", Application.ExecutablePath);
+            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue(nameof(WallChanger)) == $"\"{Application.ExecutablePath}\" hide";
 
             LocaliseInterface();
             LoadSettings();
@@ -84,7 +84,7 @@ namespace WallChanger
                 noiTray.Visible = true;
             }
 
-            UpdateWallpaper();
+            UpdateWallpaperAsync();
         }
 
         /// <summary>
@@ -119,14 +119,8 @@ namespace WallChanger
             chkFade.Text = LM.GetString("MAIN_LABEL_FADE");
 
             Wallpaper.WallpaperStyle style;
-            if (cmbWallpaperStyle.SelectedItem != null)
-            {
-                style = (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem;
-            }
-            else
-            {
-                style = new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
-            }
+            style = cmbWallpaperStyle.SelectedItem != null ? (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem : new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
+
             cmbWallpaperStyle.Items.Clear();
             cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
             cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
@@ -155,14 +149,15 @@ namespace WallChanger
             {
                 if (File.Exists(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg")))
                 {
-                    StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg"));
+                    using (var read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg")))
+                    {
+                        Properties.Settings.Default.CurrentConfig = read.ReadLine();
+                        read.Close();
+                        File.Delete(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg"));
 
-                    Properties.Settings.Default.CurrentConfig = read.ReadLine();
-                    read.Close();
-                    File.Delete(Path.Combine(GlobalVars.ApplicationPath, @"config.cfg"));
-
-                    LoadConfigs();
-                    LoadConfig();
+                        LoadConfigs();
+                        LoadConfig();
+                    }
                 }
                 else
                 {
@@ -182,7 +177,7 @@ namespace WallChanger
         /// <param name="name">The name to call the config.</param>
         private void CreateConfig(string name)
         {
-            FileStream file = File.Create(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", name)));
+            var file = File.Create(Path.Combine(GlobalVars.ApplicationPath, $"{name}.cfg"));
             file.Close();
 
             Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
@@ -202,7 +197,7 @@ namespace WallChanger
         private void LoadConfigs()
         {
             ConfigList.Clear();
-            string[] files = Directory.GetFiles(GlobalVars.ApplicationPath);
+            var files = Directory.GetFiles(GlobalVars.ApplicationPath);
             foreach (string file in files)
             {
                 if (Path.GetExtension(file) == ".cfg" && Path.GetFileNameWithoutExtension(file) != "library" && Path.GetFileNameWithoutExtension(file) != "sizecache")
@@ -228,36 +223,30 @@ namespace WallChanger
         {
             grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
 
-            if (!File.Exists(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig))))
+            if (!File.Exists(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
                 MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_CONFIG_MISSING"), Properties.Settings.Default.CurrentConfig));
                 CreateConfig(Properties.Settings.Default.CurrentConfig);
                 return;
             }
 
-            StreamReader read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
-
-            // Set defaults.
-            Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
-            Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
-            chkRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
-            chkFade.Checked = Properties.Settings.Default.DefaultFade;
-            cmbWallpaperStyle.SelectedIndex = 0;
-
-            string firstLine = read.ReadLine().Trim();
-            if (firstLine.StartsWith("Version="))
+            using (
+            var read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
-                // New format.
-                Version FileVersion = new Version(firstLine.Split('=')[1].Trim());
-                if (FileVersion.Major > AssemblyVersion.Major)
+
+                // Set defaults.
+                Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
+                Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
+                chkRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
+                chkFade.Checked = Properties.Settings.Default.DefaultFade;
+                cmbWallpaperStyle.SelectedIndex = 0;
+
+                var firstLine = read.ReadLine().Trim();
+                if (firstLine.StartsWith("Version="))
                 {
-                    MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
-                    read.Close();
-                    return;
-                }
-                else
-                {
-                    if (FileVersion.Minor > AssemblyVersion.Minor)
+                    // New format.
+                    var FileVersion = new Version(firstLine.Split('=')[1].Trim());
+                    if (FileVersion.Major > AssemblyVersion.Major)
                     {
                         MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
                         read.Close();
@@ -265,73 +254,86 @@ namespace WallChanger
                     }
                     else
                     {
-                        FileList.Clear();
-                        while (!read.EndOfStream)
+                        if (FileVersion.Minor > AssemblyVersion.Minor)
                         {
-                            string Line = read.ReadLine().Trim();
-                            string[] Parts = Line.Split('=');
-                            if (Parts.Count() != 2)
-                                continue;
-
-                            switch (Parts[0].Trim())
+                            MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
+                            read.Close();
+                            return;
+                        }
+                        else
+                        {
+                            FileList.Clear();
+                            while (!read.EndOfStream)
                             {
-                                case "Offset":
-                                    Offset = Timing.ParseTime(Parts[1].Trim());
-                                    break;
-                                case "Interval":
-                                    Interval = Timing.ParseTime(Parts[1].Trim());
-                                    break;
-                                case "Randomise":
-                                    bool randomiseValue = false;
-                                    bool.TryParse(Parts[1].Trim(), out randomiseValue);
-                                    chkRandomise.Checked = randomiseValue;
-                                    break;
-                                case "Fade":
-                                    bool fadeValue = false;
-                                    bool.TryParse(Parts[1].Trim(), out fadeValue);
-                                    chkFade.Checked = fadeValue;
-                                    break;
-                                case "WallpaperStyle":
-                                    Wallpaper.WallpaperStyle style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
-                                    if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
-                                    {
-                                        cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
-                                    }
-                                    else
-                                    {
-                                        // Span is not supported on Windows 7.
-                                        MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
-                                        cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
-                                    }
-                                    break;
-                                case "Image":
-                                    FileList.Add(Parts[1].Trim());
-                                    break;
+                                var Line = read.ReadLine().Trim();
+                                var Parts = Line.Split('=');
+                                if (Parts.Count() != 2)
+                                    continue;
+
+                                switch (Parts[0].Trim())
+                                {
+#pragma warning disable CC0021 // Use nameof
+                                    case "Offset":
+#pragma warning restore CC0021 // Use nameof
+                                        Offset = Timing.ParseTime(Parts[1].Trim());
+                                        break;
+#pragma warning disable CC0021 // Use nameof
+                                    case "Interval":
+#pragma warning restore CC0021 // Use nameof
+                                        Interval = Timing.ParseTime(Parts[1].Trim());
+                                        break;
+                                    case "Randomise":
+                                        var randomiseValue = false;
+                                        bool.TryParse(Parts[1].Trim(), out randomiseValue);
+                                        chkRandomise.Checked = randomiseValue;
+                                        break;
+                                    case "Fade":
+                                        var fadeValue = false;
+                                        bool.TryParse(Parts[1].Trim(), out fadeValue);
+                                        chkFade.Checked = fadeValue;
+                                        break;
+                                    case "WallpaperStyle":
+                                        var style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
+                                        if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
+                                        {
+                                            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
+                                        }
+                                        else
+                                        {
+                                            // Span is not supported on Windows 7.
+                                            MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
+                                            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
+                                        }
+                                        break;
+                                    case "Image":
+                                        FileList.Add(Parts[1].Trim());
+                                        break;
+                                }
                             }
                         }
                     }
+                    read.Close();
                 }
-                read.Close();
-            }
-            else
-            {
-                // Old format.
-                Offset = Timing.ParseTime(firstLine);
-                Interval = Timing.ParseTime(read.ReadLine());
-
-                FileList.Clear();
-                while (!read.EndOfStream)
+                else
                 {
-                    FileList.Add(read.ReadLine());
+                    // Old format.
+                    Offset = Timing.ParseTime(firstLine);
+                    Interval = Timing.ParseTime(read.ReadLine());
+
+                    FileList.Clear();
+                    while (!read.EndOfStream)
+                    {
+                        FileList.Add(read.ReadLine());
+                    }
+
+                    read.Close();
+
+                    // Immediately save updated version.
+                    SaveSettings();
                 }
 
-                read.Close();
-
-                // Immediately save updated version.
-                SaveSettings();
+                FillImageList();
             }
-
-            FillImageList();
         }
 
         /// <summary>
@@ -344,25 +346,28 @@ namespace WallChanger
                 // Application has just started up, don't overwrite with blank config.
                 return;
             }
-            StreamWriter write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, string.Format("{0}.cfg", Properties.Settings.Default.CurrentConfig)));
-            write.WriteLine(string.Format("Version={0}", AssemblyVersion));
-            write.WriteLine(string.Format("Offset={0}", Timing.ToString(Offset)));
-            write.WriteLine(string.Format("Interval={0}", Timing.ToString(Interval)));
-            write.WriteLine(string.Format("Randomise={0}", chkRandomise.Checked));
-            write.WriteLine(string.Format("Fade={0}", chkFade.Checked));
-            write.WriteLine(string.Format("WallpaperStyle={0}", (Wallpaper.WallpaperStyle)(WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem));
-            foreach (string image in FileList)
+            using (var write = new StreamWriter(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
-                write.WriteLine(string.Format("Image={0}", image));
+                write.WriteLine($"Version={AssemblyVersion}");
+                write.WriteLine($"Offset={Timing.ToString(Offset)}");
+                write.WriteLine($"Interval={Timing.ToString(Interval)}");
+                write.WriteLine($"Randomise={chkRandomise.Checked}");
+                write.WriteLine($"Fade={chkFade.Checked}");
+                write.WriteLine($"WallpaperStyle={(Wallpaper.WallpaperStyle)(WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem}");
+                foreach (string image in FileList)
+                {
+                    write.WriteLine($"Image={image}");
+                }
             }
-            write.Close();
         }
 
-        /// <summary>
-        /// Refills the list with the current files.
-        /// </summary>
-        /// <param name="PreserveScrolling">Not yet implemented.</param>
+#pragma warning disable CC0057 // Unused parameters
+                              /// <summary>
+                              /// Refills the list with the current files.
+                              /// </summary>
+                              /// <param name="PreserveScrolling">Not yet implemented.</param>
         private void FillImageList(bool PreserveScrolling = false)
+#pragma warning restore CC0057 // Unused parameters
         {
             lstImages.HighlightColour = Properties.Settings.Default.HighlightColour;
             lstImages.HighlightMode = Properties.Settings.Default.HighlightMode;
@@ -377,13 +382,13 @@ namespace WallChanger
                 }
                 else
                 {
-                    string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                    int parsedTime = Timing.ParseTime(outputTime) - Offset;
-                    int index = parsedTime / Interval;
-                    int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
-                    int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+                    var outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    var parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    var index = parsedTime / Interval;
+                    var remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                    var iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
 
-                    DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                    var showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
                     for (int i = 0; i < FileList.Count; i++)
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
@@ -409,13 +414,13 @@ namespace WallChanger
                 }
                 else
                 {
-                    string outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
-                    int parsedTime = Timing.ParseTime(outputTime) - Offset;
-                    int index = parsedTime / Interval;
-                    int remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
-                    int iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
-                    
-                    DateTime showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
+                    var outputTime = DateTime.Now.ToString(@"H \h m \m s \s fff \f");
+                    var parsedTime = Timing.ParseTime(outputTime) - Offset;
+                    var index = parsedTime / Interval;
+                    var remainder = FileList.Count == 0 ? 0 : index % FileList.Count;
+                    var iteration = (index - remainder) / (FileList.Count == 0 ? 1 : FileList.Count);
+
+                    var showTime = new DateTime().AddYears(10).AddSeconds((Offset - Interval) / 1000).AddSeconds((Interval * iteration * FileList.Count) / 1000);
                     for (int i = 0; i < FileList.Count; i++)
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
@@ -449,9 +454,9 @@ namespace WallChanger
         /// </summary>
         private void SetWallpaper()
         {
-            string outputTime = DateTime.Now.ToString(@"H \h m \m s \s");
-            int parsedTime = Timing.ParseTime(outputTime);
-            int index = parsedTime / Interval;
+            var outputTime = DateTime.Now.ToString(@"H \h m \m s \s");
+            var parsedTime = Timing.ParseTime(outputTime);
+            var index = parsedTime / Interval;
 
             SetWallpaper(index);
         }
@@ -478,13 +483,13 @@ namespace WallChanger
                 {
                     FileList.RemoveAt((Index) % FileList.Count);
                     FillImageList();
-                    MessageBox.Show(string.Format("The following image cannot be found and has been removed from the current config.\n{0}", FileList[(Index) % FileList.Count]));
+                    MessageBox.Show($"The following image cannot be found and has been removed from the current config.\n{FileList[(Index) % FileList.Count]}");
                     SetWallpaper(Index);
                 }
             }
         }
 
-        private async void UpdateWallpaper()
+        private async void UpdateWallpaperAsync()
         {
             string loadedConfig;
             string outputTime;
@@ -492,7 +497,7 @@ namespace WallChanger
             int index;
             int sleepTime;
             int delayTime;
-            Random rnd = new Random();
+            var rnd = new Random();
             while (true)
             {
                 loadedConfig = Properties.Settings.Default.CurrentConfig;
@@ -535,7 +540,7 @@ namespace WallChanger
                             // Program is closing.
                             return;
                         }
-                        MessageBox.Show(string.Format("The following image cannot be found and has been removed from the current config.\n{0}", FileList[(index) % FileList.Count]));
+                        MessageBox.Show($"The following image cannot be found and has been removed from the current config.\n{FileList[(index) % FileList.Count]}");
                         SetWallpaper(index);
                     }
                 }
@@ -548,9 +553,10 @@ namespace WallChanger
                     delayTime = sleepTime > 1000 ? 1000 : sleepTime;
 
                     // Report progress.
-                    DateTime nextChange = DateTime.Now.AddMilliseconds(sleepTime);
-                    TimeSpan nextChangeTimeSpan = nextChange - DateTime.Now;
+                    var nextChange = DateTime.Now.AddMilliseconds(sleepTime);
+                    var nextChangeTimeSpan = nextChange - DateTime.Now;
                     lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
+                    noiTray.Text = string.Format(LM.GetStringDefault("TRAY_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
                     LastIndex = index;
 
                     try
@@ -589,14 +595,14 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void chkStartup_CheckedChanged(object sender, EventArgs e)
         {
-            RegistryKey StartupKey = Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true);
+            var StartupKey = Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true);
             if (chkStartup.Checked)
             {
-                StartupKey.SetValue("WallChanger", string.Format("\"{0}\" hide", Application.ExecutablePath));
+                StartupKey.SetValue(nameof(WallChanger), $"\"{Application.ExecutablePath}\" hide");
             }
             else
             {
-                StartupKey.DeleteValue("WallChanger", false);
+                StartupKey.DeleteValue(nameof(WallChanger), false);
             }
         }
 
@@ -629,7 +635,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnRemoveImage_Click(object sender, EventArgs e)
         {
-            int[] indexArray = new int[lstImages.SelectedIndices.Count];
+            var indexArray = new int[lstImages.SelectedIndices.Count];
             lstImages.SelectedIndices.CopyTo(indexArray, 0);
             Array.Sort(indexArray, (a, b) => b.CompareTo(a));
             foreach (int index in indexArray)
@@ -680,12 +686,14 @@ namespace WallChanger
             LoadSettings();
         }
 
-        /// <summary>
-        /// Updates the cursor when the user drags something onto the window.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
+#pragma warning disable CC0091 // Use static method
+                              /// <summary>
+                              /// Updates the cursor when the user drags something onto the window.
+                              /// </summary>
+                              /// <param name="sender">Object that triggered the event.</param>
+                              /// <param name="e">Arguments.</param>
         private void MainForm_DragEnter(object sender, DragEventArgs e)
+#pragma warning restore CC0091 // Use static method
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
@@ -700,7 +708,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
-            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string path in paths)
             {
                 LoadImages(path);
@@ -795,7 +803,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnNewConfig_Click(object sender, EventArgs e)
         {
-            string configName = Prompt.ShowStringDialog(LM.GetString("MAIN_MESSAGE_NEW_CONFIG"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_TITLE"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_DEFAULT"));
+            var configName = Prompt.ShowStringDialog(LM.GetString("MAIN_MESSAGE_NEW_CONFIG"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_TITLE"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_DEFAULT"));
             if (configName != null)
                 CreateConfig(configName);
         }
@@ -821,9 +829,9 @@ namespace WallChanger
         /// <param name="Direction">Direction to move the selection.</param>
         private void MoveSelection(MoveDirection Direction)
         {
-            int[] indexArray = new int[lstImages.SelectedIndices.Count];
+            var indexArray = new int[lstImages.SelectedIndices.Count];
             lstImages.SelectedIndices.CopyTo(indexArray, 0);
-            List<int> newSelection = new List<int>();
+            var newSelection = new List<int>();
             if (Direction == MoveDirection.Up)
             {
                 Array.Sort(indexArray, (a, b) => a.CompareTo(b));
@@ -845,7 +853,7 @@ namespace WallChanger
                         continue;
                     }
 
-                    string value = FileList[indexArray[i] - 1] as string;
+                    var value = FileList[indexArray[i] - 1] as string;
                     FileList[indexArray[i] - 1] = FileList[indexArray[i]];
                     FileList[indexArray[i]] = value;
                     newSelection.Add(indexArray[i] - 1);
@@ -872,7 +880,7 @@ namespace WallChanger
                         continue;
                     }
 
-                    string value = FileList[indexArray[i] + 1] as string;
+                    var value = FileList[indexArray[i] + 1] as string;
                     FileList[indexArray[i] + 1] = FileList[indexArray[i]];
                     FileList[indexArray[i]] = value;
                     newSelection.Add(indexArray[i] + 1);
@@ -887,7 +895,7 @@ namespace WallChanger
         /// </summary>
         /// <param name="ListBoxControl">The listbox to update.</param>
         /// <param name="Selection">The indexes to select.</param>
-        private void SetSelection(ListBox ListBoxControl, int[] Selection)
+        private static void SetSelection(ListBox ListBoxControl, int[] Selection)
         {
             foreach (int Index in Selection)
             {
@@ -983,7 +991,7 @@ namespace WallChanger
             }
 
             Library.Save();
-            
+
             if (GlobalVars.LibraryForm != null)
                 GlobalVars.LibraryForm.UpdateList();
         }
@@ -1047,18 +1055,18 @@ namespace WallChanger
             const int SC_MAXIMIZE = 0xF030;
             const int SC_RESTORE = 0xF120;
             const int SC_MINIMIZE = 0xF020;
-            
+
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
-                    int command = message.WParam.ToInt32() & 0xfff0;
+                    var command = message.WParam.ToInt32() & 0xfff0;
                     if (command == SC_MAXIMIZE)
                     {
-                        
+
                     }
                     if (command == SC_RESTORE)
                     {
-                        
+
                     }
                     if (command == SC_MINIMIZE)
                     {

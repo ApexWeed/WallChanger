@@ -103,7 +103,7 @@ namespace WallChanger
                 MessageBox.Show(ex.Message);
             }
 
-            throw new KeyNotFoundException(string.Format("The tag \"{0}\" was not found in the ListViewItemCollection", Tag as string));
+            throw new KeyNotFoundException($"The tag \"{Tag as string}\" was not found in the ListViewItemCollection");
         }
     }
 
@@ -118,7 +118,7 @@ namespace WallChanger
         public static object Find(this System.Windows.Forms.ComboBox.ObjectCollection Collection, Predicate<object> Pred)
         {
             foreach (var Item in Collection)
-                if (Pred(Item))
+                if ((bool)Pred?.Invoke(Item))
                     return Item;
 
             return null;
@@ -141,10 +141,7 @@ namespace WallChanger
         public static T ToEnum<T>(this string Value, T DefaultValue, bool IgnoreCase = false) where T : struct
         {
             T parsedValue;
-            if (Enum.TryParse(Value, IgnoreCase, out parsedValue))
-                return parsedValue;
-            else
-                return DefaultValue;
+            return Enum.TryParse(Value, IgnoreCase, out parsedValue) ? parsedValue : DefaultValue;
         }
     }
 }

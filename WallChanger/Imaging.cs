@@ -96,9 +96,9 @@ namespace WallChanger
             if (Image == null)
                 return 202;
 
-            int MaxImageHeight = ContainerHeight - MinimumDataHeight;
-            float Ratio = (float)Image.Width / Image.Height;
-            int ImageHeight = (int)(PictureBox.Width / Ratio);
+            var MaxImageHeight = ContainerHeight - MinimumDataHeight;
+            var Ratio = (float)Image.Width / Image.Height;
+            var ImageHeight = (int)(PictureBox.Width / Ratio);
             return ImageHeight <= MaxImageHeight ? ImageHeight : MaxImageHeight;
         }
 
@@ -110,14 +110,16 @@ namespace WallChanger
         public static Image FromFile(string path)
         {
             var bytes = File.ReadAllBytes(path);
-            var ms = new MemoryStream(bytes);
-            var img = Image.FromStream(ms);
-            return img;
+            using (var ms = new MemoryStream(bytes))
+            {
+                var img = Image.FromStream(ms);
+                return img;
+            }
         }
 
         const string errorMessage = "Could not recognise image format.";
 
-        private static Dictionary<byte[], Func<BinaryReader, Size>> imageFormatDecoders = new Dictionary<byte[], Func<BinaryReader, Size>>()
+        private static readonly Dictionary<byte[], Func<BinaryReader, Size>> imageFormatDecoders = new Dictionary<byte[], Func<BinaryReader, Size>>
         {
             { new byte[]{ 0x42, 0x4D }, DecodeBitmap},
             { new byte[]{ 0x47, 0x49, 0x46, 0x38, 0x37, 0x61 }, DecodeGif },
@@ -157,14 +159,14 @@ namespace WallChanger
         /// <summary>
         /// Gets the dimensions of an image.
         /// </summary>
-        /// <param name="path">The path of the image to get the dimensions of.</param>
+        /// <param name="binaryReader">Binary reader to read image data from.</param>
         /// <returns>The dimensions of the specified image.</returns>
-        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>    
+        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>
         public static Size GetDimensions(BinaryReader binaryReader)
         {
-            int maxMagicBytesLength = imageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
+            var maxMagicBytesLength = imageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
 
-            byte[] magicBytes = new byte[maxMagicBytesLength];
+            var magicBytes = new byte[maxMagicBytesLength];
 
             for (int i = 0; i < maxMagicBytesLength; i += 1)
             {
@@ -179,7 +181,7 @@ namespace WallChanger
                 }
             }
 
-            throw new ArgumentException(errorMessage, "binaryReader");
+            throw new ArgumentException(errorMessage, nameof(binaryReader));
         }
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace WallChanger
         /// <returns>The short.</returns>
         private static short ReadLittleEndianInt16(this BinaryReader binaryReader)
         {
-            byte[] bytes = new byte[sizeof(short)];
+            var bytes = new byte[sizeof(short)];
             for (int i = 0; i < sizeof(short); i += 1)
             {
                 bytes[sizeof(short) - 1 - i] = binaryReader.ReadByte();
@@ -222,7 +224,7 @@ namespace WallChanger
         /// <returns>The int.</returns>
         private static int ReadLittleEndianInt32(this BinaryReader binaryReader)
         {
-            byte[] bytes = new byte[sizeof(int)];
+            var bytes = new byte[sizeof(int)];
             for (int i = 0; i < sizeof(int); i += 1)
             {
                 bytes[sizeof(int) - 1 - i] = binaryReader.ReadByte();
@@ -238,8 +240,8 @@ namespace WallChanger
         private static Size DecodeBitmap(BinaryReader binaryReader)
         {
             binaryReader.ReadBytes(16);
-            int width = binaryReader.ReadInt32();
-            int height = binaryReader.ReadInt32();
+            var width = binaryReader.ReadInt32();
+            var height = binaryReader.ReadInt32();
             return new Size(width, height);
         }
         /// <summary>
@@ -262,8 +264,8 @@ namespace WallChanger
         private static Size DecodePng(BinaryReader binaryReader)
         {
             binaryReader.ReadBytes(8);
-            int width = binaryReader.ReadLittleEndianInt32();
-            int height = binaryReader.ReadLittleEndianInt32();
+            var width = binaryReader.ReadLittleEndianInt32();
+            var height = binaryReader.ReadLittleEndianInt32();
             return new Size(width, height);
         }
 
@@ -276,8 +278,8 @@ namespace WallChanger
         {
             while (binaryReader.ReadByte() == 0xff)
             {
-                byte marker = binaryReader.ReadByte();
-                short chunkLength = binaryReader.ReadLittleEndianInt16();
+                var marker = binaryReader.ReadByte();
+                var chunkLength = binaryReader.ReadLittleEndianInt16();
 
                 if (marker == 0xc0 || marker == 0xc1 || marker == 0xc2)
                 {

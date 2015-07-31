@@ -6,131 +6,11 @@ namespace WallChanger
 {
     public static class Library
     {
-        private static Mutex FileMutex = new Mutex();
-        private static ArrayComparer<byte> byteComparer = new ArrayComparer<byte>();
-        
-        /// <summary>
-        /// Saves the library content to disk.
-        /// </summary>
-        public static void Save()
-        {
-            if (FileMutex.WaitOne(1))
-            {
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (StreamWriter w = new StreamWriter(ms))
-                        {
-                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
-                            w.Flush();
-
-                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
-                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
-                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
-                            compresser.CompressStream(ms, fs);
-                        }
-                    }
-                }
-
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (StreamWriter w = new StreamWriter(ms))
-                        {
-                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
-                            w.Flush();
-
-                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
-                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
-                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
-                            compresser.CompressStream(ms, fs);
-                        }
-                    }
-                }
-
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (BinaryWriter w = new BinaryWriter(ms))
-                        {
-                            w.Write(GlobalVars.ImageCache.Count);
-                            foreach (var Item in GlobalVars.ImageCache)
-                            {
-                                w.Write(Item.Key);
-                                w.Write(Flatten(Item.Value));
-                            }
-                            w.Flush();
-
-                            SevenZip.SevenZipCompressor compresser = new SevenZip.SevenZipCompressor();
-                            compresser.CompressionMethod = SevenZip.CompressionMethod.Lzma2;
-                            compresser.CompressionLevel = Properties.Settings.Default.CompressionLevel;
-                            compresser.CompressStream(ms, fs);
-                        }
-                    }
-                }
-                FileMutex.ReleaseMutex();
-            }
-        }
-
-        /// <summary>
-        /// Converts a two dimensional array to a string.
-        /// </summary>
-        /// <param name="Input">The array to stringify.</param>
-        /// <returns>The string representation.</returns>
-        private static string ArrayToString<T>(T[,] Input)
-        {
-            int Columns = Input.GetLength(0);
-            int Rows = Input.GetLength(1);
-
-            string[] Bits = new string[Columns];
-            for (int x = 0; x < Columns; x++)
-            {
-                T[] SingleDimension = new T[Rows];
-                for (int y = 0; y < Rows; y++)
-                {
-                    SingleDimension[y] = Input[x, y];
-                }
-                Bits[x] = ArrayToString(SingleDimension);
-            }
-
-            return string.Format("{{{0}}}", string.Join(" ", Bits));
-        }
-
-        /// <summary>
-        /// Converts a one dimensional array to a string.
-        /// </summary>
-        /// <param name="Input">The array to stringify.</param>
-        /// <returns>The string representation.</returns>
-        private static string ArrayToString<T>(T[] Input)
-        {
-            return string.Format("{{{0}}}", string.Join(" ", Input));
-        }
-
-        /// <summary>
-        /// Converts a two dimensional array to one dimension.
-        /// </summary>
-        /// <param name="Input">The two dimensional array to convert</param>
-        /// <returns></returns>
-        private static T[] Flatten<T>(T[,] Input)
-        {
-            int Columns = Input.GetLength(0);
-            int Rows = Input.GetLength(1);
-
-            T[] Out = new T[Input.Length];
-
-            for (int x = 0; x < Columns; x++)
-            {
-                for (int y = 0; y < Rows; y++)
-                {
-                    Out[x * Rows + y] = Input[x, y];
-                }
-            }
-
-            return Out;
-        }
+        private static readonly ArrayComparer<byte> byteComparer = new ArrayComparer<byte>();
+        // Cannot dispose a static class.
+#pragma warning disable CC0033 // Dispose Fields Properly
+        private static readonly Mutex FileMutex = new Mutex();
+#pragma warning restore CC0033 // Dispose Fields Properly
 
         /// <summary>
         /// Loads the library data from disk.
@@ -148,14 +28,16 @@ namespace WallChanger
                         using (MemoryStream ms = new MemoryStream())
                         {
                             // Look for 7zip signature
-                            byte[] buffer = new byte[2];
+                            var buffer = new byte[2];
                             fs.Read(buffer, 0, 2);
                             fs.Seek(0, SeekOrigin.Begin);
                             if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
-                                extractor.ExtractFile(0, ms);
-                                ms.Seek(0, SeekOrigin.Begin);
+                                using (var extractor = new SevenZip.SevenZipExtractor(fs))
+                                {
+                                    extractor.ExtractFile(0, ms);
+                                    ms.Seek(0, SeekOrigin.Begin);
+                                }
                             }
                             else
                             {
@@ -178,14 +60,16 @@ namespace WallChanger
                         using (MemoryStream ms = new MemoryStream())
                         {
                             // Look for 7zip signature
-                            byte[] buffer = new byte[2];
+                            var buffer = new byte[2];
                             fs.Read(buffer, 0, 2);
                             fs.Seek(0, SeekOrigin.Begin);
                             if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
-                                extractor.ExtractFile(0, ms);
-                                ms.Seek(0, SeekOrigin.Begin);
+                                using (var extractor = new SevenZip.SevenZipExtractor(fs))
+                                {
+                                    extractor.ExtractFile(0, ms);
+                                    ms.Seek(0, SeekOrigin.Begin);
+                                }
                             }
                             else
                             {
@@ -212,14 +96,16 @@ namespace WallChanger
                         using (MemoryStream ms = new MemoryStream())
                         {
                             // Look for 7zip signature
-                            byte[] buffer = new byte[2];
+                            var buffer = new byte[2];
                             fs.Read(buffer, 0, 2);
                             fs.Seek(0, SeekOrigin.Begin);
                             if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
-                                extractor.ExtractFile(0, ms);
-                                ms.Seek(0, SeekOrigin.Begin);
+                                using (var extractor = new SevenZip.SevenZipExtractor(fs))
+                                {
+                                    extractor.ExtractFile(0, ms);
+                                    ms.Seek(0, SeekOrigin.Begin);
+                                }
                             }
                             else
                             {
@@ -242,14 +128,16 @@ namespace WallChanger
                         using (MemoryStream ms = new MemoryStream())
                         {
                             // Look for 7zip signature
-                            byte[] buffer = new byte[2];
+                            var buffer = new byte[2];
                             fs.Read(buffer, 0, 2);
                             fs.Seek(0, SeekOrigin.Begin);
                             if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
-                                extractor.ExtractFile(0, ms);
-                                ms.Seek(0, SeekOrigin.Begin);
+                                using (var extractor = new SevenZip.SevenZipExtractor(fs))
+                                {
+                                    extractor.ExtractFile(0, ms);
+                                    ms.Seek(0, SeekOrigin.Begin);
+                                }
                             }
                             else
                             {
@@ -276,14 +164,16 @@ namespace WallChanger
                         using (MemoryStream ms = new MemoryStream())
                         {
                             // Look for 7zip signature
-                            byte[] buffer = new byte[2];
+                            var buffer = new byte[2];
                             fs.Read(buffer, 0, 2);
                             fs.Seek(0, SeekOrigin.Begin);
                             if (byteComparer.Compare(buffer, new byte[] { 0x37, 0x7A }) == 0)
                             {
-                                SevenZip.SevenZipExtractor extractor = new SevenZip.SevenZipExtractor(fs);
-                                extractor.ExtractFile(0, ms);
-                                ms.Seek(0, SeekOrigin.Begin);
+                                using (var extractor = new SevenZip.SevenZipExtractor(fs))
+                                {
+                                    extractor.ExtractFile(0, ms);
+                                    ms.Seek(0, SeekOrigin.Begin);
+                                }
                             }
                             else
                             {
@@ -293,11 +183,11 @@ namespace WallChanger
 
                             using (BinaryReader read = new BinaryReader(ms))
                             {
-                                int ImageCount = read.ReadInt32();
+                                var ImageCount = read.ReadInt32();
                                 for (int i = 0; i < ImageCount; i++)
                                 {
-                                    string ImagePath = read.ReadString();
-                                    byte[] Image = read.ReadBytes(256);
+                                    var ImagePath = read.ReadString();
+                                    var Image = read.ReadBytes(256);
                                     GlobalVars.ImageCache.Add(ImagePath, Expand(Image, 16));
                                 }
                             }
@@ -314,6 +204,112 @@ namespace WallChanger
         }
 
         /// <summary>
+        /// Saves the library content to disk.
+        /// </summary>
+        public static void Save()
+        {
+            if (FileMutex.WaitOne(1))
+            {
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (StreamWriter w = new StreamWriter(ms))
+                        {
+                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
+                            w.Flush();
+
+                            var compresser = new SevenZip.SevenZipCompressor
+                            {
+                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                CompressionLevel = Properties.Settings.Default.CompressionLevel
+                            };
+                            compresser.CompressStream(ms, fs);
+                        }
+                    }
+                }
+
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (StreamWriter w = new StreamWriter(ms))
+                        {
+                            w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
+                            w.Flush();
+
+                            var compresser = new SevenZip.SevenZipCompressor
+                            {
+                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                CompressionLevel = Properties.Settings.Default.CompressionLevel
+                            };
+                            compresser.CompressStream(ms, fs);
+                        }
+                    }
+                }
+
+                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (BinaryWriter w = new BinaryWriter(ms))
+                        {
+                            w.Write(GlobalVars.ImageCache.Count);
+                            foreach (var Item in GlobalVars.ImageCache)
+                            {
+                                w.Write(Item.Key);
+                                w.Write(Flatten(Item.Value));
+                            }
+                            w.Flush();
+
+                            var compresser = new SevenZip.SevenZipCompressor
+                            {
+                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                CompressionLevel = Properties.Settings.Default.CompressionLevel
+                            };
+                            compresser.CompressStream(ms, fs);
+                        }
+                    }
+                }
+                FileMutex.ReleaseMutex();
+            }
+        }
+
+        /// <summary>
+        /// Converts a two dimensional array to a string.
+        /// </summary>
+        /// <param name="Input">The array to stringify.</param>
+        /// <returns>The string representation.</returns>
+        private static string ArrayToString<T>(T[,] Input)
+        {
+            var Columns = Input.GetLength(0);
+            var Rows = Input.GetLength(1);
+
+            var Bits = new string[Columns];
+            for (int x = 0; x < Columns; x++)
+            {
+                var SingleDimension = new T[Rows];
+                for (int y = 0; y < Rows; y++)
+                {
+                    SingleDimension[y] = Input[x, y];
+                }
+                Bits[x] = ArrayToString(SingleDimension);
+            }
+
+            return $"{{{string.Join(" ", Bits)}}}";
+        }
+
+        /// <summary>
+        /// Converts a one dimensional array to a string.
+        /// </summary>
+        /// <param name="Input">The array to stringify.</param>
+        /// <returns>The string representation.</returns>
+        private static string ArrayToString<T>(T[] Input)
+        {
+            return $"{{{string.Join(" ", Input)}}}";
+        }
+
+        /// <summary>
         /// Expands a one dimensional array to two dimensions.
         /// </summary>
         /// <param name="Input">The one dimensional array.</param>
@@ -321,11 +317,34 @@ namespace WallChanger
         /// <returns>The two dimensional array.</returns>
         private static T[,] Expand<T>(T[] Input, int Columns)
         {
-            T[,] Out = new T[Columns, Input.Length / Columns];
+            var Out = new T[Columns, Input.Length / Columns];
 
             for (int i = 0; i < Input.Length; i++)
             {
                 Out[i / (Columns), i % (Input.Length / Columns)] = Input[i];
+            }
+
+            return Out;
+        }
+
+        /// <summary>
+        /// Converts a two dimensional array to one dimension.
+        /// </summary>
+        /// <param name="Input">The two dimensional array to convert</param>
+        /// <returns></returns>
+        private static T[] Flatten<T>(T[,] Input)
+        {
+            var Columns = Input.GetLength(0);
+            var Rows = Input.GetLength(1);
+
+            var Out = new T[Input.Length];
+
+            for (int x = 0; x < Columns; x++)
+            {
+                for (int y = 0; y < Rows; y++)
+                {
+                    Out[x * Rows + y] = Input[x, y];
+                }
             }
 
             return Out;

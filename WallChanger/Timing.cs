@@ -38,8 +38,8 @@ namespace WallChanger
         /// <returns>Number of seconds.</returns>
         public static int ParseTime(string Time)
         {
-            string[] parts = Time.Split(' ');
-            int interval = 0;
+            var parts = Time.Split(' ');
+            var interval = 0;
             if (parts.Length % 2 == 0)
             {
                 for (int i = 0; i < parts.Length / 2; i++)

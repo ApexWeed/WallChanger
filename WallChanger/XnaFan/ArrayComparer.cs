@@ -15,7 +15,7 @@ namespace XnaFan.ImageComparison
             {
                 for (int y = 0; y < array2.GetLength(1); y++)
                 {
-                    int comparisonResult = array1[x, y].CompareTo(array2[x, y]);
+                    var comparisonResult = array1[x, y].CompareTo(array2[x, y]);
                     if (comparisonResult != 0)
                     {
                         return comparisonResult;

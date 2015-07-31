@@ -44,8 +44,8 @@ namespace WallChanger
 
         public static IActiveDesktop GetActiveDesktop()
         {
-            Type typeActiveDesktop = Type.GetTypeFromCLSID(new Guid("{75048700-EF1F-11D0-9888-006097DEACF9}"));
-            object returnedValue = Activator.CreateInstance(typeActiveDesktop);
+            var typeActiveDesktop = Type.GetTypeFromCLSID(new Guid("{75048700-EF1F-11D0-9888-006097DEACF9}"));
+            var returnedValue = Activator.CreateInstance(typeActiveDesktop);
             //System.Windows.Forms.MessageBox.Show(returnedValue.GetType().ToString() + " " + typeActiveDesktop.ToString());
             IActiveDesktop castedValue = null;
             try
@@ -67,13 +67,13 @@ namespace WallChanger
         public static void Set(string Filename, WallpaperStyle Style)
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(1, 1);
-            string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
+            var tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
 
             img = Imaging.FromFile(Filename);
             img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
             img.Dispose();
-            
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+
+            var key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (Style == WallpaperStyle.Stretched)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
@@ -110,15 +110,17 @@ namespace WallChanger
                 SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
         }
 
+
         /// <summary>
         /// Sets the wallpaper from the specified filename asynchronously.
         /// </summary>
         /// <param name="Filename">The path to the image.</param>
         /// <param name="Style">The style for the wallpaper.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CC0021:Use nameof", Justification = "<Pending>")]
         public static async void SetAsync(string Filename, WallpaperStyle Style)
         {
             System.Drawing.Image img = new System.Drawing.Bitmap(1, 1);
-            string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
+            var tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
 
             await Task.Run(() =>
             {
@@ -127,7 +129,7 @@ namespace WallChanger
                 img.Dispose();
             });
 
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+            var key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (Style == WallpaperStyle.Stretched)
             {
                 key.SetValue(@"WallpaperStyle", 2.ToString());
@@ -172,7 +174,7 @@ namespace WallChanger
         public static void FadeSet(string Filename, WallpaperStyle Style)
         {
             //Use IActiveDesktop to change the wallpaper
-            IActiveDesktop iad = GetActiveDesktop();
+            var iad = GetActiveDesktop();
             FadeSet(Filename, Style, iad);
         }
 
@@ -184,13 +186,13 @@ namespace WallChanger
         /// <param name="iActiveDesktop">The active desktop instance to use.</param>
         public static void FadeSet(string Filename, WallpaperStyle Style, IActiveDesktop iActiveDesktop)
         {
-            
+
 
             //kill Progman, so Windows launches WorkerW instead to perform the animation
-            IntPtr result = IntPtr.Zero;
+            var result = IntPtr.Zero;
             SendMessageTimeout(FindWindow("Progman", IntPtr.Zero), 0x52c, IntPtr.Zero, IntPtr.Zero, 0, 500, out result);
             //Use IActiveDesktop to change the wallpaper
-            iActiveDesktop.SetWallpaperOptions(new WALLPAPEROPT() { dwSize = Marshal.SizeOf(new WALLPAPEROPT()), dwStyle = (WPSTYLE)Style }, 0);
+            iActiveDesktop.SetWallpaperOptions(new WALLPAPEROPT { dwSize = Marshal.SizeOf(new WALLPAPEROPT()), dwStyle = (WPSTYLE)Style }, 0);
             iActiveDesktop.SetWallpaper(Filename, 0);
             iActiveDesktop.ApplyChanges(AD_APPLY.ALL | AD_APPLY.FORCE | AD_APPLY.BUFFERED_REFRESH);
         }

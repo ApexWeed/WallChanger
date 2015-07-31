@@ -7,11 +7,11 @@ namespace WallChanger
 {
     public partial class DuplicateForm : Form
     {
-        int MINIMUM_DATA_HEIGHT;
+        readonly int MINIMUM_DATA_HEIGHT;
 
-        bool AutoModeEngaged = false;
+        bool AutoModeEngaged;
 
-        LanguageManager LM = GlobalVars.LanguageManager;
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
         /// <summary>
         /// Initialises a new duplicate form.
@@ -25,15 +25,15 @@ namespace WallChanger
 
             for (int i = 0; i < Duplicates.Count; i++)
             {
-                List<Duplicate> DuplicateEntries = new List<Duplicate>();
+                var DuplicateEntries = new List<Duplicate>();
 
                 foreach (string Filename in Duplicates[i])
                 {
-                    Duplicate duplicate = new Duplicate(Filename, Path.GetFileName(Filename));
+                    var duplicate = new Duplicate(Filename, Path.GetFileName(Filename));
                     DuplicateEntries.Add(duplicate);
                 }
 
-                DuplicateList duplicateList = new DuplicateList(string.Format("Entry {0}", i + 1), DuplicateEntries);
+                var duplicateList = new DuplicateList($"Entry {i + 1}", DuplicateEntries);
                 lstDuplicates.Items.Add(duplicateList);
             }
 
@@ -71,7 +71,7 @@ namespace WallChanger
         private void DuplicateForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Owner is LibraryForm)
-                (Owner as LibraryForm).ChildClosed(this);
+                LibraryForm.ChildClosed(this);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace WallChanger
         {
             if (!AutoModeEngaged)
             {
-                DuplicateList duplicate = lstDuplicates.SelectedItem as DuplicateList;
+                var duplicate = lstDuplicates.SelectedItem as DuplicateList;
 
                 if (duplicate != null)
                 {
@@ -105,7 +105,7 @@ namespace WallChanger
         {
             if (!AutoModeEngaged)
             {
-                Duplicate duplicate = lstDuplicateImages.SelectedItem as Duplicate;
+                var duplicate = lstDuplicateImages.SelectedItem as Duplicate;
 
                 if (duplicate == null)
                     return;
@@ -187,7 +187,7 @@ namespace WallChanger
             {
                 AutoModeEngaged = true;
 
-                List<DuplicateList> DuplicateLists = new List<DuplicateList>();
+                var DuplicateLists = new List<DuplicateList>();
 
                 foreach (var List in lstDuplicates.Items)
                 {
@@ -196,12 +196,12 @@ namespace WallChanger
 
                 foreach (var List in DuplicateLists)
                 {
-                    int maxSize = 0;
+                    var maxSize = 0;
 
                     for (int i = 0; i < List.Duplicates.Count; i++)
                     {
-                        Duplicate Entry = List.Duplicates[i];
-                        int size = (Entry.Size.Width + Entry.Size.Height) / 2;
+                        var Entry = List.Duplicates[i];
+                        var size = (Entry.Size.Width + Entry.Size.Height) / 2;
                         if (size < maxSize)
                         {
                             GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(x => x.Filename == Entry.Path));
@@ -261,9 +261,9 @@ namespace WallChanger
         /// Refreshes the displayed values in the listbox.
         /// </summary>
         /// <param name="List">The listbox to refresh.</param>
-        private void RefreshList(ListBox List)
+        private static void RefreshList(ListBox List)
         {
-            int count = List.Items.Count;
+            var count = List.Items.Count;
 
             List.SuspendLayout();
             for (int i = 0; i < count; i++)

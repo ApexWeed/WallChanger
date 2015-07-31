@@ -5,55 +5,49 @@ namespace WallChanger
     public static class GlobalVars
     {
         // The folder that the executable resides in.
-        private static string applicationPath;
         public static string ApplicationPath
         {
-            get { return applicationPath; }
-            set { applicationPath = value; }
+            get;
+            set;
         }
 
         // List that stores all the information of the library.
-        private static List<LibraryItem> libraryItems;
         public static List<LibraryItem> LibraryItems
         {
-            get { return libraryItems; }
-            set { libraryItems = value; }
+            get;
+            set;
         }
 
         // Cache for image sizes.
-        private static Dictionary<string, System.Drawing.Size> imageSizeCache;
         public static Dictionary<string, System.Drawing.Size> ImageSizeCache
         {
-            get { return imageSizeCache; }
-            set { imageSizeCache = value; }
+            get;
+            set;
         }
 
         // Cache for 16x16 greyscale downscaled images.
-        private static Dictionary<string, byte[,]> imageCache;
         public static Dictionary<string, byte[,]> ImageCache
         {
-            get { return imageCache; }
-            set { imageCache = value; }
+            get;
+            set;
         }
 
         // Only allow one instance of the library at once.
-        private static LibraryForm libraryForm;
         public static LibraryForm LibraryForm
         {
-            get { return libraryForm; }
-            set { libraryForm = value; }
+            get;
+            set;
         }
 
         // Only allow on instance of the duplicate viewer at once.
-        private static DuplicateForm duplicateForm;
         public static DuplicateForm DuplicateForm
         {
-            get { return duplicateForm; }
-            set { duplicateForm = value; }
+            get;
+            set;
         }
 
         // Only allow one instance of the language manager.
-        private static LanguageManager languageManager = null;
+        private static LanguageManager languageManager;
         public static LanguageManager LanguageManager
             {
                 get

@@ -15,8 +15,10 @@ namespace WallChanger
             None
         }
 
+#pragma warning disable CC0017 // Use auto property
         [Description("Colour to use if HighlightMode is set to Foreground or Background.")]
-        [Category("Appearance")]
+#pragma warning restore CC0017 // Use auto property
+        [Category(nameof(Appearance))]
         [DefaultValue(typeof(Color), "LightBlue")]
         public Color HighlightColour
         {
@@ -25,8 +27,10 @@ namespace WallChanger
         }
         private Color highlightColour = Color.LightBlue;
 
+#pragma warning disable CC0017 // Use auto property
         [Description("Mode to use when highlighting items.")]
-        [Category("Appearance")]
+#pragma warning restore CC0017 // Use auto property
+        [Category(nameof(Appearance))]
         [DefaultValue(typeof(HighlightMode_), "Background")]
         public HighlightMode_ HighlightMode
         {
@@ -35,8 +39,8 @@ namespace WallChanger
         }
         private HighlightMode_ highlightMode = HighlightMode_.Background;
 
-        private Color selectedBackColour = Color.FromArgb(051, 153, 255);
-        private Color selectedForeColour = Color.White;
+        private readonly Color selectedBackColour = Color.FromArgb(051, 153, 255);
+        private readonly Color selectedForeColour = Color.White;
 
         protected override void OnMeasureItem(MeasureItemEventArgs e)
         {
@@ -49,13 +53,21 @@ namespace WallChanger
                 switch (HighlightMode)
                 {
                     case HighlightMode_.Bold:
-                        e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold)).Width;
-                        e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold)).Height;
-                        break;
+                        {
+                            var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold);
+                            e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), font).Width;
+                            e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), font).Height;
+                            font.Dispose();
+                            break;
+                        }
                     case HighlightMode_.Italic:
-                        e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic)).Width;
-                        e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic)).Height;
-                        break;
+                        {
+                            var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic);
+                            e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), font).Width;
+                            e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), font).Height;
+                            font.Dispose();
+                            break;
+                        }
                     default:
                         e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Width;
                         e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Height;
@@ -84,11 +96,11 @@ namespace WallChanger
                 if (Items[e.Index].ToString() == "Archive")
                     return;
 
-                bool Highlight = false;
+                var Highlight = false;
                 var Fields = Items[e.Index].GetType().GetFields();
                 foreach (var Field in Fields)
                 {
-                    if (Field.Name == "Highlight")
+                    if (Field.Name == nameof(Highlight))
                     {
                         Highlight = (bool)Field.GetValue(Items[e.Index]);
                         break;
@@ -96,7 +108,7 @@ namespace WallChanger
                 }
 
                 // Text bounds.
-                Rectangle textBounds = new Rectangle(e.Bounds.X, e.Bounds.Y - 1, e.Bounds.Width, e.Bounds.Height);
+                var textBounds = new Rectangle(e.Bounds.X, e.Bounds.Y - 1, e.Bounds.Width, e.Bounds.Height);
 
                 if (Highlight)
                 {
@@ -105,25 +117,39 @@ namespace WallChanger
                         switch (HighlightMode)
                         {
                             case HighlightMode_.Bold:
-                                e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold), selectedForeBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
+                                    var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
+                                    font.Dispose();
+                                    break;
+                                }
                             case HighlightMode_.Italic:
-                                e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic), selectedForeBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
+                                    var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
+                                    font.Dispose();
+                                    break;
+                                }
                             case HighlightMode_.Foreground:
-                                e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, highlightBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, highlightBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                             case HighlightMode_.Background:
-                                e.Graphics.FillRectangle(highlightBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(highlightBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                             case HighlightMode_.None:
-                                e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(selectedBackBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, selectedForeBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                         }
                     }
                     else
@@ -131,25 +157,39 @@ namespace WallChanger
                         switch (HighlightMode)
                         {
                             case HighlightMode_.Bold:
-                                e.Graphics.FillRectangle(backBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold), foreBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(backBrush, e.Bounds);
+                                    var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Bold);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), font, foreBrush, textBounds, StringFormat.GenericDefault);
+                                    font.Dispose();
+                                    break;
+                                }
                             case HighlightMode_.Italic:
-                                e.Graphics.FillRectangle(backBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic), foreBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(backBrush, e.Bounds);
+                                    var font = new Font(Font.FontFamily, Font.SizeInPoints, FontStyle.Italic);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), font, foreBrush, textBounds, StringFormat.GenericDefault);
+                                    font.Dispose();
+                                    break;
+                                }
                             case HighlightMode_.Foreground:
-                                e.Graphics.FillRectangle(backBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, highlightBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(backBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, highlightBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                             case HighlightMode_.Background:
-                                e.Graphics.FillRectangle(highlightBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, foreBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(highlightBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, foreBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                             case HighlightMode_.None:
-                                e.Graphics.FillRectangle(backBrush, e.Bounds);
-                                e.Graphics.DrawString(Items[e.Index].ToString(), Font, foreBrush, textBounds, StringFormat.GenericDefault);
-                                break;
+                                {
+                                    e.Graphics.FillRectangle(backBrush, e.Bounds);
+                                    e.Graphics.DrawString(Items[e.Index].ToString(), Font, foreBrush, textBounds, StringFormat.GenericDefault);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -166,7 +206,6 @@ namespace WallChanger
                         e.Graphics.DrawString(Items[e.Index].ToString(), Font, foreBrush, textBounds, StringFormat.GenericDefault);
                     }
                 }
-                
 
                 // Such focus.
                 e.DrawFocusRectangle();
@@ -174,6 +213,9 @@ namespace WallChanger
 
             foreBrush.Dispose();
             backBrush.Dispose();
+            selectedForeBrush.Dispose();
+            selectedBackBrush.Dispose();
+            highlightBrush.Dispose();
             base.OnDrawItem(e);
         }
     }

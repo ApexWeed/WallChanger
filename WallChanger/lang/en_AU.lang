@@ -8,6 +8,12 @@ ApexWeed
     TITLE_LIBRARY = Library
     TITLE_SETTINGS = Settings
     TITLE_TIMING = Timing
+# Tray
+    # Buttons
+    # Tooltips
+    # Labels
+        TRAY_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
+    # Messages
 # MainForm
     # Buttons
         MAIN_BUTTON_NEW = New

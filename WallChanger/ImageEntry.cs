@@ -2,8 +2,8 @@
 {
     public class ImageEntry
     {
-        public string Path;
-        public bool Highlight;
+        public readonly string Path;
+        public readonly bool Highlight;
 
         /// <summary>
         /// Creates a new image entry wrapper.

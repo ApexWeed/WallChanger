@@ -7,8 +7,8 @@ namespace WallChanger
     /// </summary>
     class Duplicate
     {
-        public string Path;
-        public string Title;
+        public readonly string Path;
+        public readonly string Title;
         private Size size;
         public Size Size
         {
@@ -32,10 +32,10 @@ namespace WallChanger
             this.Path = Path;
             this.Title = Title;
         }
-        
+
         public override string ToString()
         {
-            return string.Format("({1}x{2}) {0}", Title, Size.Width, Size.Height);
+            return $"({Size.Width}x{Size.Height}) {Title}";
         }
     }
 }

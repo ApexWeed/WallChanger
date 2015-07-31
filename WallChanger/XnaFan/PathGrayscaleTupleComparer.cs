@@ -8,7 +8,7 @@ namespace XnaFan.ImageComparison
     /// </summary>
     class PathGrayscaleTupleComparer : IComparer<Tuple<string, byte[,]>>
     {
-        private static ArrayComparer<byte> _comparer = new ArrayComparer<byte>();
+        private static readonly ArrayComparer<byte> _comparer = new ArrayComparer<byte>();
         public int Compare(Tuple<string, byte[,]> x, Tuple<string, byte[,]> y)
         {
             return _comparer.Compare(x.Item2, y.Item2);

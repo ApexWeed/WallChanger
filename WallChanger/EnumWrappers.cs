@@ -2,9 +2,9 @@
 {
     public class WallpaperStyleWrapper
     {
-        private LanguageManager LM;
+        private readonly LanguageManager LM;
 
-        public Wallpaper.WallpaperStyle WallpaperStyle;
+        public readonly Wallpaper.WallpaperStyle WallpaperStyle;
 
         /// <summary>
         /// Create a new wrapper from a wallpaper style.
@@ -62,9 +62,9 @@
 
     public class CompressionLevelWrapper
     {
-        private LanguageManager LM;
+        private readonly LanguageManager LM;
 
-        public SevenZip.CompressionLevel CompressionLevel;
+        public readonly SevenZip.CompressionLevel CompressionLevel;
 
         /// <summary>
         /// Create a new wrapper from a compression level object.
@@ -122,9 +122,9 @@
 
     public class HighlightModeWrapper
     {
-        private LanguageManager LM;
+        private readonly LanguageManager LM;
 
-        public HighlightListBox.HighlightMode_ HighlightMode;
+        public readonly HighlightListBox.HighlightMode_ HighlightMode;
 
         /// <summary>
         /// Create a new wrapper from a highlight mode object.

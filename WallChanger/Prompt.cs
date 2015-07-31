@@ -4,8 +4,8 @@ namespace WallChanger
 {
     public struct StringBool
     {
-        public string String;
-        public bool Bool;
+        public readonly string String;
+        public readonly bool Bool;
 
         public StringBool(string _string, bool _bool)
         {
@@ -25,14 +25,16 @@ namespace WallChanger
         /// <returns></returns>
         public static string ShowStringDialog(string Text, string Caption, string DefaultText = "")
         {
-            Form prompt = new Form();
-            prompt.Width = 500;
-            prompt.Height = 150;
-            prompt.Text = Caption;
-            Panel panel = new Panel() { Dock = DockStyle.Fill };
-            Label textLabel = new Label() { Left = 20, Top = 20, Text = Text };
-            TextBox textBox = new TextBox() { Left = 20, Top = 50, Text = DefaultText };
-            Button confirmation = new Button() { Text = "Ok", Top = 70 };
+            var prompt = new Form
+            {
+                Width = 500,
+                Height = 150,
+                Text = Caption
+            };
+            var panel = new Panel { Dock = DockStyle.Fill };
+            var textLabel = new Label { Left = 20, Top = 20, Text = Text };
+            var textBox = new TextBox { Left = 20, Top = 50, Text = DefaultText };
+            var confirmation = new Button { Text = "Ok", Top = 70 };
             confirmation.Click += (sender, e) => { prompt.DialogResult = DialogResult.OK; prompt.Close(); };
             panel.Controls.Add(textLabel);
             panel.Controls.Add(textBox);
@@ -50,10 +52,21 @@ namespace WallChanger
             prompt.AcceptButton = confirmation;
             if (prompt.ShowDialog() == DialogResult.OK)
             {
-                return textBox.Text;
+                var text = textBox.Text;
+                panel.Dispose();
+                textLabel.Dispose();
+                textBox.Dispose();
+                confirmation.Dispose();
+                prompt.Dispose();
+                return text;
             }
             else
             {
+                panel.Dispose();
+                textLabel.Dispose();
+                textBox.Dispose();
+                confirmation.Dispose();
+                prompt.Dispose();
                 return null;
             }
         }
@@ -69,15 +82,17 @@ namespace WallChanger
         /// <returns></returns>
         public static StringBool ShowStringBoolDialog(string Text, string Caption, string CheckText, string DefaultText = "", bool DefaultBool = false)
         {
-            Form prompt = new Form();
-            prompt.Width = 500;
-            prompt.Height = 150;
-            prompt.Text = Caption;
-            Panel panel = new Panel() { Dock = DockStyle.Fill };
-            Label textLabel = new Label() { Left = 20, Top = 20, Text = Text };
-            TextBox textBox = new TextBox() { Left = 20, Top = 50, Text = DefaultText };
-            CheckBox checkBox = new CheckBox() { Text = CheckText, Top = 70, Left = 20, Checked = DefaultBool };
-            Button confirmation = new Button() { Text = "Ok", Top = 70 };
+            var prompt = new Form
+            {
+                Width = 500,
+                Height = 150,
+                Text = Caption
+            };
+            var panel = new Panel { Dock = DockStyle.Fill };
+            var textLabel = new Label { Left = 20, Top = 20, Text = Text };
+            var textBox = new TextBox { Left = 20, Top = 50, Text = DefaultText };
+            var checkBox = new CheckBox { Text = CheckText, Top = 70, Left = 20, Checked = DefaultBool };
+            var confirmation = new Button { Text = "Ok", Top = 70 };
             confirmation.Click += (sender, e) => { prompt.DialogResult = DialogResult.OK; prompt.Close(); };
             panel.Controls.Add(textLabel);
             panel.Controls.Add(textBox);
@@ -95,7 +110,14 @@ namespace WallChanger
             };
             prompt.AcceptButton = confirmation;
             prompt.ShowDialog();
-            return new StringBool(textBox.Text, checkBox.Checked);
+            panel.Dispose();
+            textLabel.Dispose();
+            textBox.Dispose();
+            confirmation.Dispose();
+            checkBox.Dispose();
+            prompt.Dispose();
+            var values = new StringBool(textBox.Text, checkBox.Checked);
+            return values;
         }
 
         /// <summary>
@@ -108,14 +130,17 @@ namespace WallChanger
         /// <returns>Either the chosen value or null.</returns>
         public static string ShowStringComboBoxDialog(string Prompt, string Title, string[] ComboBoxValues, bool AllowNew = true)
         {
-            StringComboBoxPrompt prompt = new StringComboBoxPrompt(Prompt, Title, ComboBoxValues, AllowNew);
+            var prompt = new StringComboBoxPrompt(Prompt, Title, ComboBoxValues, AllowNew);
 
             if (prompt.ShowDialog() == DialogResult.OK)
             {
+                var text = prompt.ChosenString;
+                prompt.Dispose();
                 return prompt.ChosenString;
             }
             else
             {
+                prompt.Dispose();
                 return null;
             }
         }

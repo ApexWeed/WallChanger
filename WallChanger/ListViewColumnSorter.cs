@@ -9,17 +9,9 @@ namespace WallChanger
     public class ListViewColumnSorter : IComparer
     {
         /// <summary>
-        /// Specifies the column to be sorted
-        /// </summary>
-        private int ColumnToSort;
-        /// <summary>
-        /// Specifies the order in which to sort (i.e. 'Ascending').
-        /// </summary>
-        private SortOrder OrderOfSort;
-        /// <summary>
         /// Case insensitive comparer object
         /// </summary>
-        private CaseInsensitiveComparer ObjectCompare;
+        private readonly CaseInsensitiveComparer ObjectCompare;
 
         /// <summary>
         /// Class constructor.  Initializes various elements
@@ -27,10 +19,10 @@ namespace WallChanger
         public ListViewColumnSorter()
         {
             // Initialize the column to '0'
-            ColumnToSort = 0;
+            SortColumn = 0;
 
             // Initialize the sort order to 'none'
-            OrderOfSort = SortOrder.None;
+            Order = SortOrder.None;
 
             // Initialize the CaseInsensitiveComparer object
             ObjectCompare = new CaseInsensitiveComparer();
@@ -51,35 +43,13 @@ namespace WallChanger
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
 
-            if (SortColumn == 1 || SortColumn == 2)
-            {
-                compareResult = Compare(int.Parse(listviewX.SubItems[ColumnToSort].Text), int.Parse(listviewY.SubItems[ColumnToSort].Text));
-            }
-            else
-            {
-                // Compare the two items
-                compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
-            }
+            compareResult = SortColumn == 1 || SortColumn == 2 ? Compare(int.Parse(listviewX.SubItems[SortColumn].Text), int.Parse(listviewY.SubItems[SortColumn].Text)) : ObjectCompare.Compare(listviewX.SubItems[SortColumn].Text, listviewY.SubItems[SortColumn].Text);
 
             // Calculate correct return value based on object comparison
-            if (OrderOfSort == SortOrder.Ascending)
-            {
-                // Ascending sort is selected, return normal result of compare operation
-                return compareResult;
-            }
-            else if (OrderOfSort == SortOrder.Descending)
-            {
-                // Descending sort is selected, return negative result of compare operation
-                return (-compareResult);
-            }
-            else
-            {
-                // Return '0' to indicate they are equal
-                return 0;
-            }
+            return Order == SortOrder.Ascending ? compareResult : Order == SortOrder.Descending ? (-compareResult) : 0;
         }
 
-        private int Compare(int x, int y)
+        private static int Compare(int x, int y)
         {
             if (x < y)
                 return -1;
@@ -93,14 +63,8 @@ namespace WallChanger
         /// </summary>
         public int SortColumn
         {
-            set
-            {
-                ColumnToSort = value;
-            }
-            get
-            {
-                return ColumnToSort;
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -108,14 +72,8 @@ namespace WallChanger
         /// </summary>
         public SortOrder Order
         {
-            set
-            {
-                OrderOfSort = value;
-            }
-            get
-            {
-                return OrderOfSort;
-            }
+            get;
+            set;
         }
 
     }

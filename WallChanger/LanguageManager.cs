@@ -5,7 +5,7 @@ namespace WallChanger
 {
     public class LanguageManager
     {
-        Dictionary<string, Language> Languages;
+        readonly Dictionary<string, Language> Languages;
 
         /// <summary>
         /// Initialises the language manager and loads languages.
@@ -38,20 +38,20 @@ namespace WallChanger
             {
                 using (StreamReader r = new StreamReader(fs))
                 {
-                    string Name = r.ReadLine();
-                    string Description = r.ReadLine();
-                    string Author = r.ReadLine();
-                    Language language = new Language(Path.GetFileNameWithoutExtension(Filename), Name, Description, Author);
+                    var Name = r.ReadLine();
+                    var Description = r.ReadLine();
+                    var Author = r.ReadLine();
+                    var language = new Language(Path.GetFileNameWithoutExtension(Filename), Name, Description, Author);
                     while (!r.EndOfStream)
                     {
-                        string Line = r.ReadLine();
+                        var Line = r.ReadLine();
                         // Ignore blank lines and comments.
                         if (string.IsNullOrWhiteSpace(Line) || Line.Trim().StartsWith("#"))
                             continue;
 
                         // STRING_NAME=Output string
                         // STRING_NAME = Output string
-                        string[] Parts = Line.Split('=');
+                        var Parts = Line.Split('=');
                         if (Parts.Length != 2)
                             continue;
 
@@ -68,7 +68,7 @@ namespace WallChanger
         /// <returns>List of languages.</returns>
         public List<Language> GetLanguages()
         {
-            List<Language> languages = new List<Language>();
+            var languages = new List<Language>();
 
             foreach (var Pair in Languages)
             {
@@ -85,7 +85,7 @@ namespace WallChanger
         /// <returns>The language specific string.</returns>
         public string GetString(string Key)
         {
-            string Value = GetString(Key, Properties.Settings.Default.Language);
+            var Value = GetString(Key, Properties.Settings.Default.Language);
             if (Value != Key)
                 return Value;
 
@@ -115,7 +115,7 @@ namespace WallChanger
         /// <returns>The language specific string.</returns>
         public string GetStringDefault(string Key, string Default)
         {
-            string Value = GetString(Key);
+            var Value = GetString(Key);
             if (Value == Key)
                 return Default;
 

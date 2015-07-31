@@ -68,7 +68,7 @@
     <Compile Include="DuplicateList.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalVars.cs" />
-    <Compile Include="HighlistListBox.cs">
+    <Compile Include="HighlightListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ImageEntry.cs" />
