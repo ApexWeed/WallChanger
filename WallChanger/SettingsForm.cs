@@ -29,6 +29,11 @@ namespace WallChanger
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             picHighlightColour.BackColor = Properties.Settings.Default.HighlightColour;
+            chkDefaultRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
+            chkDefaultFading.Checked = Properties.Settings.Default.DefaultFading;
+            chkGlobalRandomise.Checked = Properties.Settings.Default.GlobalRandomise;
+            chkGlobalFading.Checked = Properties.Settings.Default.GlobalFading;
+            chkGlobalWallpaperStyle.Checked = Properties.Settings.Default.GlobalWallpaperStyle;
             LocaliseInterface();
         }
 
@@ -53,8 +58,11 @@ namespace WallChanger
             lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
             lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
             chkDefaultRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_RANDOMISE");
-            chkDefaultFade.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_FADE");
+            chkDefaultFading.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_FADING");
             lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE");
+            chkGlobalRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE");
+            chkGlobalFading.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_FADING");
+            chkGlobalWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE");
 
             grpHighlight.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT");
             lblHighlightMode.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT_MODE");
@@ -77,6 +85,7 @@ namespace WallChanger
             cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
             cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
             cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
+            // Span only supported on windows 8+.
             if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
                 cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
 
@@ -184,7 +193,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void chkDefaultFade_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.DefaultFade = chkDefaultFade.Checked;
+            Properties.Settings.Default.DefaultFading = chkDefaultFading.Checked;
         }
 
         /// <summary>
@@ -218,6 +227,21 @@ namespace WallChanger
                 picHighlightColour.BackColor = cdgColourDialog.Color;
                 Properties.Settings.Default.HighlightColour = cdgColourDialog.Color;
             }
+        }
+
+        private void chkGlobalRandomise_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalRandomise = chkGlobalRandomise.Checked;
+        }
+
+        private void chkGlobalFading_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalFading = chkGlobalFading.Checked;
+        }
+
+        private void chkGlobalWallpaperStyle_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalWallpaperStyle = chkGlobalWallpaperStyle.Checked;
         }
     }
 }

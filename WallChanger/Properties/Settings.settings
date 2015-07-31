@@ -20,8 +20,8 @@
     <Setting Name="DefaultRandomise" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DefaultFade" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="DefaultFading" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="DefaultOffset" Type="System.String" Scope="User">
       <Value Profile="(Default)">0 h</Value>
@@ -37,6 +37,15 @@
     </Setting>
     <Setting Name="HighlightColour" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">ActiveCaption</Value>
+    </Setting>
+    <Setting Name="GlobalRandomise" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GlobalFading" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GlobalWallpaperStyle" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

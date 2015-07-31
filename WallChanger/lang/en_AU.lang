@@ -162,8 +162,11 @@ ApexWeed
         SETTINGS_LABEL_DEFAULT_OFFSET = Default offset: {0}
         SETTINGS_LABEL_DEFAULT_INTERVAL = Default intervel: {0}
         SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
-        SETTINGS_LABEL_DEFAULT_FADE = Fade by default
+        SETTINGS_LABEL_DEFAULT_FADING = Fade by default
         SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE = Default wallpaper style
+        SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE = Globally set randomisation
+        SETTINGS_LABEL_DEFAULT_GLOBAL_FADING = Globally set fading
+        SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE = Globally set wallpaper style
 
         SETTINGS_LABEL_HIGHLIGHT = Highlighting
         SETTINGS_LABEL_HIGHLIGHT_MODE = Highlight mode

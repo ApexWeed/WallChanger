@@ -229,8 +229,10 @@ namespace WallChanger
                     w.Write((uint)0);
                     w.Write((uint)0);
                     // BMP DATA
-                    for (int i = 0; i < byteCount; i++)
+                    for (int i = byteCount - 1; i >= 0; i -= 3)
                     {
+                        w.Write(bytes[i - 2]);
+                        w.Write(bytes[i - 1]);
                         w.Write(bytes[i]);
                     }
                 }

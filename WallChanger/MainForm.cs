@@ -238,7 +238,7 @@ namespace WallChanger
                 Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
                 Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
                 chkRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
-                chkFade.Checked = Properties.Settings.Default.DefaultFade;
+                chkFade.Checked = Properties.Settings.Default.DefaultFading;
                 cmbWallpaperStyle.SelectedIndex = 0;
 
                 var firstLine = read.ReadLine().Trim();
@@ -373,7 +373,7 @@ namespace WallChanger
             lstImages.HighlightMode = Properties.Settings.Default.HighlightMode;
             if (lstImages.Items.Count == FileList.Count())
             {
-                if (chkRandomise.Checked)
+                if ((Properties.Settings.Default.GlobalRandomise && Properties.Settings.Default.DefaultRandomise) || (!Properties.Settings.Default.GlobalRandomise && chkRandomise.Checked))
                 {
                     for (int i = 0; i < FileList.Count; i++)
                     {
@@ -405,7 +405,7 @@ namespace WallChanger
             {
                 lstImages.Items.Clear();
 
-                if (chkRandomise.Checked)
+                if ((Properties.Settings.Default.GlobalRandomise && Properties.Settings.Default.DefaultRandomise) || (!Properties.Settings.Default.GlobalRandomise && chkRandomise.Checked))
                 {
                     foreach (var File in FileList)
                     {
@@ -524,7 +524,7 @@ namespace WallChanger
                         index = index % FileList.Count;
                     if (File.Exists(FileList[(index) % FileList.Count]))
                     {
-                        if (chkFade.Checked)
+                        if ((Properties.Settings.Default.GlobalFading && Properties.Settings.Default.DefaultFading) || (!Properties.Settings.Default.GlobalFading && chkFade.Checked))
                             Wallpaper.FadeSet(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
                         else
                             Wallpaper.SetAsync(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
