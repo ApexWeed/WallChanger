@@ -125,7 +125,7 @@ namespace WallChanger
             await Task.Run(() =>
             {
                 img = Imaging.FromFile(Filename);
-                img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+                Imaging.SaveBitmap(img, tempPath);
                 img.Dispose();
             });
 

@@ -483,7 +483,7 @@ namespace WallChanger
                 {
                     FileList.RemoveAt((Index) % FileList.Count);
                     FillImageList();
-                    MessageBox.Show($"The following image cannot be found and has been removed from the current config.\n{FileList[(Index) % FileList.Count]}");
+                    MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_IMAGE_MISSING", "MAIN_MESSAGE_IMAGE_MISSING\n{0}"), FileList[(Index) % FileList.Count]));
                     SetWallpaper(Index);
                 }
             }
@@ -513,7 +513,8 @@ namespace WallChanger
                 }
 
                 // Set wallpaper.
-                if (FileList.Count > 0)
+                var wallpaperChanged = false;
+                while (!wallpaperChanged && FileList.Count > 0)
                 {
                     while (index < 0)
                     {
@@ -527,9 +528,12 @@ namespace WallChanger
                             Wallpaper.FadeSet(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
                         else
                             Wallpaper.SetAsync(FileList[(index) % FileList.Count], (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
+
+                        wallpaperChanged = true;
                     }
                     else
                     {
+                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_IMAGE_MISSING", "MAIN_MESSAGE_IMAGE_MISSING\n{0}"), FileList[(index) % FileList.Count]));
                         FileList.RemoveAt((index) % FileList.Count);
                         try
                         {
@@ -540,8 +544,6 @@ namespace WallChanger
                             // Program is closing.
                             return;
                         }
-                        MessageBox.Show($"The following image cannot be found and has been removed from the current config.\n{FileList[(index) % FileList.Count]}");
-                        SetWallpaper(index);
                     }
                 }
 

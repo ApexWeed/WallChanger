@@ -10,6 +10,17 @@ namespace WallChanger
 {
     public static class Imaging
     {
+
+        const string errorMessage = "Could not recognise image format.";
+
+        private static readonly Dictionary<byte[], Func<BinaryReader, Size>> imageFormatDecoders = new Dictionary<byte[], Func<BinaryReader, Size>>
+        {
+            { new byte[]{ 0x42, 0x4D }, DecodeBitmap},
+            { new byte[]{ 0x47, 0x49, 0x46, 0x38, 0x37, 0x61 }, DecodeGif },
+            { new byte[]{ 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 }, DecodeGif },
+            { new byte[]{ 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }, DecodePng },
+            { new byte[]{ 0xff, 0xd8 }, DecodeJfif },
+        };
         public enum ImageFormat
         {
             bmp,
@@ -18,6 +29,96 @@ namespace WallChanger
             tiff,
             png,
             unknown
+        }
+
+        /// <summary>
+        /// Calculates the correct height for an image.
+        /// </summary>
+        /// <param name="Image">The image to size.</param>
+        /// <param name="PictureBox">The picture box.</param>
+        /// <param name="ContainerHeight">The height of the container.</param>
+        /// <param name="MinimumDataHeight">The minimum height to leave for data.</param>
+        /// <returns>The height for the image.</returns>
+        public static int CalculateImageHeight(Image Image, PictureBox PictureBox, int ContainerHeight, int MinimumDataHeight)
+        {
+            if (Image == null)
+                return 202;
+
+            var MaxImageHeight = ContainerHeight - MinimumDataHeight;
+            var Ratio = (float)Image.Width / Image.Height;
+            var ImageHeight = (int)(PictureBox.Width / Ratio);
+            return ImageHeight <= MaxImageHeight ? ImageHeight : MaxImageHeight;
+        }
+
+        /// <summary>
+        /// Creates an image that does not keep the source file locked.
+        /// </summary>
+        /// <param name="path">Image path to load.</param>
+        /// <returns>The image.</returns>
+        public static Image FromFile(string path)
+        {
+            var bytes = File.ReadAllBytes(path);
+            using (var ms = new MemoryStream(bytes))
+            {
+                var img = Image.FromStream(ms);
+                return img;
+            }
+        }
+
+        /// <summary>
+        /// Gets the dimensions of an image.
+        /// </summary>
+        /// <param name="path">The path of the image to get the dimensions of.</param>
+        /// <returns>The dimensions of the specified image.</returns>
+        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>
+        public static Size GetDimensions(string path)
+        {
+            using (BinaryReader binaryReader = new BinaryReader(File.OpenRead(path)))
+            {
+                //try
+                //{
+                return GetDimensions(binaryReader);
+                /*}
+                catch (ArgumentException e)
+                {
+                    if (e.Message.StartsWith(errorMessage))
+                    {
+                        throw new ArgumentException(errorMessage, "path", e);
+                    }
+                    else
+                    {
+                        throw e;
+                    }
+                }*/
+            }
+        }
+
+        /// <summary>
+        /// Gets the dimensions of an image.
+        /// </summary>
+        /// <param name="binaryReader">Binary reader to read image data from.</param>
+        /// <returns>The dimensions of the specified image.</returns>
+        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>
+        public static Size GetDimensions(BinaryReader binaryReader)
+        {
+            var maxMagicBytesLength = imageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
+
+            var magicBytes = new byte[maxMagicBytesLength];
+
+            for (int i = 0; i < maxMagicBytesLength; i += 1)
+            {
+                magicBytes[i] = binaryReader.ReadByte();
+
+                foreach (var kvPair in imageFormatDecoders)
+                {
+                    if (magicBytes.StartsWith(kvPair.Key))
+                    {
+                        return kvPair.Value(binaryReader);
+                    }
+                }
+            }
+
+            throw new ArgumentException(errorMessage, nameof(binaryReader));
         }
 
         /// <summary>
@@ -30,10 +131,10 @@ namespace WallChanger
             // see http://www.mikekunz.com/image_file_header.html
             var bmp = Encoding.ASCII.GetBytes("BM");       // BMP
             var gif = Encoding.ASCII.GetBytes("GIF");      // GIF
-            var png = new byte[]   { 137, 080, 078, 071 }; // PNG
-            var tiff = new byte[]  { 073, 073, 042 };      // TIFF
+            var png = new byte[] { 137, 080, 078, 071 }; // PNG
+            var tiff = new byte[] { 073, 073, 042 };      // TIFF
             var tiff2 = new byte[] { 077, 077, 042 };      // TIFF
-            var jpeg = new byte[]  { 255, 216, 255, 224 }; // jpeg
+            var jpeg = new byte[] { 255, 216, 255, 224 }; // jpeg
             var jpeg2 = new byte[] { 255, 216, 255, 225 }; // jpeg canon
             var jpeg3 = new byte[] { 255, 216, 255, 226 }; // jpeg again
             var jpeg4 = new byte[] { 255, 216, 255, 219 }; // jpeg yet again
@@ -83,123 +184,121 @@ namespace WallChanger
             return ImageFormat.unknown;
         }
 
-        /// <summary>
-        /// Calculates the correct height for an image.
-        /// </summary>
-        /// <param name="Image">The image to size.</param>
-        /// <param name="PictureBox">The picture box.</param>
-        /// <param name="ContainerHeight">The height of the container.</param>
-        /// <param name="MinimumDataHeight">The minimum height to leave for data.</param>
-        /// <returns>The height for the image.</returns>
-        public static int CalculateImageHeight(Image Image, PictureBox PictureBox, int ContainerHeight, int MinimumDataHeight)
+        public static void SaveBitmap(Image Source, string Path)
         {
-            if (Image == null)
-                return 202;
+            byte[] bytes;
+            int byteCount;
 
-            var MaxImageHeight = ContainerHeight - MinimumDataHeight;
-            var Ratio = (float)Image.Width / Image.Height;
-            var ImageHeight = (int)(PictureBox.Width / Ratio);
-            return ImageHeight <= MaxImageHeight ? ImageHeight : MaxImageHeight;
-        }
-
-        /// <summary>
-        /// Creates an image that does not keep the source file locked.
-        /// </summary>
-        /// <param name="path">Image path to load.</param>
-        /// <returns>The image.</returns>
-        public static Image FromFile(string path)
-        {
-            var bytes = File.ReadAllBytes(path);
-            using (var ms = new MemoryStream(bytes))
+            using (var bitmap = new Bitmap(Source))
             {
-                var img = Image.FromStream(ms);
-                return img;
+                var rect = new Rectangle(0, 0, Source.Width, Source.Height);
+                var bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+                var ptr = bmpData.Scan0;
+
+                // 24 bit image mode.
+                byteCount = Math.Abs(bmpData.Stride) * Source.Height;
+                bytes = new byte[byteCount];
+
+                System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, byteCount);
+
+                bitmap.UnlockBits(bmpData);
             }
-        }
 
-        const string errorMessage = "Could not recognise image format.";
-
-        private static readonly Dictionary<byte[], Func<BinaryReader, Size>> imageFormatDecoders = new Dictionary<byte[], Func<BinaryReader, Size>>
-        {
-            { new byte[]{ 0x42, 0x4D }, DecodeBitmap},
-            { new byte[]{ 0x47, 0x49, 0x46, 0x38, 0x37, 0x61 }, DecodeGif },
-            { new byte[]{ 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 }, DecodeGif },
-            { new byte[]{ 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }, DecodePng },
-            { new byte[]{ 0xff, 0xd8 }, DecodeJfif },
-        };
-
-        /// <summary>
-        /// Gets the dimensions of an image.
-        /// </summary>
-        /// <param name="path">The path of the image to get the dimensions of.</param>
-        /// <returns>The dimensions of the specified image.</returns>
-        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>
-        public static Size GetDimensions(string path)
-        {
-            using (BinaryReader binaryReader = new BinaryReader(File.OpenRead(path)))
+            using (FileStream fs = File.Open(Path, FileMode.Create))
             {
-                //try
-                //{
-                    return GetDimensions(binaryReader);
-                /*}
-                catch (ArgumentException e)
+                using (BinaryWriter w = new BinaryWriter(fs))
                 {
-                    if (e.Message.StartsWith(errorMessage))
+                    // BMP FILE HEADER
+                    w.Write((ushort)0x4D42);
+                    // File header + info header + (w * h * bytes per pixel).
+                    w.Write((uint)(14 + 40 + (Source.Width * Source.Height * 3)));
+                    w.Write((ushort)0);
+                    w.Write((ushort)0);
+                    w.Write((uint)0x36);
+                    // BMP INFO HEADER
+                    w.Write((uint)40);
+                    w.Write((int)Source.Width);
+                    w.Write((int)Source.Height);
+                    w.Write((ushort)1);
+                    w.Write((ushort)24);
+                    w.Write((uint)0x0000);
+                    w.Write((uint)0);
+                    w.Write((int)96);
+                    w.Write((int)96);
+                    w.Write((uint)0);
+                    w.Write((uint)0);
+                    // BMP DATA
+                    for (int i = 0; i < byteCount; i++)
                     {
-                        throw new ArgumentException(errorMessage, "path", e);
-                    }
-                    else
-                    {
-                        throw e;
-                    }
-                }*/
-            }
-        }
-
-        /// <summary>
-        /// Gets the dimensions of an image.
-        /// </summary>
-        /// <param name="binaryReader">Binary reader to read image data from.</param>
-        /// <returns>The dimensions of the specified image.</returns>
-        /// <exception cref="ArgumentException">The image was of an unrecognised format.</exception>
-        public static Size GetDimensions(BinaryReader binaryReader)
-        {
-            var maxMagicBytesLength = imageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
-
-            var magicBytes = new byte[maxMagicBytesLength];
-
-            for (int i = 0; i < maxMagicBytesLength; i += 1)
-            {
-                magicBytes[i] = binaryReader.ReadByte();
-
-                foreach (var kvPair in imageFormatDecoders)
-                {
-                    if (magicBytes.StartsWith(kvPair.Key))
-                    {
-                        return kvPair.Value(binaryReader);
+                        w.Write(bytes[i]);
                     }
                 }
             }
-
-            throw new ArgumentException(errorMessage, nameof(binaryReader));
         }
 
         /// <summary>
-        /// Checks if a byte array starts with another byte array.
+        /// Decodes the width and height of a bitmap.
         /// </summary>
-        /// <param name="thisBytes">The array to check.</param>
-        /// <param name="thatBytes">The start to check.</param>
-        /// <returns>True if thisBytes starts with thatBytes, false if not.</returns>
-        private static bool StartsWith(this byte[] thisBytes, byte[] thatBytes)
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the bitmap.</returns>
+        private static Size DecodeBitmap(BinaryReader binaryReader)
         {
-            for (int i = 0; i < thatBytes.Length; i += 1)
+            binaryReader.ReadBytes(16);
+            var width = binaryReader.ReadInt32();
+            var height = binaryReader.ReadInt32();
+            return new Size(width, height);
+        }
+        /// <summary>
+        /// Decodes the width and height of a gif.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the gif.</returns>
+        private static Size DecodeGif(BinaryReader binaryReader)
+        {
+            int width = binaryReader.ReadInt16();
+            int height = binaryReader.ReadInt16();
+            return new Size(width, height);
+        }
+
+        /// <summary>
+        /// Decodes the width and height of a jfif.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the jfif.</returns>
+        private static Size DecodeJfif(BinaryReader binaryReader)
+        {
+            while (binaryReader.ReadByte() == 0xff)
             {
-                if (thisBytes[i] != thatBytes[i])
+                var marker = binaryReader.ReadByte();
+                var chunkLength = binaryReader.ReadLittleEndianInt16();
+
+                if (marker == 0xc0 || marker == 0xc1 || marker == 0xc2)
                 {
-                    return false;
+                    binaryReader.ReadByte();
+
+                    int height = binaryReader.ReadLittleEndianInt16();
+                    int width = binaryReader.ReadLittleEndianInt16();
+                    return new Size(width, height);
                 }
+
+                binaryReader.ReadBytes(chunkLength - 2);
             }
-            return true;
+
+            throw new ArgumentException(errorMessage);
+        }
+
+        /// <summary>
+        /// Decodes the width and height of a png.
+        /// </summary>
+        /// <param name="binaryReader">The binary reader to use.</param>
+        /// <returns>The size of the png.</returns>
+        private static Size DecodePng(BinaryReader binaryReader)
+        {
+            binaryReader.ReadBytes(8);
+            var width = binaryReader.ReadLittleEndianInt32();
+            var height = binaryReader.ReadLittleEndianInt32();
+            return new Size(width, height);
         }
 
         /// <summary>
@@ -233,67 +332,21 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Decodes the width and height of a bitmap.
+        /// Checks if a byte array starts with another byte array.
         /// </summary>
-        /// <param name="binaryReader">The binary reader to use.</param>
-        /// <returns>The size of the bitmap.</returns>
-        private static Size DecodeBitmap(BinaryReader binaryReader)
+        /// <param name="thisBytes">The array to check.</param>
+        /// <param name="thatBytes">The start to check.</param>
+        /// <returns>True if thisBytes starts with thatBytes, false if not.</returns>
+        private static bool StartsWith(this byte[] thisBytes, byte[] thatBytes)
         {
-            binaryReader.ReadBytes(16);
-            var width = binaryReader.ReadInt32();
-            var height = binaryReader.ReadInt32();
-            return new Size(width, height);
-        }
-        /// <summary>
-        /// Decodes the width and height of a gif.
-        /// </summary>
-        /// <param name="binaryReader">The binary reader to use.</param>
-        /// <returns>The size of the gif.</returns>
-        private static Size DecodeGif(BinaryReader binaryReader)
-        {
-            int width = binaryReader.ReadInt16();
-            int height = binaryReader.ReadInt16();
-            return new Size(width, height);
-        }
-
-        /// <summary>
-        /// Decodes the width and height of a png.
-        /// </summary>
-        /// <param name="binaryReader">The binary reader to use.</param>
-        /// <returns>The size of the png.</returns>
-        private static Size DecodePng(BinaryReader binaryReader)
-        {
-            binaryReader.ReadBytes(8);
-            var width = binaryReader.ReadLittleEndianInt32();
-            var height = binaryReader.ReadLittleEndianInt32();
-            return new Size(width, height);
-        }
-
-        /// <summary>
-        /// Decodes the width and height of a jfif.
-        /// </summary>
-        /// <param name="binaryReader">The binary reader to use.</param>
-        /// <returns>The size of the jfif.</returns>
-        private static Size DecodeJfif(BinaryReader binaryReader)
-        {
-            while (binaryReader.ReadByte() == 0xff)
+            for (int i = 0; i < thatBytes.Length; i += 1)
             {
-                var marker = binaryReader.ReadByte();
-                var chunkLength = binaryReader.ReadLittleEndianInt16();
-
-                if (marker == 0xc0 || marker == 0xc1 || marker == 0xc2)
+                if (thisBytes[i] != thatBytes[i])
                 {
-                    binaryReader.ReadByte();
-
-                    int height = binaryReader.ReadLittleEndianInt16();
-                    int width = binaryReader.ReadLittleEndianInt16();
-                    return new Size(width, height);
+                    return false;
                 }
-
-                binaryReader.ReadBytes(chunkLength - 2);
             }
-
-            throw new ArgumentException(errorMessage);
+            return true;
         }
     }
 }

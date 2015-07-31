@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="DuplicateList.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="HighlightListBox.cs">
       <SubType>Component</SubType>

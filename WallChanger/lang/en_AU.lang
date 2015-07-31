@@ -49,6 +49,7 @@ ApexWeed
         MAIN_MESSAGE_VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
         MAIN_MESSAGE_SPAN_UNSUPPORTED = Span is not supported before Windows 8, defaulting to {0}.
         MAIN_MESSAGE_CONFIG_MISSING = The current config file "{0}" doesn't exist, creating blank config.
+        MAIN_MESSAGE_IMAGE_MISSING = The following image cannot be found and has been removed from the current config.\n{0}
 # LanguageForm
     # Buttons
         LANG_BUTTON_SAVE = Save
