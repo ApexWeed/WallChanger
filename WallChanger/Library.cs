@@ -210,49 +210,29 @@ namespace WallChanger
         {
             if (FileMutex.WaitOne(1))
             {
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
+                if (Properties.Settings.Default.CompressionLevel == SevenZip.CompressionLevel.None)
                 {
-                    using (MemoryStream ms = new MemoryStream())
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
                     {
-                        using (StreamWriter w = new StreamWriter(ms))
+                        using (StreamWriter w = new StreamWriter(fs))
                         {
                             w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
                             w.Flush();
-
-                            var compresser = new SevenZip.SevenZipCompressor
-                            {
-                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
-                                CompressionLevel = Properties.Settings.Default.CompressionLevel
-                            };
-                            compresser.CompressStream(ms, fs);
                         }
                     }
-                }
 
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
-                {
-                    using (MemoryStream ms = new MemoryStream())
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
                     {
-                        using (StreamWriter w = new StreamWriter(ms))
+                        using (StreamWriter w = new StreamWriter(fs))
                         {
                             w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
                             w.Flush();
-
-                            var compresser = new SevenZip.SevenZipCompressor
-                            {
-                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
-                                CompressionLevel = Properties.Settings.Default.CompressionLevel
-                            };
-                            compresser.CompressStream(ms, fs);
                         }
                     }
-                }
 
-                using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
-                {
-                    using (MemoryStream ms = new MemoryStream())
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
                     {
-                        using (BinaryWriter w = new BinaryWriter(ms))
+                        using (BinaryWriter w = new BinaryWriter(fs))
                         {
                             w.Write(GlobalVars.ImageCache.Count);
                             foreach (var Item in GlobalVars.ImageCache)
@@ -261,13 +241,70 @@ namespace WallChanger
                                 w.Write(Flatten(Item.Value));
                             }
                             w.Flush();
-
-                            var compresser = new SevenZip.SevenZipCompressor
+                        }
+                    }
+                }
+                else
+                {
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "library.dat"), FileMode.Create))
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            using (StreamWriter w = new StreamWriter(ms))
                             {
-                                CompressionMethod = SevenZip.CompressionMethod.Lzma2,
-                                CompressionLevel = Properties.Settings.Default.CompressionLevel
-                            };
-                            compresser.CompressStream(ms, fs);
+                                w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.LibraryItems));
+                                w.Flush();
+
+                                var compresser = new SevenZip.SevenZipCompressor
+                                {
+                                    CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                    CompressionLevel = Properties.Settings.Default.CompressionLevel
+                                };
+                                compresser.CompressStream(ms, fs);
+                            }
+                        }
+                    }
+
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "sizecache.dat"), FileMode.Create))
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            using (StreamWriter w = new StreamWriter(ms))
+                            {
+                                w.Write(Newtonsoft.Json.JsonConvert.SerializeObject(GlobalVars.ImageSizeCache));
+                                w.Flush();
+
+                                var compresser = new SevenZip.SevenZipCompressor
+                                {
+                                    CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                    CompressionLevel = Properties.Settings.Default.CompressionLevel
+                                };
+                                compresser.CompressStream(ms, fs);
+                            }
+                        }
+                    }
+
+                    using (FileStream fs = File.Open(Path.Combine(GlobalVars.ApplicationPath, "imagecache.dat"), FileMode.Create))
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            using (BinaryWriter w = new BinaryWriter(ms))
+                            {
+                                w.Write(GlobalVars.ImageCache.Count);
+                                foreach (var Item in GlobalVars.ImageCache)
+                                {
+                                    w.Write(Item.Key);
+                                    w.Write(Flatten(Item.Value));
+                                }
+                                w.Flush();
+
+                                var compresser = new SevenZip.SevenZipCompressor
+                                {
+                                    CompressionMethod = SevenZip.CompressionMethod.Lzma2,
+                                    CompressionLevel = Properties.Settings.Default.CompressionLevel
+                                };
+                                compresser.CompressStream(ms, fs);
+                            }
                         }
                     }
                 }
