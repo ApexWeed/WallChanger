@@ -38,9 +38,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(105, 227);
+            this.btnSave.Location = new System.Drawing.Point(105, 210);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(75, 21);
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "LANG_BUTTON_SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -50,27 +50,27 @@
             // 
             this.cmbCurrentLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCurrentLanguage.FormattingEnabled = true;
-            this.cmbCurrentLanguage.Location = new System.Drawing.Point(12, 25);
+            this.cmbCurrentLanguage.Location = new System.Drawing.Point(12, 23);
             this.cmbCurrentLanguage.Name = "cmbCurrentLanguage";
-            this.cmbCurrentLanguage.Size = new System.Drawing.Size(260, 21);
+            this.cmbCurrentLanguage.Size = new System.Drawing.Size(260, 20);
             this.cmbCurrentLanguage.TabIndex = 1;
             this.cmbCurrentLanguage.SelectedValueChanged += new System.EventHandler(this.LanguageChanged);
             // 
             // lblCurrentLanguage
             // 
             this.lblCurrentLanguage.AutoSize = true;
-            this.lblCurrentLanguage.Location = new System.Drawing.Point(12, 9);
+            this.lblCurrentLanguage.Location = new System.Drawing.Point(12, 8);
             this.lblCurrentLanguage.Name = "lblCurrentLanguage";
-            this.lblCurrentLanguage.Size = new System.Drawing.Size(199, 13);
+            this.lblCurrentLanguage.Size = new System.Drawing.Size(197, 12);
             this.lblCurrentLanguage.TabIndex = 2;
             this.lblCurrentLanguage.Text = "LANG_LABEL_CURRENT_LANGUAGE";
             // 
             // lblFallbackLanguage
             // 
             this.lblFallbackLanguage.AutoSize = true;
-            this.lblFallbackLanguage.Location = new System.Drawing.Point(12, 49);
+            this.lblFallbackLanguage.Location = new System.Drawing.Point(12, 45);
             this.lblFallbackLanguage.Name = "lblFallbackLanguage";
-            this.lblFallbackLanguage.Size = new System.Drawing.Size(199, 13);
+            this.lblFallbackLanguage.Size = new System.Drawing.Size(201, 12);
             this.lblFallbackLanguage.TabIndex = 4;
             this.lblFallbackLanguage.Text = "LANG_LABEL_FALLBACK_LANGUAGE";
             // 
@@ -78,31 +78,32 @@
             // 
             this.cmbFallbackLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFallbackLanguage.FormattingEnabled = true;
-            this.cmbFallbackLanguage.Location = new System.Drawing.Point(12, 65);
+            this.cmbFallbackLanguage.Location = new System.Drawing.Point(12, 60);
             this.cmbFallbackLanguage.Name = "cmbFallbackLanguage";
-            this.cmbFallbackLanguage.Size = new System.Drawing.Size(260, 21);
+            this.cmbFallbackLanguage.Size = new System.Drawing.Size(260, 20);
             this.cmbFallbackLanguage.TabIndex = 3;
             this.cmbFallbackLanguage.SelectedValueChanged += new System.EventHandler(this.LanguageChanged);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(15, 92);
+            this.txtDescription.Location = new System.Drawing.Point(15, 85);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(257, 129);
+            this.txtDescription.Size = new System.Drawing.Size(257, 119);
             this.txtDescription.TabIndex = 5;
             // 
             // LanguageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 242);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.lblFallbackLanguage);
             this.Controls.Add(this.cmbFallbackLanguage);
             this.Controls.Add(this.lblCurrentLanguage);
             this.Controls.Add(this.cmbCurrentLanguage);
             this.Controls.Add(this.btnSave);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "LanguageForm";
             this.Text = "LanguageForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LanguageForm_FormClosing);
