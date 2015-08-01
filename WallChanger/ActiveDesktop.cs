@@ -22,9 +22,9 @@ public struct COMPONENTSOPT
 {
     public int dwSize;
     [MarshalAs(UnmanagedType.Bool)]
-    public bool fEnableComponents;
-    [MarshalAs(UnmanagedType.Bool)]
     public bool fActiveDesktop;
+    [MarshalAs(UnmanagedType.Bool)]
+    public bool fEnableComponents;
 }
 
 public struct COMPPOS
@@ -57,19 +57,19 @@ public enum ITEMSTATE
     SPLIT = 0x00000004,
     VALIDSIZESTATEBITS =
         NORMAL | SPLIT | FULLSCREEN,
-        VALIDSTATEBITS =
-        NORMAL | SPLIT | FULLSCREEN |
-        unchecked((int)0x80000000) | 0x40000000
+    VALIDSTATEBITS =
+    NORMAL | SPLIT | FULLSCREEN |
+    unchecked((int)0x80000000) | 0x40000000
 }
 
 public struct COMPSTATEINFO
 {
-    public int dwSize;
-    public int iLeft;
-    public int iTop;
-    public int dwWidth;
     public int dwHeight;
     public int dwItemState;
+    public int dwSize;
+    public int dwWidth;
+    public int iLeft;
+    public int iTop;
 }
 
 public enum COMP_TYPE
@@ -82,7 +82,7 @@ public enum COMP_TYPE
     MAX = 4
 }
 
-[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct COMPONENT
 {
     private const int INTERNET_MAX_URL_LENGTH = 2084;
@@ -105,11 +105,11 @@ public struct COMPONENT
     [MarshalAs(UnmanagedType.ByValTStr,SizeConst=INTERNET_MAX_URL_LENGTH)]
     public string wszSubscribedURL;
 
-    #if AD_IE5
+#if AD_IE5
     public int dwCurItemState;
     public COMPSTATEINFO csiOriginal;
     public COMPSTATEINFO csiRestored;
-    #endif
+#endif
 }
 
 public enum DTI_ADTIWUI

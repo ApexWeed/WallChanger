@@ -29,6 +29,24 @@ namespace WallChanger
         }
 
         /// <summary>
+        /// Gets or sets the order of sorting to apply (for example, 'Ascending' or 'Descending').
+        /// </summary>
+        public SortOrder Order
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
+        /// </summary>
+        public int SortColumn
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
         /// </summary>
         /// <param name="x">First object to be compared</param>
@@ -56,24 +74,6 @@ namespace WallChanger
             if (x > y)
                 return 1;
             return 0;
-        }
-
-        /// <summary>
-        /// Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
-        /// </summary>
-        public int SortColumn
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the order of sorting to apply (for example, 'Ascending' or 'Descending').
-        /// </summary>
-        public SortOrder Order
-        {
-            get;
-            set;
         }
 
     }

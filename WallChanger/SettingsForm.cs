@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WallChanger
 {
     public partial class SettingsForm : Form
     {
-        new readonly Form Parent;
         readonly LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form Parent;
+        ProcessingSettingsForm ProcessingSettingsFormChild;
 
         TimingForm TimingFormChild;
 
@@ -22,19 +24,15 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Sets up the form for use.
+        /// Allows a new instance of the timing form to be opened.
         /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void SettingsForm_Load(object sender, EventArgs e)
+        /// <param name="Child">The child that closed.</param>
+        public void ChildClosed(Form Child)
         {
-            picHighlightColour.BackColor = Properties.Settings.Default.HighlightColour;
-            chkDefaultRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
-            chkDefaultFading.Checked = Properties.Settings.Default.DefaultFading;
-            chkGlobalRandomise.Checked = Properties.Settings.Default.GlobalRandomise;
-            chkGlobalFading.Checked = Properties.Settings.Default.GlobalFading;
-            chkGlobalWallpaperStyle.Checked = Properties.Settings.Default.GlobalWallpaperStyle;
-            LocaliseInterface();
+            if (Child is TimingForm)
+                TimingFormChild = null;
+            if (Child is ProcessingSettingsForm)
+                ProcessingSettingsFormChild = null;
         }
 
         /// <summary>
@@ -47,6 +45,7 @@ namespace WallChanger
             // Buttons.
             btnChangeDefaultTiming.Text = LM.GetString("SETTINGS_BUTTON_DEFAULT_TIMING");
             btnHighlightColour.Text = LM.GetString("SETTINGS_BUTTON_HIGHLIGHT_COLOUR");
+            btnPreProcessingDefaults.Text = LM.GetString("SETTINGS_BUTTON_PREPROCESSING_DEFAULTS");
             // Tooltips.
 
             // Labels.
@@ -92,26 +91,197 @@ namespace WallChanger
             cmbDefaultWallpaperStyle.SelectedItem = cmbDefaultWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
 
             cmbHighlightMode.Items.Clear();
-            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Bold));
-            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Italic));
-            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Foreground));
-            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.Background));
-            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode_.None));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Bold));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Italic));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Foreground));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Background));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.None));
 
             cmbHighlightMode.SelectedItem = cmbHighlightMode.Items.Find(x => (HighlightModeWrapper)x == Properties.Settings.Default.HighlightMode);
 
+            grpPreProcessing.Text = LM.GetString("SETTINGS_LABEL_PREPROCESSING");
+            chkGlobalPreProcessing.Text = LM.GetString("SETTINGS_LABEL_GLOBAL_PREPROCESSING");
+
             // Cascade.
+            if (TimingFormChild != null)
+                TimingFormChild.LocaliseInterface();
+            if (ProcessingSettingsFormChild != null)
+                ProcessingSettingsFormChild.LocaliseInterface();
         }
 
         /// <summary>
-        /// Notifies the parent of closure.
+        /// Saves the time settings as the default.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        /// <param name="Offset">The default offset value in milliseconds.</param>
+        /// <param name="Interval">The default interval value in milliseconds.</param>
+        public void SetTimes(int Offset, int Interval)
         {
-            if (Parent is MainForm)
-                (Parent as MainForm).ChildClosed(this);
+            Properties.Settings.Default.DefaultOffset = Timing.ToString(Offset);
+            Properties.Settings.Default.DefaultInterval = Timing.ToString(Interval);
+            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
+            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
+        }
+
+        private static void ProcessingSettingsChanged(ProcessingSetting Setting, object Value)
+        {
+            switch (Setting)
+            {
+                case ProcessingSetting.PreProcessingEnabled:
+                    Properties.Settings.Default.DefaultPreProcessingEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.BrightnessEnabled:
+                    Properties.Settings.Default.DefaultBrightnessEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.BrightnessValue:
+                    Properties.Settings.Default.DefaultBrightnessValue = (int)Value;
+                    break;
+                case ProcessingSetting.SaturationEnabled:
+                    Properties.Settings.Default.DefaultSaturationEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.SaturationValue:
+                    Properties.Settings.Default.DefaultSaturationValue = (int)Value;
+                    break;
+                case ProcessingSetting.ContrastEnabled:
+                    Properties.Settings.Default.DefaultContrastEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.ContrastValue:
+                    Properties.Settings.Default.DefaultContrastValue = (int)Value;
+                    break;
+                case ProcessingSetting.HueEnabled:
+                    Properties.Settings.Default.DefaultHueEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.HueValue:
+                    Properties.Settings.Default.DefaultHueValue = (int)Value;
+                    break;
+                case ProcessingSetting.GaussianBlurEnabled:
+                    Properties.Settings.Default.DefaultGaussianBlurEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.GaussianBlurSize:
+                    Properties.Settings.Default.DefaultGaussianBlurSize = (int)Value;
+                    break;
+                case ProcessingSetting.GaussianSharpenEnabled:
+                    Properties.Settings.Default.DefaultGaussianSharpenEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.GaussianSharpenSize:
+                    Properties.Settings.Default.DefaultGaussianSharpenSize = (int)Value;
+                    break;
+                case ProcessingSetting.PixelateEnabled:
+                    Properties.Settings.Default.DefaultPixelateEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.PixelateSize:
+                    Properties.Settings.Default.DefaultPixelateSize = (int)Value;
+                    break;
+                case ProcessingSetting.VignetteEnabled:
+                    Properties.Settings.Default.DefaultVignetteEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.VignetteColour:
+                    Properties.Settings.Default.DefaultVignetteColour = (Color)Value;
+                    break;
+                case ProcessingSetting.TintEnabled:
+                    Properties.Settings.Default.DefaultTintEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.TintColour:
+                    Properties.Settings.Default.DefaultTintColour = (Color)Value;
+                    break;
+                case ProcessingSetting.EdgeDetectionEnabled:
+                    Properties.Settings.Default.DefaultEdgeDetectionEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.EdgeDetectionFilter:
+                    Properties.Settings.Default.DefaultEdgeDetectionFilter = (EdgeDetectionFilterWrapper)Value;
+                    break;
+                case ProcessingSetting.ImageFilterEnabled:
+                    Properties.Settings.Default.DefaultImageFilterEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.ImageFilterMatrix:
+                    Properties.Settings.Default.DefaultImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Opens a new timing form or swaps to an existing one.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnChangeDefaultTiming_Click(object sender, EventArgs e)
+        {
+            if (TimingFormChild == null)
+            {
+                TimingFormChild = new TimingForm(LM.GetString("DEFAULTS"), Timing.ParseTime(Properties.Settings.Default.DefaultOffset), Timing.ParseTime(Properties.Settings.Default.DefaultInterval), this);
+                TimingFormChild.Show();
+            }
+            else
+            {
+                TimingFormChild.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Prompts the user for a highlight colour.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnHighlightColour_Click(object sender, EventArgs e)
+        {
+            cdgColourDialog.Color = picHighlightColour.BackColor;
+            if (cdgColourDialog.ShowDialog() == DialogResult.OK)
+            {
+                picHighlightColour.BackColor = cdgColourDialog.Color;
+                Properties.Settings.Default.HighlightColour = cdgColourDialog.Color;
+            }
+        }
+
+        private void btnPreProcessingDefaults_Click(object sender, EventArgs e)
+        {
+            if (ProcessingSettingsFormChild == null)
+            {
+                ProcessingSettingsFormChild = new ProcessingSettingsForm(LM.GetString("DEFAULTS"), ProcessingSettings.FromDefaults(), ProcessingSettingsChanged, this);
+                ProcessingSettingsFormChild.Show();
+            }
+            else
+            {
+                ProcessingSettingsFormChild.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Updates the default fade setting.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void chkDefaultFade_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DefaultFading = chkDefaultFading.Checked;
+        }
+
+        /// <summary>
+        /// Update the default randomisation setting.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void chkDefaultRandomise_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DefaultRandomise = chkDefaultRandomise.Checked;
+        }
+
+        private void chkGlobalFading_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalFading = chkGlobalFading.Checked;
+        }
+
+        private void chkGlobalPreProcessing_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalPreProcessing = chkGlobalPreProcessing.Checked;
+        }
+
+        private void chkGlobalRandomise_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalRandomise = chkGlobalRandomise.Checked;
+        }
+
+        private void chkGlobalWallpaperStyle_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalWallpaperStyle = chkGlobalWallpaperStyle.Checked;
         }
 
         /// <summary>
@@ -154,94 +324,31 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Saves the time settings as the default.
+        /// Notifies the parent of closure.
         /// </summary>
-        /// <param name="Offset">The default offset value in milliseconds.</param>
-        /// <param name="Interval">The default interval value in milliseconds.</param>
-        public void SetTimes(int Offset, int Interval)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.DefaultOffset = Timing.ToString(Offset);
-            Properties.Settings.Default.DefaultInterval = Timing.ToString(Interval);
-            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
-            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
+            if (Parent is MainForm)
+                (Parent as MainForm).ChildClosed(this);
         }
 
         /// <summary>
-        /// Allows a new instance of the timing form to be opened.
-        /// </summary>
-        /// <param name="Child">The child that closed.</param>
-        public void ChildClosed(Form Child)
-        {
-            if (Child is TimingForm)
-                TimingFormChild = null;
-        }
-
-        /// <summary>
-        /// Update the default randomisation setting.
+        /// Sets up the form for use.
         /// </summary>
         /// <param name="sender">Object that triggered the event.</param>
         /// <param name="e">Arguments.</param>
-        private void chkDefaultRandomise_CheckedChanged(object sender, EventArgs e)
+        private void SettingsForm_Load(object sender, EventArgs e)
         {
-            Properties.Settings.Default.DefaultRandomise = chkDefaultRandomise.Checked;
-        }
-
-        /// <summary>
-        /// Updates the default fade setting.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void chkDefaultFade_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.DefaultFading = chkDefaultFading.Checked;
-        }
-
-        /// <summary>
-        /// Opens a new timing form or swaps to an existing one.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnChangeDefaultTiming_Click(object sender, EventArgs e)
-        {
-            if (TimingFormChild == null)
-            {
-                TimingFormChild = new TimingForm(Timing.ParseTime(Properties.Settings.Default.DefaultOffset), Timing.ParseTime(Properties.Settings.Default.DefaultInterval), this);
-                TimingFormChild.Show();
-            }
-            else
-            {
-                TimingFormChild.BringToFront();
-            }
-        }
-
-        /// <summary>
-        /// Prompts the user for a highlight colour.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnHighlightColour_Click(object sender, EventArgs e)
-        {
-            cdgColourDialog.Color = picHighlightColour.BackColor;
-            if (cdgColourDialog.ShowDialog() == DialogResult.OK)
-            {
-                picHighlightColour.BackColor = cdgColourDialog.Color;
-                Properties.Settings.Default.HighlightColour = cdgColourDialog.Color;
-            }
-        }
-
-        private void chkGlobalRandomise_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.GlobalRandomise = chkGlobalRandomise.Checked;
-        }
-
-        private void chkGlobalFading_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.GlobalFading = chkGlobalFading.Checked;
-        }
-
-        private void chkGlobalWallpaperStyle_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.GlobalWallpaperStyle = chkGlobalWallpaperStyle.Checked;
+            picHighlightColour.BackColor = Properties.Settings.Default.HighlightColour;
+            chkDefaultRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
+            chkDefaultFading.Checked = Properties.Settings.Default.DefaultFading;
+            chkGlobalRandomise.Checked = Properties.Settings.Default.GlobalRandomise;
+            chkGlobalFading.Checked = Properties.Settings.Default.GlobalFading;
+            chkGlobalWallpaperStyle.Checked = Properties.Settings.Default.GlobalWallpaperStyle;
+            chkGlobalPreProcessing.Checked = Properties.Settings.Default.GlobalPreProcessing;
+            LocaliseInterface();
         }
     }
 }

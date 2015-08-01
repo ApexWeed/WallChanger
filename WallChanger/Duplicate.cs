@@ -10,17 +10,6 @@ namespace WallChanger
         public readonly string Path;
         public readonly string Title;
         private Size size;
-        public Size Size
-        {
-            get
-            {
-                if (size == new Size(0, 0))
-                {
-                    size = Imaging.GetDimensions(Path);
-                }
-                return size;
-            }
-        }
 
         /// <summary>
         /// Initialises a new duplicate entry.
@@ -31,6 +20,17 @@ namespace WallChanger
         {
             this.Path = Path;
             this.Title = Title;
+        }
+        public Size Size
+        {
+            get
+            {
+                if (size == new Size(0, 0))
+                {
+                    size = Imaging.GetDimensions(Path);
+                }
+                return size;
+            }
         }
 
         public override string ToString()

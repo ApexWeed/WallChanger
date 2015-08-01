@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WallChanger
@@ -142,6 +143,18 @@ namespace WallChanger
         {
             T parsedValue;
             return Enum.TryParse(Value, IgnoreCase, out parsedValue) ? parsedValue : DefaultValue;
+        }
+    }
+
+    public static class IntExtentions
+    {
+        public static int Clamp(this int Value, int Min, int Max)
+        {
+            if (Value < Min)
+                return Min;
+            if (Value > Max)
+                return Max;
+            return Value;
         }
     }
 }

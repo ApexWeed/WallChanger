@@ -7,11 +7,11 @@ namespace WallChanger
 {
     public partial class DuplicateForm : Form
     {
-        readonly int MINIMUM_DATA_HEIGHT;
 
         bool AutoModeEngaged;
 
         readonly LanguageManager LM = GlobalVars.LanguageManager;
+        readonly int MINIMUM_DATA_HEIGHT;
 
         /// <summary>
         /// Initialises a new duplicate form.
@@ -64,116 +64,19 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Notifies the parent form of closure.
+        /// Refreshes the displayed values in the listbox.
         /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void DuplicateForm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="List">The listbox to refresh.</param>
+        private static void RefreshList(ListBox List)
         {
-            if (Owner is LibraryForm)
-                LibraryForm.ChildClosed(this);
-        }
+            var count = List.Items.Count;
 
-        /// <summary>
-        /// Updates the displayed duplicate.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void lstDuplicates_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (!AutoModeEngaged)
+            List.SuspendLayout();
+            for (int i = 0; i < count; i++)
             {
-                var duplicate = lstDuplicates.SelectedItem as DuplicateList;
-
-                if (duplicate != null)
-                {
-                    lstDuplicateImages.Items.Clear();
-                    lstDuplicateImages.Items.AddRange(duplicate.Duplicates.ToArray());
-
-                    if (lstDuplicateImages.Items.Count > 0)
-                        lstDuplicateImages.SelectedIndex = 0;
-                }
+                List.Items[i] = List.Items[i];
             }
-        }
-
-        /// <summary>
-        /// Updates the displayed image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void lstDuplicateImages_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (!AutoModeEngaged)
-            {
-                var duplicate = lstDuplicateImages.SelectedItem as Duplicate;
-
-                if (duplicate == null)
-                    return;
-
-                lblFilePath.Text = duplicate.Path;
-                picPreview.Image = Imaging.FromFile(duplicate.Path);
-                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE_LABEL_IMAGE_SIZE","DUPE_LABEL_IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
-            }
-        }
-
-        /// <summary>
-        /// Updates the positions of controls for this window size.
-        /// </summary>
-        private void UpdateControlPositions()
-        {
-            lblFilePath.Left = (pnlControls.Width / 2) - (TextRenderer.MeasureText(lblFilePath.Text, lblFilePath.Font).Width / 2);
-            lblImageSize.Left = (pnlControls.Width / 2) - (TextRenderer.MeasureText(lblImageSize.Text, lblImageSize.Font).Width / 2);
-
-            picPreview.Height = Imaging.CalculateImageHeight(picPreview.Image, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
-
-            btnRemove.Left = (pnlControls.Width / 2) - btnRemove.Width - btnKeep.Width - 9;
-            btnKeep.Left = (pnlControls.Width / 2) - btnKeep.Width - 3;
-            btnDelete.Left = (pnlControls.Width / 2) + 3;
-            btnAuto.Left = (pnlControls.Width / 2) + btnAuto.Width + 9;
-        }
-
-        /// <summary>
-        /// Updates control positions on resize.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void DuplicateForm_Resize(object sender, EventArgs e)
-        {
-            UpdateControlPositions();
-        }
-
-        /// <summary>
-        /// Removes the selected image from the library.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnRemove_Click(object sender, EventArgs e)
-        {
-            RemoveFromLibrary();
-        }
-
-        /// <summary>
-        /// Deletes the selected image from disk.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE"), LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                File.Delete((lstDuplicateImages.SelectedItem as Duplicate).Path);
-                RemoveFromLibrary();
-            }
-        }
-
-        /// <summary>
-        /// Keeps the image but removes it from the list.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnKeep_Click(object sender, EventArgs e)
-        {
-            RemoveEntry();
+            List.ResumeLayout();
         }
 
         /// <summary>
@@ -230,15 +133,100 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Removes the image from the library.
+        /// Deletes the selected image from disk.
         /// </summary>
-        private void RemoveFromLibrary()
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == (lstDuplicateImages.SelectedItem as Duplicate).Path));
-            if (Owner is LibraryForm)
-                (Owner as LibraryForm).UpdateList();
+            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE"), LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                File.Delete((lstDuplicateImages.SelectedItem as Duplicate).Path);
+                RemoveFromLibrary();
+            }
+        }
 
+        /// <summary>
+        /// Keeps the image but removes it from the list.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnKeep_Click(object sender, EventArgs e)
+        {
             RemoveEntry();
+        }
+
+        /// <summary>
+        /// Removes the selected image from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            RemoveFromLibrary();
+        }
+
+        /// <summary>
+        /// Notifies the parent form of closure.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void DuplicateForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (Owner is LibraryForm)
+                LibraryForm.ChildClosed(this);
+        }
+
+        /// <summary>
+        /// Updates control positions on resize.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void DuplicateForm_Resize(object sender, EventArgs e)
+        {
+            UpdateControlPositions();
+        }
+
+        /// <summary>
+        /// Updates the displayed image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void lstDuplicateImages_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (!AutoModeEngaged)
+            {
+                var duplicate = lstDuplicateImages.SelectedItem as Duplicate;
+
+                if (duplicate == null)
+                    return;
+
+                lblFilePath.Text = duplicate.Path;
+                picPreview.Image = Imaging.FromFile(duplicate.Path);
+                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE_LABEL_IMAGE_SIZE", "DUPE_LABEL_IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
+            }
+        }
+
+        /// <summary>
+        /// Updates the displayed duplicate.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void lstDuplicates_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (!AutoModeEngaged)
+            {
+                var duplicate = lstDuplicates.SelectedItem as DuplicateList;
+
+                if (duplicate != null)
+                {
+                    lstDuplicateImages.Items.Clear();
+                    lstDuplicateImages.Items.AddRange(duplicate.Duplicates.ToArray());
+
+                    if (lstDuplicateImages.Items.Count > 0)
+                        lstDuplicateImages.SelectedIndex = 0;
+                }
+            }
         }
 
         /// <summary>
@@ -258,19 +246,31 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Refreshes the displayed values in the listbox.
+        /// Removes the image from the library.
         /// </summary>
-        /// <param name="List">The listbox to refresh.</param>
-        private static void RefreshList(ListBox List)
+        private void RemoveFromLibrary()
         {
-            var count = List.Items.Count;
+            GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == (lstDuplicateImages.SelectedItem as Duplicate).Path));
+            if (Owner is LibraryForm)
+                (Owner as LibraryForm).UpdateList();
 
-            List.SuspendLayout();
-            for (int i = 0; i < count; i++)
-            {
-                List.Items[i] = List.Items[i];
-            }
-            List.ResumeLayout();
+            RemoveEntry();
+        }
+
+        /// <summary>
+        /// Updates the positions of controls for this window size.
+        /// </summary>
+        private void UpdateControlPositions()
+        {
+            lblFilePath.Left = (pnlControls.Width / 2) - (TextRenderer.MeasureText(lblFilePath.Text, lblFilePath.Font).Width / 2);
+            lblImageSize.Left = (pnlControls.Width / 2) - (TextRenderer.MeasureText(lblImageSize.Text, lblImageSize.Font).Width / 2);
+
+            picPreview.Height = Imaging.CalculateImageHeight(picPreview.Image, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
+
+            btnRemove.Left = (pnlControls.Width / 2) - btnRemove.Width - btnKeep.Width - 9;
+            btnKeep.Left = (pnlControls.Width / 2) - btnKeep.Width - 3;
+            btnDelete.Left = (pnlControls.Width / 2) + 3;
+            btnAuto.Left = (pnlControls.Width / 2) + btnAuto.Width + 9;
         }
     }
 }

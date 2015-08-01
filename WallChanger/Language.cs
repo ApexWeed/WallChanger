@@ -4,10 +4,10 @@ namespace WallChanger
 {
     public class Language
     {
-        public readonly string Code;
-        public readonly string Name;
-        public readonly string Description;
         public readonly string Author;
+        public readonly string Code;
+        public readonly string Description;
+        public readonly string Name;
 
         private readonly Dictionary<string, string> Strings;
 
@@ -29,14 +29,6 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Clears the dictionary of strings.
-        /// </summary>
-        public void Clear()
-        {
-            Strings.Clear();
-        }
-
-        /// <summary>
         /// Adds a new entry to the strings.
         /// </summary>
         /// <param name="Key">The key to add.</param>
@@ -47,6 +39,14 @@ namespace WallChanger
                 Strings[Key] = Value;
             else
                 Strings.Add(Key, Value);
+        }
+
+        /// <summary>
+        /// Clears the dictionary of strings.
+        /// </summary>
+        public void Clear()
+        {
+            Strings.Clear();
         }
 
         /// <summary>

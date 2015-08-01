@@ -1,13 +1,16 @@
-Australian English
+﻿Australian English
 Full interface in colourful language.
 ApexWeed
+# Strings
+    DEFAULTS = Defaults
 # Titles
     TITLE_MAIN = Wall Changer
     TITLE_DUPLICATE = Duplicate Viewer
     TITLE_LANGUAGE = Languages
     TITLE_LIBRARY = Library
     TITLE_SETTINGS = Settings
-    TITLE_TIMING = Timing
+    TITLE_TIMING = Timing - {0}
+    TITLE_PREPROCESSING = Preprocessing Settings - {0}
 # Tray
     # Buttons
     # Tooltips
@@ -32,6 +35,7 @@ ApexWeed
         MAIN_TOOLTIP_LIBRARY_ADD = Add selection to library.
         MAIN_TOOLTIP_LANGUAGE = Select language.
         MAIN_TOOLTIP_SETTINGS = Change settings.
+        MAIN_TOOLTIP_PREPROCESSING = Change image pre processor settings.
     # Labels
         MAIN_LABEL_IMAGES = Images ({0})
         MAIN_LABEL_CONFIGS = Configs
@@ -150,8 +154,9 @@ ApexWeed
         DUPE_MESSAGE_CONFIRM_AUTO_TITLE = Confirm Auto Resolve
 # SettingsForm
     # Buttons
-        SETTINGS_BUTTON_DEFAULT_TIMING = Edit Timings...
+        SETTINGS_BUTTON_DEFAULT_TIMING = Edit timings...
         SETTINGS_BUTTON_HIGHLIGHT_COLOUR = Choose colour...
+        SETTINGS_BUTTON_PREPROCESSING_DEFAULTS = Edit defaults...
     # Tooltips
     # Labels
         SETTINGS_LABEL_COMPRESSION = Compression
@@ -170,7 +175,34 @@ ApexWeed
 
         SETTINGS_LABEL_HIGHLIGHT = Highlighting
         SETTINGS_LABEL_HIGHLIGHT_MODE = Highlight mode
-        SETTINGS_LABEL_HIGHLIGHT_COLOUR = Highlight colour
+        SETTINGS_LABEL_HIGHLIGHT_COLOUR = Highlight 
+
+        SETTINGS_LABEL_PREPROCESSING = Pre processing
+        SETTINGS_LABEL_GLOBAL_PREPROCESSING = Globally set pre processing
+    # Messages
+# ProcessingSettingsForm
+    # Buttons
+        PREPROCESSING_BUTTON_VIGNETTE_COLOUR = Choose colour...
+        PREPROCESSING_BUTTON_TINT_COLOUR = Choose colour...
+    # Tooltips
+    # Labels
+        PREPROCESSING_LABEL_PREPROCESSING_ENABLED = Enable preprocessing
+        PREPROCESSING_LABEL_PREPROCESSING = Pre Processing
+        PREPROCESSING_LABEL_BRIGHTNESS_ENABLED = Brightness
+        PREPROCESSING_LABEL_BRIGHTNESS_VALUE = Brightness: {0:+#;-#;0}%
+        PREPROCESSING_LABEL_SATURATION_ENABLED = Saturation
+        PREPROCESSING_LABEL_SATURATION_VALUE = Saturation: {0:+#;-#;0}%
+        PREPROCESSING_LABEL_CONTRAST_ENABLED = Contrast
+        PREPROCESSING_LABEL_CONTRAST_VALUE = Contrast: {0:+#;-#;0}%
+        PREPROCESSING_LABEL_HUE_ENABLED = Set hue
+        PREPROCESSING_LABEL_HUE_VALUE = Hue: {0}°
+        PREPROCESSING_LABEL_GAUSSIAN_BLUR_ENABLED = Gaussian blur
+        PREPROCESSING_LABEL_GAUSSIAN_SHARPEN_ENABLED = Gaussian sharpen
+        PREPROCESSING_LABEL_PIXELATE_ENABLED = Pixelation
+        PREPROCESSING_LABEL_VIGNETTE_ENABLED = Vignette
+        PREPROCESSING_LABEL_TINT_ENABLED = Tint
+        PREPROCESSING_LABEL_EDGE_DETECTION_ENABLED = Edge detection
+        PREPROCESSING_LABEL_IMAGE_FILTER_ENABLED = Image filter
     # Messages
 # Prompts
     # Buttons
@@ -188,6 +220,7 @@ ApexWeed
         ENUM_LABEL_COMPRESSION_LEVEL_NORMAL = Normal
         ENUM_LABEL_COMPRESSION_LEVEL_HIGH = High
         ENUM_LABEL_COMPRESSION_LEVEL_ULTRA = Ultra
+        ENUM_LABEL_COMPRESSION_LEVEL_UNKNOWN = Unknown compression level
 
         ENUM_LABEL_WALLPAPER_STYLE_FILL = Fill
         ENUM_LABEL_WALLPAPER_STYLE_FIT = Fit
@@ -195,10 +228,35 @@ ApexWeed
         ENUM_LABEL_WALLPAPER_STYLE_TILED = Tiled
         ENUM_LABEL_WALLPAPER_STYLE_CENTERED = Centered
         ENUM_LABEL_WALLPAPER_STYLE_SPAN = Span
+        ENUM_LABEL_WALLPAPER_STYLE_UNKNOWN = Unknown wallpaper style
 
         ENUM_LABEL_HIGHLIGHT_MODE_BOLD = Bold
         ENUM_LABEL_HIGHLIGHT_MODE_ITALIC = Italic
         ENUM_LABEL_HIGHLIGHT_MODE_FOREGROUND = Foreground
         ENUM_LABEL_HIGHLIGHT_MODE_BACKGROUND = Background
         ENUM_LABEL_HIGHLIGHT_MODE_NONE = None
+        ENUM_LABEL_HIGHLIGHT_MODE_UNKNOWN = Unknown highlight mode
+
+        ENUM_LABEL_EDGE_DETECTION_KAYYALI = Kayyali Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_KIRSCH = Kirsch Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_LAP3X3 = Laplacian 3x3 Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_LAP5X5 = Laplacian 5x5 Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_LAPGAU = Laplaccian of Gaussians Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_PREWITT = Prewitt Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_ROBERTS = Roberts Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_SHARR = Sharr Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_SOBEL = Sobel Edge Detection
+        ENUM_LABEL_EDGE_DETECTION_UNKNOWN = Unknown edge detection filter
+
+        ENUM_LABEL_FILTER_MATRIX_BLACKWHITE = Black & White
+        ENUM_LABEL_FILTER_MATRIX_COMIC = Comic
+        ENUM_LABEL_FILTER_MATRIX_GOTHAM = Gotham
+        ENUM_LABEL_FILTER_MATRIX_GREYSCALE = Grey Scale
+        ENUM_LABEL_FILTER_MATRIX_HISATCH = High Saturation
+        ENUM_LABEL_FILTER_MATRIX_INVERT = Invert
+        ENUM_LABEL_FILTER_MATRIX_LOMOGRAPH = Lomograph
+        ENUM_LABEL_FILTER_MATRIX_LOSATCH = Low Saturation
+        ENUM_LABEL_FILTER_MATRIX_POLAROID = Polaroid
+        ENUM_LABEL_FILTER_MATRIX_SEPIA = Sepia
+        ENUM_LABEL_FILTER_MATRIX_UNKNOWN = Unknown filter matrix
     # Messages

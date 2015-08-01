@@ -27,6 +27,17 @@ namespace WallChanger
         }
 
         /// <summary>
+        /// Cancel the form.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        /// <summary>
         /// Submit form values.
         /// </summary>
         /// <param name="sender">Sender that fired the event.</param>
@@ -42,17 +53,6 @@ namespace WallChanger
             }
 
             this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        /// <summary>
-        /// Cancel the form.
-        /// </summary>
-        /// <param name="sender">Sender that fired the event.</param>
-        /// <param name="e">Event args associated with this event.</param>
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }

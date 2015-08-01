@@ -5,8 +5,9 @@ namespace WallChanger
 {
     public partial class TimingForm : Form
     {
-        new readonly Form ParentForm;
         readonly LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form Parent;
+        readonly string Source;
 
         /// <summary>
         /// Creates a new TimingForm with the specified offset and interval.
@@ -14,7 +15,7 @@ namespace WallChanger
         /// <param name="Offset">Offset to initialise the form to.</param>
         /// <param name="Interval">Interval to initialise the form to.</param>
         /// <param name="Parent">The parent of this form.</param>
-        public TimingForm(int Offset, int Interval, Form Parent)
+        public TimingForm(string Source, int Offset, int Interval, Form Parent)
         {
             InitializeComponent();
 
@@ -29,7 +30,8 @@ namespace WallChanger
             cmbIntervalMinutes.Value = (Interval / 60) % 60;
             cmbIntervalHours.Value = (Interval / 3600);
 
-            ParentForm = Parent;
+            this.Parent = Parent;
+            this.Source = Source;
 
             LocaliseInterface();
         }
@@ -40,7 +42,7 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE_TIMING");
+            this.Text = string.Format(LM.GetStringDefault("TITLE_TIMING", "TITLE_TIMING - {0}"), Source);
             // Buttons.
             btnSave.Text = LM.GetString("TIMING_BUTTON_SAVE");
             // Tooltips.
@@ -61,6 +63,16 @@ namespace WallChanger
             grpInterval.Text = LM.GetString("TIMING_LABEL_INTERVAL");
 
             // Cascade.
+        }
+
+        /// <summary>
+        /// Saves the interval and offset values.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
         }
 
         /// <summary>
@@ -86,21 +98,11 @@ namespace WallChanger
             }
             else
             {
-                if (ParentForm is MainForm)
-                    (ParentForm as MainForm).SetTimes(offset, interval);
-                else if (ParentForm is SettingsForm)
-                    (ParentForm as SettingsForm).SetTimes(offset, interval);
+                if (Parent is MainForm)
+                    (Parent as MainForm).SetTimes(offset, interval);
+                else if (Parent is SettingsForm)
+                    (Parent as SettingsForm).SetTimes(offset, interval);
             }
-        }
-
-        /// <summary>
-        /// Saves the interval and offset values.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            Save();
         }
 
         /// <summary>
@@ -111,10 +113,10 @@ namespace WallChanger
         private void TimingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Save();
-            if (ParentForm is MainForm)
-                (ParentForm as MainForm).ChildClosed(this);
-            else if (ParentForm is SettingsForm)
-                (ParentForm as SettingsForm).ChildClosed(this);
+            if (Parent is MainForm)
+                (Parent as MainForm).ChildClosed(this);
+            else if (Parent is SettingsForm)
+                (Parent as SettingsForm).ChildClosed(this);
         }
 
         /// <summary>

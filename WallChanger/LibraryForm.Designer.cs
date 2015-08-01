@@ -124,7 +124,7 @@
             this.spcContainer.Panel2.Controls.Add(this.picPreview);
             this.spcContainer.Panel2.Resize += new System.EventHandler(this.spcContainer_Panel2_Resize);
             this.spcContainer.Panel2MinSize = 202;
-            this.spcContainer.Size = new System.Drawing.Size(857, 522);
+            this.spcContainer.Size = new System.Drawing.Size(857, 482);
             this.spcContainer.SplitterDistance = 651;
             this.spcContainer.TabIndex = 1;
             this.spcContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.spcContainer_SplitterMoved);
@@ -133,9 +133,9 @@
             // 
             this.pnlImageList.Controls.Add(this.lsvDisplay);
             this.pnlImageList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImageList.Location = new System.Drawing.Point(0, 146);
+            this.pnlImageList.Location = new System.Drawing.Point(0, 135);
             this.pnlImageList.Name = "pnlImageList";
-            this.pnlImageList.Size = new System.Drawing.Size(651, 376);
+            this.pnlImageList.Size = new System.Drawing.Size(651, 347);
             this.pnlImageList.TabIndex = 2;
             // 
             // lsvDisplay
@@ -149,7 +149,7 @@
             this.lsvDisplay.HideSelection = false;
             this.lsvDisplay.Location = new System.Drawing.Point(0, 0);
             this.lsvDisplay.Name = "lsvDisplay";
-            this.lsvDisplay.Size = new System.Drawing.Size(651, 376);
+            this.lsvDisplay.Size = new System.Drawing.Size(651, 347);
             this.lsvDisplay.TabIndex = 1;
             this.lsvDisplay.UseCompatibleStateImageBehavior = false;
             this.lsvDisplay.View = System.Windows.Forms.View.Details;
@@ -196,7 +196,7 @@
             this.pnlFilters.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlFilters.Location = new System.Drawing.Point(0, 0);
             this.pnlFilters.Name = "pnlFilters";
-            this.pnlFilters.Size = new System.Drawing.Size(651, 146);
+            this.pnlFilters.Size = new System.Drawing.Size(651, 135);
             this.pnlFilters.TabIndex = 1;
             // 
             // btnCheckFiles
@@ -279,7 +279,7 @@
             // btnTagFilterClear
             // 
             this.btnTagFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnTagFilterClear.Location = new System.Drawing.Point(363, 88);
+            this.btnTagFilterClear.Location = new System.Drawing.Point(363, 81);
             this.btnTagFilterClear.Name = "btnTagFilterClear";
             this.btnTagFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnTagFilterClear.TabIndex = 26;
@@ -290,25 +290,25 @@
             // lblFilterTag
             // 
             this.lblFilterTag.AutoSize = true;
-            this.lblFilterTag.Location = new System.Drawing.Point(198, 94);
+            this.lblFilterTag.Location = new System.Drawing.Point(198, 87);
             this.lblFilterTag.Name = "lblFilterTag";
-            this.lblFilterTag.Size = new System.Drawing.Size(163, 13);
+            this.lblFilterTag.Size = new System.Drawing.Size(161, 12);
             this.lblFilterTag.TabIndex = 25;
             this.lblFilterTag.Text = "LIBRARY_LABEL_FILTER_TAG";
             // 
             // cmbTagFilter
             // 
             this.cmbTagFilter.FormattingEnabled = true;
-            this.cmbTagFilter.Location = new System.Drawing.Point(201, 118);
+            this.cmbTagFilter.Location = new System.Drawing.Point(201, 109);
             this.cmbTagFilter.Name = "cmbTagFilter";
-            this.cmbTagFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbTagFilter.Size = new System.Drawing.Size(186, 20);
             this.cmbTagFilter.TabIndex = 24;
             this.cmbTagFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
             // btnCharacterFilterClear
             // 
             this.btnCharacterFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnCharacterFilterClear.Location = new System.Drawing.Point(168, 88);
+            this.btnCharacterFilterClear.Location = new System.Drawing.Point(168, 81);
             this.btnCharacterFilterClear.Name = "btnCharacterFilterClear";
             this.btnCharacterFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnCharacterFilterClear.TabIndex = 23;
@@ -319,25 +319,25 @@
             // lblFilterCharacter
             // 
             this.lblFilterCharacter.AutoSize = true;
-            this.lblFilterCharacter.Location = new System.Drawing.Point(3, 94);
+            this.lblFilterCharacter.Location = new System.Drawing.Point(3, 87);
             this.lblFilterCharacter.Name = "lblFilterCharacter";
-            this.lblFilterCharacter.Size = new System.Drawing.Size(207, 13);
+            this.lblFilterCharacter.Size = new System.Drawing.Size(208, 12);
             this.lblFilterCharacter.TabIndex = 22;
             this.lblFilterCharacter.Text = "LIBRARY_LABEL_FILTER_CHARACTER";
             // 
             // cmbCharacterFilter
             // 
             this.cmbCharacterFilter.FormattingEnabled = true;
-            this.cmbCharacterFilter.Location = new System.Drawing.Point(6, 118);
+            this.cmbCharacterFilter.Location = new System.Drawing.Point(6, 109);
             this.cmbCharacterFilter.Name = "cmbCharacterFilter";
-            this.cmbCharacterFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbCharacterFilter.Size = new System.Drawing.Size(186, 20);
             this.cmbCharacterFilter.TabIndex = 21;
             this.cmbCharacterFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
             // btnShowNameFilterClear
             // 
             this.btnShowNameFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnShowNameFilterClear.Location = new System.Drawing.Point(363, 31);
+            this.btnShowNameFilterClear.Location = new System.Drawing.Point(363, 29);
             this.btnShowNameFilterClear.Name = "btnShowNameFilterClear";
             this.btnShowNameFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnShowNameFilterClear.TabIndex = 20;
@@ -348,25 +348,25 @@
             // lblFilterShowName
             // 
             this.lblFilterShowName.AutoSize = true;
-            this.lblFilterShowName.Location = new System.Drawing.Point(198, 37);
+            this.lblFilterShowName.Location = new System.Drawing.Point(198, 34);
             this.lblFilterShowName.Name = "lblFilterShowName";
-            this.lblFilterShowName.Size = new System.Drawing.Size(212, 13);
+            this.lblFilterShowName.Size = new System.Drawing.Size(206, 12);
             this.lblFilterShowName.TabIndex = 19;
             this.lblFilterShowName.Text = "LIBRARY_LABEL_FILTER_SHOW_NAME";
             // 
             // cmbShowNameFilter
             // 
             this.cmbShowNameFilter.FormattingEnabled = true;
-            this.cmbShowNameFilter.Location = new System.Drawing.Point(201, 61);
+            this.cmbShowNameFilter.Location = new System.Drawing.Point(201, 56);
             this.cmbShowNameFilter.Name = "cmbShowNameFilter";
-            this.cmbShowNameFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbShowNameFilter.Size = new System.Drawing.Size(186, 20);
             this.cmbShowNameFilter.TabIndex = 18;
             this.cmbShowNameFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
             // btnCategoryFilterClear
             // 
             this.btnCategoryFilterClear.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnCategoryFilterClear.Location = new System.Drawing.Point(168, 31);
+            this.btnCategoryFilterClear.Location = new System.Drawing.Point(168, 29);
             this.btnCategoryFilterClear.Name = "btnCategoryFilterClear";
             this.btnCategoryFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnCategoryFilterClear.TabIndex = 17;
@@ -388,18 +388,18 @@
             // lblFilterCategory
             // 
             this.lblFilterCategory.AutoSize = true;
-            this.lblFilterCategory.Location = new System.Drawing.Point(3, 37);
+            this.lblFilterCategory.Location = new System.Drawing.Point(3, 34);
             this.lblFilterCategory.Name = "lblFilterCategory";
-            this.lblFilterCategory.Size = new System.Drawing.Size(200, 13);
+            this.lblFilterCategory.Size = new System.Drawing.Size(199, 12);
             this.lblFilterCategory.TabIndex = 16;
             this.lblFilterCategory.Text = "LIBRARY_LABEL_FILTER_CATEGORY";
             // 
             // cmbCategoryFilter
             // 
             this.cmbCategoryFilter.FormattingEnabled = true;
-            this.cmbCategoryFilter.Location = new System.Drawing.Point(6, 61);
+            this.cmbCategoryFilter.Location = new System.Drawing.Point(6, 56);
             this.cmbCategoryFilter.Name = "cmbCategoryFilter";
-            this.cmbCategoryFilter.Size = new System.Drawing.Size(186, 21);
+            this.cmbCategoryFilter.Size = new System.Drawing.Size(186, 20);
             this.cmbCategoryFilter.TabIndex = 15;
             this.cmbCategoryFilter.SelectedValueChanged += new System.EventHandler(this.FilterChoiceChanged);
             // 
@@ -417,9 +417,9 @@
             // lblFilters
             // 
             this.lblFilters.AutoSize = true;
-            this.lblFilters.Location = new System.Drawing.Point(3, 9);
+            this.lblFilters.Location = new System.Drawing.Point(3, 8);
             this.lblFilters.Name = "lblFilters";
-            this.lblFilters.Size = new System.Drawing.Size(142, 13);
+            this.lblFilters.Size = new System.Drawing.Size(141, 12);
             this.lblFilters.TabIndex = 0;
             this.lblFilters.Text = "LIBRARY_LABEL_FILTERS";
             // 
@@ -428,9 +428,9 @@
             this.pnlBottomRight.Controls.Add(this.pnlTagContainer);
             this.pnlBottomRight.Controls.Add(this.pnlDetails);
             this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBottomRight.Location = new System.Drawing.Point(0, 202);
+            this.pnlBottomRight.Location = new System.Drawing.Point(0, 186);
             this.pnlBottomRight.Name = "pnlBottomRight";
-            this.pnlBottomRight.Size = new System.Drawing.Size(202, 320);
+            this.pnlBottomRight.Size = new System.Drawing.Size(202, 296);
             this.pnlBottomRight.TabIndex = 5;
             // 
             // pnlTagContainer
@@ -438,28 +438,29 @@
             this.pnlTagContainer.Controls.Add(this.pnlTagList);
             this.pnlTagContainer.Controls.Add(this.pnlTagButtons);
             this.pnlTagContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTagContainer.Location = new System.Drawing.Point(0, 225);
+            this.pnlTagContainer.Location = new System.Drawing.Point(0, 208);
             this.pnlTagContainer.Name = "pnlTagContainer";
             this.pnlTagContainer.Padding = new System.Windows.Forms.Padding(7, 0, 9, 0);
-            this.pnlTagContainer.Size = new System.Drawing.Size(202, 95);
+            this.pnlTagContainer.Size = new System.Drawing.Size(202, 88);
             this.pnlTagContainer.TabIndex = 6;
             // 
             // pnlTagList
             // 
             this.pnlTagList.Controls.Add(this.lstTags);
             this.pnlTagList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTagList.Location = new System.Drawing.Point(7, 30);
+            this.pnlTagList.Location = new System.Drawing.Point(7, 28);
             this.pnlTagList.Name = "pnlTagList";
-            this.pnlTagList.Size = new System.Drawing.Size(186, 65);
+            this.pnlTagList.Size = new System.Drawing.Size(186, 60);
             this.pnlTagList.TabIndex = 19;
             // 
             // lstTags
             // 
             this.lstTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstTags.FormattingEnabled = true;
+            this.lstTags.ItemHeight = 12;
             this.lstTags.Location = new System.Drawing.Point(0, 0);
             this.lstTags.Name = "lstTags";
-            this.lstTags.Size = new System.Drawing.Size(186, 65);
+            this.lstTags.Size = new System.Drawing.Size(186, 60);
             this.lstTags.TabIndex = 0;
             // 
             // pnlTagButtons
@@ -471,7 +472,7 @@
             this.pnlTagButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTagButtons.Location = new System.Drawing.Point(7, 0);
             this.pnlTagButtons.Name = "pnlTagButtons";
-            this.pnlTagButtons.Size = new System.Drawing.Size(186, 30);
+            this.pnlTagButtons.Size = new System.Drawing.Size(186, 28);
             this.pnlTagButtons.TabIndex = 18;
             // 
             // lblTags
@@ -479,7 +480,7 @@
             this.lblTags.AutoSize = true;
             this.lblTags.Location = new System.Drawing.Point(0, 6);
             this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(120, 13);
+            this.lblTags.Size = new System.Drawing.Size(119, 12);
             this.lblTags.TabIndex = 1;
             this.lblTags.Text = "LIBRARY_LABEL_TAG";
             // 
@@ -535,7 +536,7 @@
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlDetails.Location = new System.Drawing.Point(0, 0);
             this.pnlDetails.Name = "pnlDetails";
-            this.pnlDetails.Size = new System.Drawing.Size(202, 225);
+            this.pnlDetails.Size = new System.Drawing.Size(202, 208);
             this.pnlDetails.TabIndex = 5;
             // 
             // lblImageSize
@@ -543,14 +544,14 @@
             this.lblImageSize.AutoSize = true;
             this.lblImageSize.Location = new System.Drawing.Point(4, 3);
             this.lblImageSize.Name = "lblImageSize";
-            this.lblImageSize.Size = new System.Drawing.Size(162, 13);
+            this.lblImageSize.Size = new System.Drawing.Size(159, 12);
             this.lblImageSize.TabIndex = 14;
             this.lblImageSize.Text = "LIBRARY_LABEL_IMAGE_SIZE";
             // 
             // btnAddNewCharacter
             // 
             this.btnAddNewCharacter.Image = global::WallChanger.Properties.Resources.plus_button;
-            this.btnAddNewCharacter.Location = new System.Drawing.Point(109, 133);
+            this.btnAddNewCharacter.Location = new System.Drawing.Point(109, 123);
             this.btnAddNewCharacter.Name = "btnAddNewCharacter";
             this.btnAddNewCharacter.Size = new System.Drawing.Size(24, 24);
             this.btnAddNewCharacter.TabIndex = 13;
@@ -561,15 +562,16 @@
             // lstCharacters
             // 
             this.lstCharacters.FormattingEnabled = true;
-            this.lstCharacters.Location = new System.Drawing.Point(7, 163);
+            this.lstCharacters.ItemHeight = 12;
+            this.lstCharacters.Location = new System.Drawing.Point(7, 150);
             this.lstCharacters.Name = "lstCharacters";
-            this.lstCharacters.Size = new System.Drawing.Size(186, 56);
+            this.lstCharacters.Size = new System.Drawing.Size(186, 52);
             this.lstCharacters.TabIndex = 12;
             // 
             // btnClearCharacters
             // 
             this.btnClearCharacters.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearCharacters.Location = new System.Drawing.Point(169, 133);
+            this.btnClearCharacters.Location = new System.Drawing.Point(169, 123);
             this.btnClearCharacters.Name = "btnClearCharacters";
             this.btnClearCharacters.Size = new System.Drawing.Size(24, 24);
             this.btnClearCharacters.TabIndex = 11;
@@ -580,7 +582,7 @@
             // btnRemoveCharacter
             // 
             this.btnRemoveCharacter.Image = global::WallChanger.Properties.Resources.minus_button;
-            this.btnRemoveCharacter.Location = new System.Drawing.Point(139, 133);
+            this.btnRemoveCharacter.Location = new System.Drawing.Point(139, 123);
             this.btnRemoveCharacter.Name = "btnRemoveCharacter";
             this.btnRemoveCharacter.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveCharacter.TabIndex = 10;
@@ -591,16 +593,16 @@
             // lblCharacters
             // 
             this.lblCharacters.AutoSize = true;
-            this.lblCharacters.Location = new System.Drawing.Point(4, 139);
+            this.lblCharacters.Location = new System.Drawing.Point(4, 128);
             this.lblCharacters.Name = "lblCharacters";
-            this.lblCharacters.Size = new System.Drawing.Size(164, 13);
+            this.lblCharacters.Size = new System.Drawing.Size(166, 12);
             this.lblCharacters.TabIndex = 9;
             this.lblCharacters.Text = "LIBRARY_LABEL_CHARACTER";
             // 
             // btnClearShowName
             // 
             this.btnClearShowName.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearShowName.Location = new System.Drawing.Point(169, 76);
+            this.btnClearShowName.Location = new System.Drawing.Point(169, 70);
             this.btnClearShowName.Name = "btnClearShowName";
             this.btnClearShowName.Size = new System.Drawing.Size(24, 24);
             this.btnClearShowName.TabIndex = 8;
@@ -611,7 +613,7 @@
             // btnClearCategory
             // 
             this.btnClearCategory.Image = global::WallChanger.Properties.Resources.cross_button;
-            this.btnClearCategory.Location = new System.Drawing.Point(169, 19);
+            this.btnClearCategory.Location = new System.Drawing.Point(169, 18);
             this.btnClearCategory.Name = "btnClearCategory";
             this.btnClearCategory.Size = new System.Drawing.Size(24, 24);
             this.btnClearCategory.TabIndex = 7;
@@ -622,7 +624,7 @@
             // btnAddShowName
             // 
             this.btnAddShowName.Image = global::WallChanger.Properties.Resources.plus_button;
-            this.btnAddShowName.Location = new System.Drawing.Point(139, 76);
+            this.btnAddShowName.Location = new System.Drawing.Point(139, 70);
             this.btnAddShowName.Name = "btnAddShowName";
             this.btnAddShowName.Size = new System.Drawing.Size(24, 24);
             this.btnAddShowName.TabIndex = 6;
@@ -633,34 +635,34 @@
             // cmbShowName
             // 
             this.cmbShowName.FormattingEnabled = true;
-            this.cmbShowName.Location = new System.Drawing.Point(7, 106);
+            this.cmbShowName.Location = new System.Drawing.Point(7, 98);
             this.cmbShowName.Name = "cmbShowName";
-            this.cmbShowName.Size = new System.Drawing.Size(186, 21);
+            this.cmbShowName.Size = new System.Drawing.Size(186, 20);
             this.cmbShowName.TabIndex = 5;
             this.cmbShowName.SelectedValueChanged += new System.EventHandler(this.cmbShowName_SelectedValueChanged);
             // 
             // lblShowName
             // 
             this.lblShowName.AutoSize = true;
-            this.lblShowName.Location = new System.Drawing.Point(3, 82);
+            this.lblShowName.Location = new System.Drawing.Point(3, 76);
             this.lblShowName.Name = "lblShowName";
-            this.lblShowName.Size = new System.Drawing.Size(169, 13);
+            this.lblShowName.Size = new System.Drawing.Size(164, 12);
             this.lblShowName.TabIndex = 4;
             this.lblShowName.Text = "LIBRARY_LABEL_SHOW_NAME";
             // 
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(4, 25);
+            this.lblCategory.Location = new System.Drawing.Point(4, 23);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(157, 13);
+            this.lblCategory.Size = new System.Drawing.Size(157, 12);
             this.lblCategory.TabIndex = 2;
             this.lblCategory.Text = "LIBRARY_LABEL_CATEGORY";
             // 
             // btnAddCategory
             // 
             this.btnAddCategory.Image = global::WallChanger.Properties.Resources.plus_button;
-            this.btnAddCategory.Location = new System.Drawing.Point(139, 19);
+            this.btnAddCategory.Location = new System.Drawing.Point(139, 18);
             this.btnAddCategory.Name = "btnAddCategory";
             this.btnAddCategory.Size = new System.Drawing.Size(24, 24);
             this.btnAddCategory.TabIndex = 3;
@@ -671,9 +673,9 @@
             // cmbCategory
             // 
             this.cmbCategory.FormattingEnabled = true;
-            this.cmbCategory.Location = new System.Drawing.Point(7, 49);
+            this.cmbCategory.Location = new System.Drawing.Point(7, 45);
             this.cmbCategory.Name = "cmbCategory";
-            this.cmbCategory.Size = new System.Drawing.Size(186, 21);
+            this.cmbCategory.Size = new System.Drawing.Size(186, 20);
             this.cmbCategory.TabIndex = 1;
             this.cmbCategory.SelectedValueChanged += new System.EventHandler(this.cmbCategory_SelectedValueChanged);
             // 
@@ -682,7 +684,7 @@
             this.picPreview.Dock = System.Windows.Forms.DockStyle.Top;
             this.picPreview.Location = new System.Drawing.Point(0, 0);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(202, 202);
+            this.picPreview.Size = new System.Drawing.Size(202, 186);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
@@ -693,36 +695,36 @@
             this.tslStatus,
             this.tslStatistics,
             this.tspProgressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, -1);
+            this.statusStrip1.Location = new System.Drawing.Point(0, -2);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(857, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(857, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tslStatus
             // 
             this.tslStatus.Name = "tslStatus";
-            this.tslStatus.Size = new System.Drawing.Size(171, 18);
+            this.tslStatus.Size = new System.Drawing.Size(149, 17);
             this.tslStatus.Text = "LIBRARY_MESSAGE_READY";
             // 
             // tslStatistics
             // 
             this.tslStatistics.Name = "tslStatistics";
-            this.tslStatistics.Size = new System.Drawing.Size(134, 18);
+            this.tslStatistics.Size = new System.Drawing.Size(118, 17);
             this.tslStatistics.Text = "toolStripStatusLabel1";
             // 
             // tspProgressBar
             // 
             this.tspProgressBar.Name = "tspProgressBar";
-            this.tspProgressBar.Size = new System.Drawing.Size(100, 17);
+            this.tspProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // pnlStatusbar
             // 
             this.pnlStatusbar.Controls.Add(this.statusStrip1);
             this.pnlStatusbar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlStatusbar.Location = new System.Drawing.Point(0, 522);
+            this.pnlStatusbar.Location = new System.Drawing.Point(0, 482);
             this.pnlStatusbar.Name = "pnlStatusbar";
-            this.pnlStatusbar.Size = new System.Drawing.Size(857, 22);
+            this.pnlStatusbar.Size = new System.Drawing.Size(857, 20);
             this.pnlStatusbar.TabIndex = 3;
             // 
             // pnlMainContainer
@@ -731,18 +733,18 @@
             this.pnlMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMainContainer.Location = new System.Drawing.Point(0, 0);
             this.pnlMainContainer.Name = "pnlMainContainer";
-            this.pnlMainContainer.Size = new System.Drawing.Size(857, 522);
+            this.pnlMainContainer.Size = new System.Drawing.Size(857, 482);
             this.pnlMainContainer.TabIndex = 4;
             // 
             // LibraryForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 544);
+            this.ClientSize = new System.Drawing.Size(857, 502);
             this.Controls.Add(this.pnlMainContainer);
             this.Controls.Add(this.pnlStatusbar);
-            this.MinimumSize = new System.Drawing.Size(16, 582);
+            this.MinimumSize = new System.Drawing.Size(16, 540);
             this.Name = "LibraryForm";
             this.Text = "LibraryForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryForm_FormClosed);

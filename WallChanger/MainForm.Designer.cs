@@ -46,16 +46,8 @@
             this.grpImages = new System.Windows.Forms.GroupBox();
             this.pnlImagesInner = new System.Windows.Forms.Panel();
             this.pnlFileList = new System.Windows.Forms.Panel();
+            this.lstImages = new WallChanger.HighlightListBox();
             this.pnlImageButtons = new System.Windows.Forms.Panel();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnLanguage = new System.Windows.Forms.Button();
-            this.btnAddToLibrary = new System.Windows.Forms.Button();
-            this.btnLibrary = new System.Windows.Forms.Button();
-            this.btnAddImage = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnRemoveImage = new System.Windows.Forms.Button();
-            this.btnMoveDown = new System.Windows.Forms.Button();
-            this.btnMoveUp = new System.Windows.Forms.Button();
             this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlTopRight = new System.Windows.Forms.Panel();
@@ -66,7 +58,16 @@
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
-            this.lstImages = new WallChanger.HighlightListBox();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnLanguage = new System.Windows.Forms.Button();
+            this.btnAddToLibrary = new System.Windows.Forms.Button();
+            this.btnLibrary = new System.Windows.Forms.Button();
+            this.btnAddImage = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnRemoveImage = new System.Windows.Forms.Button();
+            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnProcessing = new System.Windows.Forms.Button();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -94,9 +95,9 @@
             // chkStartup
             // 
             this.chkStartup.AutoSize = true;
-            this.chkStartup.Location = new System.Drawing.Point(6, 107);
+            this.chkStartup.Location = new System.Drawing.Point(6, 99);
             this.chkStartup.Name = "chkStartup";
-            this.chkStartup.Size = new System.Drawing.Size(149, 17);
+            this.chkStartup.Size = new System.Drawing.Size(147, 16);
             this.chkStartup.TabIndex = 4;
             this.chkStartup.Text = "MAIN_LABEL_STARTUP";
             this.chkStartup.UseVisualStyleBackColor = true;
@@ -106,7 +107,7 @@
             // 
             this.btnTray.Location = new System.Drawing.Point(98, 3);
             this.btnTray.Name = "btnTray";
-            this.btnTray.Size = new System.Drawing.Size(75, 23);
+            this.btnTray.Size = new System.Drawing.Size(75, 21);
             this.btnTray.TabIndex = 5;
             this.btnTray.Text = "MAIN_BUTTON_TRAY";
             this.btnTray.UseVisualStyleBackColor = true;
@@ -114,9 +115,9 @@
             // 
             // btnReload
             // 
-            this.btnReload.Location = new System.Drawing.Point(6, 32);
+            this.btnReload.Location = new System.Drawing.Point(6, 30);
             this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(75, 23);
+            this.btnReload.Size = new System.Drawing.Size(75, 21);
             this.btnReload.TabIndex = 6;
             this.btnReload.Text = "MAIN_BUTTON_RELOAD";
             this.btnReload.UseVisualStyleBackColor = true;
@@ -124,9 +125,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(98, 32);
+            this.btnSave.Location = new System.Drawing.Point(98, 30);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(75, 21);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "MAIN_BUTTON_SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -136,7 +137,7 @@
             // 
             this.btnTiming.Location = new System.Drawing.Point(6, 3);
             this.btnTiming.Name = "btnTiming";
-            this.btnTiming.Size = new System.Drawing.Size(75, 23);
+            this.btnTiming.Size = new System.Drawing.Size(75, 21);
             this.btnTiming.TabIndex = 8;
             this.btnTiming.Text = "MAIN_BUTTON_TIMING";
             this.btnTiming.UseVisualStyleBackColor = true;
@@ -148,7 +149,7 @@
             this.grpConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpConfig.Location = new System.Drawing.Point(0, 0);
             this.grpConfig.Name = "grpConfig";
-            this.grpConfig.Size = new System.Drawing.Size(179, 350);
+            this.grpConfig.Size = new System.Drawing.Size(179, 323);
             this.grpConfig.TabIndex = 9;
             this.grpConfig.TabStop = false;
             this.grpConfig.Text = "MAIN_LABEL_CONFIGS";
@@ -158,18 +159,19 @@
             this.pnlConfigInner.Controls.Add(this.lstConfigs);
             this.pnlConfigInner.Controls.Add(this.pnlConfigButtons);
             this.pnlConfigInner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlConfigInner.Location = new System.Drawing.Point(3, 16);
+            this.pnlConfigInner.Location = new System.Drawing.Point(3, 15);
             this.pnlConfigInner.Name = "pnlConfigInner";
-            this.pnlConfigInner.Size = new System.Drawing.Size(173, 331);
+            this.pnlConfigInner.Size = new System.Drawing.Size(173, 305);
             this.pnlConfigInner.TabIndex = 4;
             // 
             // lstConfigs
             // 
             this.lstConfigs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstConfigs.FormattingEnabled = true;
+            this.lstConfigs.ItemHeight = 12;
             this.lstConfigs.Location = new System.Drawing.Point(0, 0);
             this.lstConfigs.Name = "lstConfigs";
-            this.lstConfigs.Size = new System.Drawing.Size(173, 302);
+            this.lstConfigs.Size = new System.Drawing.Size(173, 278);
             this.lstConfigs.TabIndex = 0;
             this.lstConfigs.SelectedIndexChanged += new System.EventHandler(this.lstConfigs_SelectedIndexChanged);
             // 
@@ -178,16 +180,16 @@
             this.pnlConfigButtons.Controls.Add(this.btnNewConfig);
             this.pnlConfigButtons.Controls.Add(this.btnRemoveConfig);
             this.pnlConfigButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 302);
+            this.pnlConfigButtons.Location = new System.Drawing.Point(0, 278);
             this.pnlConfigButtons.Name = "pnlConfigButtons";
-            this.pnlConfigButtons.Size = new System.Drawing.Size(173, 29);
+            this.pnlConfigButtons.Size = new System.Drawing.Size(173, 27);
             this.pnlConfigButtons.TabIndex = 3;
             // 
             // btnNewConfig
             // 
             this.btnNewConfig.Location = new System.Drawing.Point(3, 3);
             this.btnNewConfig.Name = "btnNewConfig";
-            this.btnNewConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnNewConfig.Size = new System.Drawing.Size(75, 21);
             this.btnNewConfig.TabIndex = 1;
             this.btnNewConfig.Text = "MAIN_BUTTON_NEW";
             this.btnNewConfig.UseVisualStyleBackColor = true;
@@ -197,7 +199,7 @@
             // 
             this.btnRemoveConfig.Location = new System.Drawing.Point(95, 3);
             this.btnRemoveConfig.Name = "btnRemoveConfig";
-            this.btnRemoveConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveConfig.Size = new System.Drawing.Size(75, 21);
             this.btnRemoveConfig.TabIndex = 2;
             this.btnRemoveConfig.Text = "MAIN_BUTTON_REMOVE";
             this.btnRemoveConfig.UseVisualStyleBackColor = true;
@@ -209,7 +211,7 @@
             this.grpImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpImages.Location = new System.Drawing.Point(0, 0);
             this.grpImages.Name = "grpImages";
-            this.grpImages.Size = new System.Drawing.Size(597, 532);
+            this.grpImages.Size = new System.Drawing.Size(597, 491);
             this.grpImages.TabIndex = 10;
             this.grpImages.TabStop = false;
             this.grpImages.Text = "MAIN_LABEL_IMAGES";
@@ -219,9 +221,9 @@
             this.pnlImagesInner.Controls.Add(this.pnlFileList);
             this.pnlImagesInner.Controls.Add(this.pnlImageButtons);
             this.pnlImagesInner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImagesInner.Location = new System.Drawing.Point(3, 16);
+            this.pnlImagesInner.Location = new System.Drawing.Point(3, 15);
             this.pnlImagesInner.Name = "pnlImagesInner";
-            this.pnlImagesInner.Size = new System.Drawing.Size(591, 513);
+            this.pnlImagesInner.Size = new System.Drawing.Size(591, 473);
             this.pnlImagesInner.TabIndex = 8;
             // 
             // pnlFileList
@@ -230,11 +232,24 @@
             this.pnlFileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFileList.Location = new System.Drawing.Point(0, 0);
             this.pnlFileList.Name = "pnlFileList";
-            this.pnlFileList.Size = new System.Drawing.Size(561, 513);
+            this.pnlFileList.Size = new System.Drawing.Size(561, 473);
             this.pnlFileList.TabIndex = 8;
+            // 
+            // lstImages
+            // 
+            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstImages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.lstImages.FormattingEnabled = true;
+            this.lstImages.HorizontalScrollbar = true;
+            this.lstImages.Location = new System.Drawing.Point(0, 0);
+            this.lstImages.Name = "lstImages";
+            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstImages.Size = new System.Drawing.Size(561, 473);
+            this.lstImages.TabIndex = 0;
             // 
             // pnlImageButtons
             // 
+            this.pnlImageButtons.Controls.Add(this.btnProcessing);
             this.pnlImageButtons.Controls.Add(this.btnSettings);
             this.pnlImageButtons.Controls.Add(this.btnLanguage);
             this.pnlImageButtons.Controls.Add(this.btnAddToLibrary);
@@ -247,8 +262,101 @@
             this.pnlImageButtons.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlImageButtons.Location = new System.Drawing.Point(561, 0);
             this.pnlImageButtons.Name = "pnlImageButtons";
-            this.pnlImageButtons.Size = new System.Drawing.Size(30, 513);
+            this.pnlImageButtons.Size = new System.Drawing.Size(30, 473);
             this.pnlImageButtons.TabIndex = 7;
+            // 
+            // pnlRight
+            // 
+            this.pnlRight.Controls.Add(this.pnlTopRight);
+            this.pnlRight.Controls.Add(this.pnlBottomRight);
+            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlRight.Location = new System.Drawing.Point(605, 0);
+            this.pnlRight.Name = "pnlRight";
+            this.pnlRight.Size = new System.Drawing.Size(179, 491);
+            this.pnlRight.TabIndex = 11;
+            // 
+            // pnlTopRight
+            // 
+            this.pnlTopRight.Controls.Add(this.grpConfig);
+            this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTopRight.Location = new System.Drawing.Point(0, 0);
+            this.pnlTopRight.Name = "pnlTopRight";
+            this.pnlTopRight.Size = new System.Drawing.Size(179, 323);
+            this.pnlTopRight.TabIndex = 13;
+            // 
+            // pnlBottomRight
+            // 
+            this.pnlBottomRight.Controls.Add(this.cmbWallpaperStyle);
+            this.pnlBottomRight.Controls.Add(this.chkFade);
+            this.pnlBottomRight.Controls.Add(this.chkRandomise);
+            this.pnlBottomRight.Controls.Add(this.lblNextChange);
+            this.pnlBottomRight.Controls.Add(this.btnTiming);
+            this.pnlBottomRight.Controls.Add(this.btnTray);
+            this.pnlBottomRight.Controls.Add(this.btnReload);
+            this.pnlBottomRight.Controls.Add(this.btnSave);
+            this.pnlBottomRight.Controls.Add(this.chkStartup);
+            this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottomRight.Location = new System.Drawing.Point(0, 323);
+            this.pnlBottomRight.Name = "pnlBottomRight";
+            this.pnlBottomRight.Size = new System.Drawing.Size(179, 168);
+            this.pnlBottomRight.TabIndex = 12;
+            // 
+            // cmbWallpaperStyle
+            // 
+            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbWallpaperStyle.FormattingEnabled = true;
+            this.cmbWallpaperStyle.Location = new System.Drawing.Point(6, 120);
+            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
+            this.cmbWallpaperStyle.Size = new System.Drawing.Size(167, 20);
+            this.cmbWallpaperStyle.TabIndex = 12;
+            // 
+            // chkFade
+            // 
+            this.chkFade.AutoSize = true;
+            this.chkFade.Location = new System.Drawing.Point(6, 78);
+            this.chkFade.Name = "chkFade";
+            this.chkFade.Size = new System.Drawing.Size(125, 16);
+            this.chkFade.TabIndex = 11;
+            this.chkFade.Text = "MAIN_LABEL_FADE";
+            this.chkFade.UseVisualStyleBackColor = true;
+            // 
+            // chkRandomise
+            // 
+            this.chkRandomise.AutoSize = true;
+            this.chkRandomise.Location = new System.Drawing.Point(6, 56);
+            this.chkRandomise.Name = "chkRandomise";
+            this.chkRandomise.Size = new System.Drawing.Size(161, 16);
+            this.chkRandomise.TabIndex = 10;
+            this.chkRandomise.Text = "MAIN_LABEL_RANDOMISE";
+            this.chkRandomise.UseVisualStyleBackColor = true;
+            this.chkRandomise.CheckedChanged += new System.EventHandler(this.chkRandomise_CheckedChanged);
+            // 
+            // lblNextChange
+            // 
+            this.lblNextChange.AutoSize = true;
+            this.lblNextChange.Location = new System.Drawing.Point(3, 148);
+            this.lblNextChange.Name = "lblNextChange";
+            this.lblNextChange.Size = new System.Drawing.Size(156, 12);
+            this.lblNextChange.TabIndex = 9;
+            this.lblNextChange.Text = "MAIN_LABEL_NEXT_CHANGE";
+            // 
+            // pnlLeft
+            // 
+            this.pnlLeft.Controls.Add(this.grpImages);
+            this.pnlLeft.Controls.Add(this.pnlSpacer);
+            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
+            this.pnlLeft.Name = "pnlLeft";
+            this.pnlLeft.Size = new System.Drawing.Size(605, 491);
+            this.pnlLeft.TabIndex = 12;
+            // 
+            // pnlSpacer
+            // 
+            this.pnlSpacer.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlSpacer.Location = new System.Drawing.Point(597, 0);
+            this.pnlSpacer.Name = "pnlSpacer";
+            this.pnlSpacer.Size = new System.Drawing.Size(8, 491);
+            this.pnlSpacer.TabIndex = 11;
             // 
             // btnSettings
             // 
@@ -263,7 +371,7 @@
             // 
             // btnLanguage
             // 
-            this.btnLanguage.Image = global::WallChanger.Properties.Resources.language;
+            this.btnLanguage.Image = global::WallChanger.Properties.Resources.edit_language;
             this.btnLanguage.Location = new System.Drawing.Point(3, 213);
             this.btnLanguage.Name = "btnLanguage";
             this.btnLanguage.Size = new System.Drawing.Size(24, 24);
@@ -349,117 +457,23 @@
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // pnlRight
+            // btnProcessing
             // 
-            this.pnlRight.Controls.Add(this.pnlTopRight);
-            this.pnlRight.Controls.Add(this.pnlBottomRight);
-            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(605, 0);
-            this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(179, 532);
-            this.pnlRight.TabIndex = 11;
-            // 
-            // pnlTopRight
-            // 
-            this.pnlTopRight.Controls.Add(this.grpConfig);
-            this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTopRight.Location = new System.Drawing.Point(0, 0);
-            this.pnlTopRight.Name = "pnlTopRight";
-            this.pnlTopRight.Size = new System.Drawing.Size(179, 350);
-            this.pnlTopRight.TabIndex = 13;
-            // 
-            // pnlBottomRight
-            // 
-            this.pnlBottomRight.Controls.Add(this.cmbWallpaperStyle);
-            this.pnlBottomRight.Controls.Add(this.chkFade);
-            this.pnlBottomRight.Controls.Add(this.chkRandomise);
-            this.pnlBottomRight.Controls.Add(this.lblNextChange);
-            this.pnlBottomRight.Controls.Add(this.btnTiming);
-            this.pnlBottomRight.Controls.Add(this.btnTray);
-            this.pnlBottomRight.Controls.Add(this.btnReload);
-            this.pnlBottomRight.Controls.Add(this.btnSave);
-            this.pnlBottomRight.Controls.Add(this.chkStartup);
-            this.pnlBottomRight.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottomRight.Location = new System.Drawing.Point(0, 350);
-            this.pnlBottomRight.Name = "pnlBottomRight";
-            this.pnlBottomRight.Size = new System.Drawing.Size(179, 182);
-            this.pnlBottomRight.TabIndex = 12;
-            // 
-            // cmbWallpaperStyle
-            // 
-            this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbWallpaperStyle.FormattingEnabled = true;
-            this.cmbWallpaperStyle.Location = new System.Drawing.Point(6, 130);
-            this.cmbWallpaperStyle.Name = "cmbWallpaperStyle";
-            this.cmbWallpaperStyle.Size = new System.Drawing.Size(167, 21);
-            this.cmbWallpaperStyle.TabIndex = 12;
-            // 
-            // chkFade
-            // 
-            this.chkFade.AutoSize = true;
-            this.chkFade.Location = new System.Drawing.Point(6, 84);
-            this.chkFade.Name = "chkFade";
-            this.chkFade.Size = new System.Drawing.Size(126, 17);
-            this.chkFade.TabIndex = 11;
-            this.chkFade.Text = "MAIN_LABEL_FADE";
-            this.chkFade.UseVisualStyleBackColor = true;
-            // 
-            // chkRandomise
-            // 
-            this.chkRandomise.AutoSize = true;
-            this.chkRandomise.Location = new System.Drawing.Point(6, 61);
-            this.chkRandomise.Name = "chkRandomise";
-            this.chkRandomise.Size = new System.Drawing.Size(163, 17);
-            this.chkRandomise.TabIndex = 10;
-            this.chkRandomise.Text = "MAIN_LABEL_RANDOMISE";
-            this.chkRandomise.UseVisualStyleBackColor = true;
-            this.chkRandomise.CheckedChanged += new System.EventHandler(this.chkRandomise_CheckedChanged);
-            // 
-            // lblNextChange
-            // 
-            this.lblNextChange.AutoSize = true;
-            this.lblNextChange.Location = new System.Drawing.Point(3, 160);
-            this.lblNextChange.Name = "lblNextChange";
-            this.lblNextChange.Size = new System.Drawing.Size(159, 13);
-            this.lblNextChange.TabIndex = 9;
-            this.lblNextChange.Text = "MAIN_LABEL_NEXT_CHANGE";
-            // 
-            // pnlLeft
-            // 
-            this.pnlLeft.Controls.Add(this.grpImages);
-            this.pnlLeft.Controls.Add(this.pnlSpacer);
-            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(605, 532);
-            this.pnlLeft.TabIndex = 12;
-            // 
-            // pnlSpacer
-            // 
-            this.pnlSpacer.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlSpacer.Location = new System.Drawing.Point(597, 0);
-            this.pnlSpacer.Name = "pnlSpacer";
-            this.pnlSpacer.Size = new System.Drawing.Size(8, 532);
-            this.pnlSpacer.TabIndex = 11;
-            // 
-            // lstImages
-            // 
-            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstImages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.lstImages.FormattingEnabled = true;
-            this.lstImages.HorizontalScrollbar = true;
-            this.lstImages.Location = new System.Drawing.Point(0, 0);
-            this.lstImages.Name = "lstImages";
-            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstImages.Size = new System.Drawing.Size(561, 513);
-            this.lstImages.TabIndex = 0;
+            this.btnProcessing.Image = global::WallChanger.Properties.Resources.processor;
+            this.btnProcessing.Location = new System.Drawing.Point(3, 273);
+            this.btnProcessing.Name = "btnProcessing";
+            this.btnProcessing.Size = new System.Drawing.Size(24, 24);
+            this.btnProcessing.TabIndex = 11;
+            this.ToolTips.SetToolTip(this.btnProcessing, "MAIN_TOOLTIP_PREPROCESSING");
+            this.btnProcessing.UseVisualStyleBackColor = true;
+            this.btnProcessing.Click += new System.EventHandler(this.btnProcessing_Click);
             // 
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 532);
+            this.ClientSize = new System.Drawing.Size(784, 491);
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlRight);
             this.Name = "MainForm";
@@ -523,6 +537,7 @@
         private System.Windows.Forms.CheckBox chkRandomise;
         private System.Windows.Forms.CheckBox chkFade;
         private System.Windows.Forms.ComboBox cmbWallpaperStyle;
+        private System.Windows.Forms.Button btnProcessing;
     }
 }
 

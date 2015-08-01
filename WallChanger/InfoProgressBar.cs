@@ -12,11 +12,6 @@ namespace Otokei_Doujin_Downloader
 
     class InfoProgressBar : ProgressBar
     {
-        //Property to set to decide whether to print a % or Text
-        public ProgressBarDisplayText DisplayStyle { get; set; }
-
-        //Property to hold the custom text
-        public string CustomText { get; set; }
 
         public InfoProgressBar()
         {
@@ -24,6 +19,13 @@ namespace Otokei_Doujin_Downloader
             //http://msdn.microsoft.com/en-us/library/system.windows.forms.controlstyles.aspx
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
         }
+
+        //Property to hold the custom text
+        public string CustomText
+        { get; set; }
+        //Property to set to decide whether to print a % or Text
+        public ProgressBarDisplayText DisplayStyle
+        { get; set; }
 
         protected override void OnPaint(PaintEventArgs e)
         {

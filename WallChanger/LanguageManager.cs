@@ -29,40 +29,6 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Adds a language from a file.
-        /// </summary>
-        /// <param name="Filename">The path to the file to load.</param>
-        private void AddLanguage(string Filename)
-        {
-            using (FileStream fs = File.Open(Filename, FileMode.Open))
-            {
-                using (StreamReader r = new StreamReader(fs))
-                {
-                    var Name = r.ReadLine();
-                    var Description = r.ReadLine();
-                    var Author = r.ReadLine();
-                    var language = new Language(Path.GetFileNameWithoutExtension(Filename), Name, Description, Author);
-                    while (!r.EndOfStream)
-                    {
-                        var Line = r.ReadLine();
-                        // Ignore blank lines and comments.
-                        if (string.IsNullOrWhiteSpace(Line) || Line.Trim().StartsWith("#"))
-                            continue;
-
-                        // STRING_NAME=Output string
-                        // STRING_NAME = Output string
-                        var Parts = Line.Split('=');
-                        if (Parts.Length != 2)
-                            continue;
-
-                        language.AddString(Parts[0].Trim(), Parts[1].Trim());
-                    }
-                    Languages.Add(Path.GetFileNameWithoutExtension(Filename), language);
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets all the language without the translation strings.
         /// </summary>
         /// <returns>List of languages.</returns>
@@ -120,6 +86,40 @@ namespace WallChanger
                 return Default;
 
             return Value;
+        }
+
+        /// <summary>
+        /// Adds a language from a file.
+        /// </summary>
+        /// <param name="Filename">The path to the file to load.</param>
+        private void AddLanguage(string Filename)
+        {
+            using (FileStream fs = File.Open(Filename, FileMode.Open))
+            {
+                using (StreamReader r = new StreamReader(fs))
+                {
+                    var Name = r.ReadLine();
+                    var Description = r.ReadLine();
+                    var Author = r.ReadLine();
+                    var language = new Language(Path.GetFileNameWithoutExtension(Filename), Name, Description, Author);
+                    while (!r.EndOfStream)
+                    {
+                        var Line = r.ReadLine();
+                        // Ignore blank lines and comments.
+                        if (string.IsNullOrWhiteSpace(Line) || Line.Trim().StartsWith("#"))
+                            continue;
+
+                        // STRING_NAME=Output string
+                        // STRING_NAME = Output string
+                        var Parts = Line.Split('=');
+                        if (Parts.Length != 2)
+                            continue;
+
+                        language.AddString(Parts[0].Trim(), Parts[1].Trim());
+                    }
+                    Languages.Add(Path.GetFileNameWithoutExtension(Filename), language);
+                }
+            }
         }
     }
 }

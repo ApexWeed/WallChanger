@@ -16,25 +16,8 @@ namespace XnaFan.ImageComparison
     /// </summary>
     public class Histogram
     {
-        /// <summary>
-        /// The red values in an image
-        /// </summary>
-        public byte[] Red { get; private set; }
 
-        /// <summary>
-        /// The green values in an image
-        /// </summary>
-        public byte[] Green { get; private set; }
-
-        /// <summary>
-        /// The blue values in an image
-        /// </summary>
-        public byte[] Blue { get; private set; }
-
-        /// <summary>
-        /// The bitmap to get histogram info for
-        /// </summary>
-        public Bitmap Bitmap { get; private set; }
+        static readonly Pen[] p = new Pen[] { Pens.Red, Pens.Green, Pens.Blue };
 
         public Histogram(Bitmap bitmap)
         {
@@ -49,30 +32,73 @@ namespace XnaFan.ImageComparison
         /// Constructs a new Histogram from a file, given its path
         /// </summary>
         /// <param name="filePath">The path to the image to work with</param>
-        public Histogram(string filePath) : this((Bitmap)Image.FromFile(filePath)) { }
+        public Histogram(string filePath) : this((Bitmap)Image.FromFile(filePath))
+        { }
+
+        /// <summary>
+        /// The bitmap to get histogram info for
+        /// </summary>
+        public Bitmap Bitmap
+        { get; private set; }
+
+        /// <summary>
+        /// The blue values in an image
+        /// </summary>
+        public byte[] Blue
+        { get; private set; }
+
+        /// <summary>
+        /// The green values in an image
+        /// </summary>
+        public byte[] Green
+        { get; private set; }
+        /// <summary>
+        /// The red values in an image
+        /// </summary>
+        public byte[] Red
+        { get; private set; }
 
 
         /// <summary>
-        /// Calculates the values in the histogram
+        /// Gets the variance between two histograms (http://en.wikipedia.org/wiki/Variance) as a percentage of the maximum possible variance: 256 (for a white image compared to a black image)
         /// </summary>
-        private void CalculateHistogram()
+        /// <param name="histogram">the histogram to compare this one to</param>
+        /// <returns>A percentage which tells how different the two histograms are</returns>
+        public float GetVariance(Histogram histogram)
         {
-            var newBmp = (Bitmap)this.Bitmap.Resize(16, 16);
-            Color c;
-            for (int x = 0; x < newBmp.Width; x++)
+            //
+            double diffRed = 0, diffGreen = 0, diffBlue = 0;
+            for (int i = 0; i < 256; i++)
             {
-                for (int y = 0; y < newBmp.Height; y++)
-                {
-                    c = newBmp.GetPixel(x, y);
-                    Red[c.R]++;
-                    Green[c.G]++;
-                    Blue[c.B]++;
-                }
+                diffRed += Math.Pow(Red[i] - histogram.Red[i], 2);
+                diffGreen += Math.Pow(Green[i] - histogram.Green[i], 2);
+                diffBlue += Math.Pow(Blue[i] - histogram.Blue[i], 2);
             }
-            newBmp.Dispose();
+
+            diffRed /= 256;
+            diffGreen /= 256;
+            diffBlue /= 256;
+            const double maxDiff = 512;
+            return (float)(diffRed / maxDiff + diffGreen / maxDiff + diffBlue / maxDiff) / 3;
         }
 
-        static readonly Pen[] p = new Pen[] { Pens.Red, Pens.Green, Pens.Blue };
+
+        /// <summary>
+        /// Gives a human-readable representation of the RGB values in the histogram
+        /// </summary>
+        /// <returns>a human-readable representation of the RGB values in the histogram</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < 256; i++)
+            {
+                sb.Append($"RGB {i,3} : " + $"({Red[i],3},{Green[i],3},{Blue[i],3})");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
 
 
         /// <summary>
@@ -114,44 +140,23 @@ namespace XnaFan.ImageComparison
 
 
         /// <summary>
-        /// Gives a human-readable representation of the RGB values in the histogram
+        /// Calculates the values in the histogram
         /// </summary>
-        /// <returns>a human-readable representation of the RGB values in the histogram</returns>
-        public override string ToString()
+        private void CalculateHistogram()
         {
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < 256; i++)
+            var newBmp = (Bitmap)this.Bitmap.Resize(16, 16);
+            Color c;
+            for (int x = 0; x < newBmp.Width; x++)
             {
-                sb.Append($"RGB {i,3} : "+ $"({Red[i],3},{Green[i],3},{Blue[i],3})");
-                sb.AppendLine();
+                for (int y = 0; y < newBmp.Height; y++)
+                {
+                    c = newBmp.GetPixel(x, y);
+                    Red[c.R]++;
+                    Green[c.G]++;
+                    Blue[c.B]++;
+                }
             }
-
-            return sb.ToString();
-        }
-
-
-        /// <summary>
-        /// Gets the variance between two histograms (http://en.wikipedia.org/wiki/Variance) as a percentage of the maximum possible variance: 256 (for a white image compared to a black image)
-        /// </summary>
-        /// <param name="histogram">the histogram to compare this one to</param>
-        /// <returns>A percentage which tells how different the two histograms are</returns>
-        public float GetVariance(Histogram histogram)
-        {
-            //
-            double diffRed = 0, diffGreen = 0, diffBlue = 0;
-            for (int i = 0; i < 256; i++)
-            {
-                diffRed += Math.Pow(Red[i] - histogram.Red[i], 2);
-                diffGreen += Math.Pow(Green[i] - histogram.Green[i], 2);
-                diffBlue += Math.Pow(Blue[i] - histogram.Blue[i], 2);
-            }
-
-            diffRed /= 256;
-            diffGreen /= 256;
-            diffBlue /= 256;
-            const double maxDiff = 512;
-            return (float)(diffRed / maxDiff + diffGreen / maxDiff + diffBlue / maxDiff) / 3;
+            newBmp.Dispose();
         }
     }
 }

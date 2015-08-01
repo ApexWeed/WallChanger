@@ -146,9 +146,9 @@ namespace WallChanger.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Background")]
-        public global::WallChanger.HighlightListBox.HighlightMode_ HighlightMode {
+        public global::WallChanger.HighlightListBox.HighlightMode HighlightMode {
             get {
-                return ((global::WallChanger.HighlightListBox.HighlightMode_)(this["HighlightMode"]));
+                return ((global::WallChanger.HighlightListBox.HighlightMode)(this["HighlightMode"]));
             }
             set {
                 this["HighlightMode"] = value;
@@ -200,6 +200,294 @@ namespace WallChanger.Properties {
             }
             set {
                 this["GlobalWallpaperStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GlobalPreProcessing {
+            get {
+                return ((bool)(this["GlobalPreProcessing"]));
+            }
+            set {
+                this["GlobalPreProcessing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultPreProcessingEnabled {
+            get {
+                return ((bool)(this["DefaultPreProcessingEnabled"]));
+            }
+            set {
+                this["DefaultPreProcessingEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultBrightnessEnabled {
+            get {
+                return ((bool)(this["DefaultBrightnessEnabled"]));
+            }
+            set {
+                this["DefaultBrightnessEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultBrightnessValue {
+            get {
+                return ((int)(this["DefaultBrightnessValue"]));
+            }
+            set {
+                this["DefaultBrightnessValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultSaturationEnabled {
+            get {
+                return ((bool)(this["DefaultSaturationEnabled"]));
+            }
+            set {
+                this["DefaultSaturationEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultSaturationValue {
+            get {
+                return ((int)(this["DefaultSaturationValue"]));
+            }
+            set {
+                this["DefaultSaturationValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultContrastEnabled {
+            get {
+                return ((bool)(this["DefaultContrastEnabled"]));
+            }
+            set {
+                this["DefaultContrastEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultContrastValue {
+            get {
+                return ((int)(this["DefaultContrastValue"]));
+            }
+            set {
+                this["DefaultContrastValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultHueEnabled {
+            get {
+                return ((bool)(this["DefaultHueEnabled"]));
+            }
+            set {
+                this["DefaultHueEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultHueValue {
+            get {
+                return ((int)(this["DefaultHueValue"]));
+            }
+            set {
+                this["DefaultHueValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultGaussianBlurEnabled {
+            get {
+                return ((bool)(this["DefaultGaussianBlurEnabled"]));
+            }
+            set {
+                this["DefaultGaussianBlurEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultGaussianBlurSize {
+            get {
+                return ((int)(this["DefaultGaussianBlurSize"]));
+            }
+            set {
+                this["DefaultGaussianBlurSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultGaussianSharpenEnabled {
+            get {
+                return ((bool)(this["DefaultGaussianSharpenEnabled"]));
+            }
+            set {
+                this["DefaultGaussianSharpenEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultGaussianSharpenSize {
+            get {
+                return ((int)(this["DefaultGaussianSharpenSize"]));
+            }
+            set {
+                this["DefaultGaussianSharpenSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultPixelateEnabled {
+            get {
+                return ((bool)(this["DefaultPixelateEnabled"]));
+            }
+            set {
+                this["DefaultPixelateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultPixelateSize {
+            get {
+                return ((int)(this["DefaultPixelateSize"]));
+            }
+            set {
+                this["DefaultPixelateSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultVignetteEnabled {
+            get {
+                return ((bool)(this["DefaultVignetteEnabled"]));
+            }
+            set {
+                this["DefaultVignetteEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color DefaultVignetteColour {
+            get {
+                return ((global::System.Drawing.Color)(this["DefaultVignetteColour"]));
+            }
+            set {
+                this["DefaultVignetteColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultTintEnabled {
+            get {
+                return ((bool)(this["DefaultTintEnabled"]));
+            }
+            set {
+                this["DefaultTintEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color DefaultTintColour {
+            get {
+                return ((global::System.Drawing.Color)(this["DefaultTintColour"]));
+            }
+            set {
+                this["DefaultTintColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultEdgeDetectionEnabled {
+            get {
+                return ((bool)(this["DefaultEdgeDetectionEnabled"]));
+            }
+            set {
+                this["DefaultEdgeDetectionEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KayyaliEdgeFilter")]
+        public global::WallChanger.EdgeDetectionFilter DefaultEdgeDetectionFilter {
+            get {
+                return ((global::WallChanger.EdgeDetectionFilter)(this["DefaultEdgeDetectionFilter"]));
+            }
+            set {
+                this["DefaultEdgeDetectionFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultImageFilterEnabled {
+            get {
+                return ((bool)(this["DefaultImageFilterEnabled"]));
+            }
+            set {
+                this["DefaultImageFilterEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BlackWhite")]
+        public global::WallChanger.ImageFilterMatrix DefaultImageFilterMatrix {
+            get {
+                return ((global::WallChanger.ImageFilterMatrix)(this["DefaultImageFilterMatrix"]));
+            }
+            set {
+                this["DefaultImageFilterMatrix"] = value;
             }
         }
     }

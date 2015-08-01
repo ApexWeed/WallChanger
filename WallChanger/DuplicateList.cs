@@ -4,8 +4,8 @@ namespace WallChanger
 {
     class DuplicateList
     {
-        public readonly string Title;
         public readonly List<Duplicate> Duplicates;
+        public readonly string Title;
 
         /// <summary>
         /// Initialises a new duplicate list.

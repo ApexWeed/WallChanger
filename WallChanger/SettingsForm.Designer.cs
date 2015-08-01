@@ -33,6 +33,9 @@
             this.lblCompressionLevel = new System.Windows.Forms.Label();
             this.cmbCompressionLevel = new System.Windows.Forms.ComboBox();
             this.grpDefaults = new System.Windows.Forms.GroupBox();
+            this.chkGlobalWallpaperStyle = new System.Windows.Forms.CheckBox();
+            this.chkGlobalFading = new System.Windows.Forms.CheckBox();
+            this.chkGlobalRandomise = new System.Windows.Forms.CheckBox();
             this.lblDefaultWallpaperStyle = new System.Windows.Forms.Label();
             this.cmbDefaultWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.chkDefaultFading = new System.Windows.Forms.CheckBox();
@@ -47,13 +50,14 @@
             this.picHighlightColour = new System.Windows.Forms.PictureBox();
             this.lblHighlightColour = new System.Windows.Forms.Label();
             this.cdgColourDialog = new System.Windows.Forms.ColorDialog();
-            this.chkGlobalRandomise = new System.Windows.Forms.CheckBox();
-            this.chkGlobalFading = new System.Windows.Forms.CheckBox();
-            this.chkGlobalWallpaperStyle = new System.Windows.Forms.CheckBox();
+            this.grpPreProcessing = new System.Windows.Forms.GroupBox();
+            this.chkGlobalPreProcessing = new System.Windows.Forms.CheckBox();
+            this.btnPreProcessingDefaults = new System.Windows.Forms.Button();
             this.grpCompression.SuspendLayout();
             this.grpDefaults.SuspendLayout();
             this.grpHighlight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).BeginInit();
+            this.grpPreProcessing.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpCompression
@@ -63,7 +67,7 @@
             this.grpCompression.Controls.Add(this.cmbCompressionLevel);
             this.grpCompression.Location = new System.Drawing.Point(12, 11);
             this.grpCompression.Name = "grpCompression";
-            this.grpCompression.Size = new System.Drawing.Size(741, 81);
+            this.grpCompression.Size = new System.Drawing.Size(741, 70);
             this.grpCompression.TabIndex = 0;
             this.grpCompression.TabStop = false;
             this.grpCompression.Text = "SETTINGS_LABEL_COMPRESSION";
@@ -108,12 +112,45 @@
             this.grpDefaults.Controls.Add(this.btnChangeDefaultTiming);
             this.grpDefaults.Controls.Add(this.lblDefaultInterval);
             this.grpDefaults.Controls.Add(this.lblDefaultOffset);
-            this.grpDefaults.Location = new System.Drawing.Point(12, 98);
+            this.grpDefaults.Location = new System.Drawing.Point(12, 87);
             this.grpDefaults.Name = "grpDefaults";
-            this.grpDefaults.Size = new System.Drawing.Size(741, 140);
+            this.grpDefaults.Size = new System.Drawing.Size(741, 128);
             this.grpDefaults.TabIndex = 4;
             this.grpDefaults.TabStop = false;
             this.grpDefaults.Text = "SETTINGS_LABEL_DEFAULT";
+            // 
+            // chkGlobalWallpaperStyle
+            // 
+            this.chkGlobalWallpaperStyle.AutoSize = true;
+            this.chkGlobalWallpaperStyle.Location = new System.Drawing.Point(370, 85);
+            this.chkGlobalWallpaperStyle.Name = "chkGlobalWallpaperStyle";
+            this.chkGlobalWallpaperStyle.Size = new System.Drawing.Size(328, 16);
+            this.chkGlobalWallpaperStyle.TabIndex = 10;
+            this.chkGlobalWallpaperStyle.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE";
+            this.chkGlobalWallpaperStyle.UseVisualStyleBackColor = true;
+            this.chkGlobalWallpaperStyle.CheckedChanged += new System.EventHandler(this.chkGlobalWallpaperStyle_CheckedChanged);
+            // 
+            // chkGlobalFading
+            // 
+            this.chkGlobalFading.AutoSize = true;
+            this.chkGlobalFading.Location = new System.Drawing.Point(370, 63);
+            this.chkGlobalFading.Name = "chkGlobalFading";
+            this.chkGlobalFading.Size = new System.Drawing.Size(266, 16);
+            this.chkGlobalFading.TabIndex = 9;
+            this.chkGlobalFading.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_FADING";
+            this.chkGlobalFading.UseVisualStyleBackColor = true;
+            this.chkGlobalFading.CheckedChanged += new System.EventHandler(this.chkGlobalFading_CheckedChanged);
+            // 
+            // chkGlobalRandomise
+            // 
+            this.chkGlobalRandomise.AutoSize = true;
+            this.chkGlobalRandomise.Location = new System.Drawing.Point(370, 42);
+            this.chkGlobalRandomise.Name = "chkGlobalRandomise";
+            this.chkGlobalRandomise.Size = new System.Drawing.Size(290, 16);
+            this.chkGlobalRandomise.TabIndex = 8;
+            this.chkGlobalRandomise.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE";
+            this.chkGlobalRandomise.UseVisualStyleBackColor = true;
+            this.chkGlobalRandomise.CheckedChanged += new System.EventHandler(this.chkGlobalRandomise_CheckedChanged);
             // 
             // lblDefaultWallpaperStyle
             // 
@@ -210,9 +247,9 @@
             this.grpHighlight.Controls.Add(this.lblHighlightColour);
             this.grpHighlight.Controls.Add(this.lblHighlightMode);
             this.grpHighlight.Controls.Add(this.cmbHighlightMode);
-            this.grpHighlight.Location = new System.Drawing.Point(12, 244);
+            this.grpHighlight.Location = new System.Drawing.Point(12, 221);
             this.grpHighlight.Name = "grpHighlight";
-            this.grpHighlight.Size = new System.Drawing.Size(741, 135);
+            this.grpHighlight.Size = new System.Drawing.Size(741, 82);
             this.grpHighlight.TabIndex = 5;
             this.grpHighlight.TabStop = false;
             this.grpHighlight.Text = "SETTINGS_LABEL_HIGHLIGHT";
@@ -245,44 +282,44 @@
             this.lblHighlightColour.TabIndex = 8;
             this.lblHighlightColour.Text = "SETTINGS_LABEL_HIGHLIGHT_COLOUR";
             // 
-            // chkGlobalRandomise
+            // grpPreProcessing
             // 
-            this.chkGlobalRandomise.AutoSize = true;
-            this.chkGlobalRandomise.Location = new System.Drawing.Point(370, 42);
-            this.chkGlobalRandomise.Name = "chkGlobalRandomise";
-            this.chkGlobalRandomise.Size = new System.Drawing.Size(290, 16);
-            this.chkGlobalRandomise.TabIndex = 8;
-            this.chkGlobalRandomise.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE";
-            this.chkGlobalRandomise.UseVisualStyleBackColor = true;
-            this.chkGlobalRandomise.CheckedChanged += new System.EventHandler(this.chkGlobalRandomise_CheckedChanged);
+            this.grpPreProcessing.Controls.Add(this.btnPreProcessingDefaults);
+            this.grpPreProcessing.Controls.Add(this.chkGlobalPreProcessing);
+            this.grpPreProcessing.Location = new System.Drawing.Point(12, 309);
+            this.grpPreProcessing.Name = "grpPreProcessing";
+            this.grpPreProcessing.Size = new System.Drawing.Size(741, 40);
+            this.grpPreProcessing.TabIndex = 6;
+            this.grpPreProcessing.TabStop = false;
+            this.grpPreProcessing.Text = "SETTINGS_LABEL_PREPROCESSING";
             // 
-            // chkGlobalFading
+            // chkGlobalPreProcessing
             // 
-            this.chkGlobalFading.AutoSize = true;
-            this.chkGlobalFading.Location = new System.Drawing.Point(370, 63);
-            this.chkGlobalFading.Name = "chkGlobalFading";
-            this.chkGlobalFading.Size = new System.Drawing.Size(266, 16);
-            this.chkGlobalFading.TabIndex = 9;
-            this.chkGlobalFading.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_FADING";
-            this.chkGlobalFading.UseVisualStyleBackColor = true;
-            this.chkGlobalFading.CheckedChanged += new System.EventHandler(this.chkGlobalFading_CheckedChanged);
+            this.chkGlobalPreProcessing.AutoSize = true;
+            this.chkGlobalPreProcessing.Location = new System.Drawing.Point(9, 18);
+            this.chkGlobalPreProcessing.Name = "chkGlobalPreProcessing";
+            this.chkGlobalPreProcessing.Size = new System.Drawing.Size(262, 16);
+            this.chkGlobalPreProcessing.TabIndex = 0;
+            this.chkGlobalPreProcessing.Text = "SETTINGS_LABEL_GLOBAL_PREPROCESSING";
+            this.chkGlobalPreProcessing.UseVisualStyleBackColor = true;
+            this.chkGlobalPreProcessing.CheckedChanged += new System.EventHandler(this.chkGlobalPreProcessing_CheckedChanged);
             // 
-            // chkGlobalWallpaperStyle
+            // btnPreProcessingDefaults
             // 
-            this.chkGlobalWallpaperStyle.AutoSize = true;
-            this.chkGlobalWallpaperStyle.Location = new System.Drawing.Point(370, 85);
-            this.chkGlobalWallpaperStyle.Name = "chkGlobalWallpaperStyle";
-            this.chkGlobalWallpaperStyle.Size = new System.Drawing.Size(328, 16);
-            this.chkGlobalWallpaperStyle.TabIndex = 10;
-            this.chkGlobalWallpaperStyle.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE";
-            this.chkGlobalWallpaperStyle.UseVisualStyleBackColor = true;
-            this.chkGlobalWallpaperStyle.CheckedChanged += new System.EventHandler(this.chkGlobalWallpaperStyle_CheckedChanged);
+            this.btnPreProcessingDefaults.Location = new System.Drawing.Point(660, 11);
+            this.btnPreProcessingDefaults.Name = "btnPreProcessingDefaults";
+            this.btnPreProcessingDefaults.Size = new System.Drawing.Size(75, 23);
+            this.btnPreProcessingDefaults.TabIndex = 1;
+            this.btnPreProcessingDefaults.Text = "SETTINGS_BUTTON_PREPROCESSING_DEFAULTS";
+            this.btnPreProcessingDefaults.UseVisualStyleBackColor = true;
+            this.btnPreProcessingDefaults.Click += new System.EventHandler(this.btnPreProcessingDefaults_Click);
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 394);
+            this.ClientSize = new System.Drawing.Size(765, 360);
+            this.Controls.Add(this.grpPreProcessing);
             this.Controls.Add(this.grpHighlight);
             this.Controls.Add(this.grpDefaults);
             this.Controls.Add(this.grpCompression);
@@ -298,6 +335,8 @@
             this.grpHighlight.ResumeLayout(false);
             this.grpHighlight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).EndInit();
+            this.grpPreProcessing.ResumeLayout(false);
+            this.grpPreProcessing.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -326,5 +365,8 @@
         private System.Windows.Forms.CheckBox chkGlobalWallpaperStyle;
         private System.Windows.Forms.CheckBox chkGlobalFading;
         private System.Windows.Forms.CheckBox chkGlobalRandomise;
+        private System.Windows.Forms.GroupBox grpPreProcessing;
+        private System.Windows.Forms.Button btnPreProcessingDefaults;
+        private System.Windows.Forms.CheckBox chkGlobalPreProcessing;
     }
 }

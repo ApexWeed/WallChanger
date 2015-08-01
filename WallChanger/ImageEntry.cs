@@ -2,8 +2,17 @@
 {
     public class ImageEntry
     {
-        public readonly string Path;
+
+        /// <summary>
+        /// Automatically convert wrapper to base string.
+        /// </summary>
+        /// <param name="Entry">The path entry to unwrap.</param>
+        public static implicit operator string (ImageEntry Entry)
+        {
+            return Entry.Path;
+        }
         public readonly bool Highlight;
+        public readonly string Path;
 
         /// <summary>
         /// Creates a new image entry wrapper.
@@ -23,15 +32,6 @@
         public override string ToString()
         {
             return Path;
-        }
-
-        /// <summary>
-        /// Automatically convert wrapper to base string.
-        /// </summary>
-        /// <param name="Entry">The path entry to unwrap.</param>
-        public static implicit operator string(ImageEntry Entry)
-        {
-            return Entry.Path;
         }
 
     }

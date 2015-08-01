@@ -11,33 +11,33 @@ namespace WallChanger
 {
     public partial class LibraryForm : Form
     {
-        const int FILTERS_SHRUNKEN_HEIGHT = 30;
         const int FILTERS_EXPANDED_HEIGHT = 146;
-
-        readonly int MINIMUM_DATA_HEIGHT;
-
-        bool ComboBoxLocked;
-        bool FiltersExpanded;
-        bool ScanningDuplicates;
+        const int FILTERS_SHRUNKEN_HEIGHT = 30;
 
         readonly List<string> Categories;
-        readonly List<string> ShowNames;
         readonly List<string> Characters;
-        readonly List<string> Tags;
+
+        bool ComboBoxLocked;
 
         readonly List<string> FilterCategories;
-        readonly List<string> FilterShowNames;
         readonly List<string> FilterCharacters;
+        bool FiltersExpanded;
+        readonly List<string> FilterShowNames;
         readonly List<string> FilterTags;
-
-        readonly List<string> SizeCacheToUpdate = new List<string>();
-        readonly Queue<string> SizeCacheQueue = new Queue<string>();
-        bool SizeCacheRunning;
         List<string> LastSizeRequest = new List<string>();
+
+        readonly LanguageManager LM = GlobalVars.LanguageManager;
 
         readonly ListViewColumnSorter lsvSorter;
 
-        readonly LanguageManager LM = GlobalVars.LanguageManager;
+        readonly int MINIMUM_DATA_HEIGHT;
+        bool ScanningDuplicates;
+        readonly List<string> ShowNames;
+        readonly Queue<string> SizeCacheQueue = new Queue<string>();
+        bool SizeCacheRunning;
+
+        readonly List<string> SizeCacheToUpdate = new List<string>();
+        readonly List<string> Tags;
 
         /// <summary>
         /// Initialises a new instance of the library form.
@@ -79,6 +79,23 @@ namespace WallChanger
             lsvDisplay.ListViewItemSorter = lsvSorter;
 
             LocaliseInterface();
+        }
+
+        /// <summary>
+        /// Delegate to allow cross thread listview item retrieval.
+        /// </summary>
+        /// <param name="listView">The list view to retrieve items from.</param>
+        /// <returns>A delegate of some kind. This is magic.</returns>
+        private delegate ListView.ListViewItemCollection GetItems(ListView listView);
+
+        /// <summary>
+        /// Allows child forms to be opened.
+        /// </summary>
+        /// <param name="Child">The child that has closed.</param>
+        public static void ChildClosed(Form Child)
+        {
+            if (Child is DuplicateForm)
+                GlobalVars.DuplicateForm = null;
         }
 
         /// <summary>
@@ -149,21 +166,13 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Saves the library and notifies the parent of closure.
+        /// Updates the progress of the duplicate scan.
         /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void LibraryForm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="Progress"></param>
+        public void UpdateDuplicateScanProgress(Tuple<int, int> Progress)
         {
-            if (GlobalVars.DuplicateForm != null)
-            {
-                GlobalVars.DuplicateForm.Close();
-            }
-
-            Library.Save();
-
-            if (Owner is MainForm)
-                (Owner as MainForm).ChildClosed(this);
+            tslStatus.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_SCANNING_DUPLICATES", "LIBRARY_MESSAGE_SCANNING_DUPLICATES ({0}/{1})"), Progress.Item1, Progress.Item2);
+            tspProgressBar.Value = (int)(((float)Progress.Item1 / Progress.Item2) * 100);
         }
 
         /// <summary>
@@ -217,74 +226,682 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Updates the data in the comboboxes.
+        /// Handle windows messages.
         /// </summary>
-        private void UpdateComboBoxes()
+        /// <param name="message">The message to handle.</param>
+        protected override void WndProc(ref Message message)
         {
-            ComboBoxLocked = true;
+            const int WM_SYSCOMMAND = 0x0112;
+            const int SC_MAXIMIZE = 0xF030;
+            const int SC_RESTORE = 0xF120;
+            const int SC_MINIMIZE = 0xF020;
 
-            var CategoryFilter = cmbCategoryFilter.Text;
-            cmbCategoryFilter.DataSource = null;
-            cmbCategoryFilter.DataSource = FilterCategories;
-            cmbCategoryFilter.Text = CategoryFilter;
+            switch (message.Msg)
+            {
+                case WM_SYSCOMMAND:
+                    var command = message.WParam.ToInt32() & 0xfff0;
+                    if (command == SC_MAXIMIZE)
+                    {
+                        UpdateControlPositionsAsync(50);
+                    }
+                    if (command == SC_RESTORE)
+                    {
+                        UpdateControlPositionsAsync(50);
+                    }
+                    if (command == SC_MINIMIZE)
+                    {
 
-            var ShowNameFilter = cmbShowNameFilter.Text;
-            cmbShowNameFilter.DataSource = null;
-            cmbShowNameFilter.DataSource = FilterShowNames;
-            cmbShowNameFilter.Text = ShowNameFilter;
+                    }
+                    break;
+            }
 
-            var CharacterFilter = cmbCharacterFilter.Text;
-            cmbCharacterFilter.DataSource = null;
-            cmbCharacterFilter.DataSource = FilterCharacters;
-            cmbCharacterFilter.Text = CharacterFilter;
-
-            var TagFilter = cmbTagFilter.Text;
-            cmbTagFilter.DataSource = null;
-            cmbTagFilter.DataSource = FilterTags;
-            cmbTagFilter.Text = TagFilter;
-
-            cmbCategory.DataSource = null;
-            cmbShowName.DataSource = null;
-            cmbCategory.DataSource = Categories;
-            cmbShowName.DataSource = ShowNames;
-
-            ComboBoxLocked = false;
+            base.WndProc(ref message);
         }
 
         /// <summary>
-        /// Updates the controls to fill the window.
+        /// Gets a list of files in the specified directories.
         /// </summary>
-        private void UpdateControlPositions()
+        /// <param name="Directories">The enumerable list of directories.</param>
+        /// <param name="Recursive">Whether or not to search sub directories.</param>
+        /// <returns>A list of files in all directories.</returns>
+        private static List<string> GetFiles(IEnumerable<string> Directories, bool Recursive = false)
         {
-            picPreview.Height = Imaging.CalculateImageHeight(picPreview.Image, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
+            var FileList = new List<string>();
 
-            cmbCategory.Width = pnlDetails.Width - 16;
-            cmbShowName.Width = pnlDetails.Width - 16;
-            lstCharacters.Width = pnlDetails.Width - 16;
+            foreach (string Directory in Directories)
+            {
+                FileList.AddRange(GetFiles(Directory, Recursive));
+            }
 
-            btnAddCategory.Left = pnlDetails.Width - 63;
-            btnClearCategory.Left = pnlDetails.Width - 33;
+            return FileList;
+        }
 
-            btnAddShowName.Left = pnlDetails.Width - 63;
-            btnClearShowName.Left = pnlDetails.Width - 33;
+        /// <summary>
+        /// Gets a list of files in the specified directory.
+        /// </summary>
+        /// <param name="Directory">The directory to scan.</param>
+        /// <param name="Recursive">Whether or not to recursively scan directories.</param>
+        /// <returns>A list of files in the specified directory.</returns>
+        private static List<string> GetFiles(string Directory, bool Recursive = false)
+        {
+            var FileList = new List<string>();
 
-            btnAddNewCharacter.Left = pnlDetails.Width - 93;
-            btnRemoveCharacter.Left = pnlDetails.Width - 63;
-            btnClearCharacters.Left = pnlDetails.Width - 33;
+            var Files = System.IO.Directory.GetFiles(Directory);
 
-            btnAddNewTag.Left = pnlTagButtons.Width - 84;
-            btnRemoveTag.Left = pnlTagButtons.Width - 54;
-            btnClearTags.Left = pnlTagButtons.Width - 24;
+            FileList.AddRange(Files);
 
-            btnAddToConfig.Left = pnlFilters.Width - 27;
-            btnRemoveFromLibrary.Left = pnlFilters.Width - 57;
-            btnClearLibrary.Left = pnlFilters.Width - 87;
-            btnFindDuplicates.Left = pnlFilters.Width - 117;
-            btnFindAllDuplicates.Left = pnlFilters.Width - 147;
-            btnCacheDuplicateThumbnails.Left = pnlFilters.Width - 177;
-            btnCheckFiles.Left = pnlFilters.Width - 207;
+            if (Recursive)
+            {
+                foreach (string SubDirectory in System.IO.Directory.GetDirectories(Directory))
+                {
+                    FileList.AddRange(System.IO.Directory.GetFiles(SubDirectory));
+                }
+            }
 
-            colFilename.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            return FileList;
+        }
+
+        /// <summary>
+        /// Gets a list of unique directory from a file list.
+        /// </summary>
+        /// <param name="Files">List of filenames.</param>
+        /// <returns>List of unique directory names.</returns>
+        private static List<string> GetUniqueDirectories(IEnumerable<string> Files)
+        {
+            var DirectoryNames = new List<string>();
+
+            foreach (string File in Files)
+            {
+                DirectoryNames.AddDistinct(Path.GetDirectoryName(File));
+            }
+
+            return DirectoryNames;
+        }
+
+        /// <summary>
+        /// Loads the file into the library.
+        /// </summary>
+        /// <param name="FileName">The file to add.</param>
+        private static void LoadFile(string FileName)
+        {
+            using (Stream read = File.Open(FileName, FileMode.Open))
+            {
+                if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
+                {
+                    using (StreamWriter write = File.AppendText("unknownFiles.log"))
+                    {
+                        write.WriteLine(FileName);
+                    }
+                    read.Close();
+                    return;
+                }
+                GlobalVars.LibraryItems.AddDistinct(new LibraryItem(FileName));
+            }
+        }
+        
+        /// <summary>
+        /// Adds a category to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY"), LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY_TITLE"), Categories.ToArray());
+            if (string.IsNullOrWhiteSpace(Value))
+                return;
+
+            Categories.AddDistinct(Value);
+            FilterCategories.AddDistinct(Value);
+            UpdateComboBoxes();
+            cmbCategory.SelectedItem = Value;
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
+        }
+        
+        /// <summary>
+        /// Adds a character name to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnAddNewCharacter_Click(object sender, EventArgs e)
+        {
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER"), LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER_TITLE"), Characters.ToArray());
+            if (string.IsNullOrWhiteSpace(Value))
+                return;
+
+            Characters.AddDistinct(Value);
+            FilterCharacters.AddDistinct(Value);
+            lstCharacters.Items.Add(Value);
+            lstCharacters.SelectedItem = Value;
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
+        }
+        
+        /// <summary>
+        /// Adds a tag to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnAddNewTag_Click(object sender, EventArgs e)
+        {
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_TAG"), LM.GetString("LIBRARY_MESSAGE_NEW_TAG_TITLE"), Tags.ToArray());
+            if (string.IsNullOrWhiteSpace(Value))
+                return;
+
+            Tags.AddDistinct(Value);
+            FilterTags.AddDistinct(Value);
+            lstTags.Items.Add(Value);
+            lstTags.SelectedItem = Value;
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.AddDistinct(Value);
+        }
+        
+        /// <summary>
+        /// Adds a show name to the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnAddShowName_Click(object sender, EventArgs e)
+        {
+            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME"), LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE"), ShowNames.ToArray());
+            if (string.IsNullOrWhiteSpace(Value))
+                return;
+
+            ShowNames.AddDistinct(Value);
+            FilterShowNames.AddDistinct(Value);
+            UpdateComboBoxes();
+            cmbShowName.SelectedItem = Value;
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = Value;
+        }
+
+        /// <summary>
+        /// Adds the selected images to the current config.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnAddToConfig_Click(object sender, EventArgs e)
+        {
+            if (Owner is MainForm)
+            {
+                var Images = new List<string>();
+                foreach (ListViewItem item in lsvDisplay.SelectedItems)
+                {
+                    Images.Add(item.Tag as string);
+                }
+                (Owner as MainForm).AddImages(Images);
+            }
+
+        }
+
+        /// <summary>
+        /// Caches thumbnails.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnCacheDuplicateThumbnails_Click(object sender, EventArgs e)
+        {
+            var Images = new List<string>();
+            foreach (ListViewItem item in lsvDisplay.Items)
+            {
+                Images.Add(item.Tag as string);
+            }
+            CacheDuplicateThumbnailsAsync(Images);
+            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
+        }
+
+        /// <summary>
+        /// CLears the category filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnCategoryFilterClear_Click(object sender, EventArgs e)
+        {
+            cmbCategoryFilter.Text = "";
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Clears the character name filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnCharacterFilterClear_Click(object sender, EventArgs e)
+        {
+            cmbCharacterFilter.Text = "";
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Removes deleted images from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnCheckFiles_Click(object sender, EventArgs e)
+        {
+            CheckFilesExistAsync();
+
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Clears the category on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearCategory_Click(object sender, EventArgs e)
+        {
+            cmbCategory.Text = "";
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = "";
+        }
+
+        /// <summary>
+        /// CLears the character names from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearCharacters_Click(object sender, EventArgs e)
+        {
+            lstCharacters.Items.Clear();
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Clear();
+        }
+
+        /// <summary>
+        /// Clears all filters.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearFilters_Click(object sender, EventArgs e)
+        {
+            cmbCategoryFilter.Text = "";
+            cmbShowNameFilter.Text = "";
+            cmbCharacterFilter.Text = "";
+            cmbTagFilter.Text = "";
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Clears the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearLibrary_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_CLEAR"), LM.GetString("LIBRARY_MESSAGE_CLEAR_TITLE")) == DialogResult.OK)
+            {
+                GlobalVars.LibraryItems = new List<LibraryItem>();
+                UpdateList();
+            }
+        }
+
+        /// <summary>
+        /// Clears the showname on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearShowName_Click(object sender, EventArgs e)
+        {
+            cmbShowName.Text = "";
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = "";
+        }
+
+        /// <summary>
+        /// Clears the tags on the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnClearTags_Click(object sender, EventArgs e)
+        {
+            lstTags.Items.Clear();
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Clear();
+        }
+
+        /// <summary>
+        /// Toggles whether the filtering options are expanded.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnExpand_Click(object sender, EventArgs e)
+        {
+            FiltersExpanded = !FiltersExpanded;
+            if (FiltersExpanded)
+            {
+                btnExpand.Image = Properties.Resources.toggle;
+                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY_TOOLTIP_FILTER_SHRINK"));
+                pnlFilters.Height = FILTERS_EXPANDED_HEIGHT;
+            }
+            else
+            {
+                btnExpand.Image = Properties.Resources.toggle_expand;
+                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY_TOOLTIP_FILTER_EXPAND"));
+                pnlFilters.Height = FILTERS_SHRUNKEN_HEIGHT;
+            }
+        }
+
+        /// <summary>
+        /// Finds duplicates in the filtered list.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnFindAllDuplicates_Click(object sender, EventArgs e)
+        {
+            var Images = new List<string>();
+            foreach (ListViewItem item in lsvDisplay.Items)
+            {
+                Images.Add(item.Tag as string);
+            }
+            FindDuplicatesAsync(Images);
+        }
+
+        /// <summary>
+        /// Finds duplicates in the selection.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnFindDuplicates_Click(object sender, EventArgs e)
+        {
+            var items = new List<string>();
+            foreach (ListViewItem item in lsvDisplay.SelectedItems)
+            {
+                items.Add(item.Tag as string);
+            }
+            FindDuplicatesAsync(items);
+        }
+
+        /// <summary>
+        /// Removes the selected character name from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnRemoveCharacter_Click(object sender, EventArgs e)
+        {
+            if (lstCharacters.SelectedIndex > -1)
+            {
+                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Remove(lstCharacters.SelectedItem as string);
+                lstCharacters.Items.Remove(lstCharacters.SelectedItem);
+            }
+        }
+
+        /// <summary>
+        /// Removes the selected items from the library.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnRemoveFromLibrary_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in lsvDisplay.SelectedItems)
+            {
+                GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == item.Tag as string));
+            }
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Removes the selected tag from the image.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnRemoveTag_Click(object sender, EventArgs e)
+        {
+            if (lstTags.SelectedIndex > -1)
+            {
+                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Remove(lstTags.SelectedItem as string);
+                lstCharacters.Items.Remove(lstTags.SelectedItem);
+            }
+        }
+
+        /// <summary>
+        /// Clears the showname filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnShowNameFilterClear_Click(object sender, EventArgs e)
+        {
+            cmbShowNameFilter.Text = "";
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Clears the tag filter.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void btnTagFilterClear_Click(object sender, EventArgs e)
+        {
+            cmbTagFilter.Text = "";
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Caches the thumbnails of the specified images.
+        /// </summary>
+        /// <param name="ImagePaths"></param>
+        private async void CacheDuplicateThumbnailsAsync(List<string> ImagePaths)
+        {
+            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_GENERATING_THUMBNAILS");
+            for (int i = 0; i < ImagePaths.Count; i++)
+            {
+                if (!GlobalVars.ImageCache.ContainsKey(ImagePaths[i]))
+                {
+                    await Task.Run(() =>
+                    {
+                        var image = Image.FromFile(ImagePaths[i]);
+                        GlobalVars.ImageCache.Add(ImagePaths[i], image.GetGrayScaleValues());
+                        image.Dispose();
+                    });
+                }
+                tslStatus.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_GENERATING_THUMBNAILS_STATUS", "LIBRARY_GENERATING_THUMBNAILS_STATUS ({0}/{1})"), i + 1, ImagePaths.Count);
+                tspProgressBar.Value = (int)(((float)(i + 1) / ImagePaths.Count) * 100);
+            }
+        }
+
+        /// <summary>
+        /// Checks if the library files exist on disk.
+        /// </summary>
+        private async void CheckFilesExistAsync()
+        {
+            var LibraryFilenames = new List<string>();
+
+            foreach (var Item in GlobalVars.LibraryItems)
+            {
+                LibraryFilenames.Add(Item.Filename);
+            }
+
+            var Directories = await Task.Run(() => GetUniqueDirectories(LibraryFilenames));
+
+            var DiskFilenames = await Task.Run(() => GetFiles(Directories));
+
+            var MissingCount = 0;
+
+            foreach (string ImagePath in LibraryFilenames)
+            {
+                if (await Task.Run(() => !DiskFilenames.Contains(ImagePath)))
+                {
+                    MissingCount++;
+                    GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(x => x.Filename == ImagePath));
+                }
+            }
+
+            MessageBox.Show(string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_MISSING", "{0} LIBRARY_MESSAGE_MISSING"), MissingCount));
+        }
+
+        /// <summary>
+        /// Updates the image's category to the selected category.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void cmbCategory_SelectedValueChanged(object sender, EventArgs e)
+        {
+            // Don't want to update any values when multiple are selected.
+            if (lsvDisplay.SelectedItems.Count > 1)
+                return;
+
+            // Don't want the values changing when swapping between entries.
+            if (ComboBoxLocked)
+                return;
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = cmbCategory.Text;
+        }
+
+        /// <summary>
+        /// Updates the image's showname to the selected showname.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void cmbShowName_SelectedValueChanged(object sender, EventArgs e)
+        {
+            // Don't want to update any values when multiple are selected.
+            if (lsvDisplay.SelectedItems.Count > 1)
+                return;
+
+            // Don't want the values changing when swapping between entries.
+            if (ComboBoxLocked)
+                return;
+
+            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = cmbShowName.Text;
+        }
+        
+        /// <summary>
+        /// Updates the list when the filters are changed.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void FilterChoiceChanged(object sender, EventArgs e)
+        {
+            // Don't update the list if we are already updating it.
+            if (ComboBoxLocked)
+                return;
+            UpdateList();
+        }
+
+        /// <summary>
+        /// Finds duplicate images in the specified list.
+        /// </summary>
+        /// <param name="ImagePaths">An enumerable list of image paths to check.</param>
+        private async void FindDuplicatesAsync(IEnumerable<string> ImagePaths)
+        {
+            if (GlobalVars.DuplicateForm != null)
+            {
+                MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_CLOSE_DUPLICATES"));
+                return;
+            }
+            if (ScanningDuplicates)
+                return;
+            ScanningDuplicates = true;
+
+            var Duplicates = new List<List<string>>();
+            Duplicates = await ImageTool.GetDuplicateImagesMultithreadedCacheAsync(ImagePaths, 3, GlobalVars.ImageCache, new Progress<Tuple<int, int>>(UpdateDuplicateScanProgress));
+
+            ScanningDuplicates = false;
+
+            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
+
+            if (Duplicates.Count == 0)
+            {
+                MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_NO_DUPLICATES"));
+            }
+            else
+            {
+                if (GlobalVars.DuplicateForm == null)
+                {
+                    GlobalVars.DuplicateForm = new DuplicateForm(Duplicates, this);
+                    GlobalVars.DuplicateForm.Show();
+                }
+                else
+                {
+                    GlobalVars.DuplicateForm.BringToFront();
+                }
+            }
+        }
+        /// <summary>
+        /// Gets the items in a listview, using a delegate if required.
+        /// </summary>
+        /// <param name="listView">The listview to retrieve items from.</param>
+        /// <returns>A ListViewItemCollection containing all items in the listview.</returns>
+        private ListView.ListViewItemCollection GetListViewItems(ListView listView)
+        {
+#pragma warning disable CC0022 // Should dispose object
+            var temp = new ListView.ListViewItemCollection(new ListView());
+#pragma warning restore CC0022 // Should dispose object
+            if (!listView.InvokeRequired)
+            {
+                foreach (ListViewItem item in listView.Items)
+                    temp.Add(item);
+                return temp;
+            }
+            else
+                return (ListView.ListViewItemCollection)this.Invoke(new GetItems(GetListViewItems), new object[] { listView });
+        }
+
+        /// <summary>
+        /// Adds the file drop to the library if they are images..
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void LibraryForm_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+            {
+                if (Directory.Exists(file))
+                {
+                    LoadFolder(file);
+                }
+                else
+                {
+                    LoadFile(file);
+                }
+            }
+            UpdateList();
+        }
+
+#pragma warning disable CC0091 // Use static method
+        /// <summary>
+        /// Updates the cursor when the user drags files onto the window.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void LibraryForm_DragEnter(object sender, DragEventArgs e)
+#pragma warning restore CC0091 // Use static method
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        /// <summary>
+        /// Saves the library and notifies the parent of closure.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void LibraryForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (GlobalVars.DuplicateForm != null)
+            {
+                GlobalVars.DuplicateForm.Close();
+            }
+
+            Library.Save();
+
+            if (Owner is MainForm)
+                (Owner as MainForm).ChildClosed(this);
+        }
+
+        /// <summary>
+        /// Loads the folder and it's subfolders into the library.
+        /// </summary>
+        /// <param name="Folder">The folder to load.</param>
+        private void LoadFolder(string Folder)
+        {
+            foreach (string directory in Directory.GetDirectories(Folder))
+            {
+                LoadFolder(directory);
+            }
+            foreach (string file in Directory.GetFiles(Folder))
+            {
+                LoadFile(file);
+            }
         }
 
         /// <summary>
@@ -380,29 +997,34 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Delegate to allow cross thread listview item retrieval.
+        /// Sorts the listview.
         /// </summary>
-        /// <param name="listView">The list view to retrieve items from.</param>
-        /// <returns>A delegate of some kind. This is magic.</returns>
-        private delegate ListView.ListViewItemCollection GetItems(ListView listView);
-        /// <summary>
-        /// Gets the items in a listview, using a delegate if required.
-        /// </summary>
-        /// <param name="listView">The listview to retrieve items from.</param>
-        /// <returns>A ListViewItemCollection containing all items in the listview.</returns>
-        private ListView.ListViewItemCollection GetListViewItems(ListView listView)
+        /// <param name="sender">Object that triggered the event.</param>
+        /// <param name="e">Arguments.</param>
+        private void lsvDisplay_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-#pragma warning disable CC0022 // Should dispose object
-            var temp = new ListView.ListViewItemCollection(new ListView());
-#pragma warning restore CC0022 // Should dispose object
-            if (!listView.InvokeRequired)
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lsvSorter.SortColumn)
             {
-                foreach (ListViewItem item in listView.Items)
-                    temp.Add(item);
-                return temp;
+                // Reverse the current sort direction for this column.
+                if (lsvSorter.Order == SortOrder.Ascending)
+                {
+                    lsvSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lsvSorter.Order = SortOrder.Ascending;
+                }
             }
             else
-                return (ListView.ListViewItemCollection)this.Invoke(new GetItems(GetListViewItems), new object[] { listView });
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lsvSorter.SortColumn = e.Column;
+                lsvSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            lsvDisplay.Sort();
         }
 
         /// <summary>
@@ -468,220 +1090,6 @@ namespace WallChanger
             ComboBoxLocked = false;
         }
 
-        #region "Category"
-        /// <summary>
-        /// Adds a category to the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnAddCategory_Click(object sender, EventArgs e)
-        {
-            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY"), LM.GetString("LIBRARY_MESSAGE_NEW_CATEGORY_TITLE"), Categories.ToArray());
-            if (string.IsNullOrWhiteSpace(Value))
-                return;
-
-            Categories.AddDistinct(Value);
-            FilterCategories.AddDistinct(Value);
-            UpdateComboBoxes();
-            cmbCategory.SelectedItem = Value;
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
-        }
-
-        /// <summary>
-        /// Clears the category on the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearCategory_Click(object sender, EventArgs e)
-        {
-            cmbCategory.Text = "";
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = "";
-        }
-
-        /// <summary>
-        /// Updates the image's category to the selected category.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void cmbCategory_SelectedValueChanged(object sender, EventArgs e)
-        {
-            // Don't want to update any values when multiple are selected.
-            if (lsvDisplay.SelectedItems.Count > 1)
-                return;
-
-            // Don't want the values changing when swapping between entries.
-            if (ComboBoxLocked)
-                return;
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = cmbCategory.Text;
-        }
-        #endregion
-
-        #region "Show Name"
-        /// <summary>
-        /// Adds a show name to the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnAddShowName_Click(object sender, EventArgs e)
-        {
-            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME"), LM.GetString("LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE"), ShowNames.ToArray());
-            if (string.IsNullOrWhiteSpace(Value))
-                return;
-
-            ShowNames.AddDistinct(Value);
-            FilterShowNames.AddDistinct(Value);
-            UpdateComboBoxes();
-            cmbShowName.SelectedItem = Value;
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = Value;
-        }
-
-        /// <summary>
-        /// Clears the showname on the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearShowName_Click(object sender, EventArgs e)
-        {
-            cmbShowName.Text = "";
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = "";
-        }
-
-        /// <summary>
-        /// Updates the image's showname to the selected showname.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void cmbShowName_SelectedValueChanged(object sender, EventArgs e)
-        {
-            // Don't want to update any values when multiple are selected.
-            if (lsvDisplay.SelectedItems.Count > 1)
-                return;
-
-            // Don't want the values changing when swapping between entries.
-            if (ComboBoxLocked)
-                return;
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = cmbShowName.Text;
-        }
-        #endregion
-
-        #region "Character"
-        /// <summary>
-        /// Adds a character name to the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnAddNewCharacter_Click(object sender, EventArgs e)
-        {
-            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER"), LM.GetString("LIBRARY_MESSAGE_NEW_CHARACTER_TITLE"), Characters.ToArray());
-            if (string.IsNullOrWhiteSpace(Value))
-                return;
-
-            Characters.AddDistinct(Value);
-            FilterCharacters.AddDistinct(Value);
-            lstCharacters.Items.Add(Value);
-            lstCharacters.SelectedItem = Value;
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
-        }
-
-        /// <summary>
-        /// Removes the selected character name from the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnRemoveCharacter_Click(object sender, EventArgs e)
-        {
-            if (lstCharacters.SelectedIndex > -1)
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Remove(lstCharacters.SelectedItem as string);
-                lstCharacters.Items.Remove(lstCharacters.SelectedItem);
-            }
-        }
-
-        /// <summary>
-        /// CLears the character names from the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearCharacters_Click(object sender, EventArgs e)
-        {
-            lstCharacters.Items.Clear();
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.Clear();
-        }
-        #endregion
-
-        #region "Tags"
-        /// <summary>
-        /// Adds a tag to the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnAddNewTag_Click(object sender, EventArgs e)
-        {
-            var Value = Prompt.ShowStringComboBoxDialog(LM.GetString("LIBRARY_MESSAGE_NEW_TAG"), LM.GetString("LIBRARY_MESSAGE_NEW_TAG_TITLE"), Tags.ToArray());
-            if (string.IsNullOrWhiteSpace(Value))
-                return;
-
-            Tags.AddDistinct(Value);
-            FilterTags.AddDistinct(Value);
-            lstTags.Items.Add(Value);
-            lstTags.SelectedItem = Value;
-
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.AddDistinct(Value);
-        }
-
-        /// <summary>
-        /// Removes the selected tag from the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnRemoveTag_Click(object sender, EventArgs e)
-        {
-            if (lstTags.SelectedIndex > -1)
-            {
-                GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Remove(lstTags.SelectedItem as string);
-                lstCharacters.Items.Remove(lstTags.SelectedItem);
-            }
-        }
-
-        /// <summary>
-        /// Clears the tags on the image.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearTags_Click(object sender, EventArgs e)
-        {
-            lstTags.Items.Clear();
-            GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.Clear();
-        }
-        #endregion
-
-        /// <summary>
-        /// Toggles whether the filtering options are expanded.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnExpand_Click(object sender, EventArgs e)
-        {
-            FiltersExpanded = !FiltersExpanded;
-            if (FiltersExpanded)
-            {
-                btnExpand.Image = Properties.Resources.toggle;
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY_TOOLTIP_FILTER_SHRINK"));
-                pnlFilters.Height = FILTERS_EXPANDED_HEIGHT;
-            }
-            else
-            {
-                btnExpand.Image = Properties.Resources.toggle_expand;
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY_TOOLTIP_FILTER_EXPAND"));
-                pnlFilters.Height = FILTERS_SHRUNKEN_HEIGHT;
-            }
-        }
-
         /// <summary>
         /// Update the control positions when the container changes size.
         /// </summary>
@@ -703,36 +1111,74 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Handle windows messages.
+        /// Updates the data in the comboboxes.
         /// </summary>
-        /// <param name="message">The message to handle.</param>
-        protected override void WndProc(ref Message message)
+        private void UpdateComboBoxes()
         {
-            const int WM_SYSCOMMAND = 0x0112;
-            const int SC_MAXIMIZE = 0xF030;
-            const int SC_RESTORE = 0xF120;
-            const int SC_MINIMIZE = 0xF020;
+            ComboBoxLocked = true;
 
-            switch (message.Msg)
-            {
-                case WM_SYSCOMMAND:
-                    var command = message.WParam.ToInt32() & 0xfff0;
-                    if (command == SC_MAXIMIZE)
-                    {
-                        UpdateControlPositionsAsync(50);
-                    }
-                    if (command == SC_RESTORE)
-                    {
-                        UpdateControlPositionsAsync(50);
-                    }
-                    if (command == SC_MINIMIZE)
-                    {
+            var CategoryFilter = cmbCategoryFilter.Text;
+            cmbCategoryFilter.DataSource = null;
+            cmbCategoryFilter.DataSource = FilterCategories;
+            cmbCategoryFilter.Text = CategoryFilter;
 
-                    }
-                    break;
-            }
+            var ShowNameFilter = cmbShowNameFilter.Text;
+            cmbShowNameFilter.DataSource = null;
+            cmbShowNameFilter.DataSource = FilterShowNames;
+            cmbShowNameFilter.Text = ShowNameFilter;
 
-            base.WndProc(ref message);
+            var CharacterFilter = cmbCharacterFilter.Text;
+            cmbCharacterFilter.DataSource = null;
+            cmbCharacterFilter.DataSource = FilterCharacters;
+            cmbCharacterFilter.Text = CharacterFilter;
+
+            var TagFilter = cmbTagFilter.Text;
+            cmbTagFilter.DataSource = null;
+            cmbTagFilter.DataSource = FilterTags;
+            cmbTagFilter.Text = TagFilter;
+
+            cmbCategory.DataSource = null;
+            cmbShowName.DataSource = null;
+            cmbCategory.DataSource = Categories;
+            cmbShowName.DataSource = ShowNames;
+
+            ComboBoxLocked = false;
+        }
+
+        /// <summary>
+        /// Updates the controls to fill the window.
+        /// </summary>
+        private void UpdateControlPositions()
+        {
+            picPreview.Height = Imaging.CalculateImageHeight(picPreview.Image, picPreview, this.Height, MINIMUM_DATA_HEIGHT);
+
+            cmbCategory.Width = pnlDetails.Width - 16;
+            cmbShowName.Width = pnlDetails.Width - 16;
+            lstCharacters.Width = pnlDetails.Width - 16;
+
+            btnAddCategory.Left = pnlDetails.Width - 63;
+            btnClearCategory.Left = pnlDetails.Width - 33;
+
+            btnAddShowName.Left = pnlDetails.Width - 63;
+            btnClearShowName.Left = pnlDetails.Width - 33;
+
+            btnAddNewCharacter.Left = pnlDetails.Width - 93;
+            btnRemoveCharacter.Left = pnlDetails.Width - 63;
+            btnClearCharacters.Left = pnlDetails.Width - 33;
+
+            btnAddNewTag.Left = pnlTagButtons.Width - 84;
+            btnRemoveTag.Left = pnlTagButtons.Width - 54;
+            btnClearTags.Left = pnlTagButtons.Width - 24;
+
+            btnAddToConfig.Left = pnlFilters.Width - 27;
+            btnRemoveFromLibrary.Left = pnlFilters.Width - 57;
+            btnClearLibrary.Left = pnlFilters.Width - 87;
+            btnFindDuplicates.Left = pnlFilters.Width - 117;
+            btnFindAllDuplicates.Left = pnlFilters.Width - 147;
+            btnCacheDuplicateThumbnails.Left = pnlFilters.Width - 177;
+            btnCheckFiles.Left = pnlFilters.Width - 207;
+
+            colFilename.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         /// <summary>
@@ -743,462 +1189,6 @@ namespace WallChanger
         {
             await Task.Delay(Delay);
             UpdateControlPositions();
-        }
-
-        #region "Filters"
-        /// <summary>
-        /// Updates the list when the filters are changed.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void FilterChoiceChanged(object sender, EventArgs e)
-        {
-            // Don't update the list if we are already updating it.
-            if (ComboBoxLocked)
-                return;
-            UpdateList();
-        }
-
-        /// <summary>
-        /// CLears the category filter.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnCategoryFilterClear_Click(object sender, EventArgs e)
-        {
-            cmbCategoryFilter.Text = "";
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Clears the showname filter.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnShowNameFilterClear_Click(object sender, EventArgs e)
-        {
-            cmbShowNameFilter.Text = "";
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Clears the character name filter.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnCharacterFilterClear_Click(object sender, EventArgs e)
-        {
-            cmbCharacterFilter.Text = "";
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Clears the tag filter.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnTagFilterClear_Click(object sender, EventArgs e)
-        {
-            cmbTagFilter.Text = "";
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Clears all filters.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearFilters_Click(object sender, EventArgs e)
-        {
-            cmbCategoryFilter.Text = "";
-            cmbShowNameFilter.Text = "";
-            cmbCharacterFilter.Text = "";
-            cmbTagFilter.Text = "";
-            UpdateList();
-        }
-        #endregion
-
-        /// <summary>
-        /// Adds the selected images to the current config.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnAddToConfig_Click(object sender, EventArgs e)
-        {
-            if (Owner is MainForm)
-            {
-                var Images = new List<string>();
-                foreach (ListViewItem item in lsvDisplay.SelectedItems)
-                {
-                    Images.Add(item.Tag as string);
-                }
-                (Owner as MainForm).AddImages(Images);
-            }
-
-        }
-
-        /// <summary>
-        /// Adds the file drop to the library if they are images..
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void LibraryForm_DragDrop(object sender, DragEventArgs e)
-        {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string file in files)
-            {
-                if (Directory.Exists(file))
-                {
-                    LoadFolder(file);
-                }
-                else
-                {
-                    LoadFile(file);
-                }
-            }
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Loads the folder and it's subfolders into the library.
-        /// </summary>
-        /// <param name="Folder">The folder to load.</param>
-        private void LoadFolder(string Folder)
-        {
-            foreach (string directory in Directory.GetDirectories(Folder))
-            {
-                LoadFolder(directory);
-            }
-            foreach (string file in Directory.GetFiles(Folder))
-            {
-                LoadFile(file);
-            }
-        }
-
-        /// <summary>
-        /// Loads the file into the library.
-        /// </summary>
-        /// <param name="FileName">The file to add.</param>
-        private static void LoadFile(string FileName)
-        {
-            using (Stream read = File.Open(FileName, FileMode.Open))
-            {
-                if (Imaging.GetImageFormat(read) == Imaging.ImageFormat.unknown)
-                {
-                    using (StreamWriter write = File.AppendText("unknownFiles.log"))
-                    {
-                        write.WriteLine(FileName);
-                    }
-                    read.Close();
-                    return;
-                }
-                GlobalVars.LibraryItems.AddDistinct(new LibraryItem(FileName));
-            }
-        }
-
-#pragma warning disable CC0091 // Use static method
-                              /// <summary>
-                              /// Updates the cursor when the user drags files onto the window.
-                              /// </summary>
-                              /// <param name="sender">Object that triggered the event.</param>
-                              /// <param name="e">Arguments.</param>
-        private void LibraryForm_DragEnter(object sender, DragEventArgs e)
-#pragma warning restore CC0091 // Use static method
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
-        }
-
-        /// <summary>
-        /// Removes the selected items from the library.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnRemoveFromLibrary_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in lsvDisplay.SelectedItems)
-            {
-                GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(i => i.Filename == item.Tag as string));
-            }
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Clears the library.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnClearLibrary_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_CLEAR"), LM.GetString("LIBRARY_MESSAGE_CLEAR_TITLE")) == DialogResult.OK)
-            {
-                GlobalVars.LibraryItems = new List<LibraryItem>();
-                UpdateList();
-            }
-        }
-
-        /// <summary>
-        /// Finds duplicates in the selection.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnFindDuplicates_Click(object sender, EventArgs e)
-        {
-            var items = new List<string>();
-            foreach (ListViewItem item in lsvDisplay.SelectedItems)
-            {
-                items.Add(item.Tag as string);
-            }
-            FindDuplicatesAsync(items);
-        }
-
-        /// <summary>
-        /// Finds duplicates in the filtered list.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnFindAllDuplicates_Click(object sender, EventArgs e)
-        {
-            var Images = new List<string>();
-            foreach (ListViewItem item in lsvDisplay.Items)
-            {
-                Images.Add(item.Tag as string);
-            }
-            FindDuplicatesAsync(Images);
-        }
-
-        /// <summary>
-        /// Caches thumbnails.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnCacheDuplicateThumbnails_Click(object sender, EventArgs e)
-        {
-            var Images = new List<string>();
-            foreach (ListViewItem item in lsvDisplay.Items)
-            {
-                Images.Add(item.Tag as string);
-            }
-            CacheDuplicateThumbnailsAsync(Images);
-            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
-        }
-
-        /// <summary>
-        /// Removes deleted images from the library.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void btnCheckFiles_Click(object sender, EventArgs e)
-        {
-            CheckFilesExistAsync();
-
-            UpdateList();
-        }
-
-        /// <summary>
-        /// Checks if the library files exist on disk.
-        /// </summary>
-        private async void CheckFilesExistAsync()
-        {
-            var LibraryFilenames = new List<string>();
-
-            foreach (var Item in GlobalVars.LibraryItems)
-            {
-                LibraryFilenames.Add(Item.Filename);
-            }
-
-            var Directories = await Task.Run(() => GetUniqueDirectories(LibraryFilenames));
-
-            var DiskFilenames = await Task.Run(() => GetFiles(Directories));
-
-            var MissingCount = 0;
-
-            foreach (string ImagePath in LibraryFilenames)
-            {
-                if (await Task.Run(() => !DiskFilenames.Contains(ImagePath)))
-                {
-                    MissingCount++;
-                    GlobalVars.LibraryItems.Remove(GlobalVars.LibraryItems.Find(x => x.Filename == ImagePath));
-                }
-            }
-
-            MessageBox.Show(string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_MISSING", "{0} LIBRARY_MESSAGE_MISSING"), MissingCount));
-        }
-
-        /// <summary>
-        /// Gets a list of unique directory from a file list.
-        /// </summary>
-        /// <param name="Files">List of filenames.</param>
-        /// <returns>List of unique directory names.</returns>
-        private static List<string> GetUniqueDirectories(IEnumerable<string> Files)
-        {
-            var DirectoryNames = new List<string>();
-
-            foreach (string File in Files)
-            {
-                DirectoryNames.AddDistinct(Path.GetDirectoryName(File));
-            }
-
-            return DirectoryNames;
-        }
-
-        /// <summary>
-        /// Gets a list of files in the specified directories.
-        /// </summary>
-        /// <param name="Directories">The enumerable list of directories.</param>
-        /// <param name="Recursive">Whether or not to search sub directories.</param>
-        /// <returns>A list of files in all directories.</returns>
-        private static List<string> GetFiles(IEnumerable<string> Directories, bool Recursive = false)
-        {
-            var FileList = new List<string>();
-
-            foreach (string Directory in Directories)
-            {
-                FileList.AddRange(GetFiles(Directory, Recursive));
-            }
-
-            return FileList;
-        }
-
-        /// <summary>
-        /// Gets a list of files in the specified directory.
-        /// </summary>
-        /// <param name="Directory">The directory to scan.</param>
-        /// <param name="Recursive">Whether or not to recursively scan directories.</param>
-        /// <returns>A list of files in the specified directory.</returns>
-        private static List<string> GetFiles(string Directory, bool Recursive = false)
-        {
-            var FileList = new List<string>();
-
-            var Files = System.IO.Directory.GetFiles(Directory);
-
-            FileList.AddRange(Files);
-
-            if (Recursive)
-            {
-                foreach (string SubDirectory in System.IO.Directory.GetDirectories(Directory))
-                {
-                    FileList.AddRange(System.IO.Directory.GetFiles(SubDirectory));
-                }
-            }
-
-            return FileList;
-        }
-
-        /// <summary>
-        /// Finds duplicate images in the specified list.
-        /// </summary>
-        /// <param name="ImagePaths">An enumerable list of image paths to check.</param>
-        private async void FindDuplicatesAsync(IEnumerable<string> ImagePaths)
-        {
-            if (GlobalVars.DuplicateForm != null)
-            {
-                MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_CLOSE_DUPLICATES"));
-                return;
-            }
-            if (ScanningDuplicates)
-                return;
-            ScanningDuplicates = true;
-
-            var Duplicates = new List<List<string>>();
-            Duplicates = await ImageTool.GetDuplicateImagesMultithreadedCacheAsync(ImagePaths, 3, GlobalVars.ImageCache, new Progress<Tuple<int, int>>(UpdateDuplicateScanProgress));
-
-            ScanningDuplicates = false;
-
-            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_READY");
-
-            if (Duplicates.Count == 0)
-            {
-                MessageBox.Show(LM.GetString("LIBRARY_MESSAGE_NO_DUPLICATES"));
-            }
-            else
-            {
-                if (GlobalVars.DuplicateForm == null)
-                {
-                    GlobalVars.DuplicateForm = new DuplicateForm(Duplicates, this);
-                    GlobalVars.DuplicateForm.Show();
-                }
-                else
-                {
-                    GlobalVars.DuplicateForm.BringToFront();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Updates the progress of the duplicate scan.
-        /// </summary>
-        /// <param name="Progress"></param>
-        public void UpdateDuplicateScanProgress(Tuple<int, int> Progress)
-        {
-            tslStatus.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_SCANNING_DUPLICATES", "LIBRARY_MESSAGE_SCANNING_DUPLICATES ({0}/{1})"), Progress.Item1, Progress.Item2);
-            tspProgressBar.Value = (int)(((float)Progress.Item1 / Progress.Item2) * 100);
-        }
-
-        /// <summary>
-        /// Caches the thumbnails of the specified images.
-        /// </summary>
-        /// <param name="ImagePaths"></param>
-        private async void CacheDuplicateThumbnailsAsync(List<string> ImagePaths)
-        {
-            tslStatus.Text = LM.GetString("LIBRARY_MESSAGE_GENERATING_THUMBNAILS");
-            for (int i = 0; i < ImagePaths.Count; i++)
-            {
-                if (!GlobalVars.ImageCache.ContainsKey(ImagePaths[i]))
-                {
-                    await Task.Run(() =>
-                    {
-                        var image = Image.FromFile(ImagePaths[i]);
-                        GlobalVars.ImageCache.Add(ImagePaths[i], image.GetGrayScaleValues());
-                        image.Dispose();
-                    });
-                }
-                tslStatus.Text = string.Format(LM.GetStringDefault("LIBRARY_MESSAGE_GENERATING_THUMBNAILS_STATUS", "LIBRARY_GENERATING_THUMBNAILS_STATUS ({0}/{1})"), i + 1, ImagePaths.Count);
-                tspProgressBar.Value = (int)(((float)(i + 1) / ImagePaths.Count) * 100);
-            }
-        }
-
-        /// <summary>
-        /// Allows child forms to be opened.
-        /// </summary>
-        /// <param name="Child">The child that has closed.</param>
-        public static void ChildClosed(Form Child)
-        {
-            if (Child is DuplicateForm)
-                GlobalVars.DuplicateForm = null;
-        }
-
-        /// <summary>
-        /// Sorts the listview.
-        /// </summary>
-        /// <param name="sender">Object that triggered the event.</param>
-        /// <param name="e">Arguments.</param>
-        private void lsvDisplay_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == lsvSorter.SortColumn)
-            {
-                // Reverse the current sort direction for this column.
-                if (lsvSorter.Order == SortOrder.Ascending)
-                {
-                    lsvSorter.Order = SortOrder.Descending;
-                }
-                else
-                {
-                    lsvSorter.Order = SortOrder.Ascending;
-                }
-            }
-            else
-            {
-                // Set the column number that is to be sorted; default to ascending.
-                lsvSorter.SortColumn = e.Column;
-                lsvSorter.Order = SortOrder.Ascending;
-            }
-
-            // Perform the sort with these new sort options.
-            lsvDisplay.Sort();
         }
     }
 }

@@ -26,11 +26,6 @@ namespace WallChanger
             }
         }
 
-        public static string ToString(int MilliSeconds)
-        {
-            return new DateTime().AddYears(10).AddSeconds(MilliSeconds / 1000).ToString(@"H \h m \m s \s");
-        }
-
         /// <summary>
         /// Parses the config file times to seconds.
         /// </summary>
@@ -53,6 +48,11 @@ namespace WallChanger
             }
 
             return interval;
+        }
+
+        public static string ToString(int MilliSeconds)
+        {
+            return new DateTime().AddYears(10).AddSeconds(MilliSeconds / 1000).ToString(@"H \h m \m s \s");
         }
     }
 }

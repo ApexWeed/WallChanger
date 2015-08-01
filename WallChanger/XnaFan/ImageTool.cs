@@ -21,36 +21,11 @@ namespace XnaFan.ImageComparison
     /// </summary>
     public static class ImageTool
     {
-#pragma warning disable CC0033 // Dispose Fields Properly
-        static readonly Mutex QueueMutex = new Mutex();
 #pragma warning restore CC0033 // Dispose Fields Properly
 
         private static readonly PathGrayscaleTupleComparer Comparer = new PathGrayscaleTupleComparer();
-
-        /// <summary>
-        /// Gets the difference between two images as a percentage
-        /// </summary>
-        /// <returns>The difference between the two images as a percentage</returns>
-        /// <param name="image1Path">The path to the first image</param>
-        /// <param name="image2Path">The path to the second image</param>
-        /// <param name="threshold">How big a difference (out of 255) will be ignored - the default is 3.</param>
-        /// <returns>The difference between the two images as a percentage</returns>
-        public static float GetPercentageDifference(string image1Path, string image2Path, byte threshold = 3)
-        {
-            if (CheckIfFileExists(image1Path) && CheckIfFileExists(image2Path))
-            {
-                var img1 = Image.FromFile(image1Path);
-                var img2 = Image.FromFile(image2Path);
-
-                var difference = img1.PercentageDifference(img2, threshold);
-
-                img1.Dispose();
-                img2.Dispose();
-
-                return difference;
-            }
-            else return -1;
-        }
+#pragma warning disable CC0033 // Dispose Fields Properly
+        static readonly Mutex QueueMutex = new Mutex();
 
         /// <summary>
         /// Gets the difference between two images as a percentage
@@ -73,7 +48,8 @@ namespace XnaFan.ImageComparison
 
                 return difference;
             }
-            else return -1;
+            else
+                return -1;
         }
 
 
@@ -199,6 +175,99 @@ namespace XnaFan.ImageComparison
             return pathsGroupedByDuplicates;
         }
 
+        /// <summary>
+        /// Gets the difference between two images as a percentage
+        /// </summary>
+        /// <returns>The difference between the two images as a percentage</returns>
+        /// <param name="image1Path">The path to the first image</param>
+        /// <param name="image2Path">The path to the second image</param>
+        /// <param name="threshold">How big a difference (out of 255) will be ignored - the default is 3.</param>
+        /// <returns>The difference between the two images as a percentage</returns>
+        public static float GetPercentageDifference(string image1Path, string image2Path, byte threshold = 3)
+        {
+            if (CheckIfFileExists(image1Path) && CheckIfFileExists(image2Path))
+            {
+                var img1 = Image.FromFile(image1Path);
+                var img2 = Image.FromFile(image2Path);
+
+                var difference = img1.PercentageDifference(img2, threshold);
+
+                img1.Dispose();
+                img2.Dispose();
+
+                return difference;
+            }
+            else
+                return -1;
+        }
+
+        private static bool CheckIfFileExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("File '" + filePath + "' not found!");
+            }
+            return true;
+        }
+
+        private static List<List<Tuple<string, byte[,]>>> GetDuplicateGroups(List<Tuple<string, byte[,]>> imagePathsAndGrayValues)
+        {
+            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
+            var currentDuplicates = new List<Tuple<string, byte[,]>>();
+
+            foreach (Tuple<string, byte[,]> tuple in imagePathsAndGrayValues)
+            {
+                if (currentDuplicates.Any() && Comparer.Compare(currentDuplicates.First(), tuple) != 0)
+                {
+                    if (currentDuplicates.Count > 1)
+                    {
+                        duplicateGroups.Add(currentDuplicates);
+                        currentDuplicates = new List<Tuple<string, byte[,]>>();
+                    }
+                    else
+                    {
+                        currentDuplicates.Clear();
+                    }
+                }
+
+                currentDuplicates.Add(tuple);
+            }
+            if (currentDuplicates.Count > 1)
+            {
+                duplicateGroups.Add(currentDuplicates);
+            }
+            return duplicateGroups;
+        }
+
+        private static List<List<Tuple<string, byte[,]>>> GetDuplicateGroups(List<Tuple<string, byte[,]>> imagePathsAndGrayValues, byte Tolerance)
+        {
+            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
+            var currentDuplicates = new List<Tuple<string, byte[,]>>();
+
+            foreach (Tuple<string, byte[,]> tuple in imagePathsAndGrayValues)
+            {
+                if (currentDuplicates.Any() && currentDuplicates.First().Compare(tuple, Tolerance) != 0)
+                {
+                    if (currentDuplicates.Count > 1)
+                    {
+                        duplicateGroups.Add(currentDuplicates);
+                        currentDuplicates = new List<Tuple<string, byte[,]>>();
+                    }
+                    else
+                    {
+                        currentDuplicates.Clear();
+                    }
+                }
+
+                currentDuplicates.Add(tuple);
+            }
+            if (currentDuplicates.Count > 1)
+            {
+                duplicateGroups.Add(currentDuplicates);
+            }
+            return duplicateGroups;
+        }
+
         #region Helpermethods
 
         private static List<Tuple<string, byte[,]>> GetSortedGrayscaleValues(IEnumerable<string> pathsOfPossibleDuplicateImages)
@@ -236,6 +305,37 @@ namespace XnaFan.ImageComparison
 
             imagePathsAndGrayValues.Sort(Comparer);
             return imagePathsAndGrayValues;
+        }
+
+        private static void GetSortedGrayscaleValuesCacheWork(int Id, Queue<string> WorkItems, List<Tuple<string, byte[,]>>[] WorkerData, IProgress<Tuple<int, int>> ProgressChanged, int TotalItems, bool[] WorkerFinished, Dictionary<string, byte[,]> Cache)
+        {
+            WorkerData[Id] = new List<Tuple<string, byte[,]>>();
+            while (WorkItems.Count > 0)
+            {
+                QueueMutex.WaitOne();
+                if (WorkItems.Count == 0)
+                    break;
+                var currentWorkItem = WorkItems.Dequeue();
+                QueueMutex.ReleaseMutex();
+                if (Cache.ContainsKey(currentWorkItem))
+                {
+                    var tuple = new Tuple<string, byte[,]>(currentWorkItem, Cache[currentWorkItem]);
+                    WorkerData[Id].Add(tuple);
+                    ProgressChanged.Report(new Tuple<int, int>(TotalItems - WorkItems.Count, TotalItems));
+                }
+                else
+                {
+                    using (Image image = Image.FromFile(currentWorkItem))
+                    {
+                        var grayValues = image.GetGrayScaleValues();
+                        var tuple = new Tuple<string, byte[,]>(currentWorkItem, grayValues);
+                        WorkerData[Id].Add(tuple);
+                        Cache.Add(currentWorkItem, grayValues);
+                        ProgressChanged.Report(new Tuple<int, int>(TotalItems - WorkItems.Count, TotalItems));
+                    }
+                }
+            }
+            WorkerFinished[Id] = true;
         }
 
         private static List<Tuple<string, byte[,]>> GetSortedGrayscaleValuesMultithreaded(IEnumerable<string> pathsOfPossibleDuplicateImages, IProgress<Tuple<int, int>> ProgressChanged)
@@ -339,104 +439,6 @@ namespace XnaFan.ImageComparison
                 }
             }
             WorkerFinished[Id] = true;
-        }
-
-        private static void GetSortedGrayscaleValuesCacheWork(int Id, Queue<string> WorkItems, List<Tuple<string, byte[,]>>[] WorkerData, IProgress<Tuple<int, int>> ProgressChanged, int TotalItems, bool[] WorkerFinished, Dictionary<string, byte[,]> Cache)
-        {
-            WorkerData[Id] = new List<Tuple<string, byte[,]>>();
-            while (WorkItems.Count > 0)
-            {
-                QueueMutex.WaitOne();
-                if (WorkItems.Count == 0)
-                    break;
-                var currentWorkItem = WorkItems.Dequeue();
-                QueueMutex.ReleaseMutex();
-                if (Cache.ContainsKey(currentWorkItem))
-                {
-                    var tuple = new Tuple<string, byte[,]>(currentWorkItem, Cache[currentWorkItem]);
-                    WorkerData[Id].Add(tuple);
-                    ProgressChanged.Report(new Tuple<int, int>(TotalItems - WorkItems.Count, TotalItems));
-                }
-                else
-                {
-                    using (Image image = Image.FromFile(currentWorkItem))
-                    {
-                        var grayValues = image.GetGrayScaleValues();
-                        var tuple = new Tuple<string, byte[,]>(currentWorkItem, grayValues);
-                        WorkerData[Id].Add(tuple);
-                        Cache.Add(currentWorkItem, grayValues);
-                        ProgressChanged.Report(new Tuple<int, int>(TotalItems - WorkItems.Count, TotalItems));
-                    }
-                }
-            }
-            WorkerFinished[Id] = true;
-        }
-
-        private static List<List<Tuple<string, byte[,]>>> GetDuplicateGroups(List<Tuple<string, byte[,]>> imagePathsAndGrayValues)
-        {
-            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
-            var currentDuplicates = new List<Tuple<string, byte[,]>>();
-
-            foreach (Tuple<string, byte[,]> tuple in imagePathsAndGrayValues)
-            {
-                if (currentDuplicates.Any() && Comparer.Compare(currentDuplicates.First(), tuple) != 0)
-                {
-                    if (currentDuplicates.Count > 1)
-                    {
-                        duplicateGroups.Add(currentDuplicates);
-                        currentDuplicates = new List<Tuple<string, byte[,]>>();
-                    }
-                    else
-                    {
-                        currentDuplicates.Clear();
-                    }
-                }
-
-                currentDuplicates.Add(tuple);
-            }
-            if (currentDuplicates.Count > 1)
-            {
-                duplicateGroups.Add(currentDuplicates);
-            }
-            return duplicateGroups;
-        }
-
-        private static List<List<Tuple<string, byte[,]>>> GetDuplicateGroups(List<Tuple<string, byte[,]>> imagePathsAndGrayValues, byte Tolerance)
-        {
-            var duplicateGroups = new List<List<Tuple<string, byte[,]>>>();
-            var currentDuplicates = new List<Tuple<string, byte[,]>>();
-
-            foreach (Tuple<string, byte[,]> tuple in imagePathsAndGrayValues)
-            {
-                if (currentDuplicates.Any() && currentDuplicates.First().Compare(tuple, Tolerance) != 0)
-                {
-                    if (currentDuplicates.Count > 1)
-                    {
-                        duplicateGroups.Add(currentDuplicates);
-                        currentDuplicates = new List<Tuple<string, byte[,]>>();
-                    }
-                    else
-                    {
-                        currentDuplicates.Clear();
-                    }
-                }
-
-                currentDuplicates.Add(tuple);
-            }
-            if (currentDuplicates.Count > 1)
-            {
-                duplicateGroups.Add(currentDuplicates);
-            }
-            return duplicateGroups;
-        }
-
-        private static bool CheckIfFileExists(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException("File '" + filePath + "' not found!");
-            }
-            return true;
         }
         #endregion
 

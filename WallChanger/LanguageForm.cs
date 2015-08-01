@@ -5,8 +5,8 @@ namespace WallChanger
 {
     public partial class LanguageForm : Form
     {
-        new readonly Form Parent;
         readonly LanguageManager LM = GlobalVars.LanguageManager;
+        new readonly Form Parent;
 
         /// <summary>
         /// Initialises a new language form.
@@ -17,26 +17,6 @@ namespace WallChanger
             InitializeComponent();
 
             this.Parent = Parent;
-        }
-
-        /// <summary>
-        /// Sets up the form for use.
-        /// </summary>
-        /// <param name="sender">Sender that fired the event.</param>
-        /// <param name="e">Event args associated with this event.</param>
-        private void LanguageForm_Load(object sender, EventArgs e)
-        {
-            var Languages = LM.GetLanguages();
-            foreach (Language Lang in Languages)
-            {
-                cmbCurrentLanguage.Items.Add(Lang);
-                cmbFallbackLanguage.Items.Add(Lang);
-            }
-
-            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.FallbackLanguage);
-            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.Language);
-
-            LocaliseInterface();
         }
 
         /// <summary>
@@ -56,17 +36,6 @@ namespace WallChanger
             // Cascade.
             if (Parent is MainForm)
                 (Parent as MainForm).LocaliseInterface();
-        }
-
-        /// <summary>
-        /// Notifies the parent of closure.
-        /// </summary>
-        /// <param name="sender">Sender that fired the event.</param>
-        /// <param name="e">Event args associated with this event.</param>
-        private void LanguageForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (Parent is MainForm)
-                (Parent as MainForm).ChildClosed(this);
         }
 
         /// <summary>
@@ -91,6 +60,37 @@ namespace WallChanger
         private void LanguageChanged(object sender, EventArgs e)
         {
             txtDescription.Text = ((sender as ComboBox).SelectedItem as Language).Description;
+        }
+
+        /// <summary>
+        /// Notifies the parent of closure.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
+        private void LanguageForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Parent is MainForm)
+                (Parent as MainForm).ChildClosed(this);
+        }
+
+        /// <summary>
+        /// Sets up the form for use.
+        /// </summary>
+        /// <param name="sender">Sender that fired the event.</param>
+        /// <param name="e">Event args associated with this event.</param>
+        private void LanguageForm_Load(object sender, EventArgs e)
+        {
+            var Languages = LM.GetLanguages();
+            foreach (Language Lang in Languages)
+            {
+                cmbCurrentLanguage.Items.Add(Lang);
+                cmbFallbackLanguage.Items.Add(Lang);
+            }
+
+            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.FallbackLanguage);
+            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.Language);
+
+            LocaliseInterface();
         }
     }
 }

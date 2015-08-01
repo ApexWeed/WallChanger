@@ -4,8 +4,8 @@ namespace WallChanger
 {
     public struct StringBool
     {
-        public readonly string String;
         public readonly bool Bool;
+        public readonly string String;
 
         public StringBool(string _string, bool _bool)
         {
@@ -16,60 +16,6 @@ namespace WallChanger
 
     public static class Prompt
     {
-        /// <summary>
-        /// Prompts the user for a string.
-        /// </summary>
-        /// <param name="Text">The text to display in the window.</param>
-        /// <param name="Caption">The text to display in the title bar.</param>
-        /// <param name="DefaultText">The default value for the prompt.</param>
-        /// <returns></returns>
-        public static string ShowStringDialog(string Text, string Caption, string DefaultText = "")
-        {
-            var prompt = new Form
-            {
-                Width = 500,
-                Height = 150,
-                Text = Caption
-            };
-            var panel = new Panel { Dock = DockStyle.Fill };
-            var textLabel = new Label { Left = 20, Top = 20, Text = Text };
-            var textBox = new TextBox { Left = 20, Top = 50, Text = DefaultText };
-            var confirmation = new Button { Text = "Ok", Top = 70 };
-            confirmation.Click += (sender, e) => { prompt.DialogResult = DialogResult.OK; prompt.Close(); };
-            panel.Controls.Add(textLabel);
-            panel.Controls.Add(textBox);
-            panel.Controls.Add(confirmation);
-            prompt.Controls.Add(panel);
-            textBox.Width = panel.Width - 40;
-            textLabel.Width = panel.Width - 40;
-            confirmation.Left = panel.Width - 20 - confirmation.Width;
-            prompt.ResizeEnd += (sender, e) =>
-            {
-                textBox.Width = panel.Width - 40;
-                textLabel.Width = panel.Width - 40;
-                confirmation.Left = panel.Width - 20 - confirmation.Width;
-            };
-            prompt.AcceptButton = confirmation;
-            if (prompt.ShowDialog() == DialogResult.OK)
-            {
-                var text = textBox.Text;
-                panel.Dispose();
-                textLabel.Dispose();
-                textBox.Dispose();
-                confirmation.Dispose();
-                prompt.Dispose();
-                return text;
-            }
-            else
-            {
-                panel.Dispose();
-                textLabel.Dispose();
-                textBox.Dispose();
-                confirmation.Dispose();
-                prompt.Dispose();
-                return null;
-            }
-        }
 
         /// <summary>
         /// Prompts the user for a boolean and string.
@@ -140,6 +86,60 @@ namespace WallChanger
             }
             else
             {
+                prompt.Dispose();
+                return null;
+            }
+        }
+        /// <summary>
+        /// Prompts the user for a string.
+        /// </summary>
+        /// <param name="Text">The text to display in the window.</param>
+        /// <param name="Caption">The text to display in the title bar.</param>
+        /// <param name="DefaultText">The default value for the prompt.</param>
+        /// <returns></returns>
+        public static string ShowStringDialog(string Text, string Caption, string DefaultText = "")
+        {
+            var prompt = new Form
+            {
+                Width = 500,
+                Height = 150,
+                Text = Caption
+            };
+            var panel = new Panel { Dock = DockStyle.Fill };
+            var textLabel = new Label { Left = 20, Top = 20, Text = Text };
+            var textBox = new TextBox { Left = 20, Top = 50, Text = DefaultText };
+            var confirmation = new Button { Text = "Ok", Top = 70 };
+            confirmation.Click += (sender, e) => { prompt.DialogResult = DialogResult.OK; prompt.Close(); };
+            panel.Controls.Add(textLabel);
+            panel.Controls.Add(textBox);
+            panel.Controls.Add(confirmation);
+            prompt.Controls.Add(panel);
+            textBox.Width = panel.Width - 40;
+            textLabel.Width = panel.Width - 40;
+            confirmation.Left = panel.Width - 20 - confirmation.Width;
+            prompt.ResizeEnd += (sender, e) =>
+            {
+                textBox.Width = panel.Width - 40;
+                textLabel.Width = panel.Width - 40;
+                confirmation.Left = panel.Width - 20 - confirmation.Width;
+            };
+            prompt.AcceptButton = confirmation;
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                var text = textBox.Text;
+                panel.Dispose();
+                textLabel.Dispose();
+                textBox.Dispose();
+                confirmation.Dispose();
+                prompt.Dispose();
+                return text;
+            }
+            else
+            {
+                panel.Dispose();
+                textLabel.Dispose();
+                textBox.Dispose();
+                confirmation.Dispose();
                 prompt.Dispose();
                 return null;
             }
