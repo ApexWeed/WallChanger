@@ -1,4 +1,4 @@
-﻿# WallChanger
+# WallChanger
 Changes your wallpapers based on time of day.
 
 # Features
@@ -12,6 +12,6 @@ Changes your wallpapers based on time of day.
   - Caches image sizes.
 - Supports all Windows wallpaper set options including Span on Windows 8+.
 - Can toggle using Active Desktop to fade wallpaper changes.
-- Interface fully localisable. Currently only available in English and minor sections in 日本語 (Japanese).
+- Interface fully localisable. Currently only available in English and minor sections in Japanese.
 
 **NOTE: on Windows 7, using fade will cause Windows to convert the image to a jpeg before setting it. On Windows 10 (and probably 8 & 8.1) Windows will convert the wallpaper to a jpeg unless you use fading.**
