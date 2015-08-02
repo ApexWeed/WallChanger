@@ -37,9 +37,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>.\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="ImageProcessor, Version=2.2.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ImageProcessor.2.2.8.0\lib\net45\ImageProcessor.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MiscUtil.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\Libraries\Newtonsoft.Json.dll</HintPath>
@@ -76,6 +83,9 @@
     <Compile Include="HighlightListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PNG\IDATChunk.cs" />
+    <Compile Include="PNG\IENDChunk.cs" />
+    <Compile Include="PNG\IHDRChunk.cs" />
     <Compile Include="ImageEntry.cs" />
     <Compile Include="Imaging.cs" />
     <Compile Include="InfoProgressBar.cs">
@@ -104,6 +114,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PNG\PLTEChunk.cs" />
+    <Compile Include="PNG\PNG.cs" />
+    <Compile Include="PNG\PNGChunk.cs" />
     <Compile Include="ProcessingSettings.cs" />
     <Compile Include="ProcessingSettingsForm.cs">
       <SubType>Form</SubType>
@@ -242,6 +255,10 @@
     <Content Include="7z.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ICSharpCode.SharpZipLib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MiscUtil.dll" />
     <None Include="Resources\processor.png" />
     <None Include="Resources\edit-language.png" />
     <None Include="Resources\gear.png" />

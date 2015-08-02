@@ -44,6 +44,12 @@ namespace WallChanger
 
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
+            if (e.Index < 0 || e.Index >= Items.Count)
+                return;
+
+            if (Items[e.Index].ToString() == "Archive")
+                return;
+
             Brush foreBrush = new SolidBrush(ForeColor);
             Brush backBrush = new SolidBrush(BackColor);
             Brush selectedBackBrush = new SolidBrush(selectedBackColour);
@@ -56,9 +62,6 @@ namespace WallChanger
             }
             else
             {
-                if (Items[e.Index].ToString() == "Archive")
-                    return;
-
                 var Highlight = false;
                 var Fields = Items[e.Index].GetType().GetFields();
                 foreach (var Field in Fields)

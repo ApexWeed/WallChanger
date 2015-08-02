@@ -338,7 +338,7 @@ namespace WallChanger
                 GlobalVars.LibraryItems.AddDistinct(new LibraryItem(FileName));
             }
         }
-        
+
         /// <summary>
         /// Adds a category to the image.
         /// </summary>
@@ -356,7 +356,7 @@ namespace WallChanger
             cmbCategory.SelectedItem = Value;
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Category = Value;
         }
-        
+
         /// <summary>
         /// Adds a character name to the image.
         /// </summary>
@@ -375,7 +375,7 @@ namespace WallChanger
 
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).CharacterNames.AddDistinct(Value);
         }
-        
+
         /// <summary>
         /// Adds a tag to the image.
         /// </summary>
@@ -394,7 +394,7 @@ namespace WallChanger
 
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).Tags.AddDistinct(Value);
         }
-        
+
         /// <summary>
         /// Adds a show name to the image.
         /// </summary>
@@ -760,7 +760,7 @@ namespace WallChanger
 
             GlobalVars.LibraryItems.Find(i => i.Filename == lsvDisplay.SelectedItems[0].Tag as string).ShowName = cmbShowName.Text;
         }
-        
+
         /// <summary>
         /// Updates the list when the filters are changed.
         /// </summary>

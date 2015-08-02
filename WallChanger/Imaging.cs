@@ -5,6 +5,8 @@ using System.Text;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using ICSharpCode.SharpZipLib.Core;
 
 namespace WallChanger
 {
@@ -238,6 +240,91 @@ namespace WallChanger
                             w.Write(bytes[s * stride + i]);
                         }
                     }
+                }
+            }
+        }
+
+        public static void SavePNG(Image Source, string Path)
+        {
+            byte[] imageBytes;
+            int byteCount;
+
+            using (var bitmap = new Bitmap(Source))
+            {
+                var rect = new Rectangle(0, 0, Source.Width, Source.Height);
+                var bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                var ptr = bmpData.Scan0;
+
+                // 32 bit image mode.
+                byteCount = Math.Abs(bmpData.Stride) * Source.Height;
+                imageBytes = new byte[byteCount];
+
+                System.Runtime.InteropServices.Marshal.Copy(ptr, imageBytes, 0, byteCount);
+
+                bitmap.UnlockBits(bmpData);
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                using (var w = new BinaryWriter(ms))
+                {
+                    var stride = byteCount / Source.Height;
+                    for (int s = 0; s < Source.Height; s++)
+                    {
+                        // Filtering mode (none).
+                        w.Write((byte)0);
+                        for (int i = 0; i < stride / 4; i++)
+                        {
+                            w.Write(imageBytes[s * stride + i * 4 + 2]);
+                            w.Write(imageBytes[s * stride + i * 4 + 1]);
+                            w.Write(imageBytes[s * stride + i * 4 + 0]);
+                            w.Write(imageBytes[s * stride + i * 4 + 3]);
+                        }
+                    }
+                    w.Flush();
+                    byteCount = (int)ms.Length;
+                    imageBytes = new byte[byteCount];
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Read(imageBytes, 0, byteCount);
+                }
+            }
+            
+            using (var msImage = new MemoryStream(imageBytes))
+            {
+                using (var msComp = new MemoryStream())
+                {
+                    using (var def = new DeflaterOutputStream(msComp, new ICSharpCode.SharpZipLib.Zip.Compression.Deflater()))
+                    {
+                        StreamUtils.Copy(msImage, def, new byte[4096]);
+                        def.IsStreamOwner = false;
+                        def.Close();
+
+                        byteCount = (int)msComp.Length;
+                        imageBytes = new byte[byteCount];
+                        msComp.Seek(0, SeekOrigin.Begin);
+                        msComp.Read(imageBytes, 0, byteCount);
+                    }
+                }
+            }
+
+            using (var fs = File.Open(Path, FileMode.Create))
+            {
+                using (var w = new BinaryWriter(fs))
+                {
+                    // Write PNG signature.
+                    w.Write(new byte[] { 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a });
+                    // Write image info.
+                    var IHDR = new PNG.IHDRChunk((uint)Source.Width, (uint)Source.Height, 8, PNG.IHDRChunk.PNGColourType.RGBA32bpp, PNG.IHDRChunk.PNGCompressionType.Inflate, PNG.IHDRChunk.PNGFilterMode.Adaptive, PNG.IHDRChunk.PNGInterlaceMethod.None);
+                    var IHDRbytes = IHDR.Serialise();
+                    w.Write(IHDRbytes);
+                    // Write image data.
+                    var IDAT = new PNG.IDATChunk(imageBytes);
+                    var IDATBytes = IDAT.Serialise();
+                    w.Write(IDATBytes);
+                    // Write end chunk.
+                    var IEND = new PNG.IENDChunk();
+                    w.Write(IEND.Serialise());
                 }
             }
         }

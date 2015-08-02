@@ -90,6 +90,8 @@ namespace WallChanger
                 SettingsFormChild = null;
             if (Child is TimingForm)
                 TimingFormChild = null;
+            if (Child is ProcessingSettingsForm)
+                ProcessingSettingsFormChild = null;
         }
 
         /// <summary>
@@ -646,7 +648,6 @@ namespace WallChanger
 
             using (var read = new StreamReader(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
-
                 // Set defaults.
                 Offset = Timing.ParseTime(Properties.Settings.Default.DefaultOffset);
                 Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
@@ -1142,7 +1143,10 @@ namespace WallChanger
                         }
                     }
 
-                    Imaging.SaveBitmap(factory.Image, outFilename);
+                    if (SupportsSpan)
+                        Imaging.SavePNG(factory.Image, outFilename);
+                    else
+                        Imaging.SaveBitmap(factory.Image, outFilename);
                 }
                 return outFilename;
             }

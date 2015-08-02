@@ -29,4 +29,8 @@ Uses SevenZipSharp (https://sevenzipsharp.codeplex.com/) which is licensed under
 Uses ImageComparison by Jakob "XnaFan" Krarup (http://www.codeproject.com/Articles/374386/Simple-image-comparison-in-NET) licensed under the CPOL (http://www.codeproject.com/info/cpol10.aspx).
 Modifications were made to add multithreading and cache support.
 
-Uses ImageProcessor (http://www.imageprocessor.org) which is licensed under an Apache 2.0 license (http://www.apache.org/licenses/LICENSE-2.0)/
+Uses ImageProcessor (http://www.imageprocessor.org) which is licensed under an Apache 2.0 license (http://www.apache.org/licenses/LICENSE-2.0).
+
+Uses Miscellaneous Utility Library (http://jonskeet.uk/csharp/miscutil) which is licensed under an Apache license (http://jonskeet.uk/csharp/miscutil/licence.txt).
+
+Uses SevenZipSharp (https://icsharpcode.github.io/SharpZipLib/) which is licesed under the GPL (https://www.gnu.org/licenses/gpl-3.0.en.html).
