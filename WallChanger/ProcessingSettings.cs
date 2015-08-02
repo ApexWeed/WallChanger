@@ -31,6 +31,7 @@ namespace WallChanger
 
     public class ProcessingSettings
     {
+        public bool PreProcessingEnabled;
         public bool BrightnessEnabled;
         public int BrightnessValue;
         public bool ContrastEnabled;
@@ -47,13 +48,17 @@ namespace WallChanger
         public ImageFilterMatrix ImageFilterMatrix;
         public bool PixelateEnabled;
         public int PixelateSize;
-        public bool PreProcessingEnabled;
         public bool SaturationEnabled;
         public int SaturationValue;
         public Color TintColour;
         public bool TintEnabled;
         public Color VignetteColour;
         public bool VignetteEnabled;
+
+        public bool NeedsProcessing()
+        {
+            return PreProcessingEnabled && (BrightnessEnabled || ContrastEnabled || EdgeDetectionEnabled || GaussianBlurEnabled || GaussianSharpenEnabled || HueEnabled || ImageFilterEnabled || PixelateEnabled || SaturationEnabled || TintEnabled || VignetteEnabled);
+        }
 
         public static ProcessingSettings FromDefaults()
         {

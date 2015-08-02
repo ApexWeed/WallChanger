@@ -1043,17 +1043,18 @@ namespace WallChanger
             this.ShowInTaskbar = true;
         }
 
-
         private string ProcessImage(string Filename)
         {
             ProcessingSettings Settings;
             Settings = Properties.Settings.Default.GlobalPreProcessing ? ProcessingSettings.FromDefaults() : LoadedProcessingSettings;
 
-            if (Settings.PreProcessingEnabled)
+            if (Settings.NeedsProcessing())
             {
                 var outFilename = Path.GetTempFileName();
                 using (var factory = new ImageProcessor.ImageFactory())
                 {
+                    // Leaving FixGamma on BreaksGamma.
+                    factory.FixGamma = false;
                     factory.Load(Filename);
                     if (Settings.BrightnessEnabled)
                         factory.Brightness(Settings.BrightnessValue);

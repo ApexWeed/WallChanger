@@ -216,7 +216,7 @@ namespace WallChanger
 
         private void chkTintEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            btnTintColour.Enabled = chkVignetteEnabled.Checked;
+            btnTintColour.Enabled = chkTintEnabled.Checked;
             SettingChangedHandler?.Invoke(ProcessingSetting.TintEnabled, chkTintEnabled.Checked);
         }
 
