@@ -1,4 +1,6 @@
-﻿namespace WallChanger
+﻿using WallChanger.Translation;
+
+namespace WallChanger
 {
     public enum EdgeDetectionFilter
     {

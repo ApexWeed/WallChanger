@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System.Threading.Tasks;
 using System.Drawing;
 using WallChanger.GraphicsProcessors;
+using WallChanger.Translation;
 
 namespace WallChanger
 {

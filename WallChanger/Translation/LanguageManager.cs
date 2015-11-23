@@ -1,28 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace WallChanger
+namespace WallChanger.Translation
 {
     public class LanguageManager
     {
+        public string MainLanguage;
+        public string FallbackLanguage;
+
+        
+
         readonly Dictionary<string, Language> Languages;
 
         /// <summary>
         /// Initialises the language manager and loads languages.
         /// </summary>
-        public LanguageManager(bool IgnoreFileNotFound = false)
+        public LanguageManager(string Path, bool IgnoreFileNotFound = false)
         {
             Languages = new Dictionary<string, Language>();
 
-            if (!Directory.Exists(Path.Combine(GlobalVars.ApplicationPath, "lang")))
+            if (!Directory.Exists(Path))
             {
                 if (IgnoreFileNotFound)
                     return;
                 else
-                    throw new FileNotFoundException("Language folder not found, the program will still work but the interface will identifier names instead.");
+                    throw new FileNotFoundException("Language folder not found, the program will still work but the interface will use identifier names instead.");
             }
 
-            foreach (var File in Directory.GetFiles(Path.Combine(GlobalVars.ApplicationPath, "lang"), "*.lang"))
+            foreach (var File in Directory.GetFiles(Path, "*.lang"))
             {
                 AddLanguage(File);
             }
@@ -51,11 +56,11 @@ namespace WallChanger
         /// <returns>The language specific string.</returns>
         public string GetString(string Key)
         {
-            var Value = GetString(Key, Properties.Settings.Default.Language);
+            var Value = GetString(Key, MainLanguage);
             if (Value != Key)
                 return Value;
 
-            Value = GetString(Key, Properties.Settings.Default.FallbackLanguage);
+            Value = GetString(Key, FallbackLanguage);
             return Value;
         }
 

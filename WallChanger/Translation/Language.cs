@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WallChanger
+namespace WallChanger.Translation
 {
     public class Language
     {

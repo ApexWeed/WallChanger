@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WallChanger.Translation;
 
 namespace WallChanger
 {
@@ -48,6 +49,9 @@ namespace WallChanger
             Properties.Settings.Default.Language = (cmbCurrentLanguage.SelectedItem as Language).Code;
             Properties.Settings.Default.FallbackLanguage = (cmbFallbackLanguage.SelectedItem as Language).Code;
 
+            LM.MainLanguage = Properties.Settings.Default.Language;
+            LM.FallbackLanguage = Properties.Settings.Default.FallbackLanguage;
+
             // Update all opened interfaces.
             LocaliseInterface();
         }
@@ -87,8 +91,8 @@ namespace WallChanger
                 cmbFallbackLanguage.Items.Add(Lang);
             }
 
-            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.FallbackLanguage);
-            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == Properties.Settings.Default.Language);
+            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == LM.MainLanguage);
+            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == LM.FallbackLanguage);
 
             LocaliseInterface();
         }

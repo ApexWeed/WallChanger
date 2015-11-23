@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using WallChanger.Translation;
 
 namespace WallChanger
 {
@@ -42,12 +44,20 @@ namespace WallChanger
                 {
                     try
                     {
-                        languageManager = new LanguageManager();
+                        languageManager = new LanguageManager(Path.Combine(ApplicationPath, "lang"))
+                        {
+                            MainLanguage = Properties.Settings.Default.Language,
+                            FallbackLanguage = Properties.Settings.Default.FallbackLanguage
+                        };
                     }
-                    catch (System.IO.FileNotFoundException ex)
+                    catch (FileNotFoundException ex)
                     {
                         System.Windows.Forms.MessageBox.Show(ex.Message);
-                        languageManager = new LanguageManager(true);
+                        languageManager = new LanguageManager(Path.Combine(ApplicationPath, "lang"), true)
+                        {
+                            MainLanguage = Properties.Settings.Default.Language,
+                            FallbackLanguage = Properties.Settings.Default.FallbackLanguage
+                        };
                     }
                 }
                 return languageManager;

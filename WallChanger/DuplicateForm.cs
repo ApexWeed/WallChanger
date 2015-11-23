@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using WallChanger.Translation;
 
 namespace WallChanger
 {
