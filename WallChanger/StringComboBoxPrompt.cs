@@ -48,7 +48,7 @@ namespace WallChanger
 
             if (string.IsNullOrWhiteSpace(ChosenString))
             {
-                MessageBox.Show(LM.GetString("PROMPT_MESSAGE_BLANK_VALUE"));
+                MessageBox.Show(LM.GetString("PROMPT.MESSAGE.BLANK_VALUE"));
                 return;
             }
 

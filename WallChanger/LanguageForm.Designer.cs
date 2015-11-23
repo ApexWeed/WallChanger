@@ -42,7 +42,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 21);
             this.btnSave.TabIndex = 0;
-            this.btnSave.Text = "LANG_BUTTON_SAVE";
+            this.btnSave.Text = "LANG.BUTTON.SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -63,7 +63,7 @@
             this.lblCurrentLanguage.Name = "lblCurrentLanguage";
             this.lblCurrentLanguage.Size = new System.Drawing.Size(197, 12);
             this.lblCurrentLanguage.TabIndex = 2;
-            this.lblCurrentLanguage.Text = "LANG_LABEL_CURRENT_LANGUAGE";
+            this.lblCurrentLanguage.Text = "LANG.LABEL.CURRENT_LANGUAGE";
             // 
             // lblFallbackLanguage
             // 
@@ -72,7 +72,7 @@
             this.lblFallbackLanguage.Name = "lblFallbackLanguage";
             this.lblFallbackLanguage.Size = new System.Drawing.Size(201, 12);
             this.lblFallbackLanguage.TabIndex = 4;
-            this.lblFallbackLanguage.Text = "LANG_LABEL_FALLBACK_LANGUAGE";
+            this.lblFallbackLanguage.Text = "LANG.LABEL.FALLBACK_LANGUAGE";
             // 
             // cmbFallbackLanguage
             // 

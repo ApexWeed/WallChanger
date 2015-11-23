@@ -25,13 +25,13 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE_LANGUAGE");
+            this.Text = LM.GetString("TITLE.LANGUAGE");
             // Buttons.
-            btnSave.Text = LM.GetString("LANG_BUTTON_SAVE");
+            btnSave.Text = LM.GetString("LANG.BUTTON.SAVE");
             // Tooltips.
             // Labels.
-            lblCurrentLanguage.Text = LM.GetString("LANG_LABEL_CURRENT_LANGUAGE");
-            lblFallbackLanguage.Text = LM.GetString("LANG_LABEL_FALLBACK_LANGUAGE");
+            lblCurrentLanguage.Text = LM.GetString("LANG.LABEL.CURRENT_LANGUAGE");
+            lblFallbackLanguage.Text = LM.GetString("LANG.LABEL.FALLBACK_LANGUAGE");
 
             // Cascade.
             if (Parent is MainForm)

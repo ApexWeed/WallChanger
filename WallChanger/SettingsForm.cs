@@ -41,31 +41,31 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE_SETTINGS");
+            this.Text = LM.GetString("TITLE.SETTINGS");
             // Buttons.
-            btnChangeDefaultTiming.Text = LM.GetString("SETTINGS_BUTTON_DEFAULT_TIMING");
-            btnHighlightColour.Text = LM.GetString("SETTINGS_BUTTON_HIGHLIGHT_COLOUR");
-            btnPreProcessingDefaults.Text = LM.GetString("SETTINGS_BUTTON_PREPROCESSING_DEFAULTS");
+            btnChangeDefaultTiming.Text = LM.GetString("SETTINGS.BUTTON.DEFAULT_TIMING");
+            btnHighlightColour.Text = LM.GetString("SETTINGS.BUTTON.HIGHLIGHT_COLOUR");
+            btnPreProcessingDefaults.Text = LM.GetString("SETTINGS.BUTTON.PREPROCESSING_DEFAULTS");
             // Tooltips.
 
             // Labels.
-            grpCompression.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION");
-            lblCompressionLevel.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_LEVEL");
-            lblCompressionWarning.Text = LM.GetString("SETTINGS_LABEL_COMPRESSION_WARNING");
+            grpCompression.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION");
+            lblCompressionLevel.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION.LEVEL");
+            lblCompressionWarning.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION.WARNING");
 
-            grpDefaults.Text = LM.GetString("SETTINGS_LABEL_DEFAULT");
-            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
-            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
-            chkDefaultRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_RANDOMISE");
-            chkDefaultFading.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_FADING");
-            lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE");
-            chkGlobalRandomise.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE");
-            chkGlobalFading.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_FADING");
-            chkGlobalWallpaperStyle.Text = LM.GetString("SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE");
+            grpDefaults.Text = LM.GetString("SETTINGS.LABEL.DEFAULT");
+            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.OFFSET"), Properties.Settings.Default.DefaultOffset);
+            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.INTERVAL"), Properties.Settings.Default.DefaultInterval);
+            chkDefaultRandomise.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.RANDOMISE");
+            chkDefaultFading.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.FADING");
+            lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.WALLPAPER_STYLE");
+            chkGlobalRandomise.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_RANDOMISE");
+            chkGlobalFading.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_FADING");
+            chkGlobalWallpaperStyle.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_WALLPAPER_STYLE");
 
-            grpHighlight.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT");
-            lblHighlightMode.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT_MODE");
-            lblHighlightColour.Text = LM.GetString("SETTINGS_LABEL_HIGHLIGHT_COLOUR");
+            grpHighlight.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT");
+            lblHighlightMode.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT.MODE");
+            lblHighlightColour.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT.COLOUR");
             picHighlightColour.Left = lblHighlightColour.Left + lblHighlightColour.Width + 6;
 
             cmbCompressionLevel.Items.Clear();
@@ -99,8 +99,14 @@ namespace WallChanger
 
             cmbHighlightMode.SelectedItem = cmbHighlightMode.Items.Find(x => (HighlightModeWrapper)x == Properties.Settings.Default.HighlightMode);
 
-            grpPreProcessing.Text = LM.GetString("SETTINGS_LABEL_PREPROCESSING");
-            chkGlobalPreProcessing.Text = LM.GetString("SETTINGS_LABEL_GLOBAL_PREPROCESSING");
+            grpPreProcessing.Text = LM.GetString("SETTINGS.LABEL.PREPROCESSING");
+            chkGlobalPreProcessing.Text = LM.GetString("SETTINGS.LABEL.GLOBAL_PREPROCESSING");
+
+            grpMisc.Text = LM.GetString("SETTINGS.LABEL.MISCELLANEOUS");
+            lblColourChangingDesc.Text = LM.GetString("SETTINGS.LABEL.COLOUR_CHANGE_DESC");
+            chkDefaultColourChanging.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.COLOUR_CHANGE");
+            chkGlobalColourChanging.Text = LM.GetString("SETTINGS.LABEL.GLOBAL_COLOUR_CHANGE");
+            chkRainbowMode.Text = LM.GetString("SETTINGS.LABEL.RAINBOW_MODE");
 
             // Cascade.
             if (TimingFormChild != null)
@@ -118,8 +124,8 @@ namespace WallChanger
         {
             Properties.Settings.Default.DefaultOffset = Timing.ToString(Offset);
             Properties.Settings.Default.DefaultInterval = Timing.ToString(Interval);
-            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_OFFSET"), Properties.Settings.Default.DefaultOffset);
-            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS_LABEL_DEFAULT_INTERVAL"), Properties.Settings.Default.DefaultInterval);
+            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.OFFSET"), Properties.Settings.Default.DefaultOffset);
+            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.INTERVAL"), Properties.Settings.Default.DefaultInterval);
         }
 
         private static void ProcessingSettingsChanged(ProcessingSetting Setting, object Value)
@@ -195,6 +201,12 @@ namespace WallChanger
                 case ProcessingSetting.ImageFilterMatrix:
                     Properties.Settings.Default.DefaultImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
                     break;
+                case ProcessingSetting.ChannelRotationEnabled:
+                    Properties.Settings.Default.DefaultChannelRotationEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.ChannelRotationValue:
+                    Properties.Settings.Default.DefaultChannelRotationValue = (ChannelRotation)Value;
+                    break;
             }
         }
 
@@ -207,7 +219,7 @@ namespace WallChanger
         {
             if (TimingFormChild == null)
             {
-                TimingFormChild = new TimingForm(LM.GetString("DEFAULTS"), Timing.ParseTime(Properties.Settings.Default.DefaultOffset), Timing.ParseTime(Properties.Settings.Default.DefaultInterval), this);
+                TimingFormChild = new TimingForm(LM.GetString("STRING.DEFAULTS"), Timing.ParseTime(Properties.Settings.Default.DefaultOffset), Timing.ParseTime(Properties.Settings.Default.DefaultInterval), this);
                 TimingFormChild.Show();
             }
             else
@@ -235,13 +247,18 @@ namespace WallChanger
         {
             if (ProcessingSettingsFormChild == null)
             {
-                ProcessingSettingsFormChild = new ProcessingSettingsForm(LM.GetString("DEFAULTS"), ProcessingSettings.FromDefaults(), ProcessingSettingsChanged, this);
+                ProcessingSettingsFormChild = new ProcessingSettingsForm(LM.GetString("STRING.DEFAULTS"), ProcessingSettings.FromDefaults(), ProcessingSettingsChanged, this);
                 ProcessingSettingsFormChild.Show();
             }
             else
             {
                 ProcessingSettingsFormChild.BringToFront();
             }
+        }
+
+        private void chkDefaultColourChanging_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DefaultColourSchemeEnabled = chkDefaultColourChanging.Checked;
         }
 
         /// <summary>
@@ -264,6 +281,11 @@ namespace WallChanger
             Properties.Settings.Default.DefaultRandomise = chkDefaultRandomise.Checked;
         }
 
+        private void chkGlobalColourChanging_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.GlobalColourSchemeEnabled = chkGlobalColourChanging.Checked;
+        }
+
         private void chkGlobalFading_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.GlobalFading = chkGlobalFading.Checked;
@@ -282,6 +304,15 @@ namespace WallChanger
         private void chkGlobalWallpaperStyle_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.GlobalWallpaperStyle = chkGlobalWallpaperStyle.Checked;
+        }
+
+        private void chkRainbowMode_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.RainbowModeEnabled = chkRainbowMode.Checked;
+            if (Properties.Settings.Default.RainbowModeEnabled)
+            {
+                System.Threading.Tasks.Task.Run(MainForm.Rainbow);
+            }
         }
 
         /// <summary>
@@ -348,6 +379,9 @@ namespace WallChanger
             chkGlobalFading.Checked = Properties.Settings.Default.GlobalFading;
             chkGlobalWallpaperStyle.Checked = Properties.Settings.Default.GlobalWallpaperStyle;
             chkGlobalPreProcessing.Checked = Properties.Settings.Default.GlobalPreProcessing;
+            chkDefaultColourChanging.Checked = Properties.Settings.Default.DefaultColourSchemeEnabled;
+            chkGlobalColourChanging.Checked = Properties.Settings.Default.GlobalColourSchemeEnabled;
+            chkRainbowMode.Checked = Properties.Settings.Default.RainbowModeEnabled;
             LocaliseInterface();
         }
     }

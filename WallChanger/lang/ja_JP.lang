@@ -1,64 +1,65 @@
-﻿日本語
+日本語
 日本語は難しです。
 ApexWeed
-# MainForm
-    # Buttons
-        MAIN_BUTTON_NEW = 新
-    # Tooltips
-        MAIN_TOOLTIP_LANGUAGE = 言語。
-    # Labels
-        MAIN_LABEL_IMAGES = 画像 ({0})
-    # Messages
-# LanguageForm
-    # Buttons
-    # Tooltips
-    # Labels
-    # Messages
-# TimingForm
-    # Buttons
-    # Tooltips
-    # Labels
-        TIMING_LABEL_SECONDS = 秒
-        TIMING_LABEL_MINUTES = 分
-        TIMING_LABEL_HOURS = 時
-    # Messages
-# LibraryForm
-    # Buttons
-    # Tooltips
-    # Labels
-        LIBRARY_LABEL_FILTER = フィルター
-        LIBRARY_LABEL_FILTER_CATEGORY = カテゴリ
-        LIBRARY_LABEL_FILTER_CHARACTER = キャラクタ
-        LIBRARY_LABEL_FILTER_TAG = タグ
-        LIBRARY_LABEL_IMAGE_SIZE = イメジサイズ: {0}x{1}px
-        LIBRARY_LABEL_IMAGE_SIZES = イメジサイズ: {0}-{1}x{2}-{3}px
-        LIBRARY_LABEL_CATEGORY = カテゴリ
-        LIBRARY_LABEL_CHARACTER = キャラクタ
-        LIBRARY_LABEL_TAG = タグ
-        LIBRARY_LABEL_COLUMN_FILENAME = ファイル名
-        LIBRARY_LABEL_COLUMN_WIDTH = 幅
-        LIBRARY_LABEL_COLUMN_HEIGHT = 高さ
-    # Messages
-# DuplicateForm
-    # Buttons
-    # Tooltips
-    # Labels
-        DUPE_LABEL_IMAGE_SIZE = イメジサイズ: {0}x{1}px
-    # Messages
-# SettingsForm
-    # Buttons
-    # Tooltips
-    # Labels
-    # Messages
-# Prompts
-    # Buttons
-    # Tooltips
-    # Labels
-    # Messages
-# Enumerations
-    # Buttons
-    # Tooltips
-    # Labels
-        ENUM_LABEL_COMPRESSION_LEVEL_NONE = なし
-        ENUM_LABEL_HIGHLIGHT_MODE_NONE = なし
-    # Messages
+MAIN.BUTTON.NEW = 新
+MAIN.TOOLTIP.LANGUAGE = 言語。
+MAIN.LABEL.IMAGES = 画像 ({0})
+TIMING.LABEL.SECONDS = 秒間
+TIMING.LABEL.MINUTES = 分間
+TIMING.LABEL.HOURS = 時間
+LIBRARY.LABEL.FILTER = フィルター
+LIBRARY.LABEL.FILTER.CATEGORY = カテゴリ
+LIBRARY.LABEL.FILTER.CHARACTER = キャラクタ
+LIBRARY.LABEL.FILTER.TAG = タグ
+LIBRARY.LABEL.IMAGE_SIZE = イメジサイズ: {0}x{1}px
+LIBRARY.LABEL.IMAGE_SIZES = イメジサイズ: {0}-{1}x{2}-{3}px
+LIBRARY.LABEL.CATEGORY = カテゴリ
+LIBRARY.LABEL.CHARACTER = キャラクタ
+LIBRARY.LABEL.TAG = タグ
+LIBRARY.LABEL.COLUMN.FILENAME = ファイル名
+LIBRARY.LABEL.COLUMN.WIDTH = 幅
+LIBRARY.LABEL.COLUMN.HEIGHT = 高さ
+DUPE.LABEL.IMAGE_SIZE = イメジサイズ: {0}x{1}px
+ENUM.LABEL.COMPRESSION_LEVEL.NONE = なし
+ENUM.LABEL.HIGHLIGHT_MODE.NONE = なし
+MAIN.BUTTON.SAVE = セーブ
+MAIN.BUTTON.REMOVE = 削除
+MAIN.TOOLTIP.CLEAR = すべての画像を削除。
+MAIN.TOOLTIP.SETTINGS = 設定を変更。
+MAIN.BUTTON.TRAY = トレイに
+STRING.DEFAULTS = デフォルト
+TITLE.LANGUAGE = 言語設定
+TITLE.LIBRARY = ライブラリー
+TITLE.SETTINGS = 設定
+MAIN.BUTTON.TIMING = タイミング
+TITLE.TIMING = タイミング - {0}
+MAIN.BUTTON.RELOAD = リロード
+MAIN.TOOLTIP.ADD = 画像を追加。
+MAIN.TOOLTIP.LIBRARY = 壁紙のライブラリー。
+MAIN.LABEL.CONFIGS = コンフィグ
+MAIN.LABEL.STARTUP = システム再起動に開始
+MAIN.MESSAGE.NEW_CONFIG = 新しいコンフィグの名を入力：
+MAIN.MESSAGE.NEW_CONFIG_TITLE = コンフィグの名
+MAIN.MESSAGE.NEW_CONFIG_DEFAULT = デフォルト
+LANG.BUTTON.SAVE = セーブ
+LANG.LABEL.CURRENT_LANGUAGE = 最近の言語
+TIMING.BUTTON.SAVE = セーブ
+TIMING.LABEL = 時間
+LIBRARY.MESSAGE.NEW_CATEGORY_TITLE = 新しいカテゴリ
+LIBRARY.MESSAGE.NEW_CHARACTER_TITLE = 新しいキャラクタ
+LIBRARY.MESSAGE.NEW_CATEGORY = カテゴリを入力またはカテゴリをよります。
+LIBRARY.MESSAGE.NEW_CHARACTER = 新しいキャラクタを入力またはキャラクタをよります。
+LIBRARY.MESSAGE.NEW_TAG = 新しいタグを入力またはタグをよります。
+LIBRARY.MESSAGE.NEW_TAG_TITLE = 新しいタグ
+SETTINGS.BUTTON.DEFAULT_TIMING = タイミングを変更
+SETTINGS.BUTTON.PREPROCESSING_DEFAULTS = デフォルトを変更
+ENUM.LABEL.COMPRESSION_LEVEL.NORMAL = 中
+ENUM.LABEL.COMPRESSION_LEVEL.HIGH = 高
+ENUM.LABEL.COMPRESSION_LEVEL.LOW = 少
+ENUM.LABEL.COMPRESSION_LEVEL.FAST = 早
+ENUM.LABEL.COMPRESSION_LEVEL.ULTRA = 超高
+ENUM.LABEL.WALLPAPER_STYLE.FILL = ページ横幅に合わせる
+ENUM.LABEL.WALLPAPER_STYLE.FIT = ページ縦幅に合わせる
+ENUM.LABEL.WALLPAPER_STYLE.STRETCHED = 画面に合わせて伸縮
+ENUM.LABEL.WALLPAPER_STYLE.TILED = 並べて表示
+ENUM.LABEL.WALLPAPER_STYLE.CENTERED = 中央に表示

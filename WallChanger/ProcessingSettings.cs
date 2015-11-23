@@ -26,7 +26,9 @@ namespace WallChanger
         EdgeDetectionEnabled,
         EdgeDetectionFilter,
         ImageFilterEnabled,
-        ImageFilterMatrix
+        ImageFilterMatrix,
+        ChannelRotationEnabled,
+        ChannelRotationValue
     }
 
     public class ProcessingSettings
@@ -54,10 +56,12 @@ namespace WallChanger
         public bool TintEnabled;
         public Color VignetteColour;
         public bool VignetteEnabled;
+        public bool ChannelRotationEnabled;
+        public ChannelRotation ChannelRotationValue;
 
         public bool NeedsProcessing()
         {
-            return PreProcessingEnabled && (BrightnessEnabled || ContrastEnabled || EdgeDetectionEnabled || GaussianBlurEnabled || GaussianSharpenEnabled || HueEnabled || ImageFilterEnabled || PixelateEnabled || SaturationEnabled || TintEnabled || VignetteEnabled);
+            return PreProcessingEnabled && (BrightnessEnabled || ContrastEnabled || EdgeDetectionEnabled || GaussianBlurEnabled || GaussianSharpenEnabled || HueEnabled || ImageFilterEnabled || PixelateEnabled || SaturationEnabled || TintEnabled || VignetteEnabled || ChannelRotationEnabled);
         }
 
         public static ProcessingSettings FromDefaults()
@@ -86,7 +90,9 @@ namespace WallChanger
                 EdgeDetectionEnabled = Properties.Settings.Default.DefaultEdgeDetectionEnabled,
                 EdgeDetectionFilter = Properties.Settings.Default.DefaultEdgeDetectionFilter,
                 ImageFilterEnabled = Properties.Settings.Default.DefaultImageFilterEnabled,
-                ImageFilterMatrix = Properties.Settings.Default.DefaultImageFilterMatrix
+                ImageFilterMatrix = Properties.Settings.Default.DefaultImageFilterMatrix,
+                ChannelRotationEnabled = Properties.Settings.Default.DefaultChannelRotationEnabled,
+                ChannelRotationValue = Properties.Settings.Default.DefaultChannelRotationValue
             };
 
             return Settings;

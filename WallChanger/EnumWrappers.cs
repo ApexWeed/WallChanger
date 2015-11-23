@@ -27,6 +27,12 @@
         Sepia
     }
 
+    public enum ChannelRotation
+    {
+        RotateOnce = 1,
+        RotateTwice = 2
+    }
+
     public class WallpaperStyleWrapper
     {
 
@@ -70,19 +76,19 @@
             switch (WallpaperStyle)
             {
                 case Wallpaper.WallpaperStyle.Fill:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_FILL");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.FILL");
                 case Wallpaper.WallpaperStyle.Fit:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_FIT");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.FIT");
                 case Wallpaper.WallpaperStyle.Stretched:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_STRETCHED");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.STRETCHED");
                 case Wallpaper.WallpaperStyle.Tiled:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_TILED");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.TILED");
                 case Wallpaper.WallpaperStyle.Centered:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_CENTERED");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.CENTERED");
                 case Wallpaper.WallpaperStyle.Span:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_SPAN");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.SPAN");
                 default:
-                    return LM.GetString("ENUM_LABEL_WALLPAPER_STYLE_UNKNOWN");
+                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.UNKNOWN");
             }
         }
     }
@@ -130,19 +136,19 @@
             switch (CompressionLevel)
             {
                 case SevenZip.CompressionLevel.None:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_NONE");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.NONE");
                 case SevenZip.CompressionLevel.Fast:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_FAST");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.FAST");
                 case SevenZip.CompressionLevel.Low:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_LOW");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.LOW");
                 case SevenZip.CompressionLevel.Normal:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_NORMAL");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.NORMAL");
                 case SevenZip.CompressionLevel.High:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_HIGH");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.HIGH");
                 case SevenZip.CompressionLevel.Ultra:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_ULTRA");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.ULTRA");
                 default:
-                    return LM.GetString("ENUM_LABEL_COMPRESSION_LEVEL_UNKNOWN");
+                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.UNKNOWN");
             }
         }
     }
@@ -190,17 +196,17 @@
             switch (HighlightMode)
             {
                 case HighlightListBox.HighlightMode.Bold:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_BOLD");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.BOLD");
                 case HighlightListBox.HighlightMode.Italic:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_ITALIC");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.ITALIC");
                 case HighlightListBox.HighlightMode.Foreground:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_FOREGROUND");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.FOREGROUND");
                 case HighlightListBox.HighlightMode.Background:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_BACKGROUND");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.BACKGROUND");
                 case HighlightListBox.HighlightMode.None:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_NONE");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.NONE");
                 default:
-                    return LM.GetString("ENUM_LABEL_HIGHLIGHT_MODE_UNKNOWN");
+                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.UNKNOWN");
             }
         }
     }
@@ -248,25 +254,25 @@
             switch (EdgeDetectionFilter)
             {
                 case EdgeDetectionFilter.KayyaliEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_KAYYALI");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.KAYYALI");
                 case EdgeDetectionFilter.KirschEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_KIRSCH");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.KIRSCH");
                 case EdgeDetectionFilter.Laplacian3X3EdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_LAP3X3");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAP3X3");
                 case EdgeDetectionFilter.Laplacian5X5EdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_LAP5X5");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAP5X5");
                 case EdgeDetectionFilter.LaplacianOfGaussianEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_LAPGAU");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAPGAU");
                 case EdgeDetectionFilter.PrewittEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_PREWITT");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.PREWITT");
                 case EdgeDetectionFilter.RobertsEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_ROBERTS");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.ROBERTS");
                 case EdgeDetectionFilter.SharrEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_SHARR");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.SHARR");
                 case EdgeDetectionFilter.SobelEdgeFilter:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_SOBEL");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.SOBEL");
                 default:
-                    return LM.GetString("ENUM_LABEL_EDGE_DETECTION_UNKNOWN");
+                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.UNKNOWN");
             }
         }
     }
@@ -314,27 +320,78 @@
             switch (ImageFilterMatrix)
             {
                 case ImageFilterMatrix.BlackWhite:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_BLACKWHITE");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.BLACKWHITE");
                 case ImageFilterMatrix.Comic:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_COMIC");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.COMIC");
                 case ImageFilterMatrix.Gotham:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_GOTHAM");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.GOTHAM");
                 case ImageFilterMatrix.GreyScale:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_GREYSCALE");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.GREYSCALE");
                 case ImageFilterMatrix.HiSatch:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_HISATCH");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.HISATCH");
                 case ImageFilterMatrix.Invert:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_INVERT");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.INVERT");
                 case ImageFilterMatrix.Lomograph:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_LOMOGRAPH");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.LOMOGRAPH");
                 case ImageFilterMatrix.LoSatch:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_LOSATCH");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.LOSATCH");
                 case ImageFilterMatrix.Polaroid:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_POLAROID");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.POLAROID");
                 case ImageFilterMatrix.Sepia:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_SEPIA");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.SEPIA");
                 default:
-                    return LM.GetString("ENUM_LABEL_FILTER_MATRIX_UNKNOWN");
+                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.UNKNOWN");
+            }
+        }
+    }
+
+    public class ChannelRotationWrapper
+    {
+
+        /// <summary>
+        /// Automatic converstion from wrapper to base channel rotation object.
+        /// </summary>
+        /// <param name="wrapper">The wrapper to unwrap.</param>
+        public static implicit operator ChannelRotation(ChannelRotationWrapper wrapper)
+        {
+            return wrapper.ChannelRotation;
+        }
+
+        /// <summary>
+        /// Auomatic conversion from base channel rotation object to wrapper.
+        /// </summary>
+        /// <param name="rotation">The channel rotation object to wrap.</param>
+        public static implicit operator ChannelRotationWrapper(ChannelRotation rotation)
+        {
+            return new ChannelRotationWrapper(rotation);
+        }
+        public readonly ChannelRotation ChannelRotation;
+        private readonly LanguageManager LM;
+
+        /// <summary>
+        /// Creates a new wrapper from a channel rotation object.
+        /// </summary>
+        /// <param name="rotation">The channel rotation object to wrap.</param>
+        public ChannelRotationWrapper(ChannelRotation rotation)
+        {
+            this.ChannelRotation = rotation;
+            LM = GlobalVars.LanguageManager;
+        }
+
+        /// <summary>
+        /// Converts the channel rotation to the translated version.
+        /// </summary>
+        /// <returns>The translated version.</returns>
+        public override string ToString()
+        {
+            switch (ChannelRotation)
+            {
+                case ChannelRotation.RotateOnce:
+                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.ONCE");
+                case ChannelRotation.RotateTwice:
+                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.TWICE");
+                default:
+                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.UNKNOWN");
             }
         }
     }

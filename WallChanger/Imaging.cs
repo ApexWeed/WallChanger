@@ -5,8 +5,8 @@ using System.Text;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace WallChanger
 {
@@ -289,7 +289,7 @@ namespace WallChanger
                     ms.Read(imageBytes, 0, byteCount);
                 }
             }
-            
+
             using (var msImage = new MemoryStream(imageBytes))
             {
                 using (var msComp = new MemoryStream())
@@ -307,6 +307,24 @@ namespace WallChanger
                     }
                 }
             }
+
+            // God damn it.
+            //using (var msImage = new MemoryStream(imageBytes))
+            //{
+            //    using (var msComp = new MemoryStream())
+            //    {
+            //        using (var def = new DeflateStream(msComp, CompressionMode.Compress))
+            //        {
+            //            msImage.CopyTo(def);
+            //            def.Flush();
+            //
+            //            byteCount = (int)msComp.Length;
+            //            imageBytes = new byte[byteCount];
+            //            msComp.Seek(0, SeekOrigin.Begin);
+            //            msComp.Read(imageBytes, 0, byteCount);
+            //        }
+            //    }
+            //}
 
             using (var fs = File.Open(Path, FileMode.Create))
             {

@@ -51,13 +51,19 @@
             this.lblHighlightColour = new System.Windows.Forms.Label();
             this.cdgColourDialog = new System.Windows.Forms.ColorDialog();
             this.grpPreProcessing = new System.Windows.Forms.GroupBox();
-            this.chkGlobalPreProcessing = new System.Windows.Forms.CheckBox();
             this.btnPreProcessingDefaults = new System.Windows.Forms.Button();
+            this.chkGlobalPreProcessing = new System.Windows.Forms.CheckBox();
+            this.grpMisc = new System.Windows.Forms.GroupBox();
+            this.chkDefaultColourChanging = new System.Windows.Forms.CheckBox();
+            this.chkGlobalColourChanging = new System.Windows.Forms.CheckBox();
+            this.lblColourChangingDesc = new System.Windows.Forms.Label();
+            this.chkRainbowMode = new System.Windows.Forms.CheckBox();
             this.grpCompression.SuspendLayout();
             this.grpDefaults.SuspendLayout();
             this.grpHighlight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).BeginInit();
             this.grpPreProcessing.SuspendLayout();
+            this.grpMisc.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpCompression
@@ -70,7 +76,7 @@
             this.grpCompression.Size = new System.Drawing.Size(741, 70);
             this.grpCompression.TabIndex = 0;
             this.grpCompression.TabStop = false;
-            this.grpCompression.Text = "SETTINGS_LABEL_COMPRESSION";
+            this.grpCompression.Text = "SETTINGS.LABEL.COMPRESSION";
             // 
             // lblCompressionWarning
             // 
@@ -79,7 +85,7 @@
             this.lblCompressionWarning.Name = "lblCompressionWarning";
             this.lblCompressionWarning.Size = new System.Drawing.Size(238, 12);
             this.lblCompressionWarning.TabIndex = 2;
-            this.lblCompressionWarning.Text = "SETTINGS_LABEL_COMPRESSION_WARNING";
+            this.lblCompressionWarning.Text = "SETTINGS.LABEL.COMPRESSION.WARNING";
             // 
             // lblCompressionLevel
             // 
@@ -88,7 +94,7 @@
             this.lblCompressionLevel.Name = "lblCompressionLevel";
             this.lblCompressionLevel.Size = new System.Drawing.Size(220, 12);
             this.lblCompressionLevel.TabIndex = 1;
-            this.lblCompressionLevel.Text = "SETTINGS_LABEL_COMPRESSION_LEVEL";
+            this.lblCompressionLevel.Text = "SETTINGS.LABEL.COMPRESSION.LEVEL";
             // 
             // cmbCompressionLevel
             // 
@@ -117,7 +123,7 @@
             this.grpDefaults.Size = new System.Drawing.Size(741, 128);
             this.grpDefaults.TabIndex = 4;
             this.grpDefaults.TabStop = false;
-            this.grpDefaults.Text = "SETTINGS_LABEL_DEFAULT";
+            this.grpDefaults.Text = "SETTINGS.LABEL.DEFAULT";
             // 
             // chkGlobalWallpaperStyle
             // 
@@ -126,7 +132,7 @@
             this.chkGlobalWallpaperStyle.Name = "chkGlobalWallpaperStyle";
             this.chkGlobalWallpaperStyle.Size = new System.Drawing.Size(328, 16);
             this.chkGlobalWallpaperStyle.TabIndex = 10;
-            this.chkGlobalWallpaperStyle.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE";
+            this.chkGlobalWallpaperStyle.Text = "SETTINGS.LABEL.DEFAULT.GLOBAL_WALLPAPER_STYLE";
             this.chkGlobalWallpaperStyle.UseVisualStyleBackColor = true;
             this.chkGlobalWallpaperStyle.CheckedChanged += new System.EventHandler(this.chkGlobalWallpaperStyle_CheckedChanged);
             // 
@@ -137,7 +143,7 @@
             this.chkGlobalFading.Name = "chkGlobalFading";
             this.chkGlobalFading.Size = new System.Drawing.Size(266, 16);
             this.chkGlobalFading.TabIndex = 9;
-            this.chkGlobalFading.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_FADING";
+            this.chkGlobalFading.Text = "SETTINGS.LABEL.DEFAULT.GLOBAL_FADING";
             this.chkGlobalFading.UseVisualStyleBackColor = true;
             this.chkGlobalFading.CheckedChanged += new System.EventHandler(this.chkGlobalFading_CheckedChanged);
             // 
@@ -148,7 +154,7 @@
             this.chkGlobalRandomise.Name = "chkGlobalRandomise";
             this.chkGlobalRandomise.Size = new System.Drawing.Size(290, 16);
             this.chkGlobalRandomise.TabIndex = 8;
-            this.chkGlobalRandomise.Text = "SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE";
+            this.chkGlobalRandomise.Text = "SETTINGS.LABEL.DEFAULT.GLOBAL_RANDOMISE";
             this.chkGlobalRandomise.UseVisualStyleBackColor = true;
             this.chkGlobalRandomise.CheckedChanged += new System.EventHandler(this.chkGlobalRandomise_CheckedChanged);
             // 
@@ -159,7 +165,7 @@
             this.lblDefaultWallpaperStyle.Name = "lblDefaultWallpaperStyle";
             this.lblDefaultWallpaperStyle.Size = new System.Drawing.Size(261, 12);
             this.lblDefaultWallpaperStyle.TabIndex = 7;
-            this.lblDefaultWallpaperStyle.Text = "SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE";
+            this.lblDefaultWallpaperStyle.Text = "SETTINGS.LABEL.DEFAULT.WALLPAPER_STYLE";
             // 
             // cmbDefaultWallpaperStyle
             // 
@@ -178,7 +184,7 @@
             this.chkDefaultFading.Name = "chkDefaultFading";
             this.chkDefaultFading.Size = new System.Drawing.Size(218, 16);
             this.chkDefaultFading.TabIndex = 5;
-            this.chkDefaultFading.Text = "SETTINGS_LABEL_DEFAULT_FADING";
+            this.chkDefaultFading.Text = "SETTINGS.LABEL.DEFAULT.FADING";
             this.chkDefaultFading.UseVisualStyleBackColor = true;
             this.chkDefaultFading.CheckedChanged += new System.EventHandler(this.chkDefaultFade_CheckedChanged);
             // 
@@ -189,7 +195,7 @@
             this.chkDefaultRandomise.Name = "chkDefaultRandomise";
             this.chkDefaultRandomise.Size = new System.Drawing.Size(242, 16);
             this.chkDefaultRandomise.TabIndex = 4;
-            this.chkDefaultRandomise.Text = "SETTINGS_LABEL_DEFAULT_RANDOMISE";
+            this.chkDefaultRandomise.Text = "SETTINGS.LABEL.DEFAULT.RANDOMISE";
             this.chkDefaultRandomise.UseVisualStyleBackColor = true;
             this.chkDefaultRandomise.CheckedChanged += new System.EventHandler(this.chkDefaultRandomise_CheckedChanged);
             // 
@@ -199,7 +205,7 @@
             this.btnChangeDefaultTiming.Name = "btnChangeDefaultTiming";
             this.btnChangeDefaultTiming.Size = new System.Drawing.Size(75, 21);
             this.btnChangeDefaultTiming.TabIndex = 3;
-            this.btnChangeDefaultTiming.Text = "SETTINGS_BUTTON_DEFAULT_TIMING";
+            this.btnChangeDefaultTiming.Text = "SETTINGS.BUTTON.DEFAULT_TIMING";
             this.btnChangeDefaultTiming.UseVisualStyleBackColor = true;
             this.btnChangeDefaultTiming.Click += new System.EventHandler(this.btnChangeDefaultTiming_Click);
             // 
@@ -210,7 +216,7 @@
             this.lblDefaultInterval.Name = "lblDefaultInterval";
             this.lblDefaultInterval.Size = new System.Drawing.Size(282, 12);
             this.lblDefaultInterval.TabIndex = 2;
-            this.lblDefaultInterval.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_INTERVAL";
+            this.lblDefaultInterval.Text = "SETTINGS.LABEL.WALLPAPER_DEFAULT_INTERVAL";
             // 
             // lblDefaultOffset
             // 
@@ -219,7 +225,7 @@
             this.lblDefaultOffset.Name = "lblDefaultOffset";
             this.lblDefaultOffset.Size = new System.Drawing.Size(270, 12);
             this.lblDefaultOffset.TabIndex = 1;
-            this.lblDefaultOffset.Text = "SETTINGS_LABEL_WALLPAPER_DEFAULT_OFFSET";
+            this.lblDefaultOffset.Text = "SETTINGS.LABEL.WALLPAPER_DEFAULT_OFFSET";
             // 
             // lblHighlightMode
             // 
@@ -228,7 +234,7 @@
             this.lblHighlightMode.Name = "lblHighlightMode";
             this.lblHighlightMode.Size = new System.Drawing.Size(197, 12);
             this.lblHighlightMode.TabIndex = 7;
-            this.lblHighlightMode.Text = "SETTINGS_LABEL_HIGHLIGHT_MODE";
+            this.lblHighlightMode.Text = "SETTINGS.LABEL.HIGHLIGHT.MODE";
             // 
             // cmbHighlightMode
             // 
@@ -252,7 +258,7 @@
             this.grpHighlight.Size = new System.Drawing.Size(741, 82);
             this.grpHighlight.TabIndex = 5;
             this.grpHighlight.TabStop = false;
-            this.grpHighlight.Text = "SETTINGS_LABEL_HIGHLIGHT";
+            this.grpHighlight.Text = "SETTINGS.LABEL.HIGHLIGHT";
             // 
             // btnHighlightColour
             // 
@@ -260,7 +266,7 @@
             this.btnHighlightColour.Name = "btnHighlightColour";
             this.btnHighlightColour.Size = new System.Drawing.Size(75, 21);
             this.btnHighlightColour.TabIndex = 8;
-            this.btnHighlightColour.Text = "SETTINGS_BUTTON_HIGHLIGHT_COLOUR";
+            this.btnHighlightColour.Text = "SETTINGS.BUTTON.HIGHLIGHT_COLOUR";
             this.btnHighlightColour.UseVisualStyleBackColor = true;
             this.btnHighlightColour.Click += new System.EventHandler(this.btnHighlightColour_Click);
             // 
@@ -280,7 +286,7 @@
             this.lblHighlightColour.Name = "lblHighlightColour";
             this.lblHighlightColour.Size = new System.Drawing.Size(211, 12);
             this.lblHighlightColour.TabIndex = 8;
-            this.lblHighlightColour.Text = "SETTINGS_LABEL_HIGHLIGHT_COLOUR";
+            this.lblHighlightColour.Text = "SETTINGS.LABEL.HIGHLIGHT.COLOUR";
             // 
             // grpPreProcessing
             // 
@@ -291,7 +297,17 @@
             this.grpPreProcessing.Size = new System.Drawing.Size(741, 40);
             this.grpPreProcessing.TabIndex = 6;
             this.grpPreProcessing.TabStop = false;
-            this.grpPreProcessing.Text = "SETTINGS_LABEL_PREPROCESSING";
+            this.grpPreProcessing.Text = "SETTINGS.LABEL.PREPROCESSING";
+            // 
+            // btnPreProcessingDefaults
+            // 
+            this.btnPreProcessingDefaults.Location = new System.Drawing.Point(660, 11);
+            this.btnPreProcessingDefaults.Name = "btnPreProcessingDefaults";
+            this.btnPreProcessingDefaults.Size = new System.Drawing.Size(75, 23);
+            this.btnPreProcessingDefaults.TabIndex = 1;
+            this.btnPreProcessingDefaults.Text = "SETTINGS.BUTTON.PREPROCESSING_DEFAULTS";
+            this.btnPreProcessingDefaults.UseVisualStyleBackColor = true;
+            this.btnPreProcessingDefaults.Click += new System.EventHandler(this.btnPreProcessingDefaults_Click);
             // 
             // chkGlobalPreProcessing
             // 
@@ -300,25 +316,71 @@
             this.chkGlobalPreProcessing.Name = "chkGlobalPreProcessing";
             this.chkGlobalPreProcessing.Size = new System.Drawing.Size(262, 16);
             this.chkGlobalPreProcessing.TabIndex = 0;
-            this.chkGlobalPreProcessing.Text = "SETTINGS_LABEL_GLOBAL_PREPROCESSING";
+            this.chkGlobalPreProcessing.Text = "SETTINGS.LABEL.GLOBAL_PREPROCESSING";
             this.chkGlobalPreProcessing.UseVisualStyleBackColor = true;
             this.chkGlobalPreProcessing.CheckedChanged += new System.EventHandler(this.chkGlobalPreProcessing_CheckedChanged);
             // 
-            // btnPreProcessingDefaults
+            // grpMisc
             // 
-            this.btnPreProcessingDefaults.Location = new System.Drawing.Point(660, 11);
-            this.btnPreProcessingDefaults.Name = "btnPreProcessingDefaults";
-            this.btnPreProcessingDefaults.Size = new System.Drawing.Size(75, 23);
-            this.btnPreProcessingDefaults.TabIndex = 1;
-            this.btnPreProcessingDefaults.Text = "SETTINGS_BUTTON_PREPROCESSING_DEFAULTS";
-            this.btnPreProcessingDefaults.UseVisualStyleBackColor = true;
-            this.btnPreProcessingDefaults.Click += new System.EventHandler(this.btnPreProcessingDefaults_Click);
+            this.grpMisc.Controls.Add(this.chkRainbowMode);
+            this.grpMisc.Controls.Add(this.lblColourChangingDesc);
+            this.grpMisc.Controls.Add(this.chkGlobalColourChanging);
+            this.grpMisc.Controls.Add(this.chkDefaultColourChanging);
+            this.grpMisc.Location = new System.Drawing.Point(12, 355);
+            this.grpMisc.Name = "grpMisc";
+            this.grpMisc.Size = new System.Drawing.Size(741, 73);
+            this.grpMisc.TabIndex = 7;
+            this.grpMisc.TabStop = false;
+            this.grpMisc.Text = "SETTINGS.LABEL.MISCELLANEOUS";
+            // 
+            // chkDefaultColourChanging
+            // 
+            this.chkDefaultColourChanging.AutoSize = true;
+            this.chkDefaultColourChanging.Location = new System.Drawing.Point(8, 30);
+            this.chkDefaultColourChanging.Name = "chkDefaultColourChanging";
+            this.chkDefaultColourChanging.Size = new System.Drawing.Size(273, 16);
+            this.chkDefaultColourChanging.TabIndex = 0;
+            this.chkDefaultColourChanging.Text = "SETTINGS.LABEL.DEFAULT.COLOUR_CHANGE";
+            this.chkDefaultColourChanging.UseVisualStyleBackColor = true;
+            this.chkDefaultColourChanging.CheckedChanged += new System.EventHandler(this.chkDefaultColourChanging_CheckedChanged);
+            // 
+            // chkGlobalColourChanging
+            // 
+            this.chkGlobalColourChanging.AutoSize = true;
+            this.chkGlobalColourChanging.Location = new System.Drawing.Point(369, 30);
+            this.chkGlobalColourChanging.Name = "chkGlobalColourChanging";
+            this.chkGlobalColourChanging.Size = new System.Drawing.Size(321, 16);
+            this.chkGlobalColourChanging.TabIndex = 10;
+            this.chkGlobalColourChanging.Text = "SETTINGS.LABEL.DEFAULT.GLOBAL_COLOUR_CHANGE";
+            this.chkGlobalColourChanging.UseVisualStyleBackColor = true;
+            this.chkGlobalColourChanging.CheckedChanged += new System.EventHandler(this.chkGlobalColourChanging_CheckedChanged);
+            // 
+            // lblColourChangingDesc
+            // 
+            this.lblColourChangingDesc.AutoSize = true;
+            this.lblColourChangingDesc.Location = new System.Drawing.Point(7, 15);
+            this.lblColourChangingDesc.Name = "lblColourChangingDesc";
+            this.lblColourChangingDesc.Size = new System.Drawing.Size(233, 12);
+            this.lblColourChangingDesc.TabIndex = 11;
+            this.lblColourChangingDesc.Text = "SETTINGS.LABEL.COLOUR_CHANGE_DESC";
+            // 
+            // chkRainbowMode
+            // 
+            this.chkRainbowMode.AutoSize = true;
+            this.chkRainbowMode.Location = new System.Drawing.Point(8, 52);
+            this.chkRainbowMode.Name = "chkRainbowMode";
+            this.chkRainbowMode.Size = new System.Drawing.Size(209, 16);
+            this.chkRainbowMode.TabIndex = 12;
+            this.chkRainbowMode.Text = "SETTINGS.LABEL.RAINBOW_MODE";
+            this.chkRainbowMode.UseVisualStyleBackColor = true;
+            this.chkRainbowMode.CheckedChanged += new System.EventHandler(this.chkRainbowMode_CheckedChanged);
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 360);
+            this.ClientSize = new System.Drawing.Size(765, 440);
+            this.Controls.Add(this.grpMisc);
             this.Controls.Add(this.grpPreProcessing);
             this.Controls.Add(this.grpHighlight);
             this.Controls.Add(this.grpDefaults);
@@ -337,6 +399,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picHighlightColour)).EndInit();
             this.grpPreProcessing.ResumeLayout(false);
             this.grpPreProcessing.PerformLayout();
+            this.grpMisc.ResumeLayout(false);
+            this.grpMisc.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -368,5 +432,10 @@
         private System.Windows.Forms.GroupBox grpPreProcessing;
         private System.Windows.Forms.Button btnPreProcessingDefaults;
         private System.Windows.Forms.CheckBox chkGlobalPreProcessing;
+        private System.Windows.Forms.GroupBox grpMisc;
+        private System.Windows.Forms.Label lblColourChangingDesc;
+        private System.Windows.Forms.CheckBox chkGlobalColourChanging;
+        private System.Windows.Forms.CheckBox chkDefaultColourChanging;
+        private System.Windows.Forms.CheckBox chkRainbowMode;
     }
 }

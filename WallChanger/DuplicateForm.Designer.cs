@@ -98,7 +98,7 @@
             this.btnAuto.Name = "btnAuto";
             this.btnAuto.Size = new System.Drawing.Size(75, 23);
             this.btnAuto.TabIndex = 6;
-            this.btnAuto.Text = "DUPE_BUTTON_AUTO";
+            this.btnAuto.Text = "DUPE.BUTTON.AUTO";
             this.ToolTips.SetToolTip(this.btnAuto, "Automatically resolves duplicates.");
             this.btnAuto.UseVisualStyleBackColor = true;
             this.btnAuto.Click += new System.EventHandler(this.btnAuto_Click);
@@ -109,7 +109,7 @@
             this.btnKeep.Name = "btnKeep";
             this.btnKeep.Size = new System.Drawing.Size(75, 23);
             this.btnKeep.TabIndex = 5;
-            this.btnKeep.Text = "DUPE_BUTTON_KEEP";
+            this.btnKeep.Text = "DUPE.BUTTON.KEEP";
             this.btnKeep.UseVisualStyleBackColor = true;
             this.btnKeep.Click += new System.EventHandler(this.btnKeep_Click);
             // 
@@ -120,7 +120,7 @@
             this.lblImageSize.Name = "lblImageSize";
             this.lblImageSize.Size = new System.Drawing.Size(146, 13);
             this.lblImageSize.TabIndex = 1;
-            this.lblImageSize.Text = "DUPE_LABEL_IMAGE_SIZE";
+            this.lblImageSize.Text = "DUPE.LABEL.IMAGE_SIZE";
             // 
             // btnDelete
             // 
@@ -128,7 +128,7 @@
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 4;
-            this.btnDelete.Text = "DUPE_BUTTON_DELETE";
+            this.btnDelete.Text = "DUPE.BUTTON.DELETE";
             this.ToolTips.SetToolTip(this.btnDelete, "Delete from disk.");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -140,7 +140,7 @@
             this.lblFilePath.Name = "lblFilePath";
             this.lblFilePath.Size = new System.Drawing.Size(133, 13);
             this.lblFilePath.TabIndex = 2;
-            this.lblFilePath.Text = "DUPE_LABEL_FILEPATH";
+            this.lblFilePath.Text = "DUPE.LABEL.FILEPATH";
             // 
             // btnRemove
             // 
@@ -148,7 +148,7 @@
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(75, 23);
             this.btnRemove.TabIndex = 3;
-            this.btnRemove.Text = "DUPE_BUTTON_REMOVE";
+            this.btnRemove.Text = "DUPE.BUTTON.REMOVE";
             this.ToolTips.SetToolTip(this.btnRemove, "Remove from library.");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);

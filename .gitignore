@@ -1,4 +1,3 @@
-
 #ignore thumbnails created by windows
 Thumbs.db
 #Ignore files build by Visual Studio
@@ -30,3 +29,6 @@ _ReSharper*/
 *.psess
 *.vsp
 [Pp]ackages
+secret.cfg
+Updater/
+UpdateDeployer/

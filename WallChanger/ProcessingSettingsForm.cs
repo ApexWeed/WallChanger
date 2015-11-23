@@ -10,6 +10,7 @@ namespace WallChanger
         new private readonly Form Parent;
         private EdgeDetectionFilter SelectedEDF;
         private ImageFilterMatrix SelectedMatrix;
+        private ChannelRotation SelectedCR;
         private readonly SettingChanged SettingChangedHandler;
         private readonly string Source;
 
@@ -45,6 +46,8 @@ namespace WallChanger
             SelectedEDF = Settings.EdgeDetectionFilter;
             chkImageFilterEnabled.Checked = Settings.ImageFilterEnabled;
             SelectedMatrix = Settings.ImageFilterMatrix;
+            chkChannelRotationEnabled.Checked = Settings.ChannelRotationEnabled;
+            SelectedCR = Settings.ChannelRotationValue;
 
             // Enable / disable initial state of controls.
             grpPreProcessing.Enabled = chkProcessingEnabled.Checked;
@@ -59,6 +62,7 @@ namespace WallChanger
             btnTintColour.Enabled = chkVignetteEnabled.Checked;
             cmbEdgeDetection.Enabled = chkEdgeDetectionEnabled.Checked;
             cmbImageFilter.Enabled = chkImageFilterEnabled.Checked;
+            cmbChannelRotation.Enabled = chkChannelRotationEnabled.Checked;
 
             LocaliseInterface();
         }
@@ -75,34 +79,35 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = string.Format(LM.GetStringDefault("TITLE_PREPROCESSING", "TITLE_PREPROCESSING - {0}"), Source);
+            this.Text = string.Format(LM.GetStringDefault("TITLE.PREPROCESSING", "TITLE.PREPROCESSING - {0}"), Source);
 
             // Buttons.
-            btnTintColour.Text = LM.GetString("PREPROCESSING_BUTTON_TINT_COLOUR");
-            btnVignetteColour.Text = LM.GetString("PREPROCESSING_BUTTON_VIGNETTE_COLOUR");
+            btnTintColour.Text = LM.GetString("PREPROCESSING.BUTTON.TINT_COLOUR");
+            btnVignetteColour.Text = LM.GetString("PREPROCESSING.BUTTON.VIGNETTE_COLOUR");
 
             // Tooltips.
 
             // Labels.
-            grpPreProcessing.Text = LM.GetString("PREPROCESSING_LABEL_PREPROCESSING");
+            grpPreProcessing.Text = LM.GetString("PREPROCESSING.LABEL.PREPROCESSING");
 
-            chkProcessingEnabled.Text = LM.GetString("PREPROCESSING_LABEL_PREPROCESSING_ENABLED");
-            chkBrightnessEnabled.Text = LM.GetString("PREPROCESSING_LABEL_BRIGHTNESS_ENABLED");
-            chkSaturationEnabled.Text = LM.GetString("PREPROCESSING_LABEL_SATURATION_ENABLED");
-            chkContrastEnabled.Text = LM.GetString("PREPROCESSING_LABEL_CONTRAST_ENABLED");
-            chkHueEnabled.Text = LM.GetString("PREPROCESSING_LABEL_HUE_ENABLED");
-            chkGaussianBlurEnabled.Text = LM.GetString("PREPROCESSING_LABEL_GAUSSIAN_BLUR_ENABLED");
-            chkGaussianSharpenEnabled.Text = LM.GetString("PREPROCESSING_LABEL_GAUSSIAN_SHARPEN_ENABLED");
-            chkPixelateEnabled.Text = LM.GetString("PREPROCESSING_LABEL_PIXELATE_ENABLED");
-            chkVignetteEnabled.Text = LM.GetString("PREPROCESSING_LABEL_VIGNETTE_ENABLED");
-            chkTintEnabled.Text = LM.GetString("PREPROCESSING_LABEL_TINT_ENABLED");
-            chkEdgeDetectionEnabled.Text = LM.GetString("PREPROCESSING_LABEL_EDGE_DETECTION_ENABLED");
-            chkImageFilterEnabled.Text = LM.GetString("PREPROCESSING_LABEL_IMAGE_FILTER_ENABLED");
+            chkProcessingEnabled.Text = LM.GetString("PREPROCESSING.LABEL.PREPROCESSING_ENABLED");
+            chkBrightnessEnabled.Text = LM.GetString("PREPROCESSING.LABEL.BRIGHTNESS_ENABLED");
+            chkSaturationEnabled.Text = LM.GetString("PREPROCESSING.LABEL.SATURATION_ENABLED");
+            chkContrastEnabled.Text = LM.GetString("PREPROCESSING.LABEL.CONTRAST_ENABLED");
+            chkHueEnabled.Text = LM.GetString("PREPROCESSING.LABEL.HUE_ENABLED");
+            chkGaussianBlurEnabled.Text = LM.GetString("PREPROCESSING.LABEL.GAUSSIAN_BLUR_ENABLED");
+            chkGaussianSharpenEnabled.Text = LM.GetString("PREPROCESSING.LABEL.GAUSSIAN_SHARPEN_ENABLED");
+            chkPixelateEnabled.Text = LM.GetString("PREPROCESSING.LABEL.PIXELATE_ENABLED");
+            chkVignetteEnabled.Text = LM.GetString("PREPROCESSING.LABEL.VIGNETTE_ENABLED");
+            chkTintEnabled.Text = LM.GetString("PREPROCESSING.LABEL.TINT_ENABLED");
+            chkEdgeDetectionEnabled.Text = LM.GetString("PREPROCESSING.LABEL.EDGE_DETECTION_ENABLED");
+            chkImageFilterEnabled.Text = LM.GetString("PREPROCESSING.LABEL.IMAGE_FILTER_ENABLED");
+            chkChannelRotationEnabled.Text = LM.GetString("PREPROCESSING.LABEL.CHANNEL_ROTATION_ENABLED");
 
-            lblBrightnessValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_BRIGHTNESS_VALUE", "PREPROCESSING_LABEL_BRIGHTNESS_VALUE {0}"), trkBrightness.Value);
-            lblSaturationValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_SATURATION_VALUE", "PREPROCESSING_LABEL_SATURATION_VALUE {0}"), trkSaturation.Value);
-            lblContrastValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_CONTRAST_VALUE", "PREPROCESSING_LABEL_CONTRAST_VALUE {0}"), trkContrast.Value);
-            lblHueValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_HUE_VALUE", "PREPROCESSING_LABEL_HUE_VALUE {0}"), trkHue.Value);
+            lblBrightnessValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.BRIGHTNESS_VALUE", "PREPROCESSING.LABEL.BRIGHTNESS_VALUE {0}"), trkBrightness.Value);
+            lblSaturationValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.SATURATION_VALUE", "PREPROCESSING.LABEL.SATURATION_VALUE {0}"), trkSaturation.Value);
+            lblContrastValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.CONTRAST_VALUE", "PREPROCESSING.LABEL.CONTRAST_VALUE {0}"), trkContrast.Value);
+            lblHueValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.HUE_VALUE", "PREPROCESSING.LABEL.HUE_VALUE {0}"), trkHue.Value);
 
             cmbEdgeDetection.Items.Clear();
             cmbEdgeDetection.Items.Add(new EdgeDetectionFilterWrapper(EdgeDetectionFilter.KayyaliEdgeFilter));
@@ -131,6 +136,12 @@ namespace WallChanger
 
             cmbImageFilter.SelectedItem = cmbImageFilter.Items.Find(x => (ImageFilterMatrixWrapper)x == SelectedMatrix);
 
+            cmbChannelRotation.Items.Clear();
+            cmbChannelRotation.Items.Add(new ChannelRotationWrapper(ChannelRotation.RotateOnce));
+            cmbChannelRotation.Items.Add(new ChannelRotationWrapper(ChannelRotation.RotateTwice));
+
+            cmbChannelRotation.SelectedItem = cmbChannelRotation.Items.Find(x => (ChannelRotationWrapper)x == SelectedCR);
+
             // Cascade.
         }
 
@@ -158,6 +169,12 @@ namespace WallChanger
         {
             trkBrightness.Enabled = chkBrightnessEnabled.Checked;
             SettingChangedHandler?.Invoke(ProcessingSetting.BrightnessEnabled, chkBrightnessEnabled.Checked);
+        }
+
+        private void chkChannelRotationEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbChannelRotation.Enabled = chkChannelRotationEnabled.Checked;
+            SettingChangedHandler?.Invoke(ProcessingSetting.ChannelRotationEnabled, chkChannelRotationEnabled.Checked);
         }
 
         private void chkContrastEnabled_CheckedChanged(object sender, EventArgs e)
@@ -226,6 +243,15 @@ namespace WallChanger
             SettingChangedHandler?.Invoke(ProcessingSetting.VignetteEnabled, chkVignetteEnabled.Checked);
         }
 
+        private void cmbChannelRotation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbChannelRotation.SelectedItem != null)
+            {
+                SettingChangedHandler?.Invoke(ProcessingSetting.ChannelRotationValue, cmbChannelRotation.SelectedItem);
+                SelectedCR = (ChannelRotationWrapper)cmbChannelRotation.SelectedItem;
+            }
+        }
+
         private void cmbEdgeDetection_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbEdgeDetection.SelectedItem != null)
@@ -270,25 +296,25 @@ namespace WallChanger
         private void trkBrightness_Scroll(object sender, EventArgs e)
         {
             SettingChangedHandler?.Invoke(ProcessingSetting.BrightnessValue, trkBrightness.Value);
-            lblBrightnessValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_BRIGHTNESS_VALUE", "PREPROCESSING_LABEL_BRIGHTNESS_VALUE {0}"), trkBrightness.Value);
+            lblBrightnessValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.BRIGHTNESS_VALUE", "PREPROCESSING.LABEL.BRIGHTNESS_VALUE {0}"), trkBrightness.Value);
         }
 
         private void trkContrast_Scroll(object sender, EventArgs e)
         {
             SettingChangedHandler?.Invoke(ProcessingSetting.ContrastValue, trkContrast.Value);
-            lblContrastValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_CONTRAST_VALUE", "PREPROCESSING_LABEL_CONTRAST_VALUE {0}"), trkContrast.Value);
+            lblContrastValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.CONTRAST_VALUE", "PREPROCESSING.LABEL.CONTRAST_VALUE {0}"), trkContrast.Value);
         }
 
         private void trkHue_Scroll(object sender, EventArgs e)
         {
             SettingChangedHandler?.Invoke(ProcessingSetting.HueValue, trkHue.Value);
-            lblHueValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_HUE_VALUE", "PREPROCESSING_LABEL_HUE_VALUE {0}"), trkHue.Value);
+            lblHueValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.HUE_VALUE", "PREPROCESSING.LABEL.HUE_VALUE {0}"), trkHue.Value);
         }
 
         private void trkSaturation_Scroll(object sender, EventArgs e)
         {
             SettingChangedHandler?.Invoke(ProcessingSetting.SaturationValue, trkSaturation.Value);
-            lblSaturationValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING_LABEL_SATURATION_VALUE", "PREPROCESSING_LABEL_SATURATION_VALUE {0}"), trkSaturation.Value);
+            lblSaturationValue.Text = string.Format(LM.GetStringDefault("PREPROCESSING.LABEL.SATURATION_VALUE", "PREPROCESSING.LABEL.SATURATION_VALUE {0}"), trkSaturation.Value);
         }
     }
 }

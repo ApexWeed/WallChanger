@@ -51,12 +51,12 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE_DUPLICATE");
+            this.Text = LM.GetString("TITLE.DUPLICATE");
             // Buttons.
-            btnKeep.Text = LM.GetString("DUPE_BUTTON_KEEP");
-            btnRemove.Text = LM.GetString("DUPE_BUTTON_REMOVE");
-            btnDelete.Text = LM.GetString("DUPE_BUTTON_DELETE");
-            btnAuto.Text = LM.GetString("DUPE_BUTTON_AUTO");
+            btnKeep.Text = LM.GetString("DUPE.BUTTON.KEEP");
+            btnRemove.Text = LM.GetString("DUPE.BUTTON.REMOVE");
+            btnDelete.Text = LM.GetString("DUPE.BUTTON.DELETE");
+            btnAuto.Text = LM.GetString("DUPE.BUTTON.AUTO");
             // Tooltips.
             // Labels.
 
@@ -86,7 +86,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnAuto_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO"), LM.GetString("DUPE_MESSAGE_CONFIRM_AUTO_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(LM.GetString("DUPE.MESSAGE.CONFIRM_AUTO"), LM.GetString("DUPE.MESSAGE.CONFIRM_AUTO_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 AutoModeEngaged = true;
 
@@ -139,7 +139,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE"), LM.GetString("DUPE_MESSAGE_CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(LM.GetString("DUPE.MESSAGE.CONFIRM_DELETE"), LM.GetString("DUPE.MESSAGE.CONFIRM_DELETE_TITLE"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 File.Delete((lstDuplicateImages.SelectedItem as Duplicate).Path);
                 RemoveFromLibrary();
@@ -203,7 +203,7 @@ namespace WallChanger
 
                 lblFilePath.Text = duplicate.Path;
                 picPreview.Image = Imaging.FromFile(duplicate.Path);
-                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE_LABEL_IMAGE_SIZE", "DUPE_LABEL_IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
+                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE.LABEL.IMAGE_SIZE", "DUPE.LABEL.IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
             }
         }
 

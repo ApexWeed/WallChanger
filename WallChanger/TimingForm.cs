@@ -42,25 +42,25 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = string.Format(LM.GetStringDefault("TITLE_TIMING", "TITLE_TIMING - {0}"), Source);
+            this.Text = string.Format(LM.GetStringDefault("TITLE.TIMING", "TITLE.TIMING - {0}"), Source);
             // Buttons.
-            btnSave.Text = LM.GetString("TIMING_BUTTON_SAVE");
+            btnSave.Text = LM.GetString("TIMING.BUTTON.SAVE");
             // Tooltips.
             // Labels.
-            lblOffsetSeconds.Text = LM.GetString("TIMING_LABEL_SECONDS");
+            lblOffsetSeconds.Text = LM.GetString("TIMING.LABEL.SECONDS");
             lblOffsetSeconds.Left = cmbOffsetSeconds.Left + ((cmbOffsetSeconds.Width / 2) - (TextRenderer.MeasureText(lblOffsetSeconds.Text, lblOffsetSeconds.Font).Width / 2));
-            lblOffsetMinutes.Text = LM.GetString("TIMING_LABEL_MINUTES");
+            lblOffsetMinutes.Text = LM.GetString("TIMING.LABEL.MINUTES");
             lblOffsetMinutes.Left = cmbOffsetMinutes.Left + ((cmbOffsetMinutes.Width / 2) - (TextRenderer.MeasureText(lblOffsetMinutes.Text, lblOffsetMinutes.Font).Width / 2));
-            lblOffsetHours.Text = LM.GetString("TIMING_LABEL_HOURS");
+            lblOffsetHours.Text = LM.GetString("TIMING.LABEL.HOURS");
             lblOffsetHours.Left = cmbOffsetHours.Left + ((cmbOffsetHours.Width / 2) - (TextRenderer.MeasureText(lblOffsetHours.Text, lblOffsetHours.Font).Width / 2));
-            lblIntervalSeconds.Text = LM.GetString("TIMING_LABEL_SECONDS");
+            lblIntervalSeconds.Text = LM.GetString("TIMING.LABEL.SECONDS");
             lblIntervalSeconds.Left = cmbIntervalSeconds.Left + ((cmbIntervalSeconds.Width / 2) - (TextRenderer.MeasureText(lblIntervalSeconds.Text, lblIntervalSeconds.Font).Width / 2));
-            lblIntervalMinutes.Text = LM.GetString("TIMING_LABEL_MINUTES");
+            lblIntervalMinutes.Text = LM.GetString("TIMING.LABEL.MINUTES");
             lblIntervalMinutes.Left = cmbIntervalMinutes.Left + ((cmbIntervalMinutes.Width / 2) - (TextRenderer.MeasureText(lblIntervalMinutes.Text, lblIntervalMinutes.Font).Width / 2));
-            lblIntervalHours.Text = LM.GetString("TIMING_LABEL_HOURS");
+            lblIntervalHours.Text = LM.GetString("TIMING.LABEL.HOURS");
             lblIntervalHours.Left = cmbIntervalHours.Left + ((cmbIntervalHours.Width / 2) - (TextRenderer.MeasureText(lblIntervalHours.Text, lblIntervalHours.Font).Width / 2));
-            grpOffset.Text = LM.GetString("TIMING_LABEL_OFFSET");
-            grpInterval.Text = LM.GetString("TIMING_LABEL_INTERVAL");
+            grpOffset.Text = LM.GetString("TIMING.LABEL.OFFSET");
+            grpInterval.Text = LM.GetString("TIMING.LABEL.INTERVAL");
 
             // Cascade.
         }
@@ -94,7 +94,7 @@ namespace WallChanger
 
             if (offset < -interval)
             {
-                MessageBox.Show(string.Format(LM.GetStringDefault("TIMING_MESSAGE_OFFSET_ERROR", "TIMING_MESSAGE_OFFSET_ERROR {0} - {1}"), offset, interval));
+                MessageBox.Show(string.Format(LM.GetStringDefault("TIMING.MESSAGE.OFFSET_ERROR", "TIMING.MESSAGE.OFFSET_ERROR {0} - {1}"), offset, interval));
             }
             else
             {

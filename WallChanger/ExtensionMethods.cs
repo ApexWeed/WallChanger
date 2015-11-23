@@ -157,4 +157,138 @@ namespace WallChanger
             return Value;
         }
     }
+
+    public static class ImageExtensions
+    {
+        public static int GetHue(this Image image)
+        {
+            var hueCounts = new int[360];
+
+            using (var bitmap = new Bitmap(image))
+            {
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, image.Width, image.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                var byteCount = bitmapData.Stride * image.Height;
+                var bytes = new byte[byteCount];
+                var pixels = image.Width * image.Height;
+
+                System.Runtime.InteropServices.Marshal.Copy(bitmapData.Scan0, bytes, 0, byteCount);
+
+                for (int i = 0; i < pixels; i++)
+                {
+                    float h, s, v;
+                    Utilities.ColourToHSV(Color.FromArgb(bytes[i * 3 + 2], bytes[i * 3 + 1], bytes[i * 3 + 0]), out h, out s, out v);
+                    if (s > 0.1 && v > 0.1)
+                    {
+                        hueCounts[(int)h]++;
+                    }
+                }
+
+                //System.Threading.Tasks.Parallel.For(0, pixels, (i) =>
+                //{
+                //    float h, s, v;
+                //    Utilities.ColourToHSV(Color.FromArgb(bytes[i * 3 + 2], bytes[i * 3 + 1], bytes[i * 3 + 0]), out h, out s, out v);
+                //    if (s > 0.1 && v > 0.1)
+                //    {
+                //        hueCounts[(int)h]++;
+                //    }
+                //});
+
+                bitmap.UnlockBits(bitmapData);
+            }
+
+            //var total = 0;
+            //var totalCount = 0;
+            //for (int i = 0; i < 360; i++)
+            //{
+            //    total += (i + 1) * hueCounts[i];
+            //    totalCount += hueCounts[i];
+            //}
+            //return total / totalCount;
+
+            //var maxIndex = 0;
+            //using (var fs = System.IO.File.Open("buttes.txt", System.IO.FileMode.Create))
+            //{
+            //    using (var w = new System.IO.StreamWriter(fs))
+            //    {
+            //        for (int i = 0; i < 360; i++)
+            //        {
+            //            if (hueCounts[i] > hueCounts[maxIndex])
+            //                maxIndex = i;
+            //        }
+            //
+            //        System.Diagnostics.Debug.WriteLine(maxIndex);
+            //        //return maxIndex;
+            //
+            //        maxIndex = 0;
+            //        var smoothed2 = Smooth2(hueCounts);
+            //        for (int i = 0; i < 360; i++)
+            //        {
+            //            if (smoothed2[i] > smoothed2[maxIndex])
+            //                maxIndex = i;
+            //        }
+            //
+            //        System.Diagnostics.Debug.WriteLine(maxIndex);
+            //
+            //        //maxIndex = 0;
+            //        //var smoothed3 = Smooth3(hueCounts);
+            //        //for (int i = 0; i < 360; i++)
+            //        //{
+            //        //    if (smoothed3[i] > smoothed3[maxIndex])
+            //        //        maxIndex = i;
+            //        //}
+            //        //
+            //        //System.Diagnostics.Debug.WriteLine(maxIndex);
+            //    }
+            //}
+            //return maxIndex;
+
+            var hue = KMeans.Mean(Smooth2I(hueCounts), 10);
+
+            System.Diagnostics.Debug.WriteLine(hue);
+            return hue;
+        }
+
+        private static int[] Smooth3(int[] RawData)
+        {
+            var Smoothed = new int[RawData.Length];
+            Smoothed[0] = (RawData[0] + RawData[1]) / 2;
+            Smoothed[1] = (RawData[0] + RawData[1] + RawData[2]) / 3;
+            Smoothed[RawData.Length - 1] = (RawData[RawData.Length - 2] + RawData[RawData.Length - 1]) / 2;
+            Smoothed[RawData.Length - 2] = (RawData[RawData.Length - 3] + RawData[RawData.Length - 2] + RawData[RawData.Length - 1]) / 3;
+
+            for (int i = 2; i < RawData.Length - 2; i++)
+            {
+                Smoothed[i] = (RawData[i - 2] + RawData[i - 1] + RawData[i] + RawData[i + 1] + RawData[i + 2]) / 5;
+            }
+
+            return Smoothed;
+        }
+
+        private static int[] Smooth2(int[] RawData)
+        {
+            var Smoothed = new int[RawData.Length];
+            Smoothed[0] = (RawData[0] + RawData[1]) / 2;
+            Smoothed[RawData.Length - 1] = (RawData[RawData.Length - 2] + RawData[RawData.Length - 1]) / 2;
+
+            for (int i = 1; i < RawData.Length - 1; i++)
+            {
+                Smoothed[i] = (RawData[i - 1] + RawData[i] + RawData[i + 1]) / 3;
+            }
+
+            return Smoothed;
+        }
+
+        private static int[] Smooth2I(int[] RawData)
+        {
+            var Smoothed = new int[RawData.Length];
+            Array.Copy(RawData, Smoothed, RawData.Length);
+
+            for (int i = 1; i < RawData.Length - 1; i++)
+            {
+                Smoothed[i] = (RawData[i - 1] + RawData[i] + RawData[i + 1]) / 3;
+            }
+
+            return Smoothed;
+        }
+    }
 }

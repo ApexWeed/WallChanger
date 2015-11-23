@@ -490,5 +490,65 @@ namespace WallChanger.Properties {
                 this["DefaultImageFilterMatrix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultChannelRotationEnabled {
+            get {
+                return ((bool)(this["DefaultChannelRotationEnabled"]));
+            }
+            set {
+                this["DefaultChannelRotationEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RotateOnce")]
+        public global::WallChanger.ChannelRotation DefaultChannelRotationValue {
+            get {
+                return ((global::WallChanger.ChannelRotation)(this["DefaultChannelRotationValue"]));
+            }
+            set {
+                this["DefaultChannelRotationValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultColourSchemeEnabled {
+            get {
+                return ((bool)(this["DefaultColourSchemeEnabled"]));
+            }
+            set {
+                this["DefaultColourSchemeEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GlobalColourSchemeEnabled {
+            get {
+                return ((bool)(this["GlobalColourSchemeEnabled"]));
+            }
+            set {
+                this["GlobalColourSchemeEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RainbowModeEnabled {
+            get {
+                return ((bool)(this["RainbowModeEnabled"]));
+            }
+            set {
+                this["RainbowModeEnabled"] = value;
+            }
+        }
     }
 }

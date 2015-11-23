@@ -119,5 +119,20 @@
     <Setting Name="DefaultImageFilterMatrix" Type="WallChanger.ImageFilterMatrix" Scope="User">
       <Value Profile="(Default)">BlackWhite</Value>
     </Setting>
+    <Setting Name="DefaultChannelRotationEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DefaultChannelRotationValue" Type="WallChanger.ChannelRotation" Scope="User">
+      <Value Profile="(Default)">RotateOnce</Value>
+    </Setting>
+    <Setting Name="DefaultColourSchemeEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GlobalColourSchemeEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RainbowModeEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

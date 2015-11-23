@@ -59,6 +59,8 @@
             this.trkBrightness = new System.Windows.Forms.TrackBar();
             this.chkBrightnessEnabled = new System.Windows.Forms.CheckBox();
             this.cdgColourDialog = new System.Windows.Forms.ColorDialog();
+            this.chkChannelRotationEnabled = new System.Windows.Forms.CheckBox();
+            this.cmbChannelRotation = new System.Windows.Forms.ComboBox();
             this.grpPreProcessing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picTintColour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picVignetteColour)).BeginInit();
@@ -78,12 +80,14 @@
             this.chkProcessingEnabled.Name = "chkProcessingEnabled";
             this.chkProcessingEnabled.Size = new System.Drawing.Size(309, 16);
             this.chkProcessingEnabled.TabIndex = 0;
-            this.chkProcessingEnabled.Text = "PREPROCESSING_LABEL_PREPROCESSING_ENABLED";
+            this.chkProcessingEnabled.Text = "PREPROCESSING.LABEL.PREPROCESSING_ENABLED";
             this.chkProcessingEnabled.UseVisualStyleBackColor = true;
             this.chkProcessingEnabled.CheckedChanged += new System.EventHandler(this.chkProcessingEnabled_CheckedChanged);
             // 
             // grpPreProcessing
             // 
+            this.grpPreProcessing.Controls.Add(this.chkChannelRotationEnabled);
+            this.grpPreProcessing.Controls.Add(this.cmbChannelRotation);
             this.grpPreProcessing.Controls.Add(this.chkImageFilterEnabled);
             this.grpPreProcessing.Controls.Add(this.cmbImageFilter);
             this.grpPreProcessing.Controls.Add(this.chkEdgeDetectionEnabled);
@@ -114,10 +118,10 @@
             this.grpPreProcessing.Controls.Add(this.chkBrightnessEnabled);
             this.grpPreProcessing.Location = new System.Drawing.Point(12, 34);
             this.grpPreProcessing.Name = "grpPreProcessing";
-            this.grpPreProcessing.Size = new System.Drawing.Size(714, 409);
+            this.grpPreProcessing.Size = new System.Drawing.Size(714, 434);
             this.grpPreProcessing.TabIndex = 1;
             this.grpPreProcessing.TabStop = false;
-            this.grpPreProcessing.Text = "PREPROCESSING_LABEL_PREPROCESSING";
+            this.grpPreProcessing.Text = "PREPROCESSING.LABEL.PREPROCESSING";
             // 
             // chkImageFilterEnabled
             // 
@@ -246,7 +250,7 @@
             this.chkPixelateEnabled.Name = "chkPixelateEnabled";
             this.chkPixelateEnabled.Size = new System.Drawing.Size(268, 16);
             this.chkPixelateEnabled.TabIndex = 16;
-            this.chkPixelateEnabled.Text = "PREPROCESSING_LABEL_PIXELATE_ENABLED";
+            this.chkPixelateEnabled.Text = "PREPROCESSING.LABEL.PIXELATE_ENABLED";
             this.chkPixelateEnabled.UseVisualStyleBackColor = true;
             this.chkPixelateEnabled.CheckedChanged += new System.EventHandler(this.chkPixelateEnabled_CheckedChanged);
             // 
@@ -275,7 +279,7 @@
             this.chkGaussianSharpenEnabled.Name = "chkGaussianSharpenEnabled";
             this.chkGaussianSharpenEnabled.Size = new System.Drawing.Size(330, 16);
             this.chkGaussianSharpenEnabled.TabIndex = 14;
-            this.chkGaussianSharpenEnabled.Text = "PREPROCESSING_LABEL_GAUSSIAN_SHARPEN_ENABLED";
+            this.chkGaussianSharpenEnabled.Text = "PREPROCESSING.LABEL.GAUSSIAN_SHARPEN_ENABLED";
             this.chkGaussianSharpenEnabled.UseVisualStyleBackColor = true;
             this.chkGaussianSharpenEnabled.CheckedChanged += new System.EventHandler(this.chkGaussianSharpenEnabled_CheckedChanged);
             // 
@@ -304,7 +308,7 @@
             this.chkGaussianBlurEnabled.Name = "chkGaussianBlurEnabled";
             this.chkGaussianBlurEnabled.Size = new System.Drawing.Size(307, 16);
             this.chkGaussianBlurEnabled.TabIndex = 12;
-            this.chkGaussianBlurEnabled.Text = "PREPROCESSING_LABEL_GAUSSIAN_BLUR_ENABLED";
+            this.chkGaussianBlurEnabled.Text = "PREPROCESSING.LABEL.GAUSSIAN_BLUR_ENABLED";
             this.chkGaussianBlurEnabled.UseVisualStyleBackColor = true;
             this.chkGaussianBlurEnabled.CheckedChanged += new System.EventHandler(this.chkGaussianBlurEnabled_CheckedChanged);
             // 
@@ -334,7 +338,7 @@
             this.chkHueEnabled.Name = "chkHueEnabled";
             this.chkHueEnabled.Size = new System.Drawing.Size(239, 16);
             this.chkHueEnabled.TabIndex = 9;
-            this.chkHueEnabled.Text = "PREPROCESSING_LABEL_HUE_ENABLED";
+            this.chkHueEnabled.Text = "PREPROCESSING.LABEL.HUE_ENABLED";
             this.chkHueEnabled.UseVisualStyleBackColor = true;
             this.chkHueEnabled.CheckedChanged += new System.EventHandler(this.chkHueEnabled_CheckedChanged);
             // 
@@ -365,7 +369,7 @@
             this.chkContrastEnabled.Name = "chkContrastEnabled";
             this.chkContrastEnabled.Size = new System.Drawing.Size(277, 16);
             this.chkContrastEnabled.TabIndex = 6;
-            this.chkContrastEnabled.Text = "PREPROCESSING_LABEL_CONTRAST_ENABLED";
+            this.chkContrastEnabled.Text = "PREPROCESSING.LABEL.CONTRAST_ENABLED";
             this.chkContrastEnabled.UseVisualStyleBackColor = true;
             this.chkContrastEnabled.CheckedChanged += new System.EventHandler(this.chkContrastEnabled_CheckedChanged);
             // 
@@ -396,7 +400,7 @@
             this.chkSaturationEnabled.Name = "chkSaturationEnabled";
             this.chkSaturationEnabled.Size = new System.Drawing.Size(288, 16);
             this.chkSaturationEnabled.TabIndex = 3;
-            this.chkSaturationEnabled.Text = "PREPROCESSING_LABEL_SATURATION_ENABLED";
+            this.chkSaturationEnabled.Text = "PREPROCESSING.LABEL.SATURATION_ENABLED";
             this.chkSaturationEnabled.UseVisualStyleBackColor = true;
             this.chkSaturationEnabled.CheckedChanged += new System.EventHandler(this.chkSaturationEnabled_CheckedChanged);
             // 
@@ -427,15 +431,36 @@
             this.chkBrightnessEnabled.Name = "chkBrightnessEnabled";
             this.chkBrightnessEnabled.Size = new System.Drawing.Size(287, 16);
             this.chkBrightnessEnabled.TabIndex = 0;
-            this.chkBrightnessEnabled.Text = "PREPROCESSING_LABEL_BRIGHTNESS_ENABLED";
+            this.chkBrightnessEnabled.Text = "PREPROCESSING.LABEL.BRIGHTNESS_ENABLED";
             this.chkBrightnessEnabled.UseVisualStyleBackColor = true;
             this.chkBrightnessEnabled.CheckedChanged += new System.EventHandler(this.chkBrightnessEnabled_CheckedChanged);
+            // 
+            // chkChannelRotationEnabled
+            // 
+            this.chkChannelRotationEnabled.AutoSize = true;
+            this.chkChannelRotationEnabled.Location = new System.Drawing.Point(6, 409);
+            this.chkChannelRotationEnabled.Name = "chkChannelRotationEnabled";
+            this.chkChannelRotationEnabled.Size = new System.Drawing.Size(327, 16);
+            this.chkChannelRotationEnabled.TabIndex = 29;
+            this.chkChannelRotationEnabled.Text = "PREPROCESSOR_LABEL_CHANNEL_ROTATION_ENABLED";
+            this.chkChannelRotationEnabled.UseVisualStyleBackColor = true;
+            this.chkChannelRotationEnabled.CheckedChanged += new System.EventHandler(this.chkChannelRotationEnabled_CheckedChanged);
+            // 
+            // cmbChannelRotation
+            // 
+            this.cmbChannelRotation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbChannelRotation.FormattingEnabled = true;
+            this.cmbChannelRotation.Location = new System.Drawing.Point(299, 407);
+            this.cmbChannelRotation.Name = "cmbChannelRotation";
+            this.cmbChannelRotation.Size = new System.Drawing.Size(409, 20);
+            this.cmbChannelRotation.TabIndex = 28;
+            this.cmbChannelRotation.SelectedIndexChanged += new System.EventHandler(this.cmbChannelRotation_SelectedIndexChanged);
             // 
             // ProcessingSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 454);
+            this.ClientSize = new System.Drawing.Size(738, 480);
             this.Controls.Add(this.grpPreProcessing);
             this.Controls.Add(this.chkProcessingEnabled);
             this.Name = "ProcessingSettingsForm";
@@ -490,5 +515,7 @@
         private System.Windows.Forms.PictureBox picTintColour;
         private System.Windows.Forms.CheckBox chkVignetteEnabled;
         private System.Windows.Forms.ColorDialog cdgColourDialog;
+        private System.Windows.Forms.CheckBox chkChannelRotationEnabled;
+        private System.Windows.Forms.ComboBox cmbChannelRotation;
     }
 }

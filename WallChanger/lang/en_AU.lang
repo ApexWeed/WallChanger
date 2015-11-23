@@ -1,262 +1,211 @@
-﻿Australian English
+Australian English
 Full interface in colourful language.
 ApexWeed
-# Strings
-    DEFAULTS = Defaults
-# Titles
-    TITLE_MAIN = Wall Changer
-    TITLE_DUPLICATE = Duplicate Viewer
-    TITLE_LANGUAGE = Languages
-    TITLE_LIBRARY = Library
-    TITLE_SETTINGS = Settings
-    TITLE_TIMING = Timing - {0}
-    TITLE_PREPROCESSING = Preprocessing Settings - {0}
-# Tray
-    # Buttons
-    # Tooltips
-    # Labels
-        TRAY_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
-    # Messages
-# MainForm
-    # Buttons
-        MAIN_BUTTON_NEW = New
-        MAIN_BUTTON_REMOVE = Remove
-        MAIN_BUTTON_TIMING = Timing
-        MAIN_BUTTON_TRAY = To Tray
-        MAIN_BUTTON_RELOAD = Reload
-        MAIN_BUTTON_SAVE = Save
-    # Tooltips
-        MAIN_TOOLTIP_ADD = Add images...
-        MAIN_TOOLTIP_REMOVE = Remove selected images.
-        MAIN_TOOLTIP_MOVE_UP = Move selected images up.
-        MAIN_TOOLTIP_MOVE_DOWN = Move selected images down.
-        MAIN_TOOLTIP_CLEAR = Clear images.
-        MAIN_TOOLTIP_LIBRARY = Wallpaper library.
-        MAIN_TOOLTIP_LIBRARY_ADD = Add selection to library.
-        MAIN_TOOLTIP_LANGUAGE = Select language.
-        MAIN_TOOLTIP_SETTINGS = Change settings.
-        MAIN_TOOLTIP_PREPROCESSING = Change image pre processor settings.
-    # Labels
-        MAIN_LABEL_IMAGES = Images ({0})
-        MAIN_LABEL_CONFIGS = Configs
-        MAIN_LABEL_STARTUP = Run on startup
-        MAIN_LABEL_RANDOMISE = Randomise
-        MAIN_LABEL_FADE = Fade wallpaper
-        MAIN_LABEL_NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
-        MAIN_LABEL_IMAGE = {0:HH:mm:ss} - {1}
-    # Messages
-        MAIN_MESSAGE_NEW_CONFIG = Enter config name:
-        MAIN_MESSAGE_NEW_CONFIG_TITLE = Config Name
-        MAIN_MESSAGE_NEW_CONFIG_DEFAULT = default
-        MAIN_MESSAGE_DELETE_CONFIG = Are you sure you want to delete "{0}"? Write the config name to confirm.
-        MAIN_MESSAGE_DELETE_CONFIG_TITLE = Confirm Delete
-        MAIN_MESSAGE_VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
-        MAIN_MESSAGE_SPAN_UNSUPPORTED = Span is not supported before Windows 8, defaulting to {0}.
-        MAIN_MESSAGE_CONFIG_MISSING = The current config file "{0}" doesn't exist, creating blank config.
-        MAIN_MESSAGE_IMAGE_MISSING = The following image cannot be found and has been removed from the current config.\n{0}
-# LanguageForm
-    # Buttons
-        LANG_BUTTON_SAVE = Save
-    # Tooltips
-    # Labels
-        LANG_LABEL_CURRENT_LANGUAGE = Current language
-        LANG_LABEL_FALLBACK_LANGUAGE = Fallback language
-    # Messages
-# TimingForm
-    # Buttons
-        TIMING_BUTTON_SAVE = Save
-    # Tooltips
-    # Labels
-        TIMING_LABEL_OFFSET = Offset
-        TIMING_LABEL_INTERVAL = Interval
-        TIMING_LABEL_SECONDS = Seconds
-        TIMING_LABEL_MINUTES = Minutes
-        TIMING_LABEL_HOURS = Hours
-    # Messages
-        TIMING_MESSAGE_OFFSET_ERROR = Offset ({0}) - Interval ({1}) cannot be less than zero.
-# LibraryForm
-    # Buttons
-    # Tooltips
-        LIBRARY_TOOLTIP_FILTER_SHRINK = Shrink filters.
-        LIBRARY_TOOLTIP_FILTER_EXPAND = Expand filters.
-        LIBRARY_TOOLTIP_FILTER_CLEAR = Clear filters.
-        LIBRARY_TOOLTIP_FILTER_CLEAR_CATEGORY = Clear category filter.
-        LIBRARY_TOOLTIP_FILTER_CLEAR_SHOW_NAME = Clear show name filter.
-        LIBRARY_TOOLTIP_FILTER_CLEAR_CHARACTER = Clear character filter.
-        LIBRARY_TOOLTIP_FILTER_CLEAR_TAG = Clear tag filter.
-
-        LIBRARY_TOOLTIP_CATEGORY_ADD = Add new category.
-        LIBRARY_TOOLTIP_CATEGORY_CLEAR = Clear category.
-        LIBRARY_TOOLTIP_SHOW_NAME_ADD = Add new show name.
-        LIBRARY_TOOLTIP_SHOW_NAME_CLEAR = Clear show name.
-        LIBRARY_TOOLTIP_CHARACTER_ADD = Add new character.
-        LIBRARY_TOOLTIP_CHARACTER_REMOVE = Remove character.
-        LIBRARY_TOOLTIP_CHARACTER_CLEAR = Clear characters.
-        LIBRARY_TOOLTIP_TAG_ADD = Add new tag.
-        LIBRARY_TOOLTIP_TAG_REMOVE = Remove tag.
-        LIBRARY_TOOLTIP_TAG_CLEAR = Clear tags.
-
-        LIBRARY_TOOLTIP_CONFIG_ADD = Add selection to current config.
-        LIBRARY_TOOLTIP_REMOVE = Remove selection from library.
-        LIBRARY_TOOLTIP_CLEAR = Clear library.
-        LIBRARY_TOOLTIP_DUPLICATES_SELECTION = Search selection for duplicates.
-        LIBRARY_TOOLTIP_DUPLICATES = Search library for duplicates.
-        LIBRARY_TOOLTIP_CACHE_GREYSCALE = Cache greyscale thumbnails (for duplicate detection).
-        LIBRARY_TOOLTIP_FILE_CHECK = Check files exist on disk.
-    # Labels
-        LIBRARY_LABEL_FILTER = Filters
-        LIBRARY_LABEL_FILTER_CATEGORY = Category
-        LIBRARY_LABEL_FILTER_SHOW_NAME = Show Name
-        LIBRARY_LABEL_FILTER_CHARACTER = Character
-        LIBRARY_LABEL_FILTER_TAG = Tag
-        LIBRARY_LABEL_IMAGE_SIZE = Image Size: {0}x{1}px
-        LIBRARY_LABEL_IMAGE_SIZES = Image Size: {0}-{1}x{2}-{3}px
-        LIBRARY_LABEL_CATEGORY = Category
-        LIBRARY_LABEL_SHOW_NAME = Show Name
-        LIBRARY_LABEL_CHARACTER = Characters
-        LIBRARY_LABEL_TAG = Tags
-        LIBRARY_LABEL_COLUMN_FILENAME = Filename
-        LIBRARY_LABEL_COLUMN_WIDTH = Width
-        LIBRARY_LABEL_COLUMN_HEIGHT = Height
-    # Messages
-        LIBRARY_MESSAGE_READY = Ready
-        LIBRARY_MESSAGE_STATS = Images displayed: {0}/{1} Size cache: {2}
-        LIBRARY_MESSAGE_SIZE_CALCULATE = Calculating image sizes ({0} remaining)
-        LIBRARY_MESSAGE_NEW_CATEGORY = Enter the name for the category or use a pre existing value.
-        LIBRARY_MESSAGE_NEW_CATEGORY_TITLE = Enter Category
-        LIBRARY_MESSAGE_NEW_SHOW_NAME = Enter the show name or use a pre existing value.
-        LIBRARY_MESSAGE_NEW_SHOW_NAME_TITLE = Enter Show Name
-        LIBRARY_MESSAGE_NEW_CHARACTER = Enter the character name or use a pre existing value.
-        LIBRARY_MESSAGE_NEW_CHARACTER_TITLE = Enter Character Name
-        LIBRARY_MESSAGE_NEW_TAG = Enter the tag or use a pre existing value.
-        LIBRARY_MESSAGE_NEW_TAG_TITLE = Enter Tag
-        LIBRARY_MESSAGE_CLEAR = Are you sure you want to clear the whole library? This cannot be undone.
-        LIBRARY_MESSAGE_CLEAR_TITLE = Confirm Clear
-        LIBRARY_MESSAGE_MISSING = {0} missing images removed.
-        LIBRARY_MESSAGE_CLOSE_DUPLICATES = Close the previous duplicate viewer first.
-        LIBRARY_MESSAGE_NO_DUPLICATES = No duplicates found.
-        LIBRARY_MESSAGE_SCANNING_DUPLICATES = Scanning for duplicates... ({0}/{1})
-        LIBRARY_MESSAGE_GENERATING_THUMBNAILS = Generating thumbnails
-        LIBRARY_MESSAGE_GENERATING_THUMBNAILS_STATUS = Generating thumbnails... ({0}/{1})
-# DuplicateForm
-    # Buttons
-        DUPE_BUTTON_KEEP = Keep
-        DUPE_BUTTON_REMOVE = Remove
-        DUPE_BUTTON_DELETE = Delete
-        DUPE_BUTTON_AUTO = Auto
-    # Tooltips
-    # Labels
-        DUPE_LABEL_IMAGE_SIZE = Image size: {0}x{1}px
-    # Messages
-        DUPE_MESSAGE_CONFIRM_DELETE = Are you sure you want to delete this image?
-        DUPE_MESSAGE_CONFIRM_DELETE_TITLE = Confirm Deletion
-        DUPE_MESSAGE_CONFIRM_AUTO = This will automatically delete duplicate images keeping the highest resolution version. Continue?
-        DUPE_MESSAGE_CONFIRM_AUTO_TITLE = Confirm Auto Resolve
-# SettingsForm
-    # Buttons
-        SETTINGS_BUTTON_DEFAULT_TIMING = Edit timings...
-        SETTINGS_BUTTON_HIGHLIGHT_COLOUR = Choose colour...
-        SETTINGS_BUTTON_PREPROCESSING_DEFAULTS = Edit defaults...
-    # Tooltips
-    # Labels
-        SETTINGS_LABEL_COMPRESSION = Compression
-        SETTINGS_LABEL_COMPRESSION_LEVEL = Compression Level
-        SETTINGS_LABEL_COMPRESSION_WARNING = Using higher compression levels can result in freezing during saves.
-
-        SETTINGS_LABEL_DEFAULT = Defaults
-        SETTINGS_LABEL_DEFAULT_OFFSET = Default offset: {0}
-        SETTINGS_LABEL_DEFAULT_INTERVAL = Default intervel: {0}
-        SETTINGS_LABEL_DEFAULT_RANDOMISE = Randomisation by default
-        SETTINGS_LABEL_DEFAULT_FADING = Fade by default
-        SETTINGS_LABEL_DEFAULT_WALLPAPER_STYLE = Default wallpaper style
-        SETTINGS_LABEL_DEFAULT_GLOBAL_RANDOMISE = Globally set randomisation
-        SETTINGS_LABEL_DEFAULT_GLOBAL_FADING = Globally set fading
-        SETTINGS_LABEL_DEFAULT_GLOBAL_WALLPAPER_STYLE = Globally set wallpaper style
-
-        SETTINGS_LABEL_HIGHLIGHT = Highlighting
-        SETTINGS_LABEL_HIGHLIGHT_MODE = Highlight mode
-        SETTINGS_LABEL_HIGHLIGHT_COLOUR = Highlight 
-
-        SETTINGS_LABEL_PREPROCESSING = Pre processing
-        SETTINGS_LABEL_GLOBAL_PREPROCESSING = Globally set pre processing
-    # Messages
-# ProcessingSettingsForm
-    # Buttons
-        PREPROCESSING_BUTTON_VIGNETTE_COLOUR = Choose colour...
-        PREPROCESSING_BUTTON_TINT_COLOUR = Choose colour...
-    # Tooltips
-    # Labels
-        PREPROCESSING_LABEL_PREPROCESSING_ENABLED = Enable preprocessing
-        PREPROCESSING_LABEL_PREPROCESSING = Pre Processing
-        PREPROCESSING_LABEL_BRIGHTNESS_ENABLED = Brightness
-        PREPROCESSING_LABEL_BRIGHTNESS_VALUE = Brightness: {0:+#;-#;0}%
-        PREPROCESSING_LABEL_SATURATION_ENABLED = Saturation
-        PREPROCESSING_LABEL_SATURATION_VALUE = Saturation: {0:+#;-#;0}%
-        PREPROCESSING_LABEL_CONTRAST_ENABLED = Contrast
-        PREPROCESSING_LABEL_CONTRAST_VALUE = Contrast: {0:+#;-#;0}%
-        PREPROCESSING_LABEL_HUE_ENABLED = Set hue
-        PREPROCESSING_LABEL_HUE_VALUE = Hue: {0}°
-        PREPROCESSING_LABEL_GAUSSIAN_BLUR_ENABLED = Gaussian blur
-        PREPROCESSING_LABEL_GAUSSIAN_SHARPEN_ENABLED = Gaussian sharpen
-        PREPROCESSING_LABEL_PIXELATE_ENABLED = Pixelation
-        PREPROCESSING_LABEL_VIGNETTE_ENABLED = Vignette
-        PREPROCESSING_LABEL_TINT_ENABLED = Tint
-        PREPROCESSING_LABEL_EDGE_DETECTION_ENABLED = Edge detection
-        PREPROCESSING_LABEL_IMAGE_FILTER_ENABLED = Image filter
-    # Messages
-# Prompts
-    # Buttons
-    # Tooltips
-    # Labels
-    # Messages
-        PROMPT_MESSAGE_BLANK_VALUE = Input cannot be blank.
-# Enumerations
-    # Buttons
-    # Tooltips
-    # Labels
-        ENUM_LABEL_COMPRESSION_LEVEL_NONE = None
-        ENUM_LABEL_COMPRESSION_LEVEL_FAST = Fast
-        ENUM_LABEL_COMPRESSION_LEVEL_LOW = Low
-        ENUM_LABEL_COMPRESSION_LEVEL_NORMAL = Normal
-        ENUM_LABEL_COMPRESSION_LEVEL_HIGH = High
-        ENUM_LABEL_COMPRESSION_LEVEL_ULTRA = Ultra
-        ENUM_LABEL_COMPRESSION_LEVEL_UNKNOWN = Unknown compression level
-
-        ENUM_LABEL_WALLPAPER_STYLE_FILL = Fill
-        ENUM_LABEL_WALLPAPER_STYLE_FIT = Fit
-        ENUM_LABEL_WALLPAPER_STYLE_STRETCHED = Stretched
-        ENUM_LABEL_WALLPAPER_STYLE_TILED = Tiled
-        ENUM_LABEL_WALLPAPER_STYLE_CENTERED = Centered
-        ENUM_LABEL_WALLPAPER_STYLE_SPAN = Span
-        ENUM_LABEL_WALLPAPER_STYLE_UNKNOWN = Unknown wallpaper style
-
-        ENUM_LABEL_HIGHLIGHT_MODE_BOLD = Bold
-        ENUM_LABEL_HIGHLIGHT_MODE_ITALIC = Italic
-        ENUM_LABEL_HIGHLIGHT_MODE_FOREGROUND = Foreground
-        ENUM_LABEL_HIGHLIGHT_MODE_BACKGROUND = Background
-        ENUM_LABEL_HIGHLIGHT_MODE_NONE = None
-        ENUM_LABEL_HIGHLIGHT_MODE_UNKNOWN = Unknown highlight mode
-
-        ENUM_LABEL_EDGE_DETECTION_KAYYALI = Kayyali Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_KIRSCH = Kirsch Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_LAP3X3 = Laplacian 3x3 Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_LAP5X5 = Laplacian 5x5 Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_LAPGAU = Laplaccian of Gaussians Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_PREWITT = Prewitt Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_ROBERTS = Roberts Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_SHARR = Sharr Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_SOBEL = Sobel Edge Detection
-        ENUM_LABEL_EDGE_DETECTION_UNKNOWN = Unknown edge detection filter
-
-        ENUM_LABEL_FILTER_MATRIX_BLACKWHITE = Black & White
-        ENUM_LABEL_FILTER_MATRIX_COMIC = Comic
-        ENUM_LABEL_FILTER_MATRIX_GOTHAM = Gotham
-        ENUM_LABEL_FILTER_MATRIX_GREYSCALE = Grey Scale
-        ENUM_LABEL_FILTER_MATRIX_HISATCH = High Saturation
-        ENUM_LABEL_FILTER_MATRIX_INVERT = Invert
-        ENUM_LABEL_FILTER_MATRIX_LOMOGRAPH = Lomograph
-        ENUM_LABEL_FILTER_MATRIX_LOSATCH = Low Saturation
-        ENUM_LABEL_FILTER_MATRIX_POLAROID = Polaroid
-        ENUM_LABEL_FILTER_MATRIX_SEPIA = Sepia
-        ENUM_LABEL_FILTER_MATRIX_UNKNOWN = Unknown filter matrix
-    # Messages
+STRING.DEFAULTS = Defaults
+TITLE.MAIN = Wall Changer
+TITLE.DUPLICATE = Duplicate Viewer
+TITLE.LANGUAGE = Languages
+TITLE.LIBRARY = Library
+TITLE.SETTINGS = Settings
+TITLE.TIMING = Timing - {0}
+TITLE.PREPROCESSING = Preprocessing Settings - {0}
+TRAY.LABEL.NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
+MAIN.BUTTON.NEW = New
+MAIN.BUTTON.REMOVE = Remove
+MAIN.BUTTON.TIMING = Timing
+MAIN.BUTTON.TRAY = To Tray
+MAIN.BUTTON.RELOAD = Reload
+MAIN.BUTTON.SAVE = Save
+MAIN.TOOLTIP.ADD = Add images...
+MAIN.TOOLTIP.REMOVE = Remove selected images.
+MAIN.TOOLTIP.MOVE_UP = Move selected images up.
+MAIN.TOOLTIP.MOVE_DOWN = Move selected images down.
+MAIN.TOOLTIP.CLEAR = Clear images.
+MAIN.TOOLTIP.LIBRARY = Wallpaper library.
+MAIN.TOOLTIP.LIBRARY_ADD = Add selection to library.
+MAIN.TOOLTIP.LANGUAGE = Select language.
+MAIN.TOOLTIP.SETTINGS = Change settings.
+MAIN.TOOLTIP.PREPROCESSING = Change image pre processor settings.
+MAIN.LABEL.IMAGES = Images ({0})
+MAIN.LABEL.CONFIGS = Configs
+MAIN.LABEL.RANDOMISE = Randomise
+MAIN.LABEL.FADE = Fade wallpaper
+MAIN.LABEL.STARTUP = Run on startup
+MAIN.LABEL.THEME_COLOUR = Theme colour from hue
+MAIN.LABEL.NEXT_CHANGE = Next change: {0:hh\:mm\:ss}
+MAIN.LABEL.IMAGE = {0:HH:mm:ss} - {1}
+MAIN.MESSAGE.NEW_CONFIG = Enter config name:
+MAIN.MESSAGE.NEW_CONFIG_TITLE = Config Name
+MAIN.MESSAGE.NEW_CONFIG_DEFAULT = default
+MAIN.MESSAGE.DELETE_CONFIG = Are you sure you want to delete "{0}"? Write the config name to confirm.
+MAIN.MESSAGE.DELETE_CONFIG_TITLE = Confirm Delete
+MAIN.MESSAGE.VERSION_TOO_LOW = Cannot load config "{0}" because it requires at least version {1}.{2}, application version is {3}.
+MAIN.MESSAGE.SPAN_UNSUPPORTED = Span is not supported before Windows 8, defaulting to {0}.
+MAIN.MESSAGE.CONFIG_MISSING = The current config file "{0}" doesn't exist, creating blank config.
+MAIN.MESSAGE.IMAGE_MISSING = The following image cannot be found and has been removed from the current config.\n{0}
+LANG.BUTTON.SAVE = Save
+LANG.LABEL.CURRENT_LANGUAGE = Current language
+LANG.LABEL.FALLBACK_LANGUAGE = Fallback language
+TIMING.BUTTON.SAVE = Save
+TIMING.LABEL.OFFSET = Offset
+TIMING.LABEL.INTERVAL = Interval
+TIMING.LABEL.SECONDS = Seconds
+TIMING.LABEL.MINUTES = Minutes
+TIMING.LABEL.HOURS = Hours
+TIMING.MESSAGE.OFFSET_ERROR = Offset ({0}) - Interval ({1}) cannot be less than zero.
+LIBRARY.TOOLTIP.FILTER.SHRINK = Shrink filters.
+LIBRARY.TOOLTIP.FILTER.EXPAND = Expand filters.
+LIBRARY.TOOLTIP.FILTER.CLEAR = Clear filters.
+LIBRARY.TOOLTIP.FILTER.CLEAR_CATEGORY = Clear category filter.
+LIBRARY.TOOLTIP.FILTER.CLEAR_SHOW_NAME = Clear show name filter.
+LIBRARY.TOOLTIP.FILTER.CLEAR_CHARACTER = Clear character filter.
+LIBRARY.TOOLTIP.FILTER.CLEAR_TAG = Clear tag filter.
+LIBRARY.TOOLTIP.CATEGORY.ADD = Add new category.
+LIBRARY.TOOLTIP.CATEGORY.CLEAR = Clear category.
+LIBRARY.TOOLTIP.SHOWNAME.ADD = Add new show name.
+LIBRARY.TOOLTIP.SHOWNAME.CLEAR = Clear show name.
+LIBRARY.TOOLTIP.CHARACTER.ADD = Add new character.
+LIBRARY.TOOLTIP.CHARACTER.REMOVE = Remove character.
+LIBRARY.TOOLTIP.CHARACTER.CLEAR = Clear characters.
+LIBRARY.TOOLTIP.TAG.ADD = Add new tag.
+LIBRARY.TOOLTIP.TAG.REMOVE = Remove tag.
+LIBRARY.TOOLTIP.TAG.CLEAR = Clear tags.
+LIBRARY.TOOLTIP.CONFIG_ADD = Add selection to current config.
+LIBRARY.TOOLTIP.REMOVE = Remove selection from library.
+LIBRARY.TOOLTIP.CLEAR = Clear library.
+LIBRARY.TOOLTIP.DUPLICATES_SELECTION = Search selection for duplicates.
+LIBRARY.TOOLTIP.DUPLICATES = Search library for duplicates.
+LIBRARY.TOOLTIP.CACHE_GREYSCALE = Cache greyscale thumbnails (for duplicate detection).
+LIBRARY.TOOLTIP.FILE_CHECK = Check files exist on disk.
+LIBRARY.LABEL.FILTER = Filters
+LIBRARY.LABEL.FILTER.CATEGORY = Category
+LIBRARY.LABEL.FILTER.SHOW_NAME = Show Name
+LIBRARY.LABEL.FILTER.CHARACTER = Character
+LIBRARY.LABEL.FILTER.TAG = Tag
+LIBRARY.LABEL.IMAGE_SIZE = Image Size: {0}x{1}px
+LIBRARY.LABEL.IMAGE_SIZES = Image Size: {0}-{1}x{2}-{3}px
+LIBRARY.LABEL.CATEGORY = Category
+LIBRARY.LABEL.SHOW_NAME = Show Name
+LIBRARY.LABEL.CHARACTER = Characters
+LIBRARY.LABEL.TAG = Tags
+LIBRARY.LABEL.COLUMN.FILENAME = Filename
+LIBRARY.LABEL.COLUMN.WIDTH = Width
+LIBRARY.LABEL.COLUMN.HEIGHT = Height
+LIBRARY.MESSAGE.READY = Ready
+LIBRARY.MESSAGE.STATS = Images displayed: {0}/{1} Size cache: {2}
+LIBRARY.MESSAGE.SIZE_CALCULATE = Calculating image sizes ({0} remaining)
+LIBRARY.MESSAGE.NEW_CATEGORY = Enter the name for the category or use a pre existing value.
+LIBRARY.MESSAGE.NEW_CATEGORY_TITLE = Enter Category
+LIBRARY.MESSAGE.NEW_SHOW_NAME = Enter the show name or use a pre existing value.
+LIBRARY.MESSAGE.NEW_SHOW_NAME_TITLE = Enter Show Name
+LIBRARY.MESSAGE.NEW_CHARACTER = Enter the character name or use a pre existing value.
+LIBRARY.MESSAGE.NEW_CHARACTER_TITLE = Enter Character Name
+LIBRARY.MESSAGE.NEW_TAG = Enter the tag or use a pre existing value.
+LIBRARY.MESSAGE.NEW_TAG_TITLE = Enter Tag
+LIBRARY.MESSAGE.CLEAR = Are you sure you want to clear the whole library? This cannot be undone.
+LIBRARY.MESSAGE.CLEAR_TITLE = Confirm Clear
+LIBRARY.MESSAGE.MISSING = {0} missing images removed.
+LIBRARY.MESSAGE.CLOSE_DUPLICATES = Close the previous duplicate viewer first.
+LIBRARY.MESSAGE.NO_DUPLICATES = No duplicates found.
+LIBRARY.MESSAGE.SCANNING_DUPLICATES = Scanning for duplicates... ({0}/{1})
+LIBRARY.MESSAGE.GENERATING_THUMBNAILS = Generating thumbnails
+LIBRARY.MESSAGE.GENERATING_THUMBNAILS_STATUS = Generating thumbnails... ({0}/{1})
+DUPE.BUTTON.KEEP = Keep
+DUPE.BUTTON.REMOVE = Remove
+DUPE.BUTTON.DELETE = Delete
+DUPE.BUTTON.AUTO = Auto
+DUPE.LABEL.IMAGE_SIZE = Image size: {0}x{1}px
+DUPE.MESSAGE.CONFIRM_DELETE = Are you sure you want to delete this image?
+DUPE.MESSAGE.CONFIRM_DELETE_TITLE = Confirm Deletion
+DUPE.MESSAGE.CONFIRM_AUTO = This will automatically delete duplicate images keeping the highest resolution version. Continue?
+DUPE.MESSAGE.CONFIRM_AUTO_TITLE = Confirm Auto Resolve
+SETTINGS.BUTTON.DEFAULT_TIMING = Edit timings...
+SETTINGS.BUTTON.HIGHLIGHT_COLOUR = Choose colour...
+SETTINGS.BUTTON.PREPROCESSING_DEFAULTS = Edit defaults...
+SETTINGS.LABEL.COMPRESSION = Compression
+SETTINGS.LABEL.COMPRESSION.LEVEL = Compression Level
+SETTINGS.LABEL.COMPRESSION.WARNING = Using higher compression levels can result in freezing during saves.
+SETTINGS.LABEL.DEFAULT = Defaults
+SETTINGS.LABEL.DEFAULT.OFFSET = Default offset: {0}
+SETTINGS.LABEL.DEFAULT.INTERVAL = Default interval: {0}
+SETTINGS.LABEL.DEFAULT.RANDOMISE = Randomisation by default
+SETTINGS.LABEL.DEFAULT.FADING = Fade by default
+SETTINGS.LABEL.DEFAULT.WALLPAPER_STYLE = Default wallpaper style
+SETTINGS.LABEL.DEFAULT.GLOBAL_RANDOMISE = Globally set randomisation
+SETTINGS.LABEL.DEFAULT.GLOBAL_FADING = Globally set fading
+SETTINGS.LABEL.DEFAULT.GLOBAL_WALLPAPER_STYLE = Globally set wallpaper style
+SETTINGS.LABEL.HIGHLIGHT = Highlighting
+SETTINGS.LABEL.HIGHLIGHT.MODE = Highlight mode
+SETTINGS.LABEL.HIGHLIGHT.COLOUR = Highlight
+SETTINGS.LABEL.PREPROCESSING = Pre processing
+SETTINGS.LABEL.GLOBAL_PREPROCESSING = Globally set pre processing
+SETTINGS.LABEL.MISCELLANEOUS = Miscellaneous Settings
+SETTINGS.LABEL.COLOUR_CHANGE_DESC = Change the Windows theme colour based on average image hue.
+SETTINGS.LABEL.DEFAULT.COLOUR_CHANGE = Change theme colour by default
+SETTINGS.LABEL.GLOBAL_COLOUR_CHANGE = Globally set theme colour
+SETTINGS.LABEL.RAINBOW_MODE = Enable fabulous rainbow action deluxe
+PREPROCESSING.BUTTON.VIGNETTE_COLOUR = Choose colour...
+PREPROCESSING.BUTTON.TINT_COLOUR = Choose colour...
+PREPROCESSING.LABEL.PREPROCESSING_ENABLED = Enable preprocessing
+PREPROCESSING.LABEL.PREPROCESSING = Pre Processing
+PREPROCESSING.LABEL.BRIGHTNESS_ENABLED = Brightness
+PREPROCESSING.LABEL.BRIGHTNESS_VALUE = Brightness: {0:+#;-#;0}%
+PREPROCESSING.LABEL.SATURATION_ENABLED = Saturation
+PREPROCESSING.LABEL.SATURATION_VALUE = Saturation: {0:+#;-#;0}%
+PREPROCESSING.LABEL.CONTRAST_ENABLED = Contrast
+PREPROCESSING.LABEL.CONTRAST_VALUE = Contrast: {0:+#;-#;0}%
+PREPROCESSING.LABEL.HUE_ENABLED = Set hue
+PREPROCESSING.LABEL.HUE_VALUE = Hue: {0}°
+PREPROCESSING.LABEL.GAUSSIAN_BLUR_ENABLED = Gaussian blur
+PREPROCESSING.LABEL.GAUSSIAN_SHARPEN_ENABLED = Gaussian sharpen
+PREPROCESSING.LABEL.PIXELATE_ENABLED = Pixelation
+PREPROCESSING.LABEL.VIGNETTE_ENABLED = Vignette
+PREPROCESSING.LABEL.TINT_ENABLED = Tint
+PREPROCESSING.LABEL.EDGE_DETECTION_ENABLED = Edge detection
+PREPROCESSING.LABEL.IMAGE_FILTER_ENABLED = Image filter
+PREPROCESSING.LABEL.CHANNEL_ROTATION_ENABLED = Channel rotating
+PROMPT.MESSAGE.BLANK_VALUE = Input cannot be blank.
+ENUM.LABEL.COMPRESSION_LEVEL.NONE = None
+ENUM.LABEL.COMPRESSION_LEVEL.FAST = Fast
+ENUM.LABEL.COMPRESSION_LEVEL.LOW = Low
+ENUM.LABEL.COMPRESSION_LEVEL.NORMAL = Normal
+ENUM.LABEL.COMPRESSION_LEVEL.HIGH = High
+ENUM.LABEL.COMPRESSION_LEVEL.ULTRA = Ultra
+ENUM.LABEL.COMPRESSION_LEVEL.UNKNOWN = Unknown compression level
+ENUM.LABEL.WALLPAPER_STYLE.FILL = Fill
+ENUM.LABEL.WALLPAPER_STYLE.FIT = Fit
+ENUM.LABEL.WALLPAPER_STYLE.STRETCHED = Stretched
+ENUM.LABEL.WALLPAPER_STYLE.TILED = Tiled
+ENUM.LABEL.WALLPAPER_STYLE.CENTERED = Centered
+ENUM.LABEL.WALLPAPER_STYLE.SPAN = Span
+ENUM.LABEL.WALLPAPER_STYLE.UNKNOWN = Unknown wallpaper style
+ENUM.LABEL.HIGHLIGHT_MODE.BOLD = Bold
+ENUM.LABEL.HIGHLIGHT_MODE.ITALIC = Italic
+ENUM.LABEL.HIGHLIGHT_MODE.FOREGROUND = Foreground
+ENUM.LABEL.HIGHLIGHT_MODE.BACKGROUND = Background
+ENUM.LABEL.HIGHLIGHT_MODE.NONE = None
+ENUM.LABEL.HIGHLIGHT_MODE.UNKNOWN = Unknown highlight mode
+ENUM.LABEL.EDGE_DETECTION.KAYYALI = Kayyali Edge Detection
+ENUM.LABEL.EDGE_DETECTION.KIRSCH = Kirsch Edge Detection
+ENUM.LABEL.EDGE_DETECTION.LAP3X3 = Laplacian 3x3 Edge Detection
+ENUM.LABEL.EDGE_DETECTION.LAP5X5 = Laplacian 5x5 Edge Detection
+ENUM.LABEL.EDGE_DETECTION.LAPGAU = Laplaccian of Gaussians Edge Detection
+ENUM.LABEL.EDGE_DETECTION.PREWITT = Prewitt Edge Detection
+ENUM.LABEL.EDGE_DETECTION.ROBERTS = Roberts Edge Detection
+ENUM.LABEL.EDGE_DETECTION.SHARR = Sharr Edge Detection
+ENUM.LABEL.EDGE_DETECTION.SOBEL = Sobel Edge Detection
+ENUM.LABEL.EDGE_DETECTION.UNKNOWN = Unknown edge detection filter
+ENUM.LABEL.FILTER_MATRIX.BLACKWHITE = Black & White
+ENUM.LABEL.FILTER_MATRIX.COMIC = Comic
+ENUM.LABEL.FILTER_MATRIX.GOTHAM = Gotham
+ENUM.LABEL.FILTER_MATRIX.GREYSCALE = Grey Scale
+ENUM.LABEL.FILTER_MATRIX.HISATCH = High Saturation
+ENUM.LABEL.FILTER_MATRIX.INVERT = Invert
+ENUM.LABEL.FILTER_MATRIX.LOMOGRAPH = Lomograph
+ENUM.LABEL.FILTER_MATRIX.LOSATCH = Low Saturation
+ENUM.LABEL.FILTER_MATRIX.POLAROID = Polaroid
+ENUM.LABEL.FILTER_MATRIX.SEPIA = Sepia
+ENUM.LABEL.FILTER_MATRIX.UNKNOWN = Unknown filter matrix
+ENUM.LABEL.CHANNEL_ROTATION.ONCE = RGB -> BRG
+ENUM.LABEL.CHANNEL_ROTATION.TWICE = RGB -> GBR
+ENUM.LABEL.CHANNEL_ROTATION.UNKNOWN = Unknown channel rotation mode

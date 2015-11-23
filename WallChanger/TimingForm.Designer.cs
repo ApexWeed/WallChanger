@@ -66,7 +66,7 @@
             this.grpOffset.Size = new System.Drawing.Size(260, 100);
             this.grpOffset.TabIndex = 0;
             this.grpOffset.TabStop = false;
-            this.grpOffset.Text = "TIMING_LABEL_OFFSET";
+            this.grpOffset.Text = "TIMING.LABEL.OFFSET";
             // 
             // lblOffsetHours
             // 
@@ -75,7 +75,7 @@
             this.lblOffsetHours.Name = "lblOffsetHours";
             this.lblOffsetHours.Size = new System.Drawing.Size(129, 13);
             this.lblOffsetHours.TabIndex = 6;
-            this.lblOffsetHours.Text = "TIMING_LABEL_HOURS";
+            this.lblOffsetHours.Text = "TIMING.LABEL.HOURS";
             // 
             // cmbOffsetHours
             // 
@@ -102,7 +102,7 @@
             this.lblOffsetMinutes.Name = "lblOffsetMinutes";
             this.lblOffsetMinutes.Size = new System.Drawing.Size(139, 13);
             this.lblOffsetMinutes.TabIndex = 3;
-            this.lblOffsetMinutes.Text = "TIMING_LABEL_MINUTES";
+            this.lblOffsetMinutes.Text = "TIMING.LABEL.MINUTES";
             // 
             // lblOffsetSeconds
             // 
@@ -164,7 +164,7 @@
             this.grpInterval.Size = new System.Drawing.Size(260, 100);
             this.grpInterval.TabIndex = 7;
             this.grpInterval.TabStop = false;
-            this.grpInterval.Text = "TIMING_LABEL_INTERVAL";
+            this.grpInterval.Text = "TIMING.LABEL.INTERVAL";
             // 
             // lblIntervalHours
             // 
@@ -173,7 +173,7 @@
             this.lblIntervalHours.Name = "lblIntervalHours";
             this.lblIntervalHours.Size = new System.Drawing.Size(142, 13);
             this.lblIntervalHours.TabIndex = 6;
-            this.lblIntervalHours.Text = "TIMING_LABEL_SECONDS";
+            this.lblIntervalHours.Text = "TIMING.LABEL.SECONDS";
             // 
             // cmbIntervalHours
             // 
@@ -195,7 +195,7 @@
             this.lblIntervalMinutes.Name = "lblIntervalMinutes";
             this.lblIntervalMinutes.Size = new System.Drawing.Size(139, 13);
             this.lblIntervalMinutes.TabIndex = 3;
-            this.lblIntervalMinutes.Text = "TIMING_LABEL_MINUTES";
+            this.lblIntervalMinutes.Text = "TIMING.LABEL.MINUTES";
             // 
             // lblIntervalSeconds
             // 
@@ -204,7 +204,7 @@
             this.lblIntervalSeconds.Name = "lblIntervalSeconds";
             this.lblIntervalSeconds.Size = new System.Drawing.Size(142, 13);
             this.lblIntervalSeconds.TabIndex = 2;
-            this.lblIntervalSeconds.Text = "TIMING_LABEL_SECONDS";
+            this.lblIntervalSeconds.Text = "TIMING.LABEL.SECONDS";
             // 
             // cmbIntervalMinutes
             // 
@@ -250,7 +250,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 8;
-            this.btnSave.Text = "TIMING_BUTTON_SAVE";
+            this.btnSave.Text = "TIMING.BUTTON.SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 

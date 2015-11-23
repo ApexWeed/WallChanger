@@ -158,16 +158,16 @@
             // 
             // colFilename
             // 
-            this.colFilename.Text = "LIBRARY_LABEL_COLUMN_FILENAME";
+            this.colFilename.Text = "LIBRARY.LABEL.COLUMN.FILENAME";
             this.colFilename.Width = 527;
             // 
             // colWidth
             // 
-            this.colWidth.Text = "LIBRARY_LABEL_COLUMN_WIDTH";
+            this.colWidth.Text = "LIBRARY.LABEL.COLUMN.WIDTH";
             // 
             // colHeight
             // 
-            this.colHeight.Text = "LIBRARY_LABEL_COLUMN_HEIGHT";
+            this.colHeight.Text = "LIBRARY.LABEL.COLUMN.HEIGHT";
             // 
             // pnlFilters
             // 
@@ -206,7 +206,7 @@
             this.btnCheckFiles.Name = "btnCheckFiles";
             this.btnCheckFiles.Size = new System.Drawing.Size(24, 24);
             this.btnCheckFiles.TabIndex = 32;
-            this.Tooltips.SetToolTip(this.btnCheckFiles, "LIBRARY_TOOLTIP_FILE_CHECK");
+            this.Tooltips.SetToolTip(this.btnCheckFiles, "LIBRARY.TOOLTIP.FILE_CHECK");
             this.btnCheckFiles.UseVisualStyleBackColor = true;
             this.btnCheckFiles.Click += new System.EventHandler(this.btnCheckFiles_Click);
             // 
@@ -217,7 +217,7 @@
             this.btnCacheDuplicateThumbnails.Name = "btnCacheDuplicateThumbnails";
             this.btnCacheDuplicateThumbnails.Size = new System.Drawing.Size(24, 24);
             this.btnCacheDuplicateThumbnails.TabIndex = 31;
-            this.Tooltips.SetToolTip(this.btnCacheDuplicateThumbnails, "LIBRARY_TOOLTIP_CACHE_GREYSCALE");
+            this.Tooltips.SetToolTip(this.btnCacheDuplicateThumbnails, "LIBRARY.TOOLTIP.CACHE_GREYSCALE");
             this.btnCacheDuplicateThumbnails.UseVisualStyleBackColor = true;
             this.btnCacheDuplicateThumbnails.Click += new System.EventHandler(this.btnCacheDuplicateThumbnails_Click);
             // 
@@ -228,7 +228,7 @@
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(24, 24);
             this.btnClearLibrary.TabIndex = 30;
-            this.Tooltips.SetToolTip(this.btnClearLibrary, "LIBRARY_TOOLTIP_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearLibrary, "LIBRARY.TOOLTIP.CLEAR");
             this.btnClearLibrary.UseVisualStyleBackColor = true;
             this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
             // 
@@ -239,7 +239,7 @@
             this.btnFindAllDuplicates.Name = "btnFindAllDuplicates";
             this.btnFindAllDuplicates.Size = new System.Drawing.Size(24, 24);
             this.btnFindAllDuplicates.TabIndex = 28;
-            this.Tooltips.SetToolTip(this.btnFindAllDuplicates, "LIBRARY_TOOLTIP_DUPLICATES");
+            this.Tooltips.SetToolTip(this.btnFindAllDuplicates, "LIBRARY.TOOLTIP.DUPLICATES");
             this.btnFindAllDuplicates.UseVisualStyleBackColor = true;
             this.btnFindAllDuplicates.Click += new System.EventHandler(this.btnFindAllDuplicates_Click);
             // 
@@ -250,7 +250,7 @@
             this.btnFindDuplicates.Name = "btnFindDuplicates";
             this.btnFindDuplicates.Size = new System.Drawing.Size(24, 24);
             this.btnFindDuplicates.TabIndex = 27;
-            this.Tooltips.SetToolTip(this.btnFindDuplicates, "LIBRARY_TOOLTIP_DUPLICATES_SELECTION");
+            this.Tooltips.SetToolTip(this.btnFindDuplicates, "LIBRARY.TOOLTIP.DUPLICATES_SELECTION");
             this.btnFindDuplicates.UseVisualStyleBackColor = true;
             this.btnFindDuplicates.Click += new System.EventHandler(this.btnFindDuplicates_Click);
             // 
@@ -261,7 +261,7 @@
             this.btnRemoveFromLibrary.Name = "btnRemoveFromLibrary";
             this.btnRemoveFromLibrary.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveFromLibrary.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "LIBRARY_TOOLTIP_REMOVE");
+            this.Tooltips.SetToolTip(this.btnRemoveFromLibrary, "LIBRARY.TOOLTIP.REMOVE");
             this.btnRemoveFromLibrary.UseVisualStyleBackColor = true;
             this.btnRemoveFromLibrary.Click += new System.EventHandler(this.btnRemoveFromLibrary_Click);
             // 
@@ -272,7 +272,7 @@
             this.btnAddToConfig.Name = "btnAddToConfig";
             this.btnAddToConfig.Size = new System.Drawing.Size(24, 24);
             this.btnAddToConfig.TabIndex = 9;
-            this.Tooltips.SetToolTip(this.btnAddToConfig, "LIBRARY_TOOLTIP_CONFIG_ADD");
+            this.Tooltips.SetToolTip(this.btnAddToConfig, "LIBRARY.TOOLTIP.CONFIG_ADD");
             this.btnAddToConfig.UseVisualStyleBackColor = true;
             this.btnAddToConfig.Click += new System.EventHandler(this.btnAddToConfig_Click);
             // 
@@ -283,7 +283,7 @@
             this.btnTagFilterClear.Name = "btnTagFilterClear";
             this.btnTagFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnTagFilterClear.TabIndex = 26;
-            this.Tooltips.SetToolTip(this.btnTagFilterClear, "LIBRARY_TOOLTIP_FILTER_TAG");
+            this.Tooltips.SetToolTip(this.btnTagFilterClear, "LIBRARY.TOOLTIP.FILTER.TAG");
             this.btnTagFilterClear.UseVisualStyleBackColor = true;
             this.btnTagFilterClear.Click += new System.EventHandler(this.btnTagFilterClear_Click);
             // 
@@ -294,7 +294,7 @@
             this.lblFilterTag.Name = "lblFilterTag";
             this.lblFilterTag.Size = new System.Drawing.Size(161, 12);
             this.lblFilterTag.TabIndex = 25;
-            this.lblFilterTag.Text = "LIBRARY_LABEL_FILTER_TAG";
+            this.lblFilterTag.Text = "LIBRARY.LABEL.FILTER.TAG";
             // 
             // cmbTagFilter
             // 
@@ -312,7 +312,7 @@
             this.btnCharacterFilterClear.Name = "btnCharacterFilterClear";
             this.btnCharacterFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnCharacterFilterClear.TabIndex = 23;
-            this.Tooltips.SetToolTip(this.btnCharacterFilterClear, "LIBRARY_TOOLTIP_FILTER_CHARACTER");
+            this.Tooltips.SetToolTip(this.btnCharacterFilterClear, "LIBRARY.TOOLTIP.FILTER.CHARACTER");
             this.btnCharacterFilterClear.UseVisualStyleBackColor = true;
             this.btnCharacterFilterClear.Click += new System.EventHandler(this.btnCharacterFilterClear_Click);
             // 
@@ -323,7 +323,7 @@
             this.lblFilterCharacter.Name = "lblFilterCharacter";
             this.lblFilterCharacter.Size = new System.Drawing.Size(208, 12);
             this.lblFilterCharacter.TabIndex = 22;
-            this.lblFilterCharacter.Text = "LIBRARY_LABEL_FILTER_CHARACTER";
+            this.lblFilterCharacter.Text = "LIBRARY.LABEL.FILTER.CHARACTER";
             // 
             // cmbCharacterFilter
             // 
@@ -341,7 +341,7 @@
             this.btnShowNameFilterClear.Name = "btnShowNameFilterClear";
             this.btnShowNameFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnShowNameFilterClear.TabIndex = 20;
-            this.Tooltips.SetToolTip(this.btnShowNameFilterClear, "LIBRARY_TOOLTIP_FILTER_SHOW_NAME");
+            this.Tooltips.SetToolTip(this.btnShowNameFilterClear, "LIBRARY.TOOLTIP.FILTER.SHOW_NAME");
             this.btnShowNameFilterClear.UseVisualStyleBackColor = true;
             this.btnShowNameFilterClear.Click += new System.EventHandler(this.btnShowNameFilterClear_Click);
             // 
@@ -352,7 +352,7 @@
             this.lblFilterShowName.Name = "lblFilterShowName";
             this.lblFilterShowName.Size = new System.Drawing.Size(206, 12);
             this.lblFilterShowName.TabIndex = 19;
-            this.lblFilterShowName.Text = "LIBRARY_LABEL_FILTER_SHOW_NAME";
+            this.lblFilterShowName.Text = "LIBRARY.LABEL.FILTER.SHOW_NAME";
             // 
             // cmbShowNameFilter
             // 
@@ -370,7 +370,7 @@
             this.btnCategoryFilterClear.Name = "btnCategoryFilterClear";
             this.btnCategoryFilterClear.Size = new System.Drawing.Size(24, 24);
             this.btnCategoryFilterClear.TabIndex = 17;
-            this.Tooltips.SetToolTip(this.btnCategoryFilterClear, "LIBRARY_TOOLTIP_FILTER_CATEGORY");
+            this.Tooltips.SetToolTip(this.btnCategoryFilterClear, "LIBRARY.TOOLTIP.FILTER.CATEGORY");
             this.btnCategoryFilterClear.UseVisualStyleBackColor = true;
             this.btnCategoryFilterClear.Click += new System.EventHandler(this.btnCategoryFilterClear_Click);
             // 
@@ -381,7 +381,7 @@
             this.btnClearFilters.Name = "btnClearFilters";
             this.btnClearFilters.Size = new System.Drawing.Size(24, 24);
             this.btnClearFilters.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnClearFilters, "LIBRARY_TOOLTIP_FILTER_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearFilters, "LIBRARY.TOOLTIP.FILTER.CLEAR");
             this.btnClearFilters.UseVisualStyleBackColor = true;
             this.btnClearFilters.Click += new System.EventHandler(this.btnClearFilters_Click);
             // 
@@ -392,7 +392,7 @@
             this.lblFilterCategory.Name = "lblFilterCategory";
             this.lblFilterCategory.Size = new System.Drawing.Size(199, 12);
             this.lblFilterCategory.TabIndex = 16;
-            this.lblFilterCategory.Text = "LIBRARY_LABEL_FILTER_CATEGORY";
+            this.lblFilterCategory.Text = "LIBRARY.LABEL.FILTER.CATEGORY";
             // 
             // cmbCategoryFilter
             // 
@@ -410,7 +410,7 @@
             this.btnExpand.Name = "btnExpand";
             this.btnExpand.Size = new System.Drawing.Size(24, 24);
             this.btnExpand.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnExpand, "LIBRARY_TOOLTIP_FILTER_EXPAND");
+            this.Tooltips.SetToolTip(this.btnExpand, "LIBRARY.TOOLTIP.FILTER.EXPAND");
             this.btnExpand.UseVisualStyleBackColor = true;
             this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
@@ -421,7 +421,7 @@
             this.lblFilters.Name = "lblFilters";
             this.lblFilters.Size = new System.Drawing.Size(141, 12);
             this.lblFilters.TabIndex = 0;
-            this.lblFilters.Text = "LIBRARY_LABEL_FILTERS";
+            this.lblFilters.Text = "LIBRARY.LABEL.FILTERS";
             // 
             // pnlBottomRight
             // 
@@ -482,7 +482,7 @@
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(119, 12);
             this.lblTags.TabIndex = 1;
-            this.lblTags.Text = "LIBRARY_LABEL_TAG";
+            this.lblTags.Text = "LIBRARY.LABEL.TAG";
             // 
             // btnAddNewTag
             // 
@@ -491,7 +491,7 @@
             this.btnAddNewTag.Name = "btnAddNewTag";
             this.btnAddNewTag.Size = new System.Drawing.Size(24, 24);
             this.btnAddNewTag.TabIndex = 17;
-            this.Tooltips.SetToolTip(this.btnAddNewTag, "LIBRARY_TOOLTIP_TAG_ADD");
+            this.Tooltips.SetToolTip(this.btnAddNewTag, "LIBRARY.TOOLTIP.TAG.ADD");
             this.btnAddNewTag.UseVisualStyleBackColor = true;
             this.btnAddNewTag.Click += new System.EventHandler(this.btnAddNewTag_Click);
             // 
@@ -502,7 +502,7 @@
             this.btnRemoveTag.Name = "btnRemoveTag";
             this.btnRemoveTag.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveTag.TabIndex = 15;
-            this.Tooltips.SetToolTip(this.btnRemoveTag, "LIBRARY_TOOLTIP_TAG_REMOVE");
+            this.Tooltips.SetToolTip(this.btnRemoveTag, "LIBRARY.TOOLTIP.TAG.REMOVE");
             this.btnRemoveTag.UseVisualStyleBackColor = true;
             this.btnRemoveTag.Click += new System.EventHandler(this.btnRemoveTag_Click);
             // 
@@ -513,7 +513,7 @@
             this.btnClearTags.Name = "btnClearTags";
             this.btnClearTags.Size = new System.Drawing.Size(24, 24);
             this.btnClearTags.TabIndex = 16;
-            this.Tooltips.SetToolTip(this.btnClearTags, "LIBRARY_TOOLTIP_TAG_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearTags, "LIBRARY.TOOLTIP.TAG.CLEAR");
             this.btnClearTags.UseVisualStyleBackColor = true;
             this.btnClearTags.Click += new System.EventHandler(this.btnClearTags_Click);
             // 
@@ -546,7 +546,7 @@
             this.lblImageSize.Name = "lblImageSize";
             this.lblImageSize.Size = new System.Drawing.Size(159, 12);
             this.lblImageSize.TabIndex = 14;
-            this.lblImageSize.Text = "LIBRARY_LABEL_IMAGE_SIZE";
+            this.lblImageSize.Text = "LIBRARY.LABEL.IMAGE_SIZE";
             // 
             // btnAddNewCharacter
             // 
@@ -555,7 +555,7 @@
             this.btnAddNewCharacter.Name = "btnAddNewCharacter";
             this.btnAddNewCharacter.Size = new System.Drawing.Size(24, 24);
             this.btnAddNewCharacter.TabIndex = 13;
-            this.Tooltips.SetToolTip(this.btnAddNewCharacter, "LIBRARY_TOOLTIP_CHRACTER_ADD");
+            this.Tooltips.SetToolTip(this.btnAddNewCharacter, "LIBRARY.TOOLTIP.CHRACTER_ADD");
             this.btnAddNewCharacter.UseVisualStyleBackColor = true;
             this.btnAddNewCharacter.Click += new System.EventHandler(this.btnAddNewCharacter_Click);
             // 
@@ -575,7 +575,7 @@
             this.btnClearCharacters.Name = "btnClearCharacters";
             this.btnClearCharacters.Size = new System.Drawing.Size(24, 24);
             this.btnClearCharacters.TabIndex = 11;
-            this.Tooltips.SetToolTip(this.btnClearCharacters, "LIBRARY_TOOLTIP_CHRACTER_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearCharacters, "LIBRARY.TOOLTIP.CHRACTER_CLEAR");
             this.btnClearCharacters.UseVisualStyleBackColor = true;
             this.btnClearCharacters.Click += new System.EventHandler(this.btnClearCharacters_Click);
             // 
@@ -586,7 +586,7 @@
             this.btnRemoveCharacter.Name = "btnRemoveCharacter";
             this.btnRemoveCharacter.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveCharacter.TabIndex = 10;
-            this.Tooltips.SetToolTip(this.btnRemoveCharacter, "LIBRARY_TOOLTIP_CHARACTER_REMOVE");
+            this.Tooltips.SetToolTip(this.btnRemoveCharacter, "LIBRARY.TOOLTIP.CHARACTER.REMOVE");
             this.btnRemoveCharacter.UseVisualStyleBackColor = true;
             this.btnRemoveCharacter.Click += new System.EventHandler(this.btnRemoveCharacter_Click);
             // 
@@ -597,7 +597,7 @@
             this.lblCharacters.Name = "lblCharacters";
             this.lblCharacters.Size = new System.Drawing.Size(166, 12);
             this.lblCharacters.TabIndex = 9;
-            this.lblCharacters.Text = "LIBRARY_LABEL_CHARACTER";
+            this.lblCharacters.Text = "LIBRARY.LABEL.CHARACTER";
             // 
             // btnClearShowName
             // 
@@ -606,7 +606,7 @@
             this.btnClearShowName.Name = "btnClearShowName";
             this.btnClearShowName.Size = new System.Drawing.Size(24, 24);
             this.btnClearShowName.TabIndex = 8;
-            this.Tooltips.SetToolTip(this.btnClearShowName, "LIBRARY_TOOLTIP_SHOW_NAME_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearShowName, "LIBRARY.TOOLTIP.SHOWNAME.CLEAR");
             this.btnClearShowName.UseVisualStyleBackColor = true;
             this.btnClearShowName.Click += new System.EventHandler(this.btnClearShowName_Click);
             // 
@@ -617,7 +617,7 @@
             this.btnClearCategory.Name = "btnClearCategory";
             this.btnClearCategory.Size = new System.Drawing.Size(24, 24);
             this.btnClearCategory.TabIndex = 7;
-            this.Tooltips.SetToolTip(this.btnClearCategory, "LIBRARY_TOOLTIP_CATTEGORY_CLEAR");
+            this.Tooltips.SetToolTip(this.btnClearCategory, "LIBRARY.TOOLTIP.CATTEGORY_CLEAR");
             this.btnClearCategory.UseVisualStyleBackColor = true;
             this.btnClearCategory.Click += new System.EventHandler(this.btnClearCategory_Click);
             // 
@@ -628,7 +628,7 @@
             this.btnAddShowName.Name = "btnAddShowName";
             this.btnAddShowName.Size = new System.Drawing.Size(24, 24);
             this.btnAddShowName.TabIndex = 6;
-            this.Tooltips.SetToolTip(this.btnAddShowName, "LIBRARY_TOOLTIP_SHOW_NAME_ADD");
+            this.Tooltips.SetToolTip(this.btnAddShowName, "LIBRARY.TOOLTIP.SHOWNAME.ADD");
             this.btnAddShowName.UseVisualStyleBackColor = true;
             this.btnAddShowName.Click += new System.EventHandler(this.btnAddShowName_Click);
             // 
@@ -648,7 +648,7 @@
             this.lblShowName.Name = "lblShowName";
             this.lblShowName.Size = new System.Drawing.Size(164, 12);
             this.lblShowName.TabIndex = 4;
-            this.lblShowName.Text = "LIBRARY_LABEL_SHOW_NAME";
+            this.lblShowName.Text = "LIBRARY.LABEL.SHOW_NAME";
             // 
             // lblCategory
             // 
@@ -657,7 +657,7 @@
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(157, 12);
             this.lblCategory.TabIndex = 2;
-            this.lblCategory.Text = "LIBRARY_LABEL_CATEGORY";
+            this.lblCategory.Text = "LIBRARY.LABEL.CATEGORY";
             // 
             // btnAddCategory
             // 
@@ -666,7 +666,7 @@
             this.btnAddCategory.Name = "btnAddCategory";
             this.btnAddCategory.Size = new System.Drawing.Size(24, 24);
             this.btnAddCategory.TabIndex = 3;
-            this.Tooltips.SetToolTip(this.btnAddCategory, "LIBRARY_TOOLTIP_CATEGORY_ADD");
+            this.Tooltips.SetToolTip(this.btnAddCategory, "LIBRARY.TOOLTIP.CATEGORY.ADD");
             this.btnAddCategory.UseVisualStyleBackColor = true;
             this.btnAddCategory.Click += new System.EventHandler(this.btnAddCategory_Click);
             // 
@@ -705,7 +705,7 @@
             // 
             this.tslStatus.Name = "tslStatus";
             this.tslStatus.Size = new System.Drawing.Size(149, 17);
-            this.tslStatus.Text = "LIBRARY_MESSAGE_READY";
+            this.tslStatus.Text = "LIBRARY.MESSAGE.READY";
             // 
             // tslStatistics
             // 

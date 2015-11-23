@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,12 +77,14 @@
       <DependentUpon>DuplicateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DuplicateList.cs" />
+    <Compile Include="DwmManager.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="HighlightListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="KMeans.cs" />
     <Compile Include="PNG\IDATChunk.cs" />
     <Compile Include="PNG\IENDChunk.cs" />
     <Compile Include="PNG\IHDRChunk.cs" />
@@ -124,6 +126,8 @@
     <Compile Include="ProcessingSettingsForm.Designer.cs">
       <DependentUpon>ProcessingSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphicsProcessors\GraphicsProcessors.cs" />
+    <Compile Include="GraphicsProcessors\RotateChannels.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="TimingForm.Designer.cs">
       <DependentUpon>TimingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities.cs" />
     <Compile Include="Wallpaper.cs" />
     <Compile Include="EnumWrappers.cs" />
     <Compile Include="XnaFan\ArrayComparer.cs" />
@@ -195,10 +200,14 @@
     <None Include="lang\ja_JP.lang">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="lang\lang.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

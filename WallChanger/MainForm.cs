@@ -6,6 +6,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Threading.Tasks;
 using System.Drawing;
+using WallChanger.GraphicsProcessors;
 
 namespace WallChanger
 {
@@ -66,6 +67,20 @@ namespace WallChanger
             Library.Load();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "CC0061:Async method can be terminating with 'Async' name.", Justification = "Well you see, rainbows.")]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public static async Task Rainbow()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            var hue = 0;
+            while (Properties.Settings.Default.RainbowModeEnabled)
+            {
+                hue += 5;
+                DwmManager.ColorizationColor = Utilities.HSVToColour(hue, 1, 1, 127);
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+
         /// <summary>
         /// Adds the list of iamges to the current config.
         /// </summary>
@@ -100,31 +115,32 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE_MAIN");
+            this.Text = LM.GetString("TITLE.MAIN");
             // Buttons.
-            btnNewConfig.Text = LM.GetString("MAIN_BUTTON_NEW");
-            btnRemoveConfig.Text = LM.GetString("MAIN_BUTTON_REMOVE");
-            btnTiming.Text = LM.GetString("MAIN_BUTTON_TIMING");
-            btnTray.Text = LM.GetString("MAIN_BUTTON_TRAY");
-            btnReload.Text = LM.GetString("MAIN_BUTTON_RELOAD");
-            btnSave.Text = LM.GetString("MAIN_BUTTON_SAVE");
+            btnNewConfig.Text = LM.GetString("MAIN.BUTTON.NEW");
+            btnRemoveConfig.Text = LM.GetString("MAIN.BUTTON.REMOVE");
+            btnTiming.Text = LM.GetString("MAIN.BUTTON.TIMING");
+            btnTray.Text = LM.GetString("MAIN.BUTTON.TRAY");
+            btnReload.Text = LM.GetString("MAIN.BUTTON.RELOAD");
+            btnSave.Text = LM.GetString("MAIN.BUTTON.SAVE");
             // Tooltips.
-            ToolTips.SetToolTip(btnAddImage, LM.GetString("MAIN_TOOLTIP_ADD"));
-            ToolTips.SetToolTip(btnRemoveImage, LM.GetString("MAIN_TOOLTIP_REMOVE"));
-            ToolTips.SetToolTip(btnMoveUp, LM.GetString("MAIN_TOOLTIP_MOVE_UP"));
-            ToolTips.SetToolTip(btnMoveDown, LM.GetString("MAIN_TOOLTIP_MOVE_DOWN"));
-            ToolTips.SetToolTip(btnClear, LM.GetString("MAIN_TOOLTIP_CLEAR"));
-            ToolTips.SetToolTip(btnLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY"));
-            ToolTips.SetToolTip(btnAddToLibrary, LM.GetString("MAIN_TOOLTIP_LIBRARY_ADD"));
-            ToolTips.SetToolTip(btnLanguage, LM.GetString("MAIN_TOOLTIP_LANGUAGE"));
-            ToolTips.SetToolTip(btnSettings, LM.GetString("MAIN_TOOLTIP_SETTINGS"));
-            ToolTips.SetToolTip(btnProcessing, LM.GetString("MAIN_TOOLTIP_PREPROCESSING"));
+            ToolTips.SetToolTip(btnAddImage, LM.GetString("MAIN.TOOLTIP.ADD"));
+            ToolTips.SetToolTip(btnRemoveImage, LM.GetString("MAIN.TOOLTIP.REMOVE"));
+            ToolTips.SetToolTip(btnMoveUp, LM.GetString("MAIN.TOOLTIP.MOVE_UP"));
+            ToolTips.SetToolTip(btnMoveDown, LM.GetString("MAIN.TOOLTIP.MOVE_DOWN"));
+            ToolTips.SetToolTip(btnClear, LM.GetString("MAIN.TOOLTIP.CLEAR"));
+            ToolTips.SetToolTip(btnLibrary, LM.GetString("MAIN.TOOLTIP.LIBRARY"));
+            ToolTips.SetToolTip(btnAddToLibrary, LM.GetString("MAIN.TOOLTIP.LIBRARY_ADD"));
+            ToolTips.SetToolTip(btnLanguage, LM.GetString("MAIN.TOOLTIP.LANGUAGE"));
+            ToolTips.SetToolTip(btnSettings, LM.GetString("MAIN.TOOLTIP.SETTINGS"));
+            ToolTips.SetToolTip(btnProcessing, LM.GetString("MAIN.TOOLTIP.PREPROCESSING"));
             // Labels.
-            grpConfig.Text = LM.GetString("MAIN_LABEL_CONFIGS");
-            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
-            chkStartup.Text = LM.GetString("MAIN_LABEL_STARTUP");
-            chkRandomise.Text = LM.GetString("MAIN_LABEL_RANDOMISE");
-            chkFade.Text = LM.GetString("MAIN_LABEL_FADE");
+            grpConfig.Text = LM.GetString("MAIN.LABEL.CONFIGS");
+            grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
+            chkRandomise.Text = LM.GetString("MAIN.LABEL.RANDOMISE");
+            chkFade.Text = LM.GetString("MAIN.LABEL.FADE");
+            chkStartup.Text = LM.GetString("MAIN.LABEL.STARTUP");
+            chkChangeThemeColour.Text = LM.GetString("MAIN.LABEL.THEME_COLOUR");
 
             Wallpaper.WallpaperStyle style;
             style = cmbWallpaperStyle.SelectedItem != null ? (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem : new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
@@ -350,7 +366,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnNewConfig_Click(object sender, EventArgs e)
         {
-            var configName = Prompt.ShowStringDialog(LM.GetString("MAIN_MESSAGE_NEW_CONFIG"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_TITLE"), LM.GetString("MAIN_MESSAGE_NEW_CONFIG_DEFAULT"));
+            var configName = Prompt.ShowStringDialog(LM.GetString("MAIN.MESSAGE.NEW_CONFIG"), LM.GetString("MAIN.MESSAGE.NEW_CONFIG_TITLE"), LM.GetString("MAIN.MESSAGE.NEW_CONFIG_DEFAULT"));
             if (configName != null)
                 CreateConfig(configName);
         }
@@ -383,7 +399,7 @@ namespace WallChanger
         /// <param name="e">Arguments.</param>
         private void btnRemoveConfig_Click(object sender, EventArgs e)
         {
-            if (Prompt.ShowStringDialog(string.Format(LM.GetString("MAIN_MESSAGE_DELETE_CONFIG"), lstConfigs.SelectedItem as string), LM.GetString("MAIN_MESSAGE_DELETE_CONFIG_TITLE")) == lstConfigs.SelectedItem as string)
+            if (Prompt.ShowStringDialog(string.Format(LM.GetString("MAIN.MESSAGE.DELETE_CONFIG"), lstConfigs.SelectedItem as string), LM.GetString("MAIN.MESSAGE.DELETE_CONFIG_TITLE")) == lstConfigs.SelectedItem as string)
             {
                 File.Delete(GlobalVars.ApplicationPath + "\\" + lstConfigs.SelectedItem as string + ".cfg");
                 LoadConfigs();
@@ -501,6 +517,7 @@ namespace WallChanger
             Interval = Timing.ParseTime(Properties.Settings.Default.DefaultInterval);
             cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
             Properties.Settings.Default.CurrentConfig = name;
+            LoadedProcessingSettings = ProcessingSettings.FromDefaults();
             FileList.Clear();
 
             SaveSettings();
@@ -554,11 +571,11 @@ namespace WallChanger
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
                         if (i < remainder)
-                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false);
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false);
                         else if (i == remainder)
-                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true);
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true);
                         else
-                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false);
+                            lstImages.Items[i] = new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false);
                     }
                 }
             }
@@ -586,11 +603,11 @@ namespace WallChanger
                     {
                         showTime = showTime.AddSeconds(Interval / 1000);
                         if (i < remainder)
-                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false));
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime.AddSeconds((Interval * FileList.Count) / 1000), FileList[i]), false));
                         else if (i == remainder)
-                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true));
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), true));
                         else
-                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN_LABEL_IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false));
+                            lstImages.Items.Add(new ImageEntry(string.Format(LM.GetStringDefault("MAIN.LABEL.IMAGE", "{0:HH:mm:ss} - {1}"), showTime, FileList[i]), false));
                     }
                 }
             }
@@ -618,6 +635,7 @@ namespace WallChanger
             }
 
             UpdateWallpaperAsync();
+            Task.Run(Rainbow);
         }
 
         /// <summary>
@@ -637,11 +655,11 @@ namespace WallChanger
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CC0021:Use nameof", Justification = "Not actually program elements.")]
         private void LoadConfig()
         {
-            grpImages.Text = string.Format(LM.GetString("MAIN_LABEL_IMAGES"), Properties.Settings.Default.CurrentConfig);
+            grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
 
             if (!File.Exists(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
-                MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_CONFIG_MISSING"), Properties.Settings.Default.CurrentConfig));
+                MessageBox.Show(string.Format(LM.GetString("MAIN.MESSAGE.CONFIG_MISSING"), Properties.Settings.Default.CurrentConfig));
                 CreateConfig(Properties.Settings.Default.CurrentConfig);
                 return;
             }
@@ -664,7 +682,7 @@ namespace WallChanger
                     var FileVersion = new Version(firstLine.Split('=')[1].Trim());
                     if (FileVersion.Major > AssemblyVersion.Major)
                     {
-                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
+                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN.MESSAGE.VERSION_TOO_LOW", "MAIN.MESSAGE.TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
                         read.Close();
                         return;
                     }
@@ -672,7 +690,7 @@ namespace WallChanger
                     {
                         if (FileVersion.Minor > AssemblyVersion.Minor)
                         {
-                            MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_VERSION_TOO_LOW", "MAIN_MESSAGE_TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
+                            MessageBox.Show(string.Format(LM.GetStringDefault("MAIN.MESSAGE.VERSION_TOO_LOW", "MAIN.MESSAGE.TOO_LOW {0} {1}.{2} > {3}"), Properties.Settings.Default.CurrentConfig, FileVersion.Major, FileVersion.Minor, AssemblyVersion));
                             read.Close();
                             return;
                         }
@@ -704,6 +722,11 @@ namespace WallChanger
                                         bool.TryParse(Parts[1].Trim(), out fadeValue);
                                         chkFade.Checked = fadeValue;
                                         break;
+                                    case "ThemeColourEnabled":
+                                        var themeColourEnabledValue = false;
+                                        bool.TryParse(Parts[1].Trim(), out themeColourEnabledValue);
+                                        chkChangeThemeColour.Checked = themeColourEnabledValue;
+                                        break;
                                     case "WallpaperStyle":
                                         var style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
                                         if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
@@ -713,7 +736,7 @@ namespace WallChanger
                                         else
                                         {
                                             // Span is not supported on Windows 7.
-                                            MessageBox.Show(string.Format(LM.GetString("MAIN_MESSAGE_SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
+                                            MessageBox.Show(string.Format(LM.GetString("MAIN.MESSAGE.SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
                                             cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
                                         }
                                         break;
@@ -785,6 +808,12 @@ namespace WallChanger
                                         break;
                                     case "ImageFilterMatrix":
                                         LoadedProcessingSettings.ImageFilterMatrix = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultImageFilterMatrix);
+                                        break;
+                                    case "ChannelRotationEnabled":
+                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ChannelRotationEnabled);
+                                        break;
+                                    case "ChannelRotationCount":
+                                        LoadedProcessingSettings.ChannelRotationValue = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultChannelRotationValue);
                                         break;
                                     case "Image":
                                         FileList.Add(Parts[1].Trim());
@@ -1143,6 +1172,8 @@ namespace WallChanger
                                 break;
                         }
                     }
+                    if (Settings.ChannelRotationEnabled)
+                        factory.RotateChannels((int)Settings.ChannelRotationValue);
 
                     if (SupportsSpan)
                         Imaging.SavePNG(factory.Image, outFilename);
@@ -1230,6 +1261,12 @@ namespace WallChanger
                 case ProcessingSetting.ImageFilterMatrix:
                     LoadedProcessingSettings.ImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
                     break;
+                case ProcessingSetting.ChannelRotationEnabled:
+                    LoadedProcessingSettings.ChannelRotationEnabled = (bool)Value;
+                    break;
+                case ProcessingSetting.ChannelRotationValue:
+                    LoadedProcessingSettings.ChannelRotationValue = (ChannelRotationWrapper)Value;
+                    break;
             }
         }
 
@@ -1251,6 +1288,7 @@ namespace WallChanger
                 write.WriteLine($"Interval={Timing.ToString(Interval)}");
                 write.WriteLine($"Randomise={chkRandomise.Checked}");
                 write.WriteLine($"Fade={chkFade.Checked}");
+                write.WriteLine($"ThemeColourEnabled={chkChangeThemeColour.Checked}");
                 write.WriteLine($"WallpaperStyle={(Wallpaper.WallpaperStyle)(WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem}");
 
                 // Null on first run.
@@ -1280,6 +1318,8 @@ namespace WallChanger
                 write.WriteLine($"EdgeDetectionFilter={LoadedProcessingSettings.EdgeDetectionFilter}");
                 write.WriteLine($"ImageFilterEnabled={LoadedProcessingSettings.ImageFilterEnabled}");
                 write.WriteLine($"ImageFilterMatrix={LoadedProcessingSettings.ImageFilterMatrix}");
+                write.WriteLine($"ChannelRotationEnabled={LoadedProcessingSettings.ChannelRotationEnabled}");
+                write.WriteLine($"ChannelRotationCount={LoadedProcessingSettings.ChannelRotationValue}");
 
                 foreach (string image in FileList)
                 {
@@ -1322,13 +1362,13 @@ namespace WallChanger
                 {
                     FileList.RemoveAt((Index) % FileList.Count);
                     FillImageList();
-                    MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_IMAGE_MISSING", "MAIN_MESSAGE_IMAGE_MISSING\n{0}"), FileList[(Index) % FileList.Count]));
+                    MessageBox.Show(string.Format(LM.GetStringDefault("MAIN.MESSAGE.IMAGE_MISSING", "MAIN.MESSAGE.IMAGE_MISSING\n{0}"), FileList[(Index) % FileList.Count]));
                     SetWallpaper(Index);
                 }
             }
         }
 
-        private async void UpdateWallpaperAsync()
+        private async Task UpdateWallpaperAsync()
         {
             string loadedConfig;
             string outputTime;
@@ -1363,21 +1403,30 @@ namespace WallChanger
                         index = index % FileList.Count;
                     if (File.Exists(FileList[(index) % FileList.Count]))
                     {
-                        var path = await Task.Run(() => ProcessImage(FileList[(index) % FileList.Count]));
+                        var origPath = FileList[(index) % FileList.Count];
+                        var path = await Task.Run(() => ProcessImage(origPath));
+
+                        if (!Properties.Settings.Default.RainbowModeEnabled && (chkChangeThemeColour.Checked || Properties.Settings.Default.GlobalColourSchemeEnabled))
+                        {
+                            using (var image = Imaging.FromFile(path))
+                            {
+                                DwmManager.ColorizationColor = Utilities.HSVToColour(image.GetHue(), 1, 1, 127);
+                            }
+                        }
 
                         if ((Properties.Settings.Default.GlobalFading && Properties.Settings.Default.DefaultFading) || (!Properties.Settings.Default.GlobalFading && chkFade.Checked))
                             Wallpaper.FadeSet(path, (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
                         else
                             Wallpaper.Set(path, (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem);
 
-                        if (FileList[(index) % FileList.Count] != path)
+                        if (origPath != path)
                             File.Delete(path);
 
                         wallpaperChanged = true;
                     }
                     else
                     {
-                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN_MESSAGE_IMAGE_MISSING", "MAIN_MESSAGE_IMAGE_MISSING\n{0}"), FileList[(index) % FileList.Count]));
+                        MessageBox.Show(string.Format(LM.GetStringDefault("MAIN.MESSAGE.IMAGE_MISSING", "MAIN.MESSAGE.IMAGE_MISSING\n{0}"), FileList[(index) % FileList.Count]));
                         FileList.RemoveAt((index) % FileList.Count);
                         try
                         {
@@ -1401,8 +1450,8 @@ namespace WallChanger
                     // Report progress.
                     var nextChange = DateTime.Now.AddMilliseconds(sleepTime);
                     var nextChangeTimeSpan = nextChange - DateTime.Now;
-                    lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
-                    noiTray.Text = string.Format(LM.GetStringDefault("TRAY_LABEL_NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
+                    lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN.LABEL.NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
+                    noiTray.Text = string.Format(LM.GetStringDefault("TRAY.LABEL.NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
                     LastIndex = index;
 
                     try
