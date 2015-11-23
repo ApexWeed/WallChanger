@@ -1,16 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace WallChanger.Translation
 {
     public class LanguageManager
     {
-        public string MainLanguage;
-        public string FallbackLanguage;
+        public string MainLanguage
+        {
+            get { return mainLanguage; }
+            set
+            {
+                mainLanguage = value;
+                OnLanguageChanged();
+            }
+        }
+        private string mainLanguage;
+        public string FallbackLanguage
+        {
+            get { return fallbackLanguage; }
+            set
+            {
+                fallbackLanguage = value;
+                OnLanguageChanged();
+            }
+        }
+        private string fallbackLanguage;
 
-        
+        public event EventHandler<EventArgs> LanguageChanged;
 
         readonly Dictionary<string, Language> Languages;
+
+        protected void OnLanguageChanged()
+        {
+            var handler = LanguageChanged;
+            LanguageChanged?.Invoke(this, null);
+        }
 
         /// <summary>
         /// Initialises the language manager and loads languages.
@@ -56,11 +81,11 @@ namespace WallChanger.Translation
         /// <returns>The language specific string.</returns>
         public string GetString(string Key)
         {
-            var Value = GetString(Key, MainLanguage);
+            var Value = GetString(Key, mainLanguage);
             if (Value != Key)
                 return Value;
 
-            Value = GetString(Key, FallbackLanguage);
+            Value = GetString(Key, fallbackLanguage);
             return Value;
         }
 

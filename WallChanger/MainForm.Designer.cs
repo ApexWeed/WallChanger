@@ -32,43 +32,43 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ofdAdd = new System.Windows.Forms.OpenFileDialog();
             this.noiTray = new System.Windows.Forms.NotifyIcon(this.components);
-            this.chkStartup = new System.Windows.Forms.CheckBox();
-            this.btnTray = new System.Windows.Forms.Button();
-            this.btnReload = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnTiming = new System.Windows.Forms.Button();
-            this.grpConfig = new System.Windows.Forms.GroupBox();
+            this.chkStartup = new WallChanger.Translation.Controls.TranslatableCheckBox();
+            this.btnTray = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnReload = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnSave = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnTiming = new WallChanger.Translation.Controls.TranslatableButton();
+            this.grpConfig = new WallChanger.Translation.Controls.TranslatableGroupBox();
             this.pnlConfigInner = new System.Windows.Forms.Panel();
             this.lstConfigs = new System.Windows.Forms.ListBox();
             this.pnlConfigButtons = new System.Windows.Forms.Panel();
-            this.btnNewConfig = new System.Windows.Forms.Button();
-            this.btnRemoveConfig = new System.Windows.Forms.Button();
-            this.grpImages = new System.Windows.Forms.GroupBox();
+            this.btnNewConfig = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnRemoveConfig = new WallChanger.Translation.Controls.TranslatableButton();
+            this.grpImages = new WallChanger.Translation.Controls.TranslatableGroupBox();
             this.pnlImagesInner = new System.Windows.Forms.Panel();
             this.pnlFileList = new System.Windows.Forms.Panel();
+            this.lstImages = new WallChanger.HighlightListBox();
             this.pnlImageButtons = new System.Windows.Forms.Panel();
-            this.btnProcessing = new System.Windows.Forms.Button();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnLanguage = new System.Windows.Forms.Button();
-            this.btnAddToLibrary = new System.Windows.Forms.Button();
-            this.btnLibrary = new System.Windows.Forms.Button();
-            this.btnAddImage = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnRemoveImage = new System.Windows.Forms.Button();
-            this.btnMoveDown = new System.Windows.Forms.Button();
-            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnProcessing = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnSettings = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnLanguage = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnAddToLibrary = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnLibrary = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnAddImage = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnClear = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnRemoveImage = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnMoveDown = new WallChanger.Translation.Controls.TranslatableButton();
+            this.btnMoveUp = new WallChanger.Translation.Controls.TranslatableButton();
             this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlTopRight = new System.Windows.Forms.Panel();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
+            this.chkChangeThemeColour = new WallChanger.Translation.Controls.TranslatableCheckBox();
             this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
-            this.chkFade = new System.Windows.Forms.CheckBox();
-            this.chkRandomise = new System.Windows.Forms.CheckBox();
+            this.chkFade = new WallChanger.Translation.Controls.TranslatableCheckBox();
+            this.chkRandomise = new WallChanger.Translation.Controls.TranslatableCheckBox();
             this.lblNextChange = new System.Windows.Forms.Label();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
-            this.chkChangeThemeColour = new System.Windows.Forms.CheckBox();
-            this.lstImages = new WallChanger.HighlightListBox();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -96,57 +96,68 @@
             // chkStartup
             // 
             this.chkStartup.AutoSize = true;
+            this.chkStartup.DefaultString = null;
             this.chkStartup.Location = new System.Drawing.Point(6, 99);
             this.chkStartup.Name = "chkStartup";
-            this.chkStartup.Size = new System.Drawing.Size(147, 16);
+            this.chkStartup.Size = new System.Drawing.Size(143, 16);
             this.chkStartup.TabIndex = 4;
             this.chkStartup.Text = "MAIN.LABEL.STARTUP";
+            this.chkStartup.TranslationString = "MAIN.LABEL.STARTUP";
             this.chkStartup.UseVisualStyleBackColor = true;
             this.chkStartup.CheckedChanged += new System.EventHandler(this.chkStartup_CheckedChanged);
             // 
             // btnTray
             // 
+            this.btnTray.DefaultString = null;
             this.btnTray.Location = new System.Drawing.Point(98, 3);
             this.btnTray.Name = "btnTray";
             this.btnTray.Size = new System.Drawing.Size(75, 21);
             this.btnTray.TabIndex = 5;
             this.btnTray.Text = "MAIN.BUTTON.TRAY";
+            this.btnTray.TranslationString = "MAIN.BUTTON.TRAY";
             this.btnTray.UseVisualStyleBackColor = true;
             this.btnTray.Click += new System.EventHandler(this.btnTray_Click);
             // 
             // btnReload
             // 
+            this.btnReload.DefaultString = null;
             this.btnReload.Location = new System.Drawing.Point(6, 30);
             this.btnReload.Name = "btnReload";
             this.btnReload.Size = new System.Drawing.Size(75, 21);
             this.btnReload.TabIndex = 6;
             this.btnReload.Text = "MAIN.BUTTON.RELOAD";
+            this.btnReload.TranslationString = "MAIN.BUTTON.RELOAD";
             this.btnReload.UseVisualStyleBackColor = true;
             this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // btnSave
             // 
+            this.btnSave.DefaultString = null;
             this.btnSave.Location = new System.Drawing.Point(98, 30);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 21);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "MAIN.BUTTON.SAVE";
+            this.btnSave.TranslationString = "MAIN.BUTTON.SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnTiming
             // 
+            this.btnTiming.DefaultString = null;
             this.btnTiming.Location = new System.Drawing.Point(6, 3);
             this.btnTiming.Name = "btnTiming";
             this.btnTiming.Size = new System.Drawing.Size(75, 21);
             this.btnTiming.TabIndex = 8;
             this.btnTiming.Text = "MAIN.BUTTON.TIMING";
+            this.btnTiming.TranslationString = "MAIN.BUTTON.TIMING";
             this.btnTiming.UseVisualStyleBackColor = true;
             this.btnTiming.Click += new System.EventHandler(this.btnTiming_Click);
             // 
             // grpConfig
             // 
             this.grpConfig.Controls.Add(this.pnlConfigInner);
+            this.grpConfig.DefaultString = null;
             this.grpConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpConfig.Location = new System.Drawing.Point(0, 0);
             this.grpConfig.Name = "grpConfig";
@@ -154,6 +165,7 @@
             this.grpConfig.TabIndex = 9;
             this.grpConfig.TabStop = false;
             this.grpConfig.Text = "MAIN.LABEL.CONFIGS";
+            this.grpConfig.TranslationString = "MAIN.LABEL.CONFIGS";
             // 
             // pnlConfigInner
             // 
@@ -188,27 +200,32 @@
             // 
             // btnNewConfig
             // 
+            this.btnNewConfig.DefaultString = null;
             this.btnNewConfig.Location = new System.Drawing.Point(3, 3);
             this.btnNewConfig.Name = "btnNewConfig";
             this.btnNewConfig.Size = new System.Drawing.Size(75, 21);
             this.btnNewConfig.TabIndex = 1;
             this.btnNewConfig.Text = "MAIN.BUTTON.NEW";
+            this.btnNewConfig.TranslationString = "MAIN.BUTTON.NEW";
             this.btnNewConfig.UseVisualStyleBackColor = true;
             this.btnNewConfig.Click += new System.EventHandler(this.btnNewConfig_Click);
             // 
             // btnRemoveConfig
             // 
+            this.btnRemoveConfig.DefaultString = null;
             this.btnRemoveConfig.Location = new System.Drawing.Point(95, 3);
             this.btnRemoveConfig.Name = "btnRemoveConfig";
             this.btnRemoveConfig.Size = new System.Drawing.Size(75, 21);
             this.btnRemoveConfig.TabIndex = 2;
             this.btnRemoveConfig.Text = "MAIN.BUTTON.REMOVE";
+            this.btnRemoveConfig.TranslationString = "MAIN.BUTTON.REMOVE";
             this.btnRemoveConfig.UseVisualStyleBackColor = true;
             this.btnRemoveConfig.Click += new System.EventHandler(this.btnRemoveConfig_Click);
             // 
             // grpImages
             // 
             this.grpImages.Controls.Add(this.pnlImagesInner);
+            this.grpImages.DefaultString = null;
             this.grpImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpImages.Location = new System.Drawing.Point(0, 0);
             this.grpImages.Name = "grpImages";
@@ -216,6 +233,7 @@
             this.grpImages.TabIndex = 10;
             this.grpImages.TabStop = false;
             this.grpImages.Text = "MAIN.LABEL.IMAGES";
+            this.grpImages.TranslationString = "MAIN.LABEL.IMAGES";
             // 
             // pnlImagesInner
             // 
@@ -235,6 +253,18 @@
             this.pnlFileList.Name = "pnlFileList";
             this.pnlFileList.Size = new System.Drawing.Size(561, 473);
             this.pnlFileList.TabIndex = 8;
+            // 
+            // lstImages
+            // 
+            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstImages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.lstImages.FormattingEnabled = true;
+            this.lstImages.HorizontalScrollbar = true;
+            this.lstImages.Location = new System.Drawing.Point(0, 0);
+            this.lstImages.Name = "lstImages";
+            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lstImages.Size = new System.Drawing.Size(561, 473);
+            this.lstImages.TabIndex = 0;
             // 
             // pnlImageButtons
             // 
@@ -256,111 +286,131 @@
             // 
             // btnProcessing
             // 
+            this.btnProcessing.DefaultString = null;
             this.btnProcessing.Image = global::WallChanger.Properties.Resources.processor;
             this.btnProcessing.Location = new System.Drawing.Point(3, 273);
             this.btnProcessing.Name = "btnProcessing";
             this.btnProcessing.Size = new System.Drawing.Size(24, 24);
             this.btnProcessing.TabIndex = 11;
             this.ToolTips.SetToolTip(this.btnProcessing, "MAIN.TOOLTIP.PREPROCESSING");
+            this.btnProcessing.TranslationString = null;
             this.btnProcessing.UseVisualStyleBackColor = true;
             this.btnProcessing.Click += new System.EventHandler(this.btnProcessing_Click);
             // 
             // btnSettings
             // 
+            this.btnSettings.DefaultString = null;
             this.btnSettings.Image = global::WallChanger.Properties.Resources.gear;
             this.btnSettings.Location = new System.Drawing.Point(3, 243);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(24, 24);
             this.btnSettings.TabIndex = 10;
             this.ToolTips.SetToolTip(this.btnSettings, "MAIN.TOOLTIP.SETTINGS");
+            this.btnSettings.TranslationString = null;
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnLanguage
             // 
+            this.btnLanguage.DefaultString = null;
             this.btnLanguage.Image = global::WallChanger.Properties.Resources.edit_language;
             this.btnLanguage.Location = new System.Drawing.Point(3, 213);
             this.btnLanguage.Name = "btnLanguage";
             this.btnLanguage.Size = new System.Drawing.Size(24, 24);
             this.btnLanguage.TabIndex = 9;
             this.ToolTips.SetToolTip(this.btnLanguage, "MAIN.TOOLTIP.LANGUAGE");
+            this.btnLanguage.TranslationString = null;
             this.btnLanguage.UseVisualStyleBackColor = true;
             this.btnLanguage.Click += new System.EventHandler(this.btnLanguage_Click);
             // 
             // btnAddToLibrary
             // 
+            this.btnAddToLibrary.DefaultString = null;
             this.btnAddToLibrary.Image = global::WallChanger.Properties.Resources.address_book__arrow;
             this.btnAddToLibrary.Location = new System.Drawing.Point(3, 183);
             this.btnAddToLibrary.Name = "btnAddToLibrary";
             this.btnAddToLibrary.Size = new System.Drawing.Size(24, 24);
             this.btnAddToLibrary.TabIndex = 8;
             this.ToolTips.SetToolTip(this.btnAddToLibrary, "MAIN.TOOLTIP.LIBRARY_ADD");
+            this.btnAddToLibrary.TranslationString = null;
             this.btnAddToLibrary.UseVisualStyleBackColor = true;
             this.btnAddToLibrary.Click += new System.EventHandler(this.btnAddToLibrary_Click);
             // 
             // btnLibrary
             // 
+            this.btnLibrary.DefaultString = null;
             this.btnLibrary.Image = global::WallChanger.Properties.Resources.address_book;
             this.btnLibrary.Location = new System.Drawing.Point(3, 153);
             this.btnLibrary.Name = "btnLibrary";
             this.btnLibrary.Size = new System.Drawing.Size(24, 24);
             this.btnLibrary.TabIndex = 7;
             this.ToolTips.SetToolTip(this.btnLibrary, "MAIN.TOOLTIP.LIBRARY");
+            this.btnLibrary.TranslationString = null;
             this.btnLibrary.UseVisualStyleBackColor = true;
             this.btnLibrary.Click += new System.EventHandler(this.btnLibrary_Click);
             // 
             // btnAddImage
             // 
+            this.btnAddImage.DefaultString = null;
             this.btnAddImage.Image = global::WallChanger.Properties.Resources.plus_button;
             this.btnAddImage.Location = new System.Drawing.Point(3, 3);
             this.btnAddImage.Name = "btnAddImage";
             this.btnAddImage.Size = new System.Drawing.Size(24, 24);
             this.btnAddImage.TabIndex = 2;
             this.ToolTips.SetToolTip(this.btnAddImage, "MAIN.TOOLTIP.ADD");
+            this.btnAddImage.TranslationString = null;
             this.btnAddImage.UseVisualStyleBackColor = true;
             this.btnAddImage.Click += new System.EventHandler(this.btnAddImage_Click);
             // 
             // btnClear
             // 
+            this.btnClear.DefaultString = null;
             this.btnClear.Image = global::WallChanger.Properties.Resources.cross_button;
             this.btnClear.Location = new System.Drawing.Point(3, 123);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 24);
             this.btnClear.TabIndex = 6;
             this.ToolTips.SetToolTip(this.btnClear, "MAIN.TOOLTIP.CLEAR");
+            this.btnClear.TranslationString = null;
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnRemoveImage
             // 
+            this.btnRemoveImage.DefaultString = null;
             this.btnRemoveImage.Image = global::WallChanger.Properties.Resources.minus_button;
             this.btnRemoveImage.Location = new System.Drawing.Point(3, 33);
             this.btnRemoveImage.Name = "btnRemoveImage";
             this.btnRemoveImage.Size = new System.Drawing.Size(24, 24);
             this.btnRemoveImage.TabIndex = 3;
             this.ToolTips.SetToolTip(this.btnRemoveImage, "MAIN.TOOLTIP.REMOVE");
+            this.btnRemoveImage.TranslationString = null;
             this.btnRemoveImage.UseVisualStyleBackColor = true;
             this.btnRemoveImage.Click += new System.EventHandler(this.btnRemoveImage_Click);
             // 
             // btnMoveDown
             // 
+            this.btnMoveDown.DefaultString = null;
             this.btnMoveDown.Image = global::WallChanger.Properties.Resources.navigation_270_button;
             this.btnMoveDown.Location = new System.Drawing.Point(3, 93);
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(24, 24);
             this.btnMoveDown.TabIndex = 5;
             this.ToolTips.SetToolTip(this.btnMoveDown, "MAIN.TOOLTIP.MOVE_DOWN");
+            this.btnMoveDown.TranslationString = null;
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnMoveUp
             // 
+            this.btnMoveUp.DefaultString = null;
             this.btnMoveUp.Image = global::WallChanger.Properties.Resources.navigation_090_button;
             this.btnMoveUp.Location = new System.Drawing.Point(3, 63);
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(24, 24);
             this.btnMoveUp.TabIndex = 4;
             this.ToolTips.SetToolTip(this.btnMoveUp, "MAIN.TOOLTIP.MOVE_UP");
+            this.btnMoveUp.TranslationString = null;
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
@@ -401,6 +451,18 @@
             this.pnlBottomRight.Size = new System.Drawing.Size(179, 190);
             this.pnlBottomRight.TabIndex = 12;
             // 
+            // chkChangeThemeColour
+            // 
+            this.chkChangeThemeColour.AutoSize = true;
+            this.chkChangeThemeColour.DefaultString = null;
+            this.chkChangeThemeColour.Location = new System.Drawing.Point(6, 119);
+            this.chkChangeThemeColour.Name = "chkChangeThemeColour";
+            this.chkChangeThemeColour.Size = new System.Drawing.Size(179, 16);
+            this.chkChangeThemeColour.TabIndex = 13;
+            this.chkChangeThemeColour.Text = "MAIN.LABEL.THEME_COLOUR";
+            this.chkChangeThemeColour.TranslationString = "MAIN.LABEL.THEME_COLOUR";
+            this.chkChangeThemeColour.UseVisualStyleBackColor = true;
+            // 
             // cmbWallpaperStyle
             // 
             this.cmbWallpaperStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -413,21 +475,25 @@
             // chkFade
             // 
             this.chkFade.AutoSize = true;
+            this.chkFade.DefaultString = null;
             this.chkFade.Location = new System.Drawing.Point(6, 78);
             this.chkFade.Name = "chkFade";
-            this.chkFade.Size = new System.Drawing.Size(125, 16);
+            this.chkFade.Size = new System.Drawing.Size(121, 16);
             this.chkFade.TabIndex = 11;
             this.chkFade.Text = "MAIN.LABEL.FADE";
+            this.chkFade.TranslationString = "MAIN.LABEL.FADE";
             this.chkFade.UseVisualStyleBackColor = true;
             // 
             // chkRandomise
             // 
             this.chkRandomise.AutoSize = true;
+            this.chkRandomise.DefaultString = null;
             this.chkRandomise.Location = new System.Drawing.Point(6, 56);
             this.chkRandomise.Name = "chkRandomise";
-            this.chkRandomise.Size = new System.Drawing.Size(161, 16);
+            this.chkRandomise.Size = new System.Drawing.Size(157, 16);
             this.chkRandomise.TabIndex = 10;
             this.chkRandomise.Text = "MAIN.LABEL.RANDOMISE";
+            this.chkRandomise.TranslationString = "MAIN.LABEL.RANDOMISE";
             this.chkRandomise.UseVisualStyleBackColor = true;
             this.chkRandomise.CheckedChanged += new System.EventHandler(this.chkRandomise_CheckedChanged);
             // 
@@ -436,7 +502,7 @@
             this.lblNextChange.AutoSize = true;
             this.lblNextChange.Location = new System.Drawing.Point(3, 169);
             this.lblNextChange.Name = "lblNextChange";
-            this.lblNextChange.Size = new System.Drawing.Size(156, 12);
+            this.lblNextChange.Size = new System.Drawing.Size(152, 12);
             this.lblNextChange.TabIndex = 9;
             this.lblNextChange.Text = "MAIN.LABEL.NEXT_CHANGE";
             // 
@@ -457,28 +523,6 @@
             this.pnlSpacer.Name = "pnlSpacer";
             this.pnlSpacer.Size = new System.Drawing.Size(8, 491);
             this.pnlSpacer.TabIndex = 11;
-            // 
-            // chkChangeThemeColour
-            // 
-            this.chkChangeThemeColour.AutoSize = true;
-            this.chkChangeThemeColour.Location = new System.Drawing.Point(6, 119);
-            this.chkChangeThemeColour.Name = "chkChangeThemeColour";
-            this.chkChangeThemeColour.Size = new System.Drawing.Size(183, 16);
-            this.chkChangeThemeColour.TabIndex = 13;
-            this.chkChangeThemeColour.Text = "MAIN.LABEL.THEME_COLOUR";
-            this.chkChangeThemeColour.UseVisualStyleBackColor = true;
-            // 
-            // lstImages
-            // 
-            this.lstImages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstImages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.lstImages.FormattingEnabled = true;
-            this.lstImages.HorizontalScrollbar = true;
-            this.lstImages.Location = new System.Drawing.Point(0, 0);
-            this.lstImages.Name = "lstImages";
-            this.lstImages.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstImages.Size = new System.Drawing.Size(561, 473);
-            this.lstImages.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -513,24 +557,24 @@
         #endregion
 
         private HighlightListBox lstImages;
-        private System.Windows.Forms.Button btnAddImage;
-        private System.Windows.Forms.Button btnRemoveImage;
+        private WallChanger.Translation.Controls.TranslatableButton btnAddImage;
+        private WallChanger.Translation.Controls.TranslatableButton btnRemoveImage;
         private System.Windows.Forms.OpenFileDialog ofdAdd;
         private System.Windows.Forms.NotifyIcon noiTray;
-        private System.Windows.Forms.CheckBox chkStartup;
-        private System.Windows.Forms.Button btnTray;
-        private System.Windows.Forms.Button btnReload;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnTiming;
-        private System.Windows.Forms.GroupBox grpConfig;
-        private System.Windows.Forms.Button btnRemoveConfig;
-        private System.Windows.Forms.Button btnNewConfig;
+        private WallChanger.Translation.Controls.TranslatableCheckBox chkStartup;
+        private WallChanger.Translation.Controls.TranslatableButton btnTray;
+        private WallChanger.Translation.Controls.TranslatableButton btnReload;
+        private WallChanger.Translation.Controls.TranslatableButton btnSave;
+        private WallChanger.Translation.Controls.TranslatableButton btnTiming;
+        private WallChanger.Translation.Controls.TranslatableGroupBox grpConfig;
+        private WallChanger.Translation.Controls.TranslatableButton btnRemoveConfig;
+        private WallChanger.Translation.Controls.TranslatableButton btnNewConfig;
         private System.Windows.Forms.ListBox lstConfigs;
-        private System.Windows.Forms.GroupBox grpImages;
+        private WallChanger.Translation.Controls.TranslatableGroupBox grpImages;
         private System.Windows.Forms.ToolTip ToolTips;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnMoveDown;
-        private System.Windows.Forms.Button btnMoveUp;
+        private WallChanger.Translation.Controls.TranslatableButton btnClear;
+        private WallChanger.Translation.Controls.TranslatableButton btnMoveDown;
+        private WallChanger.Translation.Controls.TranslatableButton btnMoveUp;
         private System.Windows.Forms.Panel pnlConfigButtons;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlTopRight;
@@ -541,16 +585,16 @@
         private System.Windows.Forms.Panel pnlImageButtons;
         private System.Windows.Forms.Panel pnlImagesInner;
         private System.Windows.Forms.Panel pnlFileList;
-        private System.Windows.Forms.Button btnLibrary;
-        private System.Windows.Forms.Button btnAddToLibrary;
+        private WallChanger.Translation.Controls.TranslatableButton btnLibrary;
+        private WallChanger.Translation.Controls.TranslatableButton btnAddToLibrary;
         private System.Windows.Forms.Label lblNextChange;
-        private System.Windows.Forms.Button btnLanguage;
-        private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.CheckBox chkRandomise;
-        private System.Windows.Forms.CheckBox chkFade;
+        private WallChanger.Translation.Controls.TranslatableButton btnLanguage;
+        private WallChanger.Translation.Controls.TranslatableButton btnSettings;
+        private WallChanger.Translation.Controls.TranslatableCheckBox chkRandomise;
+        private WallChanger.Translation.Controls.TranslatableCheckBox chkFade;
         private System.Windows.Forms.ComboBox cmbWallpaperStyle;
-        private System.Windows.Forms.Button btnProcessing;
-        private System.Windows.Forms.CheckBox chkChangeThemeColour;
+        private WallChanger.Translation.Controls.TranslatableButton btnProcessing;
+        private WallChanger.Translation.Controls.TranslatableCheckBox chkChangeThemeColour;
     }
 }
 

@@ -118,12 +118,12 @@ namespace WallChanger
             // Title.
             this.Text = LM.GetString("TITLE.MAIN");
             // Buttons.
-            btnNewConfig.Text = LM.GetString("MAIN.BUTTON.NEW");
-            btnRemoveConfig.Text = LM.GetString("MAIN.BUTTON.REMOVE");
-            btnTiming.Text = LM.GetString("MAIN.BUTTON.TIMING");
-            btnTray.Text = LM.GetString("MAIN.BUTTON.TRAY");
-            btnReload.Text = LM.GetString("MAIN.BUTTON.RELOAD");
-            btnSave.Text = LM.GetString("MAIN.BUTTON.SAVE");
+            //btnNewConfig.Text = LM.GetString("MAIN.BUTTON.NEW");
+            //btnRemoveConfig.Text = LM.GetString("MAIN.BUTTON.REMOVE");
+            //btnTiming.Text = LM.GetString("MAIN.BUTTON.TIMING");
+            //btnTray.Text = LM.GetString("MAIN.BUTTON.TRAY");
+            //btnReload.Text = LM.GetString("MAIN.BUTTON.RELOAD");
+            //btnSave.Text = LM.GetString("MAIN.BUTTON.SAVE");
             // Tooltips.
             ToolTips.SetToolTip(btnAddImage, LM.GetString("MAIN.TOOLTIP.ADD"));
             ToolTips.SetToolTip(btnRemoveImage, LM.GetString("MAIN.TOOLTIP.REMOVE"));
@@ -136,12 +136,12 @@ namespace WallChanger
             ToolTips.SetToolTip(btnSettings, LM.GetString("MAIN.TOOLTIP.SETTINGS"));
             ToolTips.SetToolTip(btnProcessing, LM.GetString("MAIN.TOOLTIP.PREPROCESSING"));
             // Labels.
-            grpConfig.Text = LM.GetString("MAIN.LABEL.CONFIGS");
-            grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
-            chkRandomise.Text = LM.GetString("MAIN.LABEL.RANDOMISE");
-            chkFade.Text = LM.GetString("MAIN.LABEL.FADE");
-            chkStartup.Text = LM.GetString("MAIN.LABEL.STARTUP");
-            chkChangeThemeColour.Text = LM.GetString("MAIN.LABEL.THEME_COLOUR");
+            //grpConfig.Text = LM.GetString("MAIN.LABEL.CONFIGS");
+            //grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
+            //chkRandomise.Text = LM.GetString("MAIN.LABEL.RANDOMISE");
+            //chkFade.Text = LM.GetString("MAIN.LABEL.FADE");
+            //chkStartup.Text = LM.GetString("MAIN.LABEL.STARTUP");
+            //chkChangeThemeColour.Text = LM.GetString("MAIN.LABEL.THEME_COLOUR");
 
             Wallpaper.WallpaperStyle style;
             style = cmbWallpaperStyle.SelectedItem != null ? (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem : new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
@@ -634,6 +634,21 @@ namespace WallChanger
                 this.ShowInTaskbar = false;
                 noiTray.Visible = true;
             }
+
+            // Set control language managers;
+            btnNewConfig.LanguageManager = LM;
+            btnRemoveConfig.LanguageManager = LM;
+            btnTiming.LanguageManager = LM;
+            btnTray.LanguageManager = LM;
+            btnReload.LanguageManager = LM;
+            btnSave.LanguageManager = LM;
+
+            chkChangeThemeColour.LanguageManager = LM;
+            chkFade.LanguageManager = LM;
+            chkRandomise.LanguageManager = LM;
+            chkStartup.LanguageManager = LM;
+            grpConfig.LanguageManager = LM;
+            grpImages.LanguageManager = LM;
 
             UpdateWallpaperAsync();
             Task.Run(Rainbow);

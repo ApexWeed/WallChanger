@@ -85,6 +85,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="KMeans.cs" />
+    <Compile Include="Layout\LayoutEngine.cs" />
     <Compile Include="PNG\IDATChunk.cs" />
     <Compile Include="PNG\IENDChunk.cs" />
     <Compile Include="PNG\IHDRChunk.cs" />
@@ -93,14 +94,30 @@
     <Compile Include="InfoProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Language.cs" />
+    <Compile Include="Translation\Controls\TranslatableButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableTitle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableTooltips.cs" />
+    <Compile Include="Translation\Controls\TranslatableCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Language.cs" />
     <Compile Include="LanguageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LanguageForm.Designer.cs">
       <DependentUpon>LanguageForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LanguageManager.cs" />
+    <Compile Include="Translation\LanguageManager.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LibraryForm.cs">
       <SubType>Form</SubType>
@@ -150,6 +167,9 @@
     </Compile>
     <Compile Include="TimingForm.Designer.cs">
       <DependentUpon>TimingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableLabel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utilities.cs" />
     <Compile Include="Wallpaper.cs" />
@@ -272,6 +292,7 @@
     <None Include="Resources\edit-language.png" />
     <None Include="Resources\gear.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
