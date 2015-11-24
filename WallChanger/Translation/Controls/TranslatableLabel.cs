@@ -6,7 +6,7 @@ namespace WallChanger.Translation.Controls
 {
     class TranslatableLabel : Label
     {
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [Description("The string to retrieve from the language manager.")]
         public string TranslationString
         {
@@ -17,9 +17,9 @@ namespace WallChanger.Translation.Controls
                 UpdateString(null, null);
             }
         }
-        private string translationString;
+        protected string translationString;
 
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [Description("The string to use when the language manager doesn't have a suitable string.")]
         [DefaultValue("")]
         public string DefaultString
@@ -27,7 +27,7 @@ namespace WallChanger.Translation.Controls
             get { return defaultString; }
             set { defaultString = value; }
         }
-        private string defaultString;
+        protected string defaultString;
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public LanguageManager LanguageManager
@@ -42,9 +42,9 @@ namespace WallChanger.Translation.Controls
                 }
             }
         }
-        private LanguageManager LM;
+        protected LanguageManager LM;
 
-        public void UpdateString(object sender, EventArgs e)
+        public virtual void UpdateString(object sender, EventArgs e)
         {
             if (DesignMode)
             {
@@ -54,6 +54,14 @@ namespace WallChanger.Translation.Controls
             {
                 if (LM == null)
                     return;
+                if (string.IsNullOrWhiteSpace(translationString))
+                {
+                    if (string.IsNullOrWhiteSpace(defaultString))
+                    {
+                        return;
+                    }
+                    Text = defaultString;
+                }
                 if (string.IsNullOrWhiteSpace(defaultString))
                 {
                     Text = LM.GetString(translationString);

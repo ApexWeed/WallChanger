@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WallChanger.Translation.Controls
 {
-    class TranslatableTitle : Component, ISupportInitialize
+    class TranslatableTitle : Component
     {
-        private Form parentForm;
+        public Form ParentForm
+        {
+            get { return parentForm; }
+            set { parentForm = value; }
+        }
+        protected Form parentForm;
 
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [Description("The string to retrieve from the language manager.")]
         public string TranslationString
         {
@@ -24,9 +25,9 @@ namespace WallChanger.Translation.Controls
                 UpdateString(null, null);
             }
         }
-        private string translationString;
+        protected string translationString;
 
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [Description("The string to use when the language manager doesn't have a suitable string.")]
         [DefaultValue("")]
         public string DefaultString
@@ -34,7 +35,7 @@ namespace WallChanger.Translation.Controls
             get { return defaultString; }
             set { defaultString = value; }
         }
-        private string defaultString;
+        protected string defaultString;
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public LanguageManager LanguageManager
@@ -49,9 +50,9 @@ namespace WallChanger.Translation.Controls
                 }
             }
         }
-        private LanguageManager LM;
+        protected LanguageManager LM;
 
-        public void UpdateString(object sender, EventArgs e)
+        public virtual void UpdateString(object sender, EventArgs e)
         {
             if (DesignMode)
             {
@@ -61,6 +62,14 @@ namespace WallChanger.Translation.Controls
             {
                 if (LM == null)
                     return;
+                if (string.IsNullOrWhiteSpace(translationString))
+                {
+                    if (string.IsNullOrWhiteSpace(defaultString))
+                    {
+                        return;
+                    }
+                    parentForm.Text = defaultString;
+                }
                 if (string.IsNullOrWhiteSpace(defaultString))
                 {
                     parentForm.Text = LM.GetString(translationString);
@@ -72,25 +81,21 @@ namespace WallChanger.Translation.Controls
             }
         }
 
-        void ISupportInitialize.BeginInit()
+        public override ISite Site
         {
-            return;
-        }
-
-        void ISupportInitialize.EndInit()
-        {
-            if (parentForm != null)
-                return; // do nothing if it is set
-            IDesignerHost host;
-            if (Site != null)
+            get { return base.Site; }
+            set
             {
-                host = Site.GetService(typeof(IDesignerHost)) as IDesignerHost;
-                if (host != null)
+                base.Site = value;
+                if (value == null)
                 {
-                    if (host.RootComponent is Form)
-                    {
-                        parentForm = (Form)host.RootComponent;
-                    }
+                    return;
+                }
+                var host = value.GetService(typeof(IDesignerHost)) as IDesignerHost;
+                var componentHost = host.RootComponent;
+                if (componentHost is ContainerControl)
+                {
+                    parentForm = (componentHost as ContainerControl).FindForm();
                 }
             }
         }

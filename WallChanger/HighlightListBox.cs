@@ -23,7 +23,7 @@ namespace WallChanger
 #pragma warning disable CC0017 // Use auto property
         [Description("Colour to use if HighlightMode is set to Foreground or Background.")]
 #pragma warning restore CC0017 // Use auto property
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [DefaultValue(typeof(Color), "LightBlue")]
         public Color HighlightColour
         {
@@ -34,7 +34,7 @@ namespace WallChanger
 #pragma warning disable CC0017 // Use auto property
         [Description("Mode to use when highlighting items.")]
 #pragma warning restore CC0017 // Use auto property
-        [Category(nameof(Appearance))]
+        [Category("Appearance")]
         [DefaultValue(typeof(HighlightMode), "Background")]
         public HighlightMode HighlightingMode
         {

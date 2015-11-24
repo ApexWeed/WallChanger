@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace WallChanger.Translation.Controls
 {
-    class TranslatableGroupBox : GroupBox
+    class TranslatableNotifyIcon : Label
     {
         [Category("Appearance")]
         [Description("The string to retrieve from the language manager.")]
@@ -54,14 +54,6 @@ namespace WallChanger.Translation.Controls
             {
                 if (LM == null)
                     return;
-                if (string.IsNullOrWhiteSpace(translationString))
-                {
-                    if (string.IsNullOrWhiteSpace(defaultString))
-                    {
-                        return;
-                    }
-                    Text = defaultString;
-                }
                 if (string.IsNullOrWhiteSpace(defaultString))
                 {
                     Text = LM.GetString(translationString);

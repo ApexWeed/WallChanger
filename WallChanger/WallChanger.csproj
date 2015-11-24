@@ -97,10 +97,34 @@
     <Compile Include="Translation\Controls\TranslatableButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Translation\Controls\TranslatableButtonFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableCheckBoxFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableGroupBoxFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableLabelFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableNotifyIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableNotifyIconFormat.cs" />
+    <Compile Include="Translation\Controls\TranslatableRadioButtonFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableTitleFormat.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Translation\Controls\TranslatableTitle.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Translation\Controls\TranslatableTooltips.cs" />
+    <Compile Include="Translation\Controls\TranslatableTooltips.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Translation\Controls\TranslatableCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -110,6 +134,7 @@
     <Compile Include="Translation\Controls\TranslatableRadioButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Translation\Controls\TranslatableTooltipsFormat.cs" />
     <Compile Include="Translation\Language.cs" />
     <Compile Include="LanguageForm.cs">
       <SubType>Form</SubType>

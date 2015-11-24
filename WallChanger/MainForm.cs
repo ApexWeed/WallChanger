@@ -116,7 +116,7 @@ namespace WallChanger
         public void LocaliseInterface()
         {
             // Title.
-            this.Text = LM.GetString("TITLE.MAIN");
+            //this.Text = LM.GetString("TITLE.MAIN");
             // Buttons.
             //btnNewConfig.Text = LM.GetString("MAIN.BUTTON.NEW");
             //btnRemoveConfig.Text = LM.GetString("MAIN.BUTTON.REMOVE");
@@ -649,6 +649,8 @@ namespace WallChanger
             chkStartup.LanguageManager = LM;
             grpConfig.LanguageManager = LM;
             grpImages.LanguageManager = LM;
+            lblNextChange.LanguageManager = LM;
+            MainTitle.LanguageManager = LM;
 
             UpdateWallpaperAsync();
             Task.Run(Rainbow);
@@ -671,7 +673,7 @@ namespace WallChanger
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CC0021:Use nameof", Justification = "Not actually program elements.")]
         private void LoadConfig()
         {
-            grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
+            grpImages.Parameters = new string[] { Properties.Settings.Default.CurrentConfig };
 
             if (!File.Exists(Path.Combine(GlobalVars.ApplicationPath, $"{Properties.Settings.Default.CurrentConfig}.cfg")))
             {
@@ -1466,7 +1468,7 @@ namespace WallChanger
                     // Report progress.
                     var nextChange = DateTime.Now.AddMilliseconds(sleepTime);
                     var nextChangeTimeSpan = nextChange - DateTime.Now;
-                    lblNextChange.Text = string.Format(LM.GetStringDefault("MAIN.LABEL.NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
+                    lblNextChange.Parameters = new object[] { nextChangeTimeSpan };
                     noiTray.Text = string.Format(LM.GetStringDefault("TRAY.LABEL.NEXT_CHANGE", "NEXT_CHANGE: {0:hh\\:mm\\:ss}"), nextChangeTimeSpan);
                     LastIndex = index;
 

@@ -43,7 +43,7 @@
             this.pnlConfigButtons = new System.Windows.Forms.Panel();
             this.btnNewConfig = new WallChanger.Translation.Controls.TranslatableButton();
             this.btnRemoveConfig = new WallChanger.Translation.Controls.TranslatableButton();
-            this.grpImages = new WallChanger.Translation.Controls.TranslatableGroupBox();
+            this.grpImages = new WallChanger.Translation.Controls.TranslatableGroupBoxFormat();
             this.pnlImagesInner = new System.Windows.Forms.Panel();
             this.pnlFileList = new System.Windows.Forms.Panel();
             this.lstImages = new WallChanger.HighlightListBox();
@@ -66,9 +66,10 @@
             this.cmbWallpaperStyle = new System.Windows.Forms.ComboBox();
             this.chkFade = new WallChanger.Translation.Controls.TranslatableCheckBox();
             this.chkRandomise = new WallChanger.Translation.Controls.TranslatableCheckBox();
-            this.lblNextChange = new System.Windows.Forms.Label();
+            this.lblNextChange = new WallChanger.Translation.Controls.TranslatableLabelFormat();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSpacer = new System.Windows.Forms.Panel();
+            this.MainTitle = new WallChanger.Translation.Controls.TranslatableTitle();
             this.grpConfig.SuspendLayout();
             this.pnlConfigInner.SuspendLayout();
             this.pnlConfigButtons.SuspendLayout();
@@ -229,6 +230,7 @@
             this.grpImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpImages.Location = new System.Drawing.Point(0, 0);
             this.grpImages.Name = "grpImages";
+            this.grpImages.Parameters = new object[0];
             this.grpImages.Size = new System.Drawing.Size(597, 491);
             this.grpImages.TabIndex = 10;
             this.grpImages.TabStop = false;
@@ -500,11 +502,14 @@
             // lblNextChange
             // 
             this.lblNextChange.AutoSize = true;
+            this.lblNextChange.DefaultString = "NEXT_CHANGE: {0:hh\\\\:mm\\\\:ss}";
             this.lblNextChange.Location = new System.Drawing.Point(3, 169);
             this.lblNextChange.Name = "lblNextChange";
+            this.lblNextChange.Parameters = new object[0];
             this.lblNextChange.Size = new System.Drawing.Size(152, 12);
             this.lblNextChange.TabIndex = 9;
             this.lblNextChange.Text = "MAIN.LABEL.NEXT_CHANGE";
+            this.lblNextChange.TranslationString = "MAIN.LABEL.NEXT_CHANGE";
             // 
             // pnlLeft
             // 
@@ -524,6 +529,12 @@
             this.pnlSpacer.Size = new System.Drawing.Size(8, 491);
             this.pnlSpacer.TabIndex = 11;
             // 
+            // MainTitle
+            // 
+            this.MainTitle.DefaultString = null;
+            this.MainTitle.ParentForm = this;
+            this.MainTitle.TranslationString = "TITLE.MAIN";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -533,7 +544,7 @@
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlRight);
             this.Name = "MainForm";
-            this.Text = "Wall Changer";
+            this.Text = "TITLE.MAIN";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
@@ -570,7 +581,7 @@
         private WallChanger.Translation.Controls.TranslatableButton btnRemoveConfig;
         private WallChanger.Translation.Controls.TranslatableButton btnNewConfig;
         private System.Windows.Forms.ListBox lstConfigs;
-        private WallChanger.Translation.Controls.TranslatableGroupBox grpImages;
+        private WallChanger.Translation.Controls.TranslatableGroupBoxFormat grpImages;
         private System.Windows.Forms.ToolTip ToolTips;
         private WallChanger.Translation.Controls.TranslatableButton btnClear;
         private WallChanger.Translation.Controls.TranslatableButton btnMoveDown;
@@ -587,7 +598,7 @@
         private System.Windows.Forms.Panel pnlFileList;
         private WallChanger.Translation.Controls.TranslatableButton btnLibrary;
         private WallChanger.Translation.Controls.TranslatableButton btnAddToLibrary;
-        private System.Windows.Forms.Label lblNextChange;
+        private WallChanger.Translation.Controls.TranslatableLabelFormat lblNextChange;
         private WallChanger.Translation.Controls.TranslatableButton btnLanguage;
         private WallChanger.Translation.Controls.TranslatableButton btnSettings;
         private WallChanger.Translation.Controls.TranslatableCheckBox chkRandomise;
@@ -595,6 +606,7 @@
         private System.Windows.Forms.ComboBox cmbWallpaperStyle;
         private WallChanger.Translation.Controls.TranslatableButton btnProcessing;
         private WallChanger.Translation.Controls.TranslatableCheckBox chkChangeThemeColour;
+        private Translation.Controls.TranslatableTitle MainTitle;
     }
 }
 
