@@ -43,25 +43,18 @@ namespace WallChanger
             if (lstDuplicates.Items.Count > 0)
                 lstDuplicates.SelectedIndex = 0;
 
-            LocaliseInterface();
-        }
+            DuplicateTitle.LanguageManager = LM;
+            btnAuto.LanguageManager = LM;
+            btnDelete.LanguageManager = LM;
+            btnKeep.LanguageManager = LM;
+            btnRemove.LanguageManager = LM;
+            lblImageSize.LanguageManager = LM;
 
-        /// <summary>
-        /// Sets the static strings to the chosen language and cascades to the main window.
-        /// </summary>
-        public void LocaliseInterface()
-        {
-            // Title.
-            this.Text = LM.GetString("TITLE.DUPLICATE");
-            // Buttons.
-            btnKeep.Text = LM.GetString("DUPE.BUTTON.KEEP");
-            btnRemove.Text = LM.GetString("DUPE.BUTTON.REMOVE");
-            btnDelete.Text = LM.GetString("DUPE.BUTTON.DELETE");
-            btnAuto.Text = LM.GetString("DUPE.BUTTON.AUTO");
-            // Tooltips.
-            // Labels.
-
-            // Cascade.
+            trtToolTips.LanguageManager = LM;
+            trtToolTips.UpdateControl(btnAuto, "DUPE.TOOLTIP.AUTO");
+            trtToolTips.UpdateControl(btnDelete, "DUPE.TOOLTIP.DELETE");
+            trtToolTips.UpdateControl(btnKeep, "DUPE.TOOLTIP.KEEP");
+            trtToolTips.UpdateControl(btnRemove, "DUPE.TOOLTIP.REMOVE");
         }
 
         /// <summary>
@@ -204,7 +197,7 @@ namespace WallChanger
 
                 lblFilePath.Text = duplicate.Path;
                 picPreview.Image = Imaging.FromFile(duplicate.Path);
-                lblImageSize.Text = string.Format(LM.GetStringDefault("DUPE.LABEL.IMAGE_SIZE", "DUPE.LABEL.IMAGE_SIZE {0}x{1}px"), picPreview.Image.Width, picPreview.Image.Height);
+                lblImageSize.Parameters = new object[] { picPreview.Image.Width, picPreview.Image.Height };
             }
         }
 

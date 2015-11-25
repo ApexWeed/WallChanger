@@ -52,6 +52,12 @@ namespace WallChanger.Translation.Controls
         }
         protected LanguageManager LM;
 
+        public event EventHandler<EventArgs> StringChanged;
+        protected void FireStringChanged(object sender, EventArgs e)
+        {
+            StringChanged?.Invoke(sender, e);
+        }
+
         public virtual void UpdateString(object sender, EventArgs e)
         {
             if (DesignMode)
@@ -78,6 +84,8 @@ namespace WallChanger.Translation.Controls
                 {
                     parentForm.Text = LM.GetStringDefault(translationString, defaultString);
                 }
+
+                FireStringChanged(this, e);
             }
         }
 

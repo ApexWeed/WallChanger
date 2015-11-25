@@ -111,61 +111,6 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Sets the static strings to the chosen language.
-        /// </summary>
-        public void LocaliseInterface()
-        {
-            // Title.
-            //this.Text = LM.GetString("TITLE.MAIN");
-            // Buttons.
-            //btnNewConfig.Text = LM.GetString("MAIN.BUTTON.NEW");
-            //btnRemoveConfig.Text = LM.GetString("MAIN.BUTTON.REMOVE");
-            //btnTiming.Text = LM.GetString("MAIN.BUTTON.TIMING");
-            //btnTray.Text = LM.GetString("MAIN.BUTTON.TRAY");
-            //btnReload.Text = LM.GetString("MAIN.BUTTON.RELOAD");
-            //btnSave.Text = LM.GetString("MAIN.BUTTON.SAVE");
-            // Tooltips.
-            ToolTips.SetToolTip(btnAddImage, LM.GetString("MAIN.TOOLTIP.ADD"));
-            ToolTips.SetToolTip(btnRemoveImage, LM.GetString("MAIN.TOOLTIP.REMOVE"));
-            ToolTips.SetToolTip(btnMoveUp, LM.GetString("MAIN.TOOLTIP.MOVE_UP"));
-            ToolTips.SetToolTip(btnMoveDown, LM.GetString("MAIN.TOOLTIP.MOVE_DOWN"));
-            ToolTips.SetToolTip(btnClear, LM.GetString("MAIN.TOOLTIP.CLEAR"));
-            ToolTips.SetToolTip(btnLibrary, LM.GetString("MAIN.TOOLTIP.LIBRARY"));
-            ToolTips.SetToolTip(btnAddToLibrary, LM.GetString("MAIN.TOOLTIP.LIBRARY_ADD"));
-            ToolTips.SetToolTip(btnLanguage, LM.GetString("MAIN.TOOLTIP.LANGUAGE"));
-            ToolTips.SetToolTip(btnSettings, LM.GetString("MAIN.TOOLTIP.SETTINGS"));
-            ToolTips.SetToolTip(btnProcessing, LM.GetString("MAIN.TOOLTIP.PREPROCESSING"));
-            // Labels.
-            //grpConfig.Text = LM.GetString("MAIN.LABEL.CONFIGS");
-            //grpImages.Text = string.Format(LM.GetString("MAIN.LABEL.IMAGES"), Properties.Settings.Default.CurrentConfig);
-            //chkRandomise.Text = LM.GetString("MAIN.LABEL.RANDOMISE");
-            //chkFade.Text = LM.GetString("MAIN.LABEL.FADE");
-            //chkStartup.Text = LM.GetString("MAIN.LABEL.STARTUP");
-            //chkChangeThemeColour.Text = LM.GetString("MAIN.LABEL.THEME_COLOUR");
-
-            Wallpaper.WallpaperStyle style;
-            style = cmbWallpaperStyle.SelectedItem != null ? (WallpaperStyleWrapper)cmbWallpaperStyle.SelectedItem : new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle);
-
-            cmbWallpaperStyle.Items.Clear();
-            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
-            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
-            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
-            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
-            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
-            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
-                cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
-            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
-
-            // Cascade.
-            if (TimingFormChild != null)
-                TimingFormChild.LocaliseInterface();
-            if (SettingsFormChild != null)
-                SettingsFormChild.LocaliseInterface();
-            if (GlobalVars.LibraryForm != null)
-                GlobalVars.LibraryForm.LocaliseInterface();
-        }
-
-        /// <summary>
         /// Updates the times in the image list.
         /// </summary>
         /// <param name="Offset">The offset from 0 that should be applied.</param>
@@ -621,20 +566,6 @@ namespace WallChanger
         /// <param name="e">Event args associated with this event.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue(nameof(WallChanger)) == $"\"{Application.ExecutablePath}\" hide";
-
-            LocaliseInterface();
-            LoadSettings();
-
-            //TimerWorker.RunWorkerAsync();
-
-            if (AutoStarted)
-            {
-                this.Hide();
-                this.ShowInTaskbar = false;
-                noiTray.Visible = true;
-            }
-
             // Set control language managers;
             btnNewConfig.LanguageManager = LM;
             btnRemoveConfig.LanguageManager = LM;
@@ -651,6 +582,42 @@ namespace WallChanger
             grpImages.LanguageManager = LM;
             lblNextChange.LanguageManager = LM;
             MainTitle.LanguageManager = LM;
+
+            trtToolTips.LanguageManager = LM;
+            trtToolTips.UpdateControl(btnAddImage, "MAIN.TOOLTIP.ADD");
+            trtToolTips.UpdateControl(btnRemoveImage, "MAIN.TOOLTIP.REMOVE");
+            trtToolTips.UpdateControl(btnMoveUp, "MAIN.TOOLTIP.MOVE_UP");
+            trtToolTips.UpdateControl(btnMoveDown, "MAIN.TOOLTIP.MOVE_DOWN");
+            trtToolTips.UpdateControl(btnClear, "MAIN.TOOLTIP.CLEAR");
+            trtToolTips.UpdateControl(btnLibrary, "MAIN.TOOLTIP.LIBRARY");
+            trtToolTips.UpdateControl(btnAddToLibrary, "MAIN.TOOLTIP.LIBRARY_ADD");
+            trtToolTips.UpdateControl(btnLanguage, "MAIN.TOOLTIP.LANGUAGE");
+            trtToolTips.UpdateControl(btnSettings, "MAIN.TOOLTIP.SETTINGS");
+            trtToolTips.UpdateControl(btnProcessing, "MAIN.TOOLTIP.PREPROCESSING");
+
+            cmbWallpaperStyle.LanguageManager = LM;
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
+            cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
+            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
+            {
+                cmbWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
+            }
+
+            chkStartup.Checked = (string)Registry.CurrentUser.OpenSubKey(REG_AUTORUN, true).GetValue(nameof(WallChanger)) == $"\"{Application.ExecutablePath}\" hide";
+
+            LoadSettings();
+
+            //TimerWorker.RunWorkerAsync();
+
+            if (AutoStarted)
+            {
+                this.Hide();
+                this.ShowInTaskbar = false;
+                noiTray.Visible = true;
+            }
 
             UpdateWallpaperAsync();
             Task.Run(Rainbow);

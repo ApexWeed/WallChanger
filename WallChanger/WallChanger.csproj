@@ -103,6 +103,12 @@
     <Compile Include="Translation\Controls\TranslatableCheckBoxFormat.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Translation\Controls\TranslatableColumnHeaders.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Translation\Controls\TranslatableComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Translation\Controls\TranslatableGroupBoxFormat.cs">
       <SubType>Component</SubType>
     </Compile>

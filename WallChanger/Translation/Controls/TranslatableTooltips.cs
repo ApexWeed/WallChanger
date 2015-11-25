@@ -49,6 +49,46 @@ namespace WallChanger.Translation.Controls
         }
         protected LanguageManager LM;
 
+        public event EventHandler<EventArgs> StringChanged;
+        protected void FireStringChanged(object sender, EventArgs e)
+        {
+            StringChanged?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Adds or updates an existing control's tooltips.
+        /// </summary>
+        /// <param name="Control">The control to add / update.</param>
+        /// <param name="TranslationString">The string to retrieve from the language manager.</param>
+        /// <param name="DefaultString">The string to use if the language manager doesn't have a suitable string.</param>
+        public void UpdateControl(Control Control, string TranslationString, string DefaultString = "")
+        {
+            if (translationStrings.ContainsKey(Control))
+            {
+                translationStrings[Control] = TranslationString;
+                if (DefaultString != "")
+                {
+                    if (defaultStrings.ContainsKey(Control))
+                    {
+                        defaultStrings[Control] = DefaultString;
+                    }
+                    else
+                    {
+                        defaultStrings.Add(Control, DefaultString);
+                    }
+                }
+            }
+            else
+            {
+                translationStrings.Add(Control, TranslationString);
+                if (DefaultString != "")
+                {
+                    defaultStrings.Add(Control, DefaultString);
+                }
+            }
+            UpdateString(Control);
+        }
+
         public virtual void LanguageChanged(object sender, EventArgs e)
         {
             UpdateString(null);
@@ -58,24 +98,7 @@ namespace WallChanger.Translation.Controls
         {
             if (toolTips != null)
             {
-                if (DesignMode)
-                {
-                    if (Control == null)
-                    {
-                        foreach (var pair in translationStrings)
-                        {
-                            toolTips.SetToolTip(pair.Key, pair.Value);
-                        }
-                    }
-                    else
-                    {
-                        if (translationStrings.ContainsKey(Control))
-                        {
-                            toolTips.SetToolTip(Control, translationStrings[Control]);
-                        }
-                    }
-                }
-                else
+                if (!DesignMode)
                 {
                     if (LM == null)
                         return;
@@ -115,6 +138,8 @@ namespace WallChanger.Translation.Controls
                             }
                         }
                     }
+
+                    FireStringChanged(this, null);
                 }
             }
         }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LibraryForm));
             this.spcContainer = new System.Windows.Forms.SplitContainer();
             this.pnlImageList = new System.Windows.Forms.Panel();
             this.lsvDisplay = new System.Windows.Forms.ListView();
@@ -44,42 +45,42 @@
             this.btnRemoveFromLibrary = new System.Windows.Forms.Button();
             this.btnAddToConfig = new System.Windows.Forms.Button();
             this.btnTagFilterClear = new System.Windows.Forms.Button();
-            this.lblFilterTag = new System.Windows.Forms.Label();
+            this.lblFilterTag = new WallChanger.Translation.Controls.TranslatableLabel();
             this.cmbTagFilter = new System.Windows.Forms.ComboBox();
             this.btnCharacterFilterClear = new System.Windows.Forms.Button();
-            this.lblFilterCharacter = new System.Windows.Forms.Label();
+            this.lblFilterCharacter = new WallChanger.Translation.Controls.TranslatableLabel();
             this.cmbCharacterFilter = new System.Windows.Forms.ComboBox();
             this.btnShowNameFilterClear = new System.Windows.Forms.Button();
-            this.lblFilterShowName = new System.Windows.Forms.Label();
+            this.lblFilterShowName = new WallChanger.Translation.Controls.TranslatableLabel();
             this.cmbShowNameFilter = new System.Windows.Forms.ComboBox();
             this.btnCategoryFilterClear = new System.Windows.Forms.Button();
             this.btnClearFilters = new System.Windows.Forms.Button();
-            this.lblFilterCategory = new System.Windows.Forms.Label();
+            this.lblFilterCategory = new WallChanger.Translation.Controls.TranslatableLabel();
             this.cmbCategoryFilter = new System.Windows.Forms.ComboBox();
             this.btnExpand = new System.Windows.Forms.Button();
-            this.lblFilters = new System.Windows.Forms.Label();
+            this.lblFilters = new WallChanger.Translation.Controls.TranslatableLabel();
             this.pnlBottomRight = new System.Windows.Forms.Panel();
             this.pnlTagContainer = new System.Windows.Forms.Panel();
             this.pnlTagList = new System.Windows.Forms.Panel();
             this.lstTags = new System.Windows.Forms.ListBox();
             this.pnlTagButtons = new System.Windows.Forms.Panel();
-            this.lblTags = new System.Windows.Forms.Label();
+            this.lblTags = new WallChanger.Translation.Controls.TranslatableLabel();
             this.btnAddNewTag = new System.Windows.Forms.Button();
             this.btnRemoveTag = new System.Windows.Forms.Button();
             this.btnClearTags = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
-            this.lblImageSize = new System.Windows.Forms.Label();
+            this.lblImageSize = new WallChanger.Translation.Controls.TranslatableLabelFormat();
             this.btnAddNewCharacter = new System.Windows.Forms.Button();
             this.lstCharacters = new System.Windows.Forms.ListBox();
             this.btnClearCharacters = new System.Windows.Forms.Button();
             this.btnRemoveCharacter = new System.Windows.Forms.Button();
-            this.lblCharacters = new System.Windows.Forms.Label();
+            this.lblCharacters = new WallChanger.Translation.Controls.TranslatableLabel();
             this.btnClearShowName = new System.Windows.Forms.Button();
             this.btnClearCategory = new System.Windows.Forms.Button();
             this.btnAddShowName = new System.Windows.Forms.Button();
             this.cmbShowName = new System.Windows.Forms.ComboBox();
-            this.lblShowName = new System.Windows.Forms.Label();
-            this.lblCategory = new System.Windows.Forms.Label();
+            this.lblShowName = new WallChanger.Translation.Controls.TranslatableLabel();
+            this.lblCategory = new WallChanger.Translation.Controls.TranslatableLabel();
             this.btnAddCategory = new System.Windows.Forms.Button();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
@@ -90,6 +91,9 @@
             this.tspProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.pnlStatusbar = new System.Windows.Forms.Panel();
             this.pnlMainContainer = new System.Windows.Forms.Panel();
+            this.LibraryTitle = new WallChanger.Translation.Controls.TranslatableTitle();
+            this.trtToolTips = new WallChanger.Translation.Controls.TranslatableTooltips();
+            this.trcColumnHeaders = new WallChanger.Translation.Controls.TranslatableColumnHeaders();
             ((System.ComponentModel.ISupportInitialize)(this.spcContainer)).BeginInit();
             this.spcContainer.Panel1.SuspendLayout();
             this.spcContainer.Panel2.SuspendLayout();
@@ -290,11 +294,13 @@
             // lblFilterTag
             // 
             this.lblFilterTag.AutoSize = true;
+            this.lblFilterTag.DefaultString = null;
             this.lblFilterTag.Location = new System.Drawing.Point(198, 87);
             this.lblFilterTag.Name = "lblFilterTag";
-            this.lblFilterTag.Size = new System.Drawing.Size(161, 12);
+            this.lblFilterTag.Size = new System.Drawing.Size(155, 12);
             this.lblFilterTag.TabIndex = 25;
             this.lblFilterTag.Text = "LIBRARY.LABEL.FILTER.TAG";
+            this.lblFilterTag.TranslationString = "LIBRARY.LABEL.FILTER.TAG";
             // 
             // cmbTagFilter
             // 
@@ -319,11 +325,13 @@
             // lblFilterCharacter
             // 
             this.lblFilterCharacter.AutoSize = true;
+            this.lblFilterCharacter.DefaultString = null;
             this.lblFilterCharacter.Location = new System.Drawing.Point(3, 87);
             this.lblFilterCharacter.Name = "lblFilterCharacter";
-            this.lblFilterCharacter.Size = new System.Drawing.Size(208, 12);
+            this.lblFilterCharacter.Size = new System.Drawing.Size(202, 12);
             this.lblFilterCharacter.TabIndex = 22;
             this.lblFilterCharacter.Text = "LIBRARY.LABEL.FILTER.CHARACTER";
+            this.lblFilterCharacter.TranslationString = "LIBRARY.LABEL.FILTER.CHARACTER";
             // 
             // cmbCharacterFilter
             // 
@@ -348,11 +356,13 @@
             // lblFilterShowName
             // 
             this.lblFilterShowName.AutoSize = true;
+            this.lblFilterShowName.DefaultString = null;
             this.lblFilterShowName.Location = new System.Drawing.Point(198, 34);
             this.lblFilterShowName.Name = "lblFilterShowName";
-            this.lblFilterShowName.Size = new System.Drawing.Size(206, 12);
+            this.lblFilterShowName.Size = new System.Drawing.Size(200, 12);
             this.lblFilterShowName.TabIndex = 19;
             this.lblFilterShowName.Text = "LIBRARY.LABEL.FILTER.SHOW_NAME";
+            this.lblFilterShowName.TranslationString = "LIBRARY.LABEL.FILTER.SHOW_NAME";
             // 
             // cmbShowNameFilter
             // 
@@ -388,11 +398,13 @@
             // lblFilterCategory
             // 
             this.lblFilterCategory.AutoSize = true;
+            this.lblFilterCategory.DefaultString = null;
             this.lblFilterCategory.Location = new System.Drawing.Point(3, 34);
             this.lblFilterCategory.Name = "lblFilterCategory";
-            this.lblFilterCategory.Size = new System.Drawing.Size(199, 12);
+            this.lblFilterCategory.Size = new System.Drawing.Size(193, 12);
             this.lblFilterCategory.TabIndex = 16;
             this.lblFilterCategory.Text = "LIBRARY.LABEL.FILTER.CATEGORY";
+            this.lblFilterCategory.TranslationString = "LIBRARY.LABEL.FILTER.CATEGORY";
             // 
             // cmbCategoryFilter
             // 
@@ -417,11 +429,13 @@
             // lblFilters
             // 
             this.lblFilters.AutoSize = true;
+            this.lblFilters.DefaultString = null;
             this.lblFilters.Location = new System.Drawing.Point(3, 8);
             this.lblFilters.Name = "lblFilters";
-            this.lblFilters.Size = new System.Drawing.Size(141, 12);
+            this.lblFilters.Size = new System.Drawing.Size(137, 12);
             this.lblFilters.TabIndex = 0;
             this.lblFilters.Text = "LIBRARY.LABEL.FILTERS";
+            this.lblFilters.TranslationString = "LIBRARY.LABEL.FILTERS";
             // 
             // pnlBottomRight
             // 
@@ -478,11 +492,13 @@
             // lblTags
             // 
             this.lblTags.AutoSize = true;
+            this.lblTags.DefaultString = null;
             this.lblTags.Location = new System.Drawing.Point(0, 6);
             this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(119, 12);
+            this.lblTags.Size = new System.Drawing.Size(115, 12);
             this.lblTags.TabIndex = 1;
             this.lblTags.Text = "LIBRARY.LABEL.TAG";
+            this.lblTags.TranslationString = "LIBRARY.LABEL.TAG";
             // 
             // btnAddNewTag
             // 
@@ -542,11 +558,14 @@
             // lblImageSize
             // 
             this.lblImageSize.AutoSize = true;
+            this.lblImageSize.DefaultString = null;
             this.lblImageSize.Location = new System.Drawing.Point(4, 3);
             this.lblImageSize.Name = "lblImageSize";
-            this.lblImageSize.Size = new System.Drawing.Size(159, 12);
+            this.lblImageSize.Parameters = new object[0];
+            this.lblImageSize.Size = new System.Drawing.Size(155, 12);
             this.lblImageSize.TabIndex = 14;
             this.lblImageSize.Text = "LIBRARY.LABEL.IMAGE_SIZE";
+            this.lblImageSize.TranslationString = "LIBRARY.LABEL.IMAGE_SIZE";
             // 
             // btnAddNewCharacter
             // 
@@ -593,11 +612,13 @@
             // lblCharacters
             // 
             this.lblCharacters.AutoSize = true;
+            this.lblCharacters.DefaultString = null;
             this.lblCharacters.Location = new System.Drawing.Point(4, 128);
             this.lblCharacters.Name = "lblCharacters";
-            this.lblCharacters.Size = new System.Drawing.Size(166, 12);
+            this.lblCharacters.Size = new System.Drawing.Size(162, 12);
             this.lblCharacters.TabIndex = 9;
             this.lblCharacters.Text = "LIBRARY.LABEL.CHARACTER";
+            this.lblCharacters.TranslationString = "LIBRARY.LABEL.CHARACTER";
             // 
             // btnClearShowName
             // 
@@ -644,20 +665,24 @@
             // lblShowName
             // 
             this.lblShowName.AutoSize = true;
+            this.lblShowName.DefaultString = null;
             this.lblShowName.Location = new System.Drawing.Point(3, 76);
             this.lblShowName.Name = "lblShowName";
-            this.lblShowName.Size = new System.Drawing.Size(164, 12);
+            this.lblShowName.Size = new System.Drawing.Size(160, 12);
             this.lblShowName.TabIndex = 4;
             this.lblShowName.Text = "LIBRARY.LABEL.SHOW_NAME";
+            this.lblShowName.TranslationString = "LIBRARY.LABEL.SHOW_NAME";
             // 
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
+            this.lblCategory.DefaultString = null;
             this.lblCategory.Location = new System.Drawing.Point(4, 23);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(157, 12);
+            this.lblCategory.Size = new System.Drawing.Size(153, 12);
             this.lblCategory.TabIndex = 2;
             this.lblCategory.Text = "LIBRARY.LABEL.CATEGORY";
+            this.lblCategory.TranslationString = "LIBRARY.LABEL.CATEGORY";
             // 
             // btnAddCategory
             // 
@@ -704,7 +729,7 @@
             // tslStatus
             // 
             this.tslStatus.Name = "tslStatus";
-            this.tslStatus.Size = new System.Drawing.Size(149, 17);
+            this.tslStatus.Size = new System.Drawing.Size(144, 17);
             this.tslStatus.Text = "LIBRARY.MESSAGE.READY";
             // 
             // tslStatistics
@@ -736,6 +761,23 @@
             this.pnlMainContainer.Size = new System.Drawing.Size(857, 482);
             this.pnlMainContainer.TabIndex = 4;
             // 
+            // LibraryTitle
+            // 
+            this.LibraryTitle.DefaultString = null;
+            this.LibraryTitle.ParentForm = this;
+            this.LibraryTitle.TranslationString = "TITLE.LIBRARY";
+            // 
+            // trtToolTips
+            // 
+            this.trtToolTips.DefaultStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.Control, string>)(resources.GetObject("trtToolTips.DefaultStrings")));
+            this.trtToolTips.ToolTips = null;
+            this.trtToolTips.TranslationStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.Control, string>)(resources.GetObject("trtToolTips.TranslationStrings")));
+            // 
+            // trcColumnHeaders
+            // 
+            this.trcColumnHeaders.DefaultStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.ColumnHeader, string>)(resources.GetObject("trcColumnHeaders.DefaultStrings")));
+            this.trcColumnHeaders.TranslationStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.ColumnHeader, string>)(resources.GetObject("trcColumnHeaders.TranslationStrings")));
+            // 
             // LibraryForm
             // 
             this.AllowDrop = true;
@@ -746,7 +788,7 @@
             this.Controls.Add(this.pnlStatusbar);
             this.MinimumSize = new System.Drawing.Size(16, 540);
             this.Name = "LibraryForm";
-            this.Text = "LibraryForm";
+            this.Text = "TITLE.LIBRARY";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LibraryForm_FormClosed);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.LibraryForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.LibraryForm_DragEnter);
@@ -778,7 +820,7 @@
         private System.Windows.Forms.SplitContainer spcContainer;
         private System.Windows.Forms.PictureBox picPreview;
         private System.Windows.Forms.Button btnAddCategory;
-        private System.Windows.Forms.Label lblCategory;
+        private WallChanger.Translation.Controls.TranslatableLabel lblCategory;
         private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.ToolTip Tooltips;
         private System.Windows.Forms.Panel pnlBottomRight;
@@ -788,36 +830,36 @@
         private System.Windows.Forms.ListBox lstCharacters;
         private System.Windows.Forms.Button btnClearCharacters;
         private System.Windows.Forms.Button btnRemoveCharacter;
-        private System.Windows.Forms.Label lblCharacters;
+        private WallChanger.Translation.Controls.TranslatableLabel lblCharacters;
         private System.Windows.Forms.Button btnClearShowName;
         private System.Windows.Forms.Button btnClearCategory;
         private System.Windows.Forms.Button btnAddShowName;
         private System.Windows.Forms.ComboBox cmbShowName;
-        private System.Windows.Forms.Label lblShowName;
-        private System.Windows.Forms.Label lblImageSize;
+        private WallChanger.Translation.Controls.TranslatableLabel lblShowName;
+        private WallChanger.Translation.Controls.TranslatableLabelFormat lblImageSize;
         private System.Windows.Forms.ListBox lstTags;
         private System.Windows.Forms.Panel pnlTagList;
         private System.Windows.Forms.Panel pnlTagButtons;
-        private System.Windows.Forms.Label lblTags;
+        private WallChanger.Translation.Controls.TranslatableLabel lblTags;
         private System.Windows.Forms.Button btnAddNewTag;
         private System.Windows.Forms.Button btnRemoveTag;
         private System.Windows.Forms.Button btnClearTags;
         private System.Windows.Forms.Panel pnlImageList;
         private System.Windows.Forms.Panel pnlFilters;
-        private System.Windows.Forms.Label lblFilters;
+        private WallChanger.Translation.Controls.TranslatableLabel lblFilters;
         private System.Windows.Forms.Button btnExpand;
         private System.Windows.Forms.Button btnClearFilters;
         private System.Windows.Forms.Button btnCategoryFilterClear;
-        private System.Windows.Forms.Label lblFilterCategory;
+        private WallChanger.Translation.Controls.TranslatableLabel lblFilterCategory;
         private System.Windows.Forms.ComboBox cmbCategoryFilter;
         private System.Windows.Forms.Button btnTagFilterClear;
-        private System.Windows.Forms.Label lblFilterTag;
+        private WallChanger.Translation.Controls.TranslatableLabel lblFilterTag;
         private System.Windows.Forms.ComboBox cmbTagFilter;
         private System.Windows.Forms.Button btnCharacterFilterClear;
-        private System.Windows.Forms.Label lblFilterCharacter;
+        private WallChanger.Translation.Controls.TranslatableLabel lblFilterCharacter;
         private System.Windows.Forms.ComboBox cmbCharacterFilter;
         private System.Windows.Forms.Button btnShowNameFilterClear;
-        private System.Windows.Forms.Label lblFilterShowName;
+        private WallChanger.Translation.Controls.TranslatableLabel lblFilterShowName;
         private System.Windows.Forms.ComboBox cmbShowNameFilter;
         private System.Windows.Forms.Button btnAddToConfig;
         private System.Windows.Forms.Button btnRemoveFromLibrary;
@@ -836,5 +878,8 @@
         private System.Windows.Forms.ToolStripProgressBar tspProgressBar;
         private System.Windows.Forms.Button btnCacheDuplicateThumbnails;
         private System.Windows.Forms.Button btnCheckFiles;
+        private Translation.Controls.TranslatableTitle LibraryTitle;
+        private Translation.Controls.TranslatableTooltips trtToolTips;
+        private Translation.Controls.TranslatableColumnHeaders trcColumnHeaders;
     }
 }

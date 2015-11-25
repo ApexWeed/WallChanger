@@ -59,6 +59,8 @@ namespace WallChanger.Translation.Controls
                         Text = translationString;
                     }
                 }
+
+                FireStringChanged(this, e);
             }
         }
     }

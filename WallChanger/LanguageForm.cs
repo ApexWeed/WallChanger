@@ -18,25 +18,10 @@ namespace WallChanger
             InitializeComponent();
 
             this.Parent = Parent;
-        }
-
-        /// <summary>
-        /// Sets the static strings to the chosen language and cascades to the main window.
-        /// </summary>
-        public void LocaliseInterface()
-        {
-            // Title.
-            this.Text = LM.GetString("TITLE.LANGUAGE");
-            // Buttons.
-            btnSave.Text = LM.GetString("LANG.BUTTON.SAVE");
-            // Tooltips.
-            // Labels.
-            lblCurrentLanguage.Text = LM.GetString("LANG.LABEL.CURRENT_LANGUAGE");
-            lblFallbackLanguage.Text = LM.GetString("LANG.LABEL.FALLBACK_LANGUAGE");
-
-            // Cascade.
-            if (Parent is MainForm)
-                (Parent as MainForm).LocaliseInterface();
+            LanguageTitle.LanguageManager = LM;
+            btnSave.LanguageManager = LM;
+            lblCurrentLanguage.LanguageManager = LM;
+            lblFallbackLanguage.LanguageManager = LM;
         }
 
         /// <summary>
@@ -51,9 +36,6 @@ namespace WallChanger
 
             LM.MainLanguage = Properties.Settings.Default.Language;
             LM.FallbackLanguage = Properties.Settings.Default.FallbackLanguage;
-
-            // Update all opened interfaces.
-            LocaliseInterface();
         }
 
         /// <summary>
@@ -91,10 +73,8 @@ namespace WallChanger
                 cmbFallbackLanguage.Items.Add(Lang);
             }
 
-            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == LM.MainLanguage);
-            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == LM.FallbackLanguage);
-
-            LocaliseInterface();
+            cmbFallbackLanguage.SelectedItem = cmbFallbackLanguage.Items.Find(x => (x as Language).Code == LM.FallbackLanguage);
+            cmbCurrentLanguage.SelectedItem = cmbCurrentLanguage.Items.Find(x => (x as Language).Code == LM.MainLanguage);
         }
     }
 }

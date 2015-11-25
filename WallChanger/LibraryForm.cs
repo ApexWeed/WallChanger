@@ -79,7 +79,63 @@ namespace WallChanger
             lsvSorter = new ListViewColumnSorter();
             lsvDisplay.ListViewItemSorter = lsvSorter;
 
+            LibraryTitle.LanguageManager = LM;
+
+            lblCategory.LanguageManager = LM;
+            lblCharacters.LanguageManager = LM;
+            lblFilterCategory.LanguageManager = LM;
+            lblFilterCharacter.LanguageManager = LM;
+            lblFilterShowName.LanguageManager = LM;
+            lblFilterTag.LanguageManager = LM;
+            lblImageSize.LanguageManager = LM;
+            lblShowName.LanguageManager = LM;
+            lblTags.LanguageManager = LM;
+            lblFilters.StringChanged += lblFilter_LanguageChanged;
+            lblFilters.LanguageManager = LM;
+
+            trtToolTips.LanguageManager = LM;
+            // Filtering options.
+            trtToolTips.UpdateControl(btnExpand, "LIBRARY.TOOLTIP.FILTER.EXPAND");
+            trtToolTips.UpdateControl(btnClearFilters, "LIBRARY.TOOLTIP.FILTER.CLEAR");
+            trtToolTips.UpdateControl(btnCategoryFilterClear, "LIBRARY.TOOLTIP.FILTER.CLEAR_CATEGORY");
+            trtToolTips.UpdateControl(btnShowNameFilterClear, "LIBRARY.TOOLTIP.FILTER.CLEAR_SHOW_NAME");
+            trtToolTips.UpdateControl(btnCharacterFilterClear, "LIBRARY.TOOLTIP.FILTER.CLEAR_CHARACTER");
+            trtToolTips.UpdateControl(btnTagFilterClear, "LIBRARY.TOOLTIP.FILTER.CLEAR_TAG");
+
+            // Image options.
+            trtToolTips.UpdateControl(btnAddCategory, "LIBRARY.TOOLTIP.CATEGORY.ADD");
+            trtToolTips.UpdateControl(btnClearCategory, "LIBRARY.TOOLTIP.CATEGORY.CLEAR");
+            trtToolTips.UpdateControl(btnAddShowName, "LIBRARY.TOOLTIP.SHOWNAME.ADD");
+            trtToolTips.UpdateControl(btnClearShowName, "LIBRARY.TOOLTIP.SHOWNAME.CLEAR");
+            trtToolTips.UpdateControl(btnAddNewCharacter, "LIBRARY.TOOLTIP.CHARACTER.ADD");
+            trtToolTips.UpdateControl(btnRemoveCharacter, "LIBRARY.TOOLTIP.CHARACTER.REMOVE");
+            trtToolTips.UpdateControl(btnClearCharacters, "LIBRARY.TOOLTIP.CHARACTER.CLEAR");
+            trtToolTips.UpdateControl(btnAddNewTag, "LIBRARY.TOOLTIP.TAG.ADD");
+            trtToolTips.UpdateControl(btnRemoveTag, "LIBRARY.TOOLTIP.TAG.REMOVE");
+            trtToolTips.UpdateControl(btnClearTags, "LIBRARY.TOOLTIP.TAG.CLEAR");
+
+            // Top functions.
+            trtToolTips.UpdateControl(btnAddToConfig, "LIBRARY.TOOLTIP.CONFIG_ADD");
+            trtToolTips.UpdateControl(btnRemoveFromLibrary, "LIBRARY.TOOLTIP.REMOVE");
+            trtToolTips.UpdateControl(btnClearLibrary, "LIBRARY.TOOLTIP.CLEAR");
+            trtToolTips.UpdateControl(btnFindDuplicates, "LIBRARY.TOOLTIP.DUPLICATES_SELECTION");
+            trtToolTips.UpdateControl(btnFindAllDuplicates, "LIBRARY.TOOLTIP.DUPLICATES");
+            trtToolTips.UpdateControl(btnCacheDuplicateThumbnails, "LIBRARY.TOOLTIP.CACHE_GREYSCALE");
+            trtToolTips.UpdateControl(btnCheckFiles, "LIBRARY.TOOLTIP.FILE_CHECK");
+
+            // Column headers.
+            trcColumnHeaders.LanguageManager = LM;
+            trcColumnHeaders.UpdateColumnHeader(colFilename, "LIBRARY.LABEL.COLUMN.FILENAME");
+            trcColumnHeaders.UpdateColumnHeader(colWidth, "LIBRARY.LABEL.COLUMN.WIDTH");
+            trcColumnHeaders.UpdateColumnHeader(colHeight, "LIBRARY.LABEL.COLUMN.HEIGHT");
+
             LocaliseInterface();
+        }
+
+        private void lblFilter_LanguageChanged(object sender, EventArgs e)
+        {
+            btnExpand.Left = lblFilters.Left + TextRenderer.MeasureText(lblFilters.Text, lblFilters.Font).Width + 6;
+            btnClearFilters.Left = btnExpand.Left + btnExpand.Width + 6;
         }
 
         /// <summary>
@@ -104,66 +160,10 @@ namespace WallChanger
         /// </summary>
         public void LocaliseInterface()
         {
-            // Title.
-            this.Text = LM.GetString("TITLE.LIBRARY");
-            // Buttons.
-            // Tooltips.
-            // Filtering options.
-            if (FiltersExpanded)
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY.TOOLTIP.FILTER.EXPAND"));
-            else
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY.TOOLTIP.FILTER.SHRINK"));
-            Tooltips.SetToolTip(btnClearFilters, LM.GetString("LIBRARY.TOOLTIP.FILTER.CLEAR"));
-            Tooltips.SetToolTip(btnCategoryFilterClear, LM.GetString("LIBRARY.TOOLTIP.FILTER.CLEAR_CATEGORY"));
-            Tooltips.SetToolTip(btnShowNameFilterClear, LM.GetString("LIBRARY.TOOLTIP.FILTER.CLEAR_SHOW_NAME"));
-            Tooltips.SetToolTip(btnCharacterFilterClear, LM.GetString("LIBRARY.TOOLTIP.FILTER.CLEAR_CHARACTER"));
-            Tooltips.SetToolTip(btnTagFilterClear, LM.GetString("LIBRARY.TOOLTIP.FILTER.CLEAR_TAG"));
-
-            // Image options.
-            Tooltips.SetToolTip(btnAddCategory, LM.GetString("LIBRARY.TOOLTIP.CATEGORY.ADD"));
-            Tooltips.SetToolTip(btnClearCategory, LM.GetString("LIBRARY.TOOLTIP.CATEGORY.CLEAR"));
-            Tooltips.SetToolTip(btnAddShowName, LM.GetString("LIBRARY.TOOLTIP.SHOWNAME.ADD"));
-            Tooltips.SetToolTip(btnClearShowName, LM.GetString("LIBRARY.TOOLTIP.SHOWNAME.CLEAR"));
-            Tooltips.SetToolTip(btnAddNewCharacter, LM.GetString("LIBRARY.TOOLTIP.CHARACTER.ADD"));
-            Tooltips.SetToolTip(btnRemoveCharacter, LM.GetString("LIBRARY.TOOLTIP.CHARACTER.REMOVE"));
-            Tooltips.SetToolTip(btnClearCharacters, LM.GetString("LIBRARY.TOOLTIP.CHARACTER.CLEAR"));
-            Tooltips.SetToolTip(btnAddNewTag, LM.GetString("LIBRARY.TOOLTIP.TAG.ADD"));
-            Tooltips.SetToolTip(btnRemoveTag, LM.GetString("LIBRARY.TOOLTIP.TAG.REMOVE"));
-            Tooltips.SetToolTip(btnClearTags, LM.GetString("LIBRARY.TOOLTIP.TAG.CLEAR"));
-
-            // Top functions.
-            Tooltips.SetToolTip(btnAddToConfig, LM.GetString("LIBRARY.TOOLTIP.CONFIG_ADD"));
-            Tooltips.SetToolTip(btnRemoveFromLibrary, LM.GetString("LIBRARY.TOOLTIP.REMOVE"));
-            Tooltips.SetToolTip(btnClearLibrary, LM.GetString("LIBRARY.TOOLTIP.CLEAR"));
-            Tooltips.SetToolTip(btnFindDuplicates, LM.GetString("LIBRARY.TOOLTIP.DUPLICATES_SELECTION"));
-            Tooltips.SetToolTip(btnFindAllDuplicates, LM.GetString("LIBRARY.TOOLTIP.DUPLICATES"));
-            Tooltips.SetToolTip(btnCacheDuplicateThumbnails, LM.GetString("LIBRARY.TOOLTIP.CACHE_GREYSCALE"));
-            Tooltips.SetToolTip(btnCheckFiles, LM.GetString("LIBRARY.TOOLTIP.FILE_CHECK"));
-            // Labels.
-            // Filter options.
-            lblFilters.Text = LM.GetString("LIBRARY.LABEL.FILTER");
-            // Move buttons so they don't overlap filter text.
-            btnExpand.Left = lblFilters.Left + TextRenderer.MeasureText(lblFilters.Text, lblFilters.Font).Width + 6;
-            btnClearFilters.Left = btnExpand.Left + btnExpand.Width + 6;
-            lblFilterCategory.Text = LM.GetString("LIBRARY.LABEL.FILTER.CATEGORY");
-            lblFilterShowName.Text = LM.GetString("LIBRARY.LABEL.FILTER.SHOW_NAME");
-            lblFilterCharacter.Text = LM.GetString("LIBRARY.LABEL.FILTER.CHARACTER");
-            lblFilterTag.Text = LM.GetString("LIBRARY.LABEL.FILTER.TAG");
-
-            // Image options.
-            lblCategory.Text = LM.GetString("LIBRARY.LABEL.CATEGORY");
-            lblShowName.Text = LM.GetString("LIBRARY.LABEL.SHOW_NAME");
-            lblCharacters.Text = LM.GetString("LIBRARY.LABEL.CHARACTER");
-            lblTags.Text = LM.GetString("LIBRARY.LABEL.TAG");
-
             // Columns.
-            colFilename.Text = LM.GetString("LIBRARY.LABEL.COLUMN.FILENAME");
-            colWidth.Text = LM.GetString("LIBRARY.LABEL.COLUMN.WIDTH");
-            colHeight.Text = LM.GetString("LIBRARY.LABEL.COLUMN.HEIGHT");
-
-            // Cascade.
-            if (GlobalVars.DuplicateForm != null)
-                GlobalVars.DuplicateForm.LocaliseInterface();
+            //colFilename.Text = LM.GetString("LIBRARY.LABEL.COLUMN.FILENAME");
+            //colWidth.Text = LM.GetString("LIBRARY.LABEL.COLUMN.WIDTH");
+            //colHeight.Text = LM.GetString("LIBRARY.LABEL.COLUMN.HEIGHT");
         }
 
         /// <summary>
@@ -568,13 +568,13 @@ namespace WallChanger
             if (FiltersExpanded)
             {
                 btnExpand.Image = Properties.Resources.toggle;
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY.TOOLTIP.FILTER.SHRINK"));
+                trtToolTips.UpdateControl(btnExpand, "LIBRARY.TOOLTIP.FILTER.SHRINK");
                 pnlFilters.Height = FILTERS_EXPANDED_HEIGHT;
             }
             else
             {
                 btnExpand.Image = Properties.Resources.toggle_expand;
-                Tooltips.SetToolTip(btnExpand, LM.GetString("LIBRARY.TOOLTIP.FILTER.EXPAND"));
+                trtToolTips.UpdateControl(btnExpand, "LIBRARY.TOOLTIP.FILTER.EXPAND");
                 pnlFilters.Height = FILTERS_SHRUNKEN_HEIGHT;
             }
         }
