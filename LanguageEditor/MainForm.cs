@@ -114,14 +114,20 @@ namespace LanguageEditor
             UpdateTranslationStatus();
         }
 
+        int totalEntries;
+        int translatedEntries;
         void UpdateTranslationStatus()
         {
+            totalEntries = 0;
+            translatedEntries = 0;
+
             foreach (TreeNode node in treStrings.Nodes)
             {
                 UpdateNodeTranslationStatus(node);
             }
 
             treStrings.Invalidate();
+            lblTranslationStatus.Text = $"Translated: {translatedEntries}/{totalEntries} ({(translatedEntries == 0 ? 0 : 100.0f * translatedEntries / totalEntries):F2}%)";
         }
 
         /// <summary>
@@ -144,10 +150,17 @@ namespace LanguageEditor
                         translated = true;
                     }
                     (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Secondary;
+
+                    totalEntries++;
+                    if (translated)
+                    {
+                        translatedEntries++;
+                    }
+
                     return translated;
                 }
 
-                // And empty groupd, should not be possible.
+                // An empty group, should not be possible.
                 return true;
             }
             // The node has children, recurse through them.
@@ -173,6 +186,13 @@ namespace LanguageEditor
                         translated = true;
                     }
                     (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? (childrenTranslated == Node.Nodes.Count) ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Tertiary : ColourableTreeView.ColourMode.Secondary;
+
+                    totalEntries++;
+                    if ((Node.Tag as ColourableTranslationEntry).ColourMode != ColourableTreeView.ColourMode.Secondary)
+                    {
+                        translatedEntries++;
+                    }
+
                     return (Node.Tag as ColourableTranslationEntry).ColourMode == ColourableTreeView.ColourMode.Primary;
                 }
                 // Normally groups aren't a translation entry though.

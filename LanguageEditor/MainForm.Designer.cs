@@ -41,6 +41,7 @@
             this.grpParameters = new System.Windows.Forms.GroupBox();
             this.txtString = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblTranslationStatus = new System.Windows.Forms.Label();
             this.treStrings = new LanguageEditor.ColourableTreeView();
             this.pnlEditor.SuspendLayout();
             this.SuspendLayout();
@@ -173,6 +174,15 @@
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Identifier";
             // 
+            // lblTranslationStatus
+            // 
+            this.lblTranslationStatus.AutoSize = true;
+            this.lblTranslationStatus.Location = new System.Drawing.Point(12, 516);
+            this.lblTranslationStatus.Name = "lblTranslationStatus";
+            this.lblTranslationStatus.Size = new System.Drawing.Size(91, 12);
+            this.lblTranslationStatus.TabIndex = 8;
+            this.lblTranslationStatus.Text = "Translated: (x/x)";
+            // 
             // treStrings
             // 
             this.treStrings.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
@@ -180,7 +190,7 @@
             this.treStrings.Location = new System.Drawing.Point(14, 40);
             this.treStrings.Name = "treStrings";
             this.treStrings.PathSeparator = ".";
-            this.treStrings.Size = new System.Drawing.Size(335, 485);
+            this.treStrings.Size = new System.Drawing.Size(335, 473);
             this.treStrings.TabIndex = 6;
             this.treStrings.TertiaryColour = System.Drawing.Color.DarkOrange;
             this.treStrings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treStrings_AfterSelect);
@@ -191,6 +201,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 537);
+            this.Controls.Add(this.lblTranslationStatus);
             this.Controls.Add(this.pnlEditor);
             this.Controls.Add(this.treStrings);
             this.Controls.Add(this.btnNewLanguage);
@@ -225,6 +236,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtPreview;
         private System.Windows.Forms.TextBox txtFallback;
+        private System.Windows.Forms.Label lblTranslationStatus;
     }
 }
 
