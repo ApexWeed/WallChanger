@@ -23,13 +23,22 @@ namespace LanguageEditor
             ParseSettings();
         }
 
+        /// <summary>
+        /// Adds an entry to the tree, creating sub nodes based on the Splitter.
+        /// </summary>
+        /// <param name="Tree">The tree to add the node/s to.</param>
+        /// <param name="Path">The path to add the node at, split using Splitter</param>
+        /// <param name="Tag">The tag to add to the node, defaults to null.</param>
+        /// <param name="Splitter">The character to split the path by, defaults to '.'.</param>
         static void AddToTree(TreeView Tree, string Path, object Tag = null, char Splitter = '.')
         {
             var levels = Path.Split(Splitter);
             for (int i = 0; i < levels.Length; i++)
             {
+                // Take progressively longer slices of the path.
                 var name = levels.Take(i + 1).JoinString();
                 var nodes = Tree.Nodes.Find(name, true);
+                // Create the node if it doesn't exist.
                 if (nodes.Length == 0)
                 {
                     var node = new TreeNode(levels[i])
@@ -37,6 +46,7 @@ namespace LanguageEditor
                         Name = name
                     };
 
+                    // Add the tag to the new node if it's the last one in the path, otherwise do a hack job that probably shouldn't be in this code.
                     if (i == levels.Length - 1)
                     {
                         node.Tag = Tag;
@@ -46,6 +56,7 @@ namespace LanguageEditor
                         node.Tag = new NodeColour();
                     }
 
+                    // Make sure the node is added at the right location.
                     if (i == 0)
                     {
                         Tree.Nodes.Add(node);
@@ -57,6 +68,7 @@ namespace LanguageEditor
                         parents[0].Nodes.Add(node);
                     }
                 }
+                // Update the value of the existing node but only if it is the last in the path.
                 else
                 {
                     if (Tag != null && i == levels.Length - 1)
@@ -67,6 +79,9 @@ namespace LanguageEditor
             }
         }
 
+        /// <summary>
+        /// Loads and parses settings.
+        /// </summary>
         void ParseSettings()
         {
             LM = new LanguageManager(true);
@@ -112,6 +127,27 @@ namespace LanguageEditor
             }
 
             UpdateTranslationStatus();
+
+            if (LanguageVariables.ContainsKey("DefaultLanguage"))
+            {
+                if (LM.Languages.ContainsKey(LanguageVariables["DefaultLanguage"]))
+                {
+                    cmbCurrentLanguage.SelectedItem = LM.Languages[LanguageVariables["DefaultLanguage"]];
+                }
+            }
+
+            if (LanguageVariables.ContainsKey("DefaultFallbackLanguage"))
+            {
+                if (LM.Languages.ContainsKey(LanguageVariables["DefaultFallbackLanguage"]))
+                {
+                    cmbFallbackLanguage.SelectedItem = LM.Languages[LanguageVariables["DefaultFallbackLanguage"]];
+                }
+            }
+
+            if (LanguageVariables.ContainsKey("Product"))
+            {
+                this.Text = $"Language Editor - {LanguageVariables["Product"]}";
+            }
         }
 
         int totalEntries;
@@ -145,9 +181,19 @@ namespace LanguageEditor
                 {
                     var translated = false;
                     var Entry = (Node.Tag as ColourableTranslationEntry).TranslationEntry;
-                    if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                    if (chkEditFallback.Checked)
                     {
-                        translated = true;
+                        if (ToDisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                        {
+                            translated = true;
+                        }
+                    }
+                    else
+                    {
+                        if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                        {
+                            translated = true;
+                        }
                     }
                     (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Secondary;
 
@@ -181,9 +227,19 @@ namespace LanguageEditor
                 {
                     var translated = false;
                     var Entry = (Node.Tag as ColourableTranslationEntry).TranslationEntry;
-                    if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                    if (chkEditFallback.Checked)
                     {
-                        translated = true;
+                        if (ToDisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                        {
+                            translated = true;
+                        }
+                    }
+                    else
+                    {
+                        if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                        {
+                            translated = true;
+                        }
                     }
                     (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? (childrenTranslated == Node.Nodes.Count) ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Tertiary : ColourableTreeView.ColourMode.Secondary;
 
