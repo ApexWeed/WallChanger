@@ -2,7 +2,7 @@
 
 namespace LanguageEditor
 {
-    class TranslationEntry
+    public class TranslationEntry
     {
         public readonly string Name;
         public readonly string Translation;

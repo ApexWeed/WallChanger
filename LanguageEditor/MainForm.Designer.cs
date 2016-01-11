@@ -34,14 +34,14 @@
             this.cmbCurrentLanguage = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnNewLanguage = new System.Windows.Forms.Button();
-            this.treStrings = new System.Windows.Forms.TreeView();
             this.pnlEditor = new System.Windows.Forms.Panel();
+            this.txtFallback = new System.Windows.Forms.TextBox();
             this.txtPreview = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.grpParameters = new System.Windows.Forms.GroupBox();
             this.txtString = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.txtFallback = new System.Windows.Forms.TextBox();
+            this.treStrings = new LanguageEditor.ColourableTreeView();
             this.pnlEditor.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,16 +102,7 @@
             this.btnNewLanguage.TabIndex = 5;
             this.btnNewLanguage.Text = "New";
             this.btnNewLanguage.UseVisualStyleBackColor = true;
-            // 
-            // treStrings
-            // 
-            this.treStrings.Location = new System.Drawing.Point(14, 40);
-            this.treStrings.Name = "treStrings";
-            this.treStrings.PathSeparator = ".";
-            this.treStrings.Size = new System.Drawing.Size(335, 485);
-            this.treStrings.TabIndex = 6;
-            this.treStrings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treStrings_AfterSelect);
-            this.treStrings.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treStrings_NodeMouseClick);
+            this.btnNewLanguage.Click += new System.EventHandler(this.btnNewLanguage_Click);
             // 
             // pnlEditor
             // 
@@ -123,21 +114,31 @@
             this.pnlEditor.Controls.Add(this.lblTitle);
             this.pnlEditor.Location = new System.Drawing.Point(355, 40);
             this.pnlEditor.Name = "pnlEditor";
-            this.pnlEditor.Size = new System.Drawing.Size(492, 485);
+            this.pnlEditor.Size = new System.Drawing.Size(499, 485);
             this.pnlEditor.TabIndex = 7;
+            // 
+            // txtFallback
+            // 
+            this.txtFallback.Enabled = false;
+            this.txtFallback.Location = new System.Drawing.Point(3, 57);
+            this.txtFallback.Name = "txtFallback";
+            this.txtFallback.Size = new System.Drawing.Size(489, 19);
+            this.txtFallback.TabIndex = 6;
+            this.txtFallback.Text = "Fallback";
+            this.txtFallback.TextChanged += new System.EventHandler(this.txtFallback_TextChanged);
             // 
             // txtPreview
             // 
             this.txtPreview.Location = new System.Drawing.Point(3, 82);
             this.txtPreview.Multiline = true;
             this.txtPreview.Name = "txtPreview";
-            this.txtPreview.Size = new System.Drawing.Size(486, 56);
+            this.txtPreview.Size = new System.Drawing.Size(489, 56);
             this.txtPreview.TabIndex = 5;
             this.txtPreview.Text = "Preview";
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(414, 3);
+            this.btnSave.Location = new System.Drawing.Point(417, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
@@ -149,7 +150,7 @@
             // 
             this.grpParameters.Location = new System.Drawing.Point(3, 144);
             this.grpParameters.Name = "grpParameters";
-            this.grpParameters.Size = new System.Drawing.Size(486, 338);
+            this.grpParameters.Size = new System.Drawing.Size(489, 338);
             this.grpParameters.TabIndex = 3;
             this.grpParameters.TabStop = false;
             this.grpParameters.Text = "Parameters";
@@ -158,7 +159,7 @@
             // 
             this.txtString.Location = new System.Drawing.Point(3, 32);
             this.txtString.Name = "txtString";
-            this.txtString.Size = new System.Drawing.Size(486, 19);
+            this.txtString.Size = new System.Drawing.Size(489, 19);
             this.txtString.TabIndex = 1;
             this.txtString.Text = "String";
             this.txtString.TextChanged += new System.EventHandler(this.txtString_TextChanged);
@@ -172,15 +173,18 @@
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Identifier";
             // 
-            // txtFallback
+            // treStrings
             // 
-            this.txtFallback.Enabled = false;
-            this.txtFallback.Location = new System.Drawing.Point(3, 57);
-            this.txtFallback.Name = "txtFallback";
-            this.txtFallback.Size = new System.Drawing.Size(486, 19);
-            this.txtFallback.TabIndex = 6;
-            this.txtFallback.Text = "Fallback";
-            this.txtFallback.TextChanged += new System.EventHandler(this.txtFallback_TextChanged);
+            this.treStrings.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.treStrings.EmphasisByDefault = true;
+            this.treStrings.Location = new System.Drawing.Point(14, 40);
+            this.treStrings.Name = "treStrings";
+            this.treStrings.PathSeparator = ".";
+            this.treStrings.Size = new System.Drawing.Size(335, 485);
+            this.treStrings.TabIndex = 6;
+            this.treStrings.TertiaryColour = System.Drawing.Color.DarkOrange;
+            this.treStrings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treStrings_AfterSelect);
+            this.treStrings.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treStrings_NodeMouseClick);
             // 
             // MainForm
             // 
@@ -213,7 +217,7 @@
         private System.Windows.Forms.ComboBox cmbCurrentLanguage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnNewLanguage;
-        private System.Windows.Forms.TreeView treStrings;
+        private ColourableTreeView treStrings;
         private System.Windows.Forms.Panel pnlEditor;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.GroupBox grpParameters;

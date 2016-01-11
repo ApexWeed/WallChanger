@@ -38,6 +38,10 @@ namespace LanguageEditor
                     {
                         node.Tag = Tag;
                     }
+                    else
+                    {
+                        node.Tag = new NodeColour();
+                    }
 
                     if (i == 0)
                     {
@@ -52,7 +56,7 @@ namespace LanguageEditor
                 }
                 else
                 {
-                    if (Tag != null)
+                    if (Tag != null && i == levels.Length - 1)
                     {
                         nodes[0].Tag = Tag;
                     }
@@ -88,9 +92,84 @@ namespace LanguageEditor
                 }
             }
 
+            //var rnd = new Random();
             foreach (var entry in TranslationEntries)
             {
-                AddToTree(treStrings, entry.Name, entry);
+                var tag = new ColourableTranslationEntry(ColourableTreeView.ColourMode.Primary, entry, false);
+                AddToTree(treStrings, entry.Name, tag);
+            }
+
+            UpdateTranslationStatus();
+        }
+
+        void UpdateTranslationStatus()
+        {
+            foreach (TreeNode node in treStrings.Nodes)
+            {
+                UpdateNodeTranslationStatus(node);
+            }
+
+            treStrings.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates the translation status of a single node recursively. Also sets the status of any children.
+        /// </summary>
+        /// <param name="Node">The node to update.</param>
+        /// <returns></returns>
+        bool UpdateNodeTranslationStatus(TreeNode Node)
+        {
+            // If the node has no children then it is either a translation entry or an empty group (which should not be possible).
+            if (Node.Nodes.Count == 0)
+            {
+                // This is a translation entry, check the translation engine for the string.
+                if (Node.Tag != null && Node.Tag is ColourableTranslationEntry)
+                {
+                    var translated = false;
+                    var Entry = (Node.Tag as ColourableTranslationEntry).TranslationEntry;
+                    if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                    {
+                        translated = true;
+                    }
+                    (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Secondary;
+                    return translated;
+                }
+
+                // And empty groupd, should not be possible.
+                return true;
+            }
+            // The node has children, recurse through them.
+            else
+            {
+                // Find how many children are translated by recursion.
+                var childrenTranslated = 0;
+                foreach (TreeNode child in Node.Nodes)
+                {
+                    if (UpdateNodeTranslationStatus(child))
+                    {
+                        childrenTranslated++;
+                    }
+                }
+
+                // It is possible for a node to be a group and a translation entry at the same time.
+                if (Node.Tag != null && Node.Tag is ColourableTranslationEntry)
+                {
+                    var translated = false;
+                    var Entry = (Node.Tag as ColourableTranslationEntry).TranslationEntry;
+                    if (ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry) != Entry.Name)
+                    {
+                        translated = true;
+                    }
+                    (Node.Tag as ColourableTranslationEntry).ColourMode = translated ? (childrenTranslated == Node.Nodes.Count) ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Tertiary : ColourableTreeView.ColourMode.Secondary;
+                    return (Node.Tag as ColourableTranslationEntry).ColourMode == ColourableTreeView.ColourMode.Primary;
+                }
+                // Normally groups aren't a translation entry though.
+                else
+                {
+                    // Green for all children translated, red otherwise.
+                    (Node.Tag as NodeColour).ColourMode = (childrenTranslated == Node.Nodes.Count) ? ColourableTreeView.ColourMode.Primary : ColourableTreeView.ColourMode.Secondary;
+                    return (Node.Tag as NodeColour).ColourMode == ColourableTreeView.ColourMode.Primary;
+                }
             }
         }
 
@@ -180,9 +259,9 @@ namespace LanguageEditor
 
         private void treStrings_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null)
+            if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null && treStrings.SelectedNode.Tag is ColourableTranslationEntry)
             {
-                LoadDetails(treStrings.SelectedNode.Tag as TranslationEntry);
+                LoadDetails((treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
             }
             else
             {
@@ -234,12 +313,12 @@ namespace LanguageEditor
 
             if (chkEditFallback.Checked)
             {
-                txtFallback.Text = DisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
+                txtFallback.Text = ToDisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
             }
             else
             {
-                txtString.Text = DisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
-                txtFallback.Text = DisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
+                txtString.Text = ToDisplayString((cmbCurrentLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
+                txtFallback.Text = ToDisplayString((cmbFallbackLanguage.SelectedValue as Language).GetString(Entry.Name), Entry);
             }
 
             UpdatePreview();
@@ -247,8 +326,9 @@ namespace LanguageEditor
 
         private void ClearDetails()
         {
-            txtString.Text = "";
-            txtFallback.Text = "";
+            txtString.Text = "String";
+            txtFallback.Text = "Fallback";
+            txtPreview.Text = "Preview";
             foreach (var control in grpParameters.Controls)
             {
                 (control as Control).Dispose();
@@ -273,11 +353,13 @@ namespace LanguageEditor
             txtFallback.Enabled = chkEditFallback.Checked;
             if (treStrings.SelectedNode != null)
             {
-                LoadDetails(treStrings.SelectedNode.Tag as TranslationEntry);
+                LoadDetails((treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
             }
+
+            UpdateTranslationStatus();
         }
 
-        private static string DisplayString(string String, TranslationEntry Entry)
+        private static string ToDisplayString(string String, TranslationEntry Entry)
         {
             foreach (var param in Entry.Parameters)
             {
@@ -287,7 +369,7 @@ namespace LanguageEditor
             return String;
         }
 
-        private static string StorageString(string String, TranslationEntry Entry)
+        private static string ToStorageString(string String, TranslationEntry Entry)
         {
             foreach (var param in Entry.Parameters)
             {
@@ -301,7 +383,7 @@ namespace LanguageEditor
         {
             if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null)
             {
-                var entry = treStrings.SelectedNode.Tag as TranslationEntry;
+                var entry = (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry;
                 var paramArray = new object[entry.Parameters.Count];
                 for (int i = 0; i < entry.Parameters.Count; i++)
                 {
@@ -312,11 +394,11 @@ namespace LanguageEditor
                     var text = txtPreview.Text;
                     try
                     {
-                        text = string.Format(StorageString(txtFallback.Text, entry), paramArray);
+                        text = string.Format(ToStorageString(txtFallback.Text, entry), paramArray);
                     }
                     catch (FormatException Ex)
                     {
-                        text = StorageString(txtFallback.Text, entry);
+                        text = ToStorageString(txtFallback.Text, entry);
                     }
                     txtPreview.Text = text;
                 }
@@ -325,11 +407,11 @@ namespace LanguageEditor
                     var text = txtPreview.Text;
                     try
                     {
-                        text = string.Format(StorageString(txtString.Text, entry), paramArray);
+                        text = string.Format(ToStorageString(txtString.Text, entry), paramArray);
                     }
                     catch (FormatException Ex)
                     {
-                        text = StorageString(txtString.Text, entry);
+                        text = ToStorageString(txtString.Text, entry);
                     }
                     txtPreview.Text = text;
                 }
@@ -367,7 +449,7 @@ namespace LanguageEditor
             {
                 if (chkEditFallback.Checked)
                 {
-                    var value = StorageString(txtFallback.Text, treStrings.SelectedNode.Tag as TranslationEntry);
+                    var value = ToStorageString(txtFallback.Text, (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
                     var stringName = treStrings.SelectedNode.FullPath;
                     if (value == stringName)
                     {
@@ -380,7 +462,7 @@ namespace LanguageEditor
                 }
                 else
                 {
-                    var value = StorageString(txtString.Text, treStrings.SelectedNode.Tag as TranslationEntry);
+                    var value = ToStorageString(txtString.Text, (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
                     var stringName = treStrings.SelectedNode.FullPath;
                     if (value == stringName)
                     {
@@ -390,6 +472,8 @@ namespace LanguageEditor
                     ((cmbFallbackLanguage.Items.Find(x => (x as Language).Code == (cmbCurrentLanguage.SelectedItem as Language).Code)) as Language).AddString(stringName, value);
                     (cmbCurrentLanguage.SelectedItem as Language).Save("lang");
                 }
+
+                UpdateTranslationStatus();
             }
         }
 
@@ -401,6 +485,11 @@ namespace LanguageEditor
         private void txtFallback_TextChanged(object sender, EventArgs e)
         {
             UpdatePreview();
+        }
+
+        private void btnNewLanguage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

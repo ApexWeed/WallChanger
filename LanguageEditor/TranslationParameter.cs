@@ -1,6 +1,6 @@
 ﻿namespace LanguageEditor
 {
-    class TranslationParameter
+    public class TranslationParameter
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CC0052:Make field readonly", Justification = "It's pretty much a struct.")]
         public string Original;
