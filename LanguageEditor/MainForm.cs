@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,8 +12,10 @@ namespace LanguageEditor
         LanguageManager LM;
         List<TranslationEntry> TranslationEntries;
         Dictionary<string, string> LanguageVariables;
-        List<Language> FallbackLanguages;
-        List<Language> Languages;
+        BindingList<Language> FallbackLanguages;
+        BindingSource BSFallbackLanguages;
+        BindingList<Language> Languages;
+        BindingSource BSLanguages;
 
         public MainForm()
         {
@@ -67,12 +70,21 @@ namespace LanguageEditor
         void ParseSettings()
         {
             LM = new LanguageManager(true);
-            Languages = new List<Language>();
-            FallbackLanguages = new List<Language>();
+            Languages = new BindingList<Language>();
+            FallbackLanguages = new BindingList<Language>();
             Languages.AddRange(LM.GetLanguages(true));
             FallbackLanguages.AddRange(LM.GetLanguages(true));
-            cmbCurrentLanguage.DataSource = Languages;
-            cmbFallbackLanguage.DataSource = FallbackLanguages;
+            BSLanguages = new BindingSource
+            {
+                DataSource = Languages
+            };
+            BSFallbackLanguages = new BindingSource
+            {
+                DataSource = FallbackLanguages
+            };
+
+            cmbCurrentLanguage.DataSource = BSLanguages;
+            cmbFallbackLanguage.DataSource = BSFallbackLanguages;
             TranslationEntries = new List<TranslationEntry>();
             LanguageVariables = new Dictionary<string, string>();
             treStrings.Nodes.Clear();
@@ -489,7 +501,19 @@ namespace LanguageEditor
 
         private void btnNewLanguage_Click(object sender, EventArgs e)
         {
+            using (var newLanguagePrompt = new NewLanguagePrompt())
+            {
+                if (newLanguagePrompt.ShowDialog() == DialogResult.OK)
+                {
+                    var language = new Language(newLanguagePrompt.LanguageCode, newLanguagePrompt.LanguageName, newLanguagePrompt.Description, newLanguagePrompt.Author);
+                    LM.Languages.Add(newLanguagePrompt.LanguageCode, language);
+                    language.Save("lang");
+                    Languages.Add(language);
+                    FallbackLanguages.Add(language);
 
+                    cmbCurrentLanguage.SelectedItem = language;
+                }
+            }
         }
     }
 }

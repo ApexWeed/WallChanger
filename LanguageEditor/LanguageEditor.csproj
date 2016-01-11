@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingListExtensions.cs" />
     <Compile Include="ColourableTranslationEntry.cs" />
     <Compile Include="ColourableTreeView.cs">
       <SubType>Component</SubType>
@@ -60,6 +61,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewLanguagePrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewLanguagePrompt.Designer.cs">
+      <DependentUpon>NewLanguagePrompt.cs</DependentUpon>
+    </Compile>
     <Compile Include="NodeColour.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +74,9 @@
     <Compile Include="TranslationParameter.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewLanguagePrompt.resx">
+      <DependentUpon>NewLanguagePrompt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
