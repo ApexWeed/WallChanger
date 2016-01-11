@@ -393,7 +393,7 @@ namespace LanguageEditor
 
         private void UpdatePreview()
         {
-            if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null)
+            if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null && treStrings.SelectedNode.Tag is ColourableTranslationEntry)
             {
                 var entry = (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry;
                 var paramArray = new object[entry.Parameters.Count];
