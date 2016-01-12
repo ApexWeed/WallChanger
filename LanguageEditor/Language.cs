@@ -60,6 +60,10 @@ namespace LanguageEditor
             return Strings.ContainsKey(Key) ? Strings[Key] : Key;
         }
 
+        /// <summary>
+        /// Saves the language file to disk.
+        /// </summary>
+        /// <param name="Folder">The folder to put the file in.</param>
         public void Save(string Folder)
         {
             using (StreamWriter write = new StreamWriter(Path.Combine(Folder, $"{Code}.lang")))

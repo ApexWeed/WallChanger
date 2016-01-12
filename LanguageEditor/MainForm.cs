@@ -119,7 +119,6 @@ namespace LanguageEditor
                 }
             }
 
-            //var rnd = new Random();
             foreach (var entry in TranslationEntries)
             {
                 var tag = new ColourableTranslationEntry(ColourableTreeView.ColourMode.Primary, entry, false);
@@ -152,6 +151,9 @@ namespace LanguageEditor
 
         int totalEntries;
         int translatedEntries;
+        /// <summary>
+        /// Updates the translation status of all nodes and updates the status label.
+        /// </summary>
         void UpdateTranslationStatus()
         {
             totalEntries = 0;
@@ -261,14 +263,20 @@ namespace LanguageEditor
             }
         }
 
-        static bool ParseEntry(StreamReader read, List<TranslationEntry> Collection)
+        /// <summary>
+        /// Parses Stream for a translation entry to add to Collection.
+        /// </summary>
+        /// <param name="Stream">The stream to parse from.</param>
+        /// <param name="Collection">The collection to add the entries to.</param>
+        /// <returns>True if an entry was parsed successfully, false otherwise.</returns>
+        static bool ParseEntry(StreamReader Stream, List<TranslationEntry> Collection)
         {
-            if (read.EndOfStream)
+            if (Stream.EndOfStream)
             {
                 return false;
             }
 
-            var line = read.ReadLine().Trim();
+            var line = Stream.ReadLine().Trim();
             if (line.StartsWith("#") || line == "")
             {
                 return true;
@@ -277,13 +285,13 @@ namespace LanguageEditor
             {
                 // Has parameters.
                 var name = line.Split('=')[0].Trim();
-                line = read.ReadLine().Trim();
+                line = Stream.ReadLine().Trim();
                 if (line == "{")
                 {
                     var Parameters = new List<string>();
                     while (true)
                     {
-                        line = read.ReadLine().Trim();
+                        line = Stream.ReadLine().Trim();
                         if (line == "}")
                         {
                             break;
@@ -292,6 +300,7 @@ namespace LanguageEditor
                         Parameters.Add(line);
                     }
 
+                    // Require a substitution, description, and sample for each parameter.
                     if (Parameters.Count % 3 != 0)
                     {
                         return false;
@@ -347,6 +356,7 @@ namespace LanguageEditor
 
         private void treStrings_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            // Can only load the details if the node is a translation entry.
             if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null && treStrings.SelectedNode.Tag is ColourableTranslationEntry)
             {
                 LoadDetails((treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
@@ -364,6 +374,7 @@ namespace LanguageEditor
             SetTitle(Entry.ToString());
             ClearDetails();
 
+            // Create UI elements for each parameter.
             var currentParam = 0;
             foreach (var param in Entry.Parameters)
             {
@@ -412,6 +423,9 @@ namespace LanguageEditor
             UpdatePreview();
         }
 
+        /// <summary>
+        /// Clears previous details and disposes controls.
+        /// </summary>
         private void ClearDetails()
         {
             txtString.Text = "String";
@@ -427,12 +441,6 @@ namespace LanguageEditor
         private void SetTitle(string Text)
         {
             lblTitle.Text = Text;
-            //lblTitle.Left = pnlEditor.Width / 2 - TextRenderer.MeasureText(Text, lblTitle.Font).Width / 2;
-        }
-
-        private void treStrings_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-
         }
 
         private void chkEditFallback_CheckedChanged(object sender, System.EventArgs e)
@@ -447,6 +455,12 @@ namespace LanguageEditor
             UpdateTranslationStatus();
         }
 
+        /// <summary>
+        /// Converts a translated string from the internal format to a more user friendly form.
+        /// </summary>
+        /// <param name="String">The string to convert.</param>
+        /// <param name="Entry">The translation entry containing the parameters to replace.</param>
+        /// <returns>User friendly version of the string.</returns>
         private static string ToDisplayString(string String, TranslationEntry Entry)
         {
             foreach (var param in Entry.Parameters)
@@ -457,6 +471,12 @@ namespace LanguageEditor
             return String;
         }
 
+        /// <summary>
+        /// Cnverts a user friendly translated string to the internal form.
+        /// </summary>
+        /// <param name="String">The string to convert.</param>
+        /// <param name="Entry">The translation entry containing the parameters to replace.</param>
+        /// <returns>The internal form of the string.</returns>
         private static string ToStorageString(string String, TranslationEntry Entry)
         {
             foreach (var param in Entry.Parameters)
@@ -467,6 +487,9 @@ namespace LanguageEditor
             return String;
         }
 
+        /// <summary>
+        /// Updates the live preview text box from the user input.
+        /// </summary>
         private void UpdatePreview()
         {
             if (treStrings.SelectedNode != null && treStrings.SelectedNode.Tag != null && treStrings.SelectedNode.Tag is ColourableTranslationEntry)
@@ -484,6 +507,7 @@ namespace LanguageEditor
                     {
                         text = string.Format(ToStorageString(txtFallback.Text, entry), paramArray);
                     }
+                    // If the user has typed an opening brace but not the closing brace string.Format will fail so use the format string directly.
                     catch (FormatException Ex)
                     {
                         text = ToStorageString(txtFallback.Text, entry);
@@ -497,6 +521,7 @@ namespace LanguageEditor
                     {
                         text = string.Format(ToStorageString(txtString.Text, entry), paramArray);
                     }
+                    // If the user has typed an opening brace but not the closing brace string.Format will fail so use the format string directly.
                     catch (FormatException Ex)
                     {
                         text = ToStorageString(txtString.Text, entry);
@@ -506,6 +531,11 @@ namespace LanguageEditor
             }
         }
 
+        /// <summary>
+        /// Converts a sample value to an object form.
+        /// </summary>
+        /// <param name="Sample">The sample to convert.</param>
+        /// <returns>The converted sample.</returns>
         private static object ConvertSample(string Sample)
         {
             if (Sample == "!!TIME!!")
@@ -539,12 +569,14 @@ namespace LanguageEditor
                 {
                     var value = ToStorageString(txtFallback.Text, (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
                     var stringName = treStrings.SelectedNode.FullPath;
+                    // Don't save if the entry is the defauly value.
                     if (value == stringName)
                     {
                         return;
                     }
                     
                     (cmbFallbackLanguage.SelectedItem as Language).AddString(stringName, value);
+                    // Add the entry to the Language in the other box too, as they need seperate lists to keep selections seperate.
                     ((cmbCurrentLanguage.Items.Find(x => (x as Language).Code == (cmbFallbackLanguage.SelectedItem as Language).Code)) as Language).AddString(stringName, value);
                     (cmbFallbackLanguage.SelectedItem as Language).Save("lang");
                 }
@@ -552,11 +584,13 @@ namespace LanguageEditor
                 {
                     var value = ToStorageString(txtString.Text, (treStrings.SelectedNode.Tag as ColourableTranslationEntry).TranslationEntry);
                     var stringName = treStrings.SelectedNode.FullPath;
+                    // Don't save if the entry is the defauly value.
                     if (value == stringName)
                     {
                         return;
                     }
                     (cmbCurrentLanguage.SelectedItem as Language).AddString(stringName, value);
+                    // Add the entry to the Language in the other box too, as they need seperate lists to keep selections seperate.
                     ((cmbFallbackLanguage.Items.Find(x => (x as Language).Code == (cmbCurrentLanguage.SelectedItem as Language).Code)) as Language).AddString(stringName, value);
                     (cmbCurrentLanguage.SelectedItem as Language).Save("lang");
                 }

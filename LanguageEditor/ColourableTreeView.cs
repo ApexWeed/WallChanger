@@ -97,7 +97,7 @@ namespace LanguageEditor
 
         protected override void OnDrawNode(DrawTreeNodeEventArgs e)
         {
-
+            // Ignore text colour in designer mode.
             if (DesignMode)
             {
                 TextRenderer.DrawText(e.Graphics, this.Name, Font, e.Node.Bounds, ForeColor);
@@ -106,6 +106,7 @@ namespace LanguageEditor
             {
                 var mode = DefaultColourMode;
                 var emphasise = EmphasisByDefault;
+                // Find the mode and emphasis settings through reflection.
                 if (e.Node.Tag != null)
                 {
                     var fields = e.Node.Tag.GetType().GetFields();
@@ -182,7 +183,7 @@ namespace LanguageEditor
             base.OnDrawNode(e);
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             base.Dispose();
             emphasisFont.Dispose();

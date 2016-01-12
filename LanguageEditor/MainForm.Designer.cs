@@ -194,7 +194,6 @@
             this.treStrings.TabIndex = 6;
             this.treStrings.TertiaryColour = System.Drawing.Color.DarkOrange;
             this.treStrings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treStrings_AfterSelect);
-            this.treStrings.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treStrings_NodeMouseClick);
             // 
             // MainForm
             // 

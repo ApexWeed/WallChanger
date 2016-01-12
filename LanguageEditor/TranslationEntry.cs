@@ -5,7 +5,6 @@ namespace LanguageEditor
     public class TranslationEntry
     {
         public readonly string Name;
-        public readonly string Translation;
         public readonly List<TranslationParameter> Parameters;
 
         public TranslationEntry(string Name)
@@ -17,20 +16,6 @@ namespace LanguageEditor
         public TranslationEntry(string Name, List<TranslationParameter> Parameters)
         {
             this.Name = Name;
-            this.Parameters = Parameters;
-        }
-
-        public TranslationEntry(string Name, string Translation)
-        {
-            this.Name = Name;
-            this.Translation = Translation;
-            this.Parameters = new List<TranslationParameter>();
-        }
-
-        public TranslationEntry(string Name, string Translation, List<TranslationParameter> Parameters)
-        {
-            this.Name = Name;
-            this.Translation = Translation;
             this.Parameters = Parameters;
         }
 
