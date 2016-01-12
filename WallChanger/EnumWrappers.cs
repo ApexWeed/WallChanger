@@ -75,23 +75,7 @@ namespace WallChanger
         /// <returns>The translated name.</returns>
         public override string ToString()
         {
-            switch (WallpaperStyle)
-            {
-                case Wallpaper.WallpaperStyle.Fill:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.FILL");
-                case Wallpaper.WallpaperStyle.Fit:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.FIT");
-                case Wallpaper.WallpaperStyle.Stretched:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.STRETCHED");
-                case Wallpaper.WallpaperStyle.Tiled:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.TILED");
-                case Wallpaper.WallpaperStyle.Centered:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.CENTERED");
-                case Wallpaper.WallpaperStyle.Span:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.SPAN");
-                default:
-                    return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.WALLPAPER_STYLE." + WallpaperStyle.ToString().ToUpper());
         }
     }
 
@@ -135,23 +119,7 @@ namespace WallChanger
         /// <returns>The translated version.</returns>
         public override string ToString()
         {
-            switch (CompressionLevel)
-            {
-                case SevenZip.CompressionLevel.None:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.NONE");
-                case SevenZip.CompressionLevel.Fast:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.FAST");
-                case SevenZip.CompressionLevel.Low:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.LOW");
-                case SevenZip.CompressionLevel.Normal:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.NORMAL");
-                case SevenZip.CompressionLevel.High:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.HIGH");
-                case SevenZip.CompressionLevel.Ultra:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.ULTRA");
-                default:
-                    return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.COMPRESSION_LEVEL." + CompressionLevel.ToString().ToUpper());
         }
     }
 
@@ -195,21 +163,7 @@ namespace WallChanger
         /// <returns>The translated version.</returns>
         public override string ToString()
         {
-            switch (HighlightMode)
-            {
-                case HighlightListBox.HighlightMode.Bold:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.BOLD");
-                case HighlightListBox.HighlightMode.Italic:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.ITALIC");
-                case HighlightListBox.HighlightMode.Foreground:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.FOREGROUND");
-                case HighlightListBox.HighlightMode.Background:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.BACKGROUND");
-                case HighlightListBox.HighlightMode.None:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.NONE");
-                default:
-                    return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.HIGHLIGHT_MODE." + HighlightMode.ToString().ToUpper());
         }
     }
 
@@ -253,29 +207,7 @@ namespace WallChanger
         /// <returns>The translated version.</returns>
         public override string ToString()
         {
-            switch (EdgeDetectionFilter)
-            {
-                case EdgeDetectionFilter.KayyaliEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.KAYYALI");
-                case EdgeDetectionFilter.KirschEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.KIRSCH");
-                case EdgeDetectionFilter.Laplacian3X3EdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAP3X3");
-                case EdgeDetectionFilter.Laplacian5X5EdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAP5X5");
-                case EdgeDetectionFilter.LaplacianOfGaussianEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.LAPGAU");
-                case EdgeDetectionFilter.PrewittEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.PREWITT");
-                case EdgeDetectionFilter.RobertsEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.ROBERTS");
-                case EdgeDetectionFilter.SharrEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.SHARR");
-                case EdgeDetectionFilter.SobelEdgeFilter:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.SOBEL");
-                default:
-                    return LM.GetString("ENUM.LABEL.EDGE_DETECTION.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.EDGE_DETECTION." + EdgeDetectionFilter.ToString().ToUpper());
         }
     }
 
@@ -319,31 +251,7 @@ namespace WallChanger
         /// <returns>The translated version.</returns>
         public override string ToString()
         {
-            switch (ImageFilterMatrix)
-            {
-                case ImageFilterMatrix.BlackWhite:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.BLACKWHITE");
-                case ImageFilterMatrix.Comic:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.COMIC");
-                case ImageFilterMatrix.Gotham:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.GOTHAM");
-                case ImageFilterMatrix.GreyScale:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.GREYSCALE");
-                case ImageFilterMatrix.HiSatch:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.HISATCH");
-                case ImageFilterMatrix.Invert:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.INVERT");
-                case ImageFilterMatrix.Lomograph:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.LOMOGRAPH");
-                case ImageFilterMatrix.LoSatch:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.LOSATCH");
-                case ImageFilterMatrix.Polaroid:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.POLAROID");
-                case ImageFilterMatrix.Sepia:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.SEPIA");
-                default:
-                    return LM.GetString("ENUM.LABEL.FILTER_MATRIX.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.FILTER_MATRIX." + ImageFilterMatrix.ToString().ToUpper());
         }
     }
 
@@ -386,15 +294,7 @@ namespace WallChanger
         /// <returns>The translated version.</returns>
         public override string ToString()
         {
-            switch (ChannelRotation)
-            {
-                case ChannelRotation.RotateOnce:
-                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.ONCE");
-                case ChannelRotation.RotateTwice:
-                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.TWICE");
-                default:
-                    return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION.UNKNOWN");
-            }
+            return LM.GetString("ENUM.LABEL.CHANNEL_ROTATION." + ChannelRotation.ToString().ToUpper());
         }
     }
 }

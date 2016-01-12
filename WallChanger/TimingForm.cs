@@ -13,6 +13,7 @@ namespace WallChanger
         /// <summary>
         /// Creates a new TimingForm with the specified offset and interval.
         /// </summary>
+        /// <param name="Source">The string to display in the title.</param>
         /// <param name="Offset">Offset to initialise the form to.</param>
         /// <param name="Interval">Interval to initialise the form to.</param>
         /// <param name="Parent">The parent of this form.</param>
@@ -34,36 +35,39 @@ namespace WallChanger
             this.Parent = Parent;
             this.Source = Source;
 
-            LocaliseInterface();
+            TimingTitle.Parameters = new object[] { Source };
+            TimingTitle.LanguageManager = LM;
+
+            grpOffset.LanguageManager = LM;
+            grpInterval.LanguageManager = LM;
+
+            lblIntervalSeconds.StringChanged += LabelLanguageChanged;
+            lblIntervalMinutes.StringChanged += LabelLanguageChanged;
+            lblIntervalHours.StringChanged += LabelLanguageChanged;
+            lblOffsetSeconds.StringChanged += LabelLanguageChanged;
+            lblOffsetMinutes.StringChanged += LabelLanguageChanged;
+            lblOffsetHours.StringChanged += LabelLanguageChanged;
+
+            lblIntervalSeconds.LanguageManager = LM;
+            lblIntervalMinutes.LanguageManager = LM;
+            lblIntervalHours.LanguageManager = LM;
+            lblOffsetSeconds.LanguageManager = LM;
+            lblOffsetMinutes.LanguageManager = LM;
+            lblOffsetHours.LanguageManager = LM;
+            btnSave.LanguageManager = LM;
         }
 
-        /// <summary>
-        /// Sets the static strings to the chosen language and cascades to the main window.
-        /// </summary>
-        public void LocaliseInterface()
+        private void LabelLanguageChanged(object sender, EventArgs e)
         {
-            // Title.
-            this.Text = string.Format(LM.GetStringDefault("TITLE.TIMING", "TITLE.TIMING - {0}"), Source);
-            // Buttons.
-            btnSave.Text = LM.GetString("TIMING.BUTTON.SAVE");
-            // Tooltips.
-            // Labels.
-            lblOffsetSeconds.Text = LM.GetString("TIMING.LABEL.SECONDS");
-            lblOffsetSeconds.Left = cmbOffsetSeconds.Left + ((cmbOffsetSeconds.Width / 2) - (TextRenderer.MeasureText(lblOffsetSeconds.Text, lblOffsetSeconds.Font).Width / 2));
-            lblOffsetMinutes.Text = LM.GetString("TIMING.LABEL.MINUTES");
-            lblOffsetMinutes.Left = cmbOffsetMinutes.Left + ((cmbOffsetMinutes.Width / 2) - (TextRenderer.MeasureText(lblOffsetMinutes.Text, lblOffsetMinutes.Font).Width / 2));
-            lblOffsetHours.Text = LM.GetString("TIMING.LABEL.HOURS");
-            lblOffsetHours.Left = cmbOffsetHours.Left + ((cmbOffsetHours.Width / 2) - (TextRenderer.MeasureText(lblOffsetHours.Text, lblOffsetHours.Font).Width / 2));
-            lblIntervalSeconds.Text = LM.GetString("TIMING.LABEL.SECONDS");
-            lblIntervalSeconds.Left = cmbIntervalSeconds.Left + ((cmbIntervalSeconds.Width / 2) - (TextRenderer.MeasureText(lblIntervalSeconds.Text, lblIntervalSeconds.Font).Width / 2));
-            lblIntervalMinutes.Text = LM.GetString("TIMING.LABEL.MINUTES");
-            lblIntervalMinutes.Left = cmbIntervalMinutes.Left + ((cmbIntervalMinutes.Width / 2) - (TextRenderer.MeasureText(lblIntervalMinutes.Text, lblIntervalMinutes.Font).Width / 2));
-            lblIntervalHours.Text = LM.GetString("TIMING.LABEL.HOURS");
-            lblIntervalHours.Left = cmbIntervalHours.Left + ((cmbIntervalHours.Width / 2) - (TextRenderer.MeasureText(lblIntervalHours.Text, lblIntervalHours.Font).Width / 2));
-            grpOffset.Text = LM.GetString("TIMING.LABEL.OFFSET");
-            grpInterval.Text = LM.GetString("TIMING.LABEL.INTERVAL");
-
-            // Cascade.
+            if (sender is Translation.Controls.TranslatableLabel)
+            {
+                var label = sender as Translation.Controls.TranslatableLabel;
+                var comboBox = Controls.Find("cmb" + label.Name.Substring(3), true);
+                if (comboBox.Length == 1)
+                {
+                    label.Left = comboBox[0].Left + ((comboBox[0].Width / 2) - (TextRenderer.MeasureText(label.Text, label.Font).Width / 2));
+                }
+            }
         }
 
         /// <summary>

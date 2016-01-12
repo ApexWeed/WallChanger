@@ -770,7 +770,7 @@
             // trtToolTips
             // 
             this.trtToolTips.DefaultStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.Control, string>)(resources.GetObject("trtToolTips.DefaultStrings")));
-            this.trtToolTips.ToolTips = null;
+            this.trtToolTips.ToolTips = this.Tooltips;
             this.trtToolTips.TranslationStrings = ((System.Collections.Generic.Dictionary<System.Windows.Forms.Control, string>)(resources.GetObject("trtToolTips.TranslationStrings")));
             // 
             // trcColumnHeaders

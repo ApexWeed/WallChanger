@@ -25,6 +25,8 @@ namespace WallChanger
             this.Text = Title;
             cmbComboBox.DataSource = ComboBoxValues;
             cmbComboBox.DropDownStyle = AllowNew ? ComboBoxStyle.DropDown : ComboBoxStyle.DropDownList;
+            btnOK.Text = LM.GetString("STRING.OK");
+            btnCancel.Text = LM.GetString("STRING.CANCEL");
         }
 
         /// <summary>

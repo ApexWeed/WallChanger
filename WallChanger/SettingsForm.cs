@@ -110,8 +110,6 @@ namespace WallChanger
             chkRainbowMode.Text = LM.GetString("SETTINGS.LABEL.RAINBOW_MODE");
 
             // Cascade.
-            if (TimingFormChild != null)
-                TimingFormChild.LocaliseInterface();
             if (ProcessingSettingsFormChild != null)
                 ProcessingSettingsFormChild.LocaliseInterface();
         }
@@ -206,7 +204,7 @@ namespace WallChanger
                     Properties.Settings.Default.DefaultChannelRotationEnabled = (bool)Value;
                     break;
                 case ProcessingSetting.ChannelRotationValue:
-                    Properties.Settings.Default.DefaultChannelRotationValue = (ChannelRotation)Value;
+                    Properties.Settings.Default.DefaultChannelRotationValue = (ChannelRotationWrapper)Value;
                     break;
             }
         }
