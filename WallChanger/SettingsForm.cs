@@ -274,59 +274,71 @@ namespace WallChanger
             chkRainbowMode.CheckedChanged += chkRainbowMode_CheckedChanged;
             #endregion
 
-            Layout.BeginGroupBox(grpCompression);
+            using (Layout.BeginGroupBox(grpCompression))
+            {
                 Layout.AddControl(lblCompression);
                 Layout.AddControl(cmbCompressionLevel);
                 Layout.AddControl(lblCompressionWarning);
-            Layout.EndGroupBox();
+            }
 
-            Layout.BeginGroupBox(grpDefaults);
-                Layout.BeginRow();
+            using (Layout.BeginGroupBox(grpDefaults))
+            {
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(lblDefaultOffset);
                     Layout.AddControl(btnDefaultTiming);
-                Layout.EndRow();
+                }
                 Layout.OffsetY(-7);
                 Layout.AddControl(lblDefaultInterval);
-                Layout.BeginRow();
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(chkDefaultRandomise);
                     Layout.AddControl(chkGlobalRandomise);
-                Layout.EndRow();
-                Layout.BeginRow();
+                }
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(chkDefaultFading);
                     Layout.AddControl(chkGlobalFading);
-                Layout.EndRow();
-                Layout.BeginRow();
+                }
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(lblDefaultWallpaperStyle);
                     Layout.AddControl(chkGlobalWallpaperStyle);
-                Layout.EndRow();
+                }
                 Layout.AddControl(cmbDefaultWallpaperStyle);
-            Layout.EndGroupBox();
+            }
 
-            Layout.BeginGroupBox(grpHighlight);
+            using (Layout.BeginGroupBox(grpHighlight))
+            {
                 Layout.AddControl(lblHighlightMode);
                 Layout.AddControl(cmbHighlightMode);
-                Layout.BeginRow();
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(lblHighlightColour);
                     Layout.AddControl(picHighlightColour);
                     Layout.AddControl(btnHighlightColour);
-                Layout.EndRow();
-            Layout.EndGroupBox();
+                }
+            }
 
-            Layout.BeginGroupBox(grpPreprocessing);
-                Layout.BeginRow();
+            using (Layout.BeginGroupBox(grpPreprocessing))
+            {
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(chkGlobalPreprocessing);
                     Layout.AddControl(btnPreprocessingDefaults);
-                Layout.EndRow();
-            Layout.EndGroupBox();
+                }
+            }
 
-            Layout.BeginGroupBox(grpMiscellaneous);
+            using (Layout.BeginGroupBox(grpMiscellaneous))
+            {
                 Layout.AddControl(lblColourChanging);
-                Layout.BeginRow();
+                using (Layout.BeginRow())
+                {
                     Layout.AddControl(chkDefaultColourChanging);
                     Layout.AddControl(chkGlobalColourChanging);
-                Layout.EndRow();
+                }
                 Layout.AddControl(chkRainbowMode);
-            Layout.EndGroupBox();
+            }
 
             Layout.ProcessLayout();
 
