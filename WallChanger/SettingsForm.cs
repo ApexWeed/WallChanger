@@ -26,8 +26,8 @@ namespace WallChanger
 
         #region "Defaults"
         TranslatableGroupBox grpDefaults;
-        TranslatableLabel lblDefaultOffset;
-        TranslatableLabel lblDefaultInterval;
+        TranslatableLabelFormat lblDefaultOffset;
+        TranslatableLabelFormat lblDefaultInterval;
         TranslatableButton btnDefaultTiming;
         TranslatableCheckBox chkDefaultRandomise;
         TranslatableCheckBox chkGlobalRandomise;
@@ -79,6 +79,8 @@ namespace WallChanger
                 UpdateContainerSize = true
             };
 
+            SettingsTitle.LanguageManager = LM;
+
             #region "Compression"
             grpCompression = new TranslatableGroupBox
             {
@@ -93,7 +95,7 @@ namespace WallChanger
             };
             cmbCompressionLevel = new TranslatableComboBox
             {
-
+                LanguageManager = LM
             };
             lblCompressionWarning = new TranslatableLabel
             {
@@ -101,6 +103,16 @@ namespace WallChanger
                 LanguageManager = LM,
                 AutoSize = true
             };
+
+            cmbCompressionLevel.Items.Clear();
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.None));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Fast));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Low));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Normal));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.High));
+            cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Ultra));
+
+            cmbCompressionLevel.SelectedItem = cmbCompressionLevel.Items.Find(x => (CompressionLevelWrapper)x == Properties.Settings.Default.CompressionLevel);
 
             cmbCompressionLevel.SelectedValueChanged += cmbCompressionLevel_SelectedValueChanged;
             #endregion
@@ -111,16 +123,18 @@ namespace WallChanger
                 TranslationString = "SETTINGS.LABEL.DEFAULT",
                 LanguageManager = LM
             };
-            lblDefaultOffset = new TranslatableLabel
+            lblDefaultOffset = new TranslatableLabelFormat
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.OFFSET",
                 LanguageManager = LM,
+                Parameters = new object[] { Properties.Settings.Default.DefaultOffset },
                 AutoSize = true
             };
-            lblDefaultInterval = new TranslatableLabel
+            lblDefaultInterval = new TranslatableLabelFormat
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.INTERVAL",
                 LanguageManager = LM,
+                Parameters = new object[] { Properties.Settings.Default.DefaultInterval },
                 AutoSize = true
             };
             btnDefaultTiming = new TranslatableButton
@@ -166,7 +180,7 @@ namespace WallChanger
             };
             cmbDefaultWallpaperStyle = new TranslatableComboBox
             {
-
+                LanguageManager = LM
             };
 
             btnDefaultTiming.Click += btnChangeDefaultTiming_Click;
@@ -177,8 +191,21 @@ namespace WallChanger
             chkGlobalFading.CheckedChanged += chkGlobalFading_CheckedChanged;
             chkGlobalWallpaperStyle.CheckedChanged += chkGlobalPreProcessing_CheckedChanged;
 
+            cmbDefaultWallpaperStyle.Items.Clear();
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
+            cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
+            // Span only supported on windows 8+.
+            if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
+                cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
+
+            cmbDefaultWallpaperStyle.SelectedItem = cmbDefaultWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
+
             cmbDefaultWallpaperStyle.SelectedValueChanged += cmbDefaultWallpaperStyle_SelectedValueChanged;
             #endregion
+
             #region "Highlight"
             grpHighlight = new TranslatableGroupBox
             {
@@ -193,7 +220,7 @@ namespace WallChanger
             };
             cmbHighlightMode = new TranslatableComboBox
             {
-
+                LanguageManager = LM
             };
             lblHighlightColour = new TranslatableLabel
             {
@@ -214,8 +241,18 @@ namespace WallChanger
 
             btnHighlightColour.Click += btnHighlightColour_Click;
 
+            cmbHighlightMode.Items.Clear();
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Bold));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Italic));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Foreground));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Background));
+            cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.None));
+
+            cmbHighlightMode.SelectedItem = cmbHighlightMode.Items.Find(x => (HighlightModeWrapper)x == Properties.Settings.Default.HighlightMode);
+
             cmbHighlightMode.SelectedValueChanged += cmbHighlightMode_SelectedValueChanged;
             #endregion
+
             #region "Pre Processing"
             grpPreprocessing = new TranslatableGroupBox
             {
@@ -238,6 +275,7 @@ namespace WallChanger
 
             chkGlobalPreprocessing.Click += chkGlobalPreProcessing_CheckedChanged;
             #endregion
+
             #region "Miscellaneous"
             grpMiscellaneous = new TranslatableGroupBox
             {
@@ -367,84 +405,6 @@ namespace WallChanger
         }
 
         /// <summary>
-        /// Sets the static strings to the chosen language and cascades to the main window.
-        /// </summary>
-        public void LocaliseInterface()
-        {
-            //// Title.
-            //this.Text = LM.GetString("TITLE.SETTINGS");
-            //// Buttons.
-            //btnChangeDefaultTiming.Text = LM.GetString("SETTINGS.BUTTON.DEFAULT_TIMING");
-            //btnHighlightColour.Text = LM.GetString("SETTINGS.BUTTON.HIGHLIGHT_COLOUR");
-            //btnPreProcessingDefaults.Text = LM.GetString("SETTINGS.BUTTON.PREPROCESSING_DEFAULTS");
-            //// Tooltips.
-
-            //// Labels.
-            //grpCompression.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION");
-            //lblCompressionLevel.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION.LEVEL");
-            //lblCompressionWarning.Text = LM.GetString("SETTINGS.LABEL.COMPRESSION.WARNING");
-
-            //grpDefaults.Text = LM.GetString("SETTINGS.LABEL.DEFAULT");
-            //lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.OFFSET"), Properties.Settings.Default.DefaultOffset);
-            //lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.INTERVAL"), Properties.Settings.Default.DefaultInterval);
-            //chkDefaultRandomise.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.RANDOMISE");
-            //chkDefaultFading.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.FADING");
-            //lblDefaultWallpaperStyle.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.WALLPAPER_STYLE");
-            //chkGlobalRandomise.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_RANDOMISE");
-            //chkGlobalFading.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_FADING");
-            //chkGlobalWallpaperStyle.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.GLOBAL_WALLPAPER_STYLE");
-
-            //grpHighlight.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT");
-            //lblHighlightMode.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT.MODE");
-            //lblHighlightColour.Text = LM.GetString("SETTINGS.LABEL.HIGHLIGHT.COLOUR");
-            //picHighlightColour.Left = lblHighlightColour.Left + lblHighlightColour.Width + 6;
-
-            //cmbCompressionLevel.Items.Clear();
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.None));
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Fast));
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Low));
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Normal));
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.High));
-            //cmbCompressionLevel.Items.Add(new CompressionLevelWrapper(SevenZip.CompressionLevel.Ultra));
-
-            //cmbCompressionLevel.SelectedItem = cmbCompressionLevel.Items.Find(x => (CompressionLevelWrapper)x == Properties.Settings.Default.CompressionLevel);
-
-            //cmbDefaultWallpaperStyle.Items.Clear();
-            //cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fill));
-            //cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Fit));
-            //cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Stretched));
-            //cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Tiled));
-            //cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Centered));
-            //// Span only supported on windows 8+.
-            //if (Environment.OSVersion.Version.Major > 6 || (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor > 1))
-            //    cmbDefaultWallpaperStyle.Items.Add(new WallpaperStyleWrapper(Wallpaper.WallpaperStyle.Span));
-
-            //cmbDefaultWallpaperStyle.SelectedItem = cmbDefaultWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
-
-            //cmbHighlightMode.Items.Clear();
-            //cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Bold));
-            //cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Italic));
-            //cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Foreground));
-            //cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.Background));
-            //cmbHighlightMode.Items.Add(new HighlightModeWrapper(HighlightListBox.HighlightMode.None));
-
-            //cmbHighlightMode.SelectedItem = cmbHighlightMode.Items.Find(x => (HighlightModeWrapper)x == Properties.Settings.Default.HighlightMode);
-
-            //grpPreProcessing.Text = LM.GetString("SETTINGS.LABEL.PREPROCESSING");
-            //chkGlobalPreProcessing.Text = LM.GetString("SETTINGS.LABEL.GLOBAL_PREPROCESSING");
-
-            //grpMisc.Text = LM.GetString("SETTINGS.LABEL.MISCELLANEOUS");
-            //lblColourChangingDesc.Text = LM.GetString("SETTINGS.LABEL.COLOUR_CHANGE_DESC");
-            //chkDefaultColourChanging.Text = LM.GetString("SETTINGS.LABEL.DEFAULT.COLOUR_CHANGE");
-            //chkGlobalColourChanging.Text = LM.GetString("SETTINGS.LABEL.GLOBAL_COLOUR_CHANGE");
-            //chkRainbowMode.Text = LM.GetString("SETTINGS.LABEL.RAINBOW_MODE");
-
-            //// Cascade.
-            //if (ProcessingSettingsFormChild != null)
-            //    ProcessingSettingsFormChild.LocaliseInterface();
-        }
-
-        /// <summary>
         /// Saves the time settings as the default.
         /// </summary>
         /// <param name="Offset">The default offset value in milliseconds.</param>
@@ -453,8 +413,8 @@ namespace WallChanger
         {
             Properties.Settings.Default.DefaultOffset = Timing.ToString(Offset);
             Properties.Settings.Default.DefaultInterval = Timing.ToString(Interval);
-            lblDefaultOffset.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.OFFSET"), Properties.Settings.Default.DefaultOffset);
-            lblDefaultInterval.Text = string.Format(LM.GetString("SETTINGS.LABEL.DEFAULT.INTERVAL"), Properties.Settings.Default.DefaultInterval);
+            lblDefaultOffset.Parameters = new object[] { Properties.Settings.Default.DefaultOffset };
+            lblDefaultInterval.Parameters = new object[] { Properties.Settings.Default.DefaultInterval };
         }
 
         private static void ProcessingSettingsChanged(ProcessingSetting Setting, object Value)

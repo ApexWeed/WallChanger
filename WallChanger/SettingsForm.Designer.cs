@@ -29,7 +29,14 @@
         private void InitializeComponent()
         {
             this.cdgColourDialog = new System.Windows.Forms.ColorDialog();
+            this.SettingsTitle = new WallChanger.Translation.Controls.TranslatableTitle();
             this.SuspendLayout();
+            // 
+            // SettingsTitle
+            // 
+            this.SettingsTitle.DefaultString = null;
+            this.SettingsTitle.ParentForm = this;
+            this.SettingsTitle.TranslationString = "TITLE.SETTINGS";
             // 
             // SettingsForm
             // 
@@ -46,5 +53,6 @@
 
         #endregion
         private System.Windows.Forms.ColorDialog cdgColourDialog;
+        private Translation.Controls.TranslatableTitle SettingsTitle;
     }
 }
