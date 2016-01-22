@@ -35,10 +35,10 @@ namespace WallChanger.Layout
             LayoutItems.Add(new LayoutItem { ItemType = LayoutItem.Type.GenericControl, Control = Control });
         }
 
-        public LayoutGroupBoxStub BeginGroupBox(GroupBox GroupBox)
+        public LayoutEndStub BeginGroupBox(GroupBox GroupBox)
         {
             LayoutItems.Add(new LayoutItem { Control = GroupBox, ItemType = LayoutItem.Type.BeginGroupBox });
-            return new LayoutGroupBoxStub(this);
+            return new LayoutEndStub(this, LayoutEndStub.StubType.GroupBox);
         }
 
         public void EndGroupBox()
@@ -46,10 +46,10 @@ namespace WallChanger.Layout
             LayoutItems.Add(new LayoutItem { ItemType = LayoutItem.Type.EndGroupBox });
         }
 
-        public LayoutRowStub BeginRow()
+        public LayoutEndStub BeginRow()
         {
             LayoutItems.Add(new LayoutItem { ItemType = LayoutItem.Type.BeginRow });
-            return new LayoutRowStub(this);
+            return new LayoutEndStub(this, LayoutEndStub.StubType.Row);
         }
 
         public void EndRow()
