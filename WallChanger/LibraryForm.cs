@@ -240,20 +240,22 @@ namespace WallChanger
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
-                    var command = message.WParam.ToInt32() & 0xfff0;
-                    if (command == SC_MAXIMIZE)
                     {
-                        UpdateControlPositionsAsync(50);
-                    }
-                    if (command == SC_RESTORE)
-                    {
-                        UpdateControlPositionsAsync(50);
-                    }
-                    if (command == SC_MINIMIZE)
-                    {
+                        var command = message.WParam.ToInt32() & 0xfff0;
+                        if (command == SC_MAXIMIZE)
+                        {
+                            UpdateControlPositionsAsync(50);
+                        }
+                        if (command == SC_RESTORE)
+                        {
+                            UpdateControlPositionsAsync(50);
+                        }
+                        if (command == SC_MINIMIZE)
+                        {
 
+                        }
+                        break;
                     }
-                    break;
             }
 
             base.WndProc(ref message);

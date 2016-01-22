@@ -24,15 +24,21 @@ namespace WallChanger.Layout
             switch (EndStubType)
             {
                 case StubType.Row:
-                    LayoutEngine.EndRow();
-                    break;
+                    {
+                        LayoutEngine.EndRow();
+                        break;
+                    }
                 case StubType.GroupBox:
-                    LayoutEngine.EndGroupBox();
-                    break;
+                    {
+                        LayoutEngine.EndGroupBox();
+                        break;
+                    }
                 default:
-                    break;
+                    {
+                        break;
+                    }
             }
-            
+
         }
     }
 }

@@ -138,27 +138,31 @@ namespace WallChanger
             switch (message.Msg)
             {
                 case WM_SYSCOMMAND:
-                    var command = message.WParam.ToInt32() & 0xfff0;
-                    if (command == SC_MAXIMIZE)
                     {
+                        var command = message.WParam.ToInt32() & 0xfff0;
+                        if (command == SC_MAXIMIZE)
+                        {
 
-                    }
-                    if (command == SC_RESTORE)
-                    {
+                        }
+                        if (command == SC_RESTORE)
+                        {
 
+                        }
+                        if (command == SC_MINIMIZE)
+                        {
+                            Minimise();
+                            return;
+                        }
+                        break;
                     }
-                    if (command == SC_MINIMIZE)
+                case WM_CLOSE:
                     {
-                        Minimise();
+                        if (IsClosing)
+                            base.WndProc(ref message);
+                        else
+                            IsClosing = true;
                         return;
                     }
-                    break;
-                case WM_CLOSE:
-                    if (IsClosing)
-                        base.WndProc(ref message);
-                    else
-                        IsClosing = true;
-                    return;
             }
 
             base.WndProc(ref message);
@@ -692,117 +696,181 @@ namespace WallChanger
                                 switch (Parts[0].Trim())
                                 {
                                     case "Offset":
-                                        Offset = Timing.ParseTime(Parts[1].Trim());
-                                        break;
+                                        {
+                                            Offset = Timing.ParseTime(Parts[1].Trim());
+                                            break;
+                                        }
                                     case "Interval":
-                                        Interval = Timing.ParseTime(Parts[1].Trim());
-                                        break;
+                                        {
+                                            Interval = Timing.ParseTime(Parts[1].Trim());
+                                            break;
+                                        }
                                     case "Randomise":
-                                        var randomiseValue = false;
-                                        bool.TryParse(Parts[1].Trim(), out randomiseValue);
-                                        chkRandomise.Checked = randomiseValue;
-                                        break;
+                                        {
+                                            var randomiseValue = false;
+                                            bool.TryParse(Parts[1].Trim(), out randomiseValue);
+                                            chkRandomise.Checked = randomiseValue;
+                                            break;
+                                        }
                                     case "Fade":
-                                        var fadeValue = false;
-                                        bool.TryParse(Parts[1].Trim(), out fadeValue);
-                                        chkFade.Checked = fadeValue;
-                                        break;
+                                        {
+                                            var fadeValue = false;
+                                            bool.TryParse(Parts[1].Trim(), out fadeValue);
+                                            chkFade.Checked = fadeValue;
+                                            break;
+                                        }
                                     case "ThemeColourEnabled":
-                                        var themeColourEnabledValue = false;
-                                        bool.TryParse(Parts[1].Trim(), out themeColourEnabledValue);
-                                        chkChangeThemeColour.Checked = themeColourEnabledValue;
-                                        break;
+                                        {
+                                            var themeColourEnabledValue = false;
+                                            bool.TryParse(Parts[1].Trim(), out themeColourEnabledValue);
+                                            chkChangeThemeColour.Checked = themeColourEnabledValue;
+                                            break;
+                                        }
                                     case "WallpaperStyle":
-                                        var style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
-                                        if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
                                         {
-                                            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
+                                            var style = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultWallpaperStyle);
+                                            if (style != Wallpaper.WallpaperStyle.Span || SupportsSpan)
+                                            {
+                                                cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == style);
+                                            }
+                                            else
+                                            {
+                                                // Span is not supported on Windows 7.
+                                                MessageBox.Show(string.Format(LM.GetString("MAIN.MESSAGE.SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
+                                                cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
+                                            }
+                                            break;
                                         }
-                                        else
-                                        {
-                                            // Span is not supported on Windows 7.
-                                            MessageBox.Show(string.Format(LM.GetString("MAIN.MESSAGE.SPAN_UNSUPPORTED"), new WallpaperStyleWrapper(Properties.Settings.Default.DefaultWallpaperStyle)));
-                                            cmbWallpaperStyle.SelectedItem = cmbWallpaperStyle.Items.Find(x => (WallpaperStyleWrapper)x == Properties.Settings.Default.DefaultWallpaperStyle);
-                                        }
-                                        break;
                                     case "PreProcessingEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PreProcessingEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PreProcessingEnabled);
+                                            break;
+                                        }
                                     case "BrightnessEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.BrightnessEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.BrightnessEnabled);
+                                            break;
+                                        }
                                     case "BrightnessValue":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.BrightnessValue);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.BrightnessValue);
+                                            break;
+                                        }
                                     case "SaturationEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.SaturationEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.SaturationEnabled);
+                                            break;
+                                        }
                                     case "SaturationValue":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.SaturationValue);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.SaturationValue);
+                                            break;
+                                        }
                                     case "ContrastEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ContrastEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ContrastEnabled);
+                                            break;
+                                        }
                                     case "ContrastValue":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ContrastValue);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ContrastValue);
+                                            break;
+                                        }
                                     case "HueEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.HueEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.HueEnabled);
+                                            break;
+                                        }
                                     case "HueValue":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.HueValue);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.HueValue);
+                                            break;
+                                        }
                                     case "GaussianBlurEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianBlurEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianBlurEnabled);
+                                            break;
+                                        }
                                     case "GaussianBlurSize":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianBlurSize);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianBlurSize);
+                                            break;
+                                        }
                                     case "GaussianSharpenEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianSharpenEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianSharpenEnabled);
+                                            break;
+                                        }
                                     case "GaussianSharpenSize":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianSharpenSize);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.GaussianSharpenSize);
+                                            break;
+                                        }
                                     case "PixelateEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PixelateEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PixelateEnabled);
+                                            break;
+                                        }
                                     case "PixelateSize":
-                                        int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PixelateSize);
-                                        break;
+                                        {
+                                            int.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.PixelateSize);
+                                            break;
+                                        }
                                     case "VignetteEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.VignetteEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.VignetteEnabled);
+                                            break;
+                                        }
                                     case "VignetteColour":
-                                        LoadedProcessingSettings.VignetteColour = ParseColour(Parts[1].Trim());
-                                        break;
+                                        {
+                                            LoadedProcessingSettings.VignetteColour = ParseColour(Parts[1].Trim());
+                                            break;
+                                        }
                                     case "TintEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.TintEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.TintEnabled);
+                                            break;
+                                        }
                                     case "TintColour":
-                                        LoadedProcessingSettings.TintColour = ParseColour(Parts[1].Trim());
-                                        break;
+                                        {
+                                            LoadedProcessingSettings.TintColour = ParseColour(Parts[1].Trim());
+                                            break;
+                                        }
                                     case "EdgeDetectionEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.EdgeDetectionEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.EdgeDetectionEnabled);
+                                            break;
+                                        }
                                     case "EdgeDetectionFilter":
-                                        LoadedProcessingSettings.EdgeDetectionFilter = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultEdgeDetectionFilter);
-                                        break;
+                                        {
+                                            LoadedProcessingSettings.EdgeDetectionFilter = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultEdgeDetectionFilter);
+                                            break;
+                                        }
                                     case "ImageFilterEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ImageFilterEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ImageFilterEnabled);
+                                            break;
+                                        }
                                     case "ImageFilterMatrix":
-                                        LoadedProcessingSettings.ImageFilterMatrix = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultImageFilterMatrix);
-                                        break;
+                                        {
+                                            LoadedProcessingSettings.ImageFilterMatrix = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultImageFilterMatrix);
+                                            break;
+                                        }
                                     case "ChannelRotationEnabled":
-                                        bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ChannelRotationEnabled);
-                                        break;
+                                        {
+                                            bool.TryParse(Parts[1].Trim(), out LoadedProcessingSettings.ChannelRotationEnabled);
+                                            break;
+                                        }
                                     case "ChannelRotationCount":
-                                        LoadedProcessingSettings.ChannelRotationValue = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultChannelRotationValue);
-                                        break;
+                                        {
+                                            LoadedProcessingSettings.ChannelRotationValue = Parts[1].Trim().ToEnum(Properties.Settings.Default.DefaultChannelRotationValue);
+                                            break;
+                                        }
                                     case "Image":
-                                        FileList.Add(Parts[1].Trim());
-                                        break;
+                                        {
+                                            FileList.Add(Parts[1].Trim());
+                                            break;
+                                        }
                                 }
                             }
                         }
@@ -1093,32 +1161,50 @@ namespace WallChanger
                         switch (Settings.EdgeDetectionFilter)
                         {
                             case EdgeDetectionFilter.KayyaliEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.KayyaliEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.KayyaliEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.KirschEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.KirschEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.KirschEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.Laplacian3X3EdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.Laplacian3X3EdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.Laplacian3X3EdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.Laplacian5X5EdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.Laplacian5X5EdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.Laplacian5X5EdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.LaplacianOfGaussianEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.LaplacianOfGaussianEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.LaplacianOfGaussianEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.PrewittEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.PrewittEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.PrewittEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.RobertsEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.RobertsCrossEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.RobertsCrossEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.SharrEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.ScharrEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.ScharrEdgeFilter());
+                                    break;
+                                }
                             case EdgeDetectionFilter.SobelEdgeFilter:
-                                factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.SobelEdgeFilter());
-                                break;
+                                {
+                                    factory.DetectEdges(new ImageProcessor.Imaging.Filters.EdgeDetection.SobelEdgeFilter());
+                                    break;
+                                }
                         }
                     }
                     if (Settings.ImageFilterEnabled)
@@ -1126,35 +1212,55 @@ namespace WallChanger
                         switch (Settings.ImageFilterMatrix)
                         {
                             case ImageFilterMatrix.BlackWhite:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.BlackWhite);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.BlackWhite);
+                                    break;
+                                }
                             case ImageFilterMatrix.Comic:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Comic);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Comic);
+                                    break;
+                                }
                             case ImageFilterMatrix.Gotham:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Gotham);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Gotham);
+                                    break;
+                                }
                             case ImageFilterMatrix.GreyScale:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.GreyScale);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.GreyScale);
+                                    break;
+                                }
                             case ImageFilterMatrix.HiSatch:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.HiSatch);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.HiSatch);
+                                    break;
+                                }
                             case ImageFilterMatrix.Invert:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Invert);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Invert);
+                                    break;
+                                }
                             case ImageFilterMatrix.Lomograph:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Lomograph);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Lomograph);
+                                    break;
+                                }
                             case ImageFilterMatrix.LoSatch:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.LoSatch);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.LoSatch);
+                                    break;
+                                }
                             case ImageFilterMatrix.Polaroid:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Polaroid);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Polaroid);
+                                    break;
+                                }
                             case ImageFilterMatrix.Sepia:
-                                factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Sepia);
-                                break;
+                                {
+                                    factory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Sepia);
+                                    break;
+                                }
                         }
                     }
                     if (Settings.ChannelRotationEnabled)
@@ -1178,80 +1284,130 @@ namespace WallChanger
             switch (Setting)
             {
                 case ProcessingSetting.PreProcessingEnabled:
-                    LoadedProcessingSettings.PreProcessingEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.PreProcessingEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.BrightnessEnabled:
-                    LoadedProcessingSettings.BrightnessEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.BrightnessEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.BrightnessValue:
-                    LoadedProcessingSettings.BrightnessValue = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.BrightnessValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.SaturationEnabled:
-                    LoadedProcessingSettings.SaturationEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.SaturationEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.SaturationValue:
-                    LoadedProcessingSettings.SaturationValue = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.SaturationValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.ContrastEnabled:
-                    LoadedProcessingSettings.ContrastEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ContrastEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ContrastValue:
-                    LoadedProcessingSettings.ContrastValue = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ContrastValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.HueEnabled:
-                    LoadedProcessingSettings.HueEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.HueEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.HueValue:
-                    LoadedProcessingSettings.HueValue = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.HueValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianBlurEnabled:
-                    LoadedProcessingSettings.GaussianBlurEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.GaussianBlurEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianBlurSize:
-                    LoadedProcessingSettings.GaussianBlurSize = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.GaussianBlurSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianSharpenEnabled:
-                    LoadedProcessingSettings.GaussianSharpenEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.GaussianSharpenEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianSharpenSize:
-                    LoadedProcessingSettings.GaussianSharpenSize = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.GaussianSharpenSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.PixelateEnabled:
-                    LoadedProcessingSettings.PixelateEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.PixelateEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.PixelateSize:
-                    LoadedProcessingSettings.PixelateSize = (int)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.PixelateSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.VignetteEnabled:
-                    LoadedProcessingSettings.VignetteEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.VignetteEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.VignetteColour:
-                    LoadedProcessingSettings.VignetteColour = (Color)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.VignetteColour = (Color)Value;
+                        break;
+                    }
                 case ProcessingSetting.TintEnabled:
-                    LoadedProcessingSettings.TintEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.TintEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.TintColour:
-                    LoadedProcessingSettings.TintColour = (Color)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.TintColour = (Color)Value;
+                        break;
+                    }
                 case ProcessingSetting.EdgeDetectionEnabled:
-                    LoadedProcessingSettings.EdgeDetectionEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.EdgeDetectionEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.EdgeDetectionFilter:
-                    LoadedProcessingSettings.EdgeDetectionFilter = (EdgeDetectionFilterWrapper)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.EdgeDetectionFilter = (EdgeDetectionFilterWrapper)Value;
+                        break;
+                    }
                 case ProcessingSetting.ImageFilterEnabled:
-                    LoadedProcessingSettings.ImageFilterEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ImageFilterEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ImageFilterMatrix:
-                    LoadedProcessingSettings.ImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
+                        break;
+                    }
                 case ProcessingSetting.ChannelRotationEnabled:
-                    LoadedProcessingSettings.ChannelRotationEnabled = (bool)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ChannelRotationEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ChannelRotationValue:
-                    LoadedProcessingSettings.ChannelRotationValue = (ChannelRotationWrapper)Value;
-                    break;
+                    {
+                        LoadedProcessingSettings.ChannelRotationValue = (ChannelRotationWrapper)Value;
+                        break;
+                    }
             }
         }
 

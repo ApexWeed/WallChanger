@@ -212,9 +212,11 @@ namespace WallChanger
                             break;
                         }
                     default:
-                        e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Width;
-                        e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Height;
-                        break;
+                        {
+                            e.ItemWidth = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Width;
+                            e.ItemHeight = (int)e.Graphics.MeasureString(Items[e.Index].ToString(), Font).Height;
+                            break;
+                        }
                 }
 
                 if (e.ItemWidth > HorizontalExtent)

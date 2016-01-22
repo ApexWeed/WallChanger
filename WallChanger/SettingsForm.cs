@@ -68,18 +68,13 @@ namespace WallChanger
 
             this.Parent = Parent;
 
-            foreach (Control Control in this.Controls)
-            {
-                Control.Visible = false;
-            }
+            SettingsTitle.LanguageManager = LM;
 
             Layout = new LayoutEngine(this)
             {
                 Padding = new Padding(5),
                 UpdateContainerSize = true
             };
-
-            SettingsTitle.LanguageManager = LM;
 
             #region "Compression"
             grpCompression = new TranslatableGroupBox
@@ -146,24 +141,28 @@ namespace WallChanger
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.RANDOMISE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.DefaultRandomise,
                 AutoSize = true
             };
             chkGlobalRandomise = new TranslatableCheckBox
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.GLOBAL_RANDOMISE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.GlobalRandomise,
                 AutoSize = true
             };
             chkDefaultFading = new TranslatableCheckBox
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.FADING",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.DefaultFading,
                 AutoSize = true
             };
             chkGlobalFading = new TranslatableCheckBox
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.GLOBAL_FADING",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.GlobalFading,
                 AutoSize = true
             };
             lblDefaultWallpaperStyle = new TranslatableLabel
@@ -176,6 +175,7 @@ namespace WallChanger
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.GLOBAL_WALLPAPER_STYLE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.GlobalWallpaperStyle,
                 AutoSize = true
             };
             cmbDefaultWallpaperStyle = new TranslatableComboBox
@@ -231,7 +231,7 @@ namespace WallChanger
             picHighlightColour = new PictureBox
             {
                 Height = 21,
-                BackColor = Color.Black
+                BackColor = Properties.Settings.Default.HighlightColour
             };
             btnHighlightColour = new TranslatableButton
             {
@@ -263,6 +263,7 @@ namespace WallChanger
             {
                 TranslationString = "SETTINGS.LABEL.GLOBAL_PREPROCESSING",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.GlobalPreProcessing,
                 AutoSize = true
             };
             btnPreprocessingDefaults = new TranslatableButton
@@ -292,18 +293,21 @@ namespace WallChanger
             {
                 TranslationString = "SETTINGS.LABEL.DEFAULT.COLOUR_CHANGE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.DefaultColourSchemeEnabled,
                 AutoSize = true
             };
             chkGlobalColourChanging = new TranslatableCheckBox
             {
                 TranslationString = "SETTINGS.LABEL.GLOBAL_COLOUR_CHANGE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.GlobalColourSchemeEnabled,
                 AutoSize = true
             };
             chkRainbowMode = new TranslatableCheckBox
             {
                 TranslationString = "SETTINGS.LABEL.RAINBOW_MODE",
                 LanguageManager = LM,
+                Checked = Properties.Settings.Default.RainbowModeEnabled,
                 AutoSize = true
             };
 
@@ -312,6 +316,7 @@ namespace WallChanger
             chkRainbowMode.CheckedChanged += chkRainbowMode_CheckedChanged;
             #endregion
 
+            #region "Layout"
             using (Layout.BeginGroupBox(grpCompression))
             {
                 Layout.AddControl(lblCompression);
@@ -324,6 +329,7 @@ namespace WallChanger
                 using (Layout.BeginRow())
                 {
                     Layout.AddControl(lblDefaultOffset);
+                    Layout.ColumnWidth(25);
                     Layout.AddControl(btnDefaultTiming);
                 }
                 Layout.OffsetY(-7);
@@ -354,6 +360,7 @@ namespace WallChanger
                 {
                     Layout.AddControl(lblHighlightColour);
                     Layout.AddControl(picHighlightColour);
+                    Layout.ColumnWidth(25);
                     Layout.AddControl(btnHighlightColour);
                 }
             }
@@ -363,6 +370,7 @@ namespace WallChanger
                 using (Layout.BeginRow())
                 {
                     Layout.AddControl(chkGlobalPreprocessing);
+                    Layout.ColumnWidth(25);
                     Layout.AddControl(btnPreprocessingDefaults);
                 }
             }
@@ -379,17 +387,7 @@ namespace WallChanger
             }
 
             Layout.ProcessLayout();
-
-            picHighlightColour.BackColor = Properties.Settings.Default.HighlightColour;
-            chkDefaultRandomise.Checked = Properties.Settings.Default.DefaultRandomise;
-            chkDefaultFading.Checked = Properties.Settings.Default.DefaultFading;
-            chkGlobalRandomise.Checked = Properties.Settings.Default.GlobalRandomise;
-            chkGlobalFading.Checked = Properties.Settings.Default.GlobalFading;
-            chkGlobalWallpaperStyle.Checked = Properties.Settings.Default.GlobalWallpaperStyle;
-            chkGlobalPreprocessing.Checked = Properties.Settings.Default.GlobalPreProcessing;
-            chkDefaultColourChanging.Checked = Properties.Settings.Default.DefaultColourSchemeEnabled;
-            chkGlobalColourChanging.Checked = Properties.Settings.Default.GlobalColourSchemeEnabled;
-            chkRainbowMode.Checked = Properties.Settings.Default.RainbowModeEnabled;
+            #endregion
         }
 
         /// <summary>
@@ -422,80 +420,130 @@ namespace WallChanger
             switch (Setting)
             {
                 case ProcessingSetting.PreProcessingEnabled:
-                    Properties.Settings.Default.DefaultPreProcessingEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultPreProcessingEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.BrightnessEnabled:
-                    Properties.Settings.Default.DefaultBrightnessEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultBrightnessEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.BrightnessValue:
-                    Properties.Settings.Default.DefaultBrightnessValue = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultBrightnessValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.SaturationEnabled:
-                    Properties.Settings.Default.DefaultSaturationEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultSaturationEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.SaturationValue:
-                    Properties.Settings.Default.DefaultSaturationValue = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultSaturationValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.ContrastEnabled:
-                    Properties.Settings.Default.DefaultContrastEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultContrastEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ContrastValue:
-                    Properties.Settings.Default.DefaultContrastValue = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultContrastValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.HueEnabled:
-                    Properties.Settings.Default.DefaultHueEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultHueEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.HueValue:
-                    Properties.Settings.Default.DefaultHueValue = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultHueValue = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianBlurEnabled:
-                    Properties.Settings.Default.DefaultGaussianBlurEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultGaussianBlurEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianBlurSize:
-                    Properties.Settings.Default.DefaultGaussianBlurSize = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultGaussianBlurSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianSharpenEnabled:
-                    Properties.Settings.Default.DefaultGaussianSharpenEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultGaussianSharpenEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.GaussianSharpenSize:
-                    Properties.Settings.Default.DefaultGaussianSharpenSize = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultGaussianSharpenSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.PixelateEnabled:
-                    Properties.Settings.Default.DefaultPixelateEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultPixelateEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.PixelateSize:
-                    Properties.Settings.Default.DefaultPixelateSize = (int)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultPixelateSize = (int)Value;
+                        break;
+                    }
                 case ProcessingSetting.VignetteEnabled:
-                    Properties.Settings.Default.DefaultVignetteEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultVignetteEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.VignetteColour:
-                    Properties.Settings.Default.DefaultVignetteColour = (Color)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultVignetteColour = (Color)Value;
+                        break;
+                    }
                 case ProcessingSetting.TintEnabled:
-                    Properties.Settings.Default.DefaultTintEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultTintEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.TintColour:
-                    Properties.Settings.Default.DefaultTintColour = (Color)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultTintColour = (Color)Value;
+                        break;
+                    }
                 case ProcessingSetting.EdgeDetectionEnabled:
-                    Properties.Settings.Default.DefaultEdgeDetectionEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultEdgeDetectionEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.EdgeDetectionFilter:
-                    Properties.Settings.Default.DefaultEdgeDetectionFilter = (EdgeDetectionFilterWrapper)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultEdgeDetectionFilter = (EdgeDetectionFilterWrapper)Value;
+                        break;
+                    }
                 case ProcessingSetting.ImageFilterEnabled:
-                    Properties.Settings.Default.DefaultImageFilterEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultImageFilterEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ImageFilterMatrix:
-                    Properties.Settings.Default.DefaultImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultImageFilterMatrix = (ImageFilterMatrixWrapper)Value;
+                        break;
+                    }
                 case ProcessingSetting.ChannelRotationEnabled:
-                    Properties.Settings.Default.DefaultChannelRotationEnabled = (bool)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultChannelRotationEnabled = (bool)Value;
+                        break;
+                    }
                 case ProcessingSetting.ChannelRotationValue:
-                    Properties.Settings.Default.DefaultChannelRotationValue = (ChannelRotationWrapper)Value;
-                    break;
+                    {
+                        Properties.Settings.Default.DefaultChannelRotationValue = (ChannelRotationWrapper)Value;
+                        break;
+                    }
             }
         }
 

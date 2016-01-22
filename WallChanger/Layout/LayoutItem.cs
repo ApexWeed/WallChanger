@@ -6,22 +6,41 @@ namespace WallChanger.Layout
     {
         public enum Type
         {
+            Control,
+            BeginGroupBox,
+            EndGroupBox,
             BeginRow,
             EndRow,
+            Anchor,
+            OffsetX,
+            OffsetY,
+            ColumnWidth
+        }
+
+        public enum ControlType
+        {
+            Column,
+            GenericControl,
             Label,
             TextBox,
             Button,
             CheckBox,
             RadioButton,
             ComboBox,
-            PictureBox,
-            BeginGroupBox,
-            EndGroupBox,
-            Column,
-            Anchor,
-            GenericControl,
-            OffsetX,
-            OffsetY
+            PictureBox
+        }
+
+        public class ColumnWidth
+        {
+            public enum WidthType
+            {
+                None,
+                Scalar,
+                Absolute
+            }
+
+            public float Offset;
+            public WidthType Type;
         }
 
         public Type ItemType;
