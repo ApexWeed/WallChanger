@@ -29,6 +29,3 @@ _ReSharper*/
 *.psess
 *.vsp
 [Pp]ackages
-secret.cfg
-Updater/
-UpdateDeployer/
