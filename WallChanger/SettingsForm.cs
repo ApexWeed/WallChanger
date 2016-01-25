@@ -375,6 +375,7 @@ namespace WallChanger
                 }
             }
 
+#if DEBUG
             using (Layout.BeginGroupBox(grpMiscellaneous))
             {
                 Layout.AddControl(lblColourChanging);
@@ -385,6 +386,7 @@ namespace WallChanger
                 }
                 Layout.AddControl(chkRainbowMode);
             }
+#endif
 
             Layout.ProcessLayout();
             #endregion

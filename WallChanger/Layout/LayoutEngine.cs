@@ -539,7 +539,7 @@ namespace WallChanger.Layout
             // Split the width into n columns and process items.
             var currentColumnIndex = 0;
             var maxOffset = 0;
-            var totalPadding = Padding.Left * (columns.Count);
+            var totalPadding = Padding.Left * (columns.Count - 1);
             var userReservedWidth = 0;
             var userReservedCount = 0;
 
@@ -578,11 +578,20 @@ namespace WallChanger.Layout
             if (columns.Count > userReservedCount)
             {
                 var remainingWidth = CurrentState.Width - userReservedWidth - totalPadding;
+                var totalFilled = userReservedCount;
+                var assignedWidth = 0;
                 for (int i = 0; i < columns.Count; i++)
                 {
                     if (columns[i].Width == 0)
                     {
                         columns[i].Width = remainingWidth / (columns.Count - userReservedCount);
+                        assignedWidth += columns[i].Width;
+                        totalFilled++;
+                        // Fix unallocated width from float -> int conversion loss.
+                        if (totalFilled == columns.Count)
+                        {
+                            columns[i].Width += remainingWidth - assignedWidth;
+                        }
                     }
                 }
             }
@@ -608,7 +617,7 @@ namespace WallChanger.Layout
                     case LayoutItem.Type.BeginRow:
                         {
                             columnState.Width = columns[currentColumnIndex].Width;
-                            columnState.XOffset = CurrentState.XOffset + Padding.Left + currentTotalWidth;
+                            columnState.XOffset = CurrentState.XOffset + (currentColumnIndex > 0 ? Padding.Left : 0) + currentTotalWidth;
                             columnState.YOffset = CurrentState.YOffset;
 
                             switch (LayoutItems[Index].ItemType)
@@ -642,7 +651,7 @@ namespace WallChanger.Layout
                                 maxOffset = columnState.YOffset;
                             }
                             columnState.Anchor = CurrentState.Anchor;
-                            currentTotalWidth += columnState.Width + Padding.Left;
+                            currentTotalWidth += columnState.Width + (currentColumnIndex > 1 ? Padding.Left : 0);
                             break;
                         }
                     case LayoutItem.Type.Anchor:
