@@ -66,6 +66,10 @@ namespace WallChanger
             GlobalVars.ApplicationPath = Path.GetDirectoryName(Application.ExecutablePath);
             LM = GlobalVars.LanguageManager;
             Library.Load();
+
+#if DEBUG
+            chkChangeThemeColour.Visible = true;
+#endif
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "CC0061:Async method can be terminating with 'Async' name.", Justification = "Well you see, rainbows.")]
